@@ -9,7 +9,7 @@ public class UserData {
 	private String account;
 	private String password;
 	private String email;
-//	private Role role;
+	private Role role;
 //	private UserProfile userProfile;
 //	private Set<Order> orders = new HashSet<Order>();
 //	private Set<Forum> forums = new HashSet<Forum>();
@@ -49,14 +49,14 @@ public class UserData {
 		this.email = email;
 	}
 
-//	public Role getRole() {
-//		return role;
-//	}
-//
-//	public void setRole(Role role) {
-//		this.role = role;
-//	}
-//
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
 //	public UserProfile getUserProfile() {
 //		return userProfile;
 //	}
