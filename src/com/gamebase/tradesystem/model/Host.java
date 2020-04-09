@@ -1,5 +1,7 @@
 package com.gamebase.tradesystem.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,51 +17,60 @@ import org.hibernate.annotations.Parameter;
 import org.springframework.stereotype.Component;
 
 @Entity
-@Table(name="Host")
+@Table(name = "Host")
 @Component
-public class Host {
+public class Host implements Serializable{
 	private int productId;
 	private int hostId;
 	private String hostImg;
 	private String hostName;
 	private Product product;
 
-	public Host() {}
-	public Host(String hostImg,String hostName) {
-		this.hostImg=hostImg;
-		this.hostName=hostName;
+	public Host() {
 	}
-	
-	
-	@GenericGenerator(name = "generator",strategy = "foreign",
-			parameters = @Parameter(name="property",value = "Product"))
-	@Id @GeneratedValue(generator = "generator")
+
+	public Host(String hostImg, String hostName) {
+		this.hostImg = hostImg;
+		this.hostName = hostName;
+	}
+
+	@GenericGenerator(name = "generator", strategy = "foreign", parameters = @Parameter(name = "property", value = "Product"))
+	@Id
+	@GeneratedValue(generator = "generator")
 	@Column(name = "PRODUCTID")
 	public int getProductId() {
 		return productId;
 	}
+
 	public void setProductId(int productId) {
 		this.productId = productId;
 	}
-	@Id@Column(name="HOSTID")
+
+	@Id
+	@Column(name = "HOSTID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getHostId() {
 		return hostId;
 	}
+
 	public void setHostId(int hostId) {
 		this.hostId = hostId;
 	}
-	@Column(name="HOSTIMG")
+
+	@Column(name = "HOSTIMG")
 	public String getHostImg() {
 		return hostImg;
 	}
+
 	public void setHostImg(String hostImg) {
 		this.hostImg = hostImg;
 	}
-	@Column(name="HOSTNAME")
+
+	@Column(name = "HOSTNAME")
 	public String getHostName() {
 		return hostName;
 	}
+
 	public void setHostName(String hostName) {
 		this.hostName = hostName;
 	}
@@ -71,6 +82,5 @@ public class Host {
 //	public void setProduct(Product product) {
 //		this.product = product;
 //	}
-	
-	
+
 }

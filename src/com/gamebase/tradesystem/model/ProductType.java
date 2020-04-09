@@ -15,43 +15,49 @@ import javax.persistence.Table;
 import org.springframework.stereotype.Component;
 
 @Entity
-@Table(name="ProductType")
+@Table(name = "ProductType")
 @Component
 public class ProductType {
-	
+
 	private int productTypeId;
 	private String productType;
 	private Product product;
-	
-	public ProductType() {}
-	public ProductType(String productType) {
-		this.productType=productType;
+
+	public ProductType() {
 	}
-	
-	@Id@Column(name="PRODUCTTYPEID")
+
+	public ProductType(String productType) {
+		this.productType = productType;
+	}
+
+	@Id
+	@Column(name = "PRODUCTTYPEID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getProductTypeId() {
 		return productTypeId;
 	}
+
 	public void setProductTypeId(int productTypeId) {
 		this.productTypeId = productTypeId;
 	}
-	@Column(name="PRODUCTTYPE")
+
+	@Column(name = "PRODUCTTYPE")
 	public String getProductType() {
 		return productType;
 	}
+
 	public void setProductType(String productType) {
 		this.productType = productType;
 	}
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="PRODUCTTYPEID")
+	@JoinColumn(name = "PRODUCTID")
 	public Product getProduct() {
 		return product;
 	}
+
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	
-	
 
 }

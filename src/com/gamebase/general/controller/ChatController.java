@@ -12,10 +12,10 @@ import com.gamebase.general.model.OutputMessage;
 @Controller
 public class ChatController {
 
-	@MessageMapping("/chat")
-	@SendTo("/topic/messages")
-	public OutputMessage send(WebSocketMessage message) throws Exception {
-		String time = new SimpleDateFormat("HH:mm").format(new Date());
-		return new OutputMessage(message.getFrom(), message.getText(), time);
-	}
+//	@MessageMapping("/chat")
+//	@SendTo("/topic/messages")
+//	public OutputMessage send(WebSocketMessage message) throws Exception {
+//		String time = new SimpleDateFormat("HH:mm").format(new Date());
+//		return new OutputMessage(message.getFrom(), message.getText(), time);
+//	}
 }

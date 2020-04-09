@@ -18,12 +18,13 @@ import org.springframework.web.servlet.view.BeanNameViewResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = { "com.gamebase.general.controller", "com.gamebase.article.controller",
-		"com.gamebase.member.controller","com.gamebase.tradesystem.controller"})
+		"com.gamebase.member.controller", "com.gamebase.tradesystem.controller" })
 
 //SpringMVCJavaConfig設定與MVC有關的操作
 //註冊ViewJavaConfig
 
-@Import({com.gamebase.config.view.GeneralViewJavaConfig.class,com.gamebase.config.view.TradeSystemViewJavaConfig.class, com.gamebase.config.view.MemberViewJavaConfig.class})
+@Import({ com.gamebase.config.view.GeneralViewJavaConfig.class, com.gamebase.config.view.ArticleViewJavaConfig.class,
+		com.gamebase.config.view.TradeSystemViewJavaConfig.class, com.gamebase.config.view.MemberViewJavaConfig.class })
 public class SpringMVCJavaConfig implements WebMvcConfigurer {
 	@Autowired
 	ServletContext servletContext;

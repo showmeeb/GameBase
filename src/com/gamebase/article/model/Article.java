@@ -1,5 +1,5 @@
 package com.gamebase.article.model;
 
-public class ArticleJavaBean {
+public class Article {
 
 }

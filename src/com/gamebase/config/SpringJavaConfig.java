@@ -16,14 +16,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan(basePackages= { "com.gamebase.general", "com.gamebase.article", "com.gamebase.member", "com.gamebase.tradesystem" })
-
+@ComponentScan(basePackages = { "com.gamebase.general", "com.gamebase.article", "com.gamebase.member",
+		"com.gamebase.tradesystem" })
 
 //SpringJavaConfig設定與資料庫有關的操作
 //@Import(com.gamer.config.SpringWebSocketJavaConfig.class)
 public class SpringJavaConfig {
-	
-	
+
 	// standard dataSource
 //	@Bean
 //	public DataSource dataSource() {
@@ -39,7 +38,7 @@ public class SpringJavaConfig {
 //		return ds;
 //		
 //	}
-	
+
 	// spring fake dataSource
 //	@Bean
 //	public DataSource dataSource() {
@@ -54,15 +53,15 @@ public class SpringJavaConfig {
 //		return dmds;
 //		
 //	}
-	
+
 	@Bean
 	public DataSource dataSource() {
 		JndiObjectFactoryBean factory = new JndiObjectFactoryBean();
 		factory.setJndiName("java:comp/env/jdbc/GameBase");
 		factory.setProxyInterface(DataSource.class);
-		
+
 		try {
-			
+
 			// look up context JNDI object
 			factory.afterPropertiesSet();
 		} catch (IllegalArgumentException e) {
@@ -72,20 +71,19 @@ public class SpringJavaConfig {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return (DataSource) factory.getObject();
-		
+
 	}
-	
+
 	@Bean
 	public SessionFactory sessionFactory() {
-		return new LocalSessionFactoryBuilder(dataSource())
-				.configure("hibernate.cfg.xml").buildSessionFactory();
+		return new LocalSessionFactoryBuilder(dataSource()).configure("hibernate.cfg.xml").buildSessionFactory();
 	}
-	
+
 	@Bean
 	public PlatformTransactionManager transactionManagement() {
 		return new HibernateTransactionManager(sessionFactory());
-		
+
 	}
 }
