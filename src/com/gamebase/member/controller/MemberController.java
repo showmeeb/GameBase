@@ -15,7 +15,7 @@ import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.service.UserDataService;
 
 @Controller
-@SessionAttributes(names = {"Member",})
+@SessionAttributes(names = "UserData")
 public class MemberController {
 
 	private UserDataService uService;
@@ -27,14 +27,14 @@ public class MemberController {
 	
 	@RequestMapping(value = "/gosuccess/{id}")
 	public String checkRole(@PathVariable("id") Integer uid,ModelMap model) {
-		UserData myUserData = uService.getByUserId(uid);
-		model.addAttribute("UserData",myUserData);
-		return "success";
+//		UserData myUserData = uService.getByUserId(uid);
+//		model.addAttribute("UserData",myUserData);
+		return "LoginSuccessViewPage";
 	}
 	
 	@RequestMapping(value = "/loginact", method = RequestMethod.POST)
 	public String loginAction(@RequestParam("account") String acc, @RequestParam("password") String pwd,
-			Map<String, Object> map) {
+			Map<String, Object> map, ModelMap model) {
 		if (acc == null || acc.length() == 0) {
 			map.put("accerr", "account is required");
 		}
@@ -46,14 +46,15 @@ public class MemberController {
 		}
 		UserData userData = uService.getByLogin(acc, pwd);
 		if (userData != null) {
-			return "gosuccess/" + userData.getUserId() ;
+			model.addAttribute("UserData",userData);
+			return "LoginSuccessViewPage" ;
 		}
 		map.put("loginerr", "Account or password error");
 		return "gologin";
 	}
 	
-	@RequestMapping(value = "/gologin")
+	@RequestMapping(value = "/gologin", method = RequestMethod.GET)
 	public String showLoginPage() {		
-		return "UserLogin";
+		return "LoginFailedViewPage";
 	}
 }
