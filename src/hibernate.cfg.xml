@@ -30,11 +30,13 @@
 		<mapping class="com.gamebase.tradesystem.model.Host" />
 		<mapping class="com.gamebase.tradesystem.model.Product" />
 		<mapping class="com.gamebase.tradesystem.model.ProductType" />
-
+		<mapping class="com.gamebase.tradesystem.model.Order" />
+		<mapping class="com.gamebase.tradesystem.model.OrderDetail" />
+		
 		<!-- Article Area -->
 		<mapping class="com.gamebase.article.model.Article" />
 		<mapping class="com.gamebase.article.model.ForumImg" />
-		
+
 		<!-- WebSocket Area -->
 		<mapping class="com.gamebase.general.model.WebSocketMessage" />
 		<mapping class="com.gamebase.general.model.ChatBot" />
