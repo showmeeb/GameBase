@@ -27,10 +27,11 @@ public class ProductDao {
 //		if(jobj.getString("productType").equals("game")) {
 		try {
 			Product pd = new Product("img",(String)jobj.get("productName"),(String)jobj.get("productType"),Integer.valueOf((String)jobj.get("inventory")),Integer.valueOf((String)jobj.get("productPrice")),(String)jobj.get("gameTag"),(String)jobj.get("productInfo"));
-			Game game =new Game((String)jobj.get("gameType"),(String)jobj.get("gamePlatform"),(String)jobj.get("gameLevel"));
+			
+			Game game =new Game(4,(String)jobj.get("gameType"),(String)jobj.get("gamePlatform"),(String)jobj.get("gameLevel"));
 //			game.setProduct(pd);
 //			pd.setGame(game);
-			sessionFactory.getCurrentSession().save(game);
+//			sessionFactory.getCurrentSession().save(game);
 			sessionFactory.getCurrentSession().save(pd);
 			return true;
 		}catch(Exception e) {
