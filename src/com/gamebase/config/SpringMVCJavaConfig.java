@@ -21,7 +21,7 @@ import org.springframework.web.servlet.view.BeanNameViewResolver;
 
 //SpringMVCJavaConfig設定與MVC有關的操作
 //註冊ViewJavaConfig
-@Import(com.gamebase.config.view.GeneralViewJavaConfig.class)
+@Import({com.gamebase.config.view.GeneralViewJavaConfig.class,com.gamebase.config.view.TradeSystemViewJavaConfig.class})
 public class SpringMVCJavaConfig implements WebMvcConfigurer {
 	@Autowired
 	ServletContext servletContext;

@@ -18,5 +18,8 @@
 		<!-- <mapping class="com.gamer.model.Product"/> -->
 		<mapping class="com.gamebase.general.model.Message"></mapping>
 		<mapping class="com.gamebase.general.model.OutputMessage"></mapping>
+		<mapping class="com.gamebase.tradesystem.model.Product"></mapping>
+		<mapping class="com.gamebase.tradesystem.model.Game"></mapping>
+		<mapping class="com.gamebase.tradesystem.model.Host"></mapping>
 	</session-factory>
 </hibernate-configuration>
