@@ -24,21 +24,27 @@ public class ProductDao {
 	
 	
 	public boolean add(JSONObject jobj) {
-		if(((String)jobj.getString("productType")).equals("game")) {
-			Product pd = new Product((String)jobj.get("1"),Integer.valueOf((String)jobj.get("2")),Integer.valueOf((String)jobj.get("3")),(String)jobj.get("4"),(String)jobj.get("5"));
-			Game game =new Game((String)jobj.get("1"),(String)jobj.get("1"),(String)jobj.get("1"),(String)jobj.get("1"),(String)jobj.get("1"));
+//		if(jobj.getString("productType").equals("game")) {
+		try {
+			Product pd = new Product("img",(String)jobj.get("productName"),(String)jobj.get("productType"),Integer.valueOf((String)jobj.get("inventory")),Integer.valueOf((String)jobj.get("productPrice")),(String)jobj.get("gameTag"),(String)jobj.get("productInfo"));
+			Game game =new Game((String)jobj.get("gameTag"),(String)jobj.get("gamePlatform"),(String)jobj.get("gameLevel"));
 			game.setProduct(pd);
 			pd.setGame(game);
 			sessionFactory.getCurrentSession().save(pd);
-		}else {
-			Product pd = new Product((String)jobj.get("1"),Integer.valueOf((String)jobj.get("2")),Integer.valueOf((String)jobj.get("3")),(String)jobj.get("4"),(String)jobj.get("5"));
-			Host host =new Host((String)jobj.get("1"),(String)jobj.get("1"));
-			host.setProduct(pd);
-			pd.setHost(host);
-			sessionFactory.getCurrentSession().save(pd);
+			return true;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
 		}
+//		}else {
+//			Product pd = new Product((String)jobj.get("productName"),(String)jobj.get("productType"),Integer.valueOf((String)jobj.get("inventory")),Integer.valueOf((String)jobj.get("productPrice")),(String)jobj.get("gameTag"),(String)jobj.get("productInfo"));
+//			Host host =new Host("img",(String)jobj.get("productName"));
+//			host.setProduct(pd);
+//			pd.setHost(host);
+//			sessionFactory.getCurrentSession().save(pd);
+//		}
 		
-		return false;
+		
 	}
 
 }

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 public class Product {
 	
 	private int productId;
+	private String productImg;
 	private String productName;
 	private String productType;
 	private int inventory;
@@ -27,11 +28,13 @@ public class Product {
 	private String productTag;
 	private String productInfo;
 	private Game game;
-	private Host host;
+//	private Host host;
 	
 	public Product() {};
-	public Product(String pName,int inventory,int pPrice,String pTag,String pInfo){
+	public Product(String productImg,String pName,String productType,int inventory,int pPrice,String pTag,String pInfo){
+		this.productImg=productImg;
 		this.productName=pName;
+		this.productType=productType;
 		this.inventory=inventory;
 		this.productPrice=pPrice;
 		this.productTag=pTag;
@@ -47,7 +50,13 @@ public class Product {
 	public void setProductId(int productId) {
 		this.productId = productId;
 	}
-	
+	@Column(name="PRODUCTIMG")
+	public String getProductImg() {
+		return productImg;
+	}
+	public void setProductImg(String productImg) {
+		this.productImg = productImg;
+	}
 	@Column(name="PRODUCTNAME")
 	public String getProductName() {
 		return productName;
@@ -97,13 +106,14 @@ public class Product {
 	public void setGame(Game game) {
 		this.game = game;
 	}
-	@OneToOne(fetch = FetchType.LAZY,mappedBy = "Product",cascade = CascadeType.ALL)
-	public Host getHost() {
-		return host;
-	}
-	public void setHost(Host host) {
-		this.host = host;
-	}
+//	@OneToOne(fetch = FetchType.LAZY,mappedBy = "Product",cascade = CascadeType.ALL)
+//	public Host getHost() {
+//		return host;
+//	}
+//	public void setHost(Host host) {
+//		this.host = host;
+//	}
+	
 	
 
 

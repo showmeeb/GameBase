@@ -16,26 +16,28 @@
 <div id ="dg">
 	<form id="form1">
 		<div>
-			圖像<input type="file" id="pImg" name="img">
+			圖片<input type="file" id="pImg" name="img">
 		</div>
 		<div>
-			遊戲名稱<input type="text" id="pName" name="productName">
+			商品名稱<input type="text" id="pName" name="productName">
 		</div>
 		<div>
 			商品類型<input type="text" id="pType" name="productType" value="game">
 		</div>
 		<div>
-			商品數量<input type="text" id="pInventory" name="inventory">
+			庫存<input type="text" id="pInventory" name="inventory">
 		</div>
 		<div>
 			商品價錢<input type="text" id="pPrice" name="productPrice">
 		</div>
-		
+		<div>
+			商品標籤<input type="text" id="pTag" name="productTag">
+		</div>
 		<div>
 			遊戲介紹<input type="text" id="pInfo" name="productInfo">
 		</div>
 		<div>
-			遊戲類型 <select id="gTag" name="gameTag">
+			遊戲類型 <select id="gType" name="gameType">
 						<option>角色扮演</option>
 						<option>射擊</option>
 						<option>策略</option>
@@ -86,6 +88,7 @@
 		$('#gameMode').attr({id:"hostMode",value:"host"}).html("主機");
 		$('#dg').hide();
 		$('#dh').show();
+		
 		})
 		
 	$(document).on('click','#hostMode',function(){
@@ -94,8 +97,41 @@
 		$('#dg').show();
 		})
 
+	$(document).on('click','#s1',function(){
+		var a=$(this.form).serializeObject();
+		console.log(a);
+		var form = JSON.stringify(a);
+		console.log(form);
 
+		$.ajax({
+			url:"tradesystem/add",
+			data : {form : form},
+			dataType : "text",
+			type : "POST",
+			success : function(response) {
+				console.log(response);
+			}
+
+
+			});
+		})
 	
+	
+	$.fn.serializeObject = function() {
+			var o = {};
+			var a = this.serializeArray();
+			$.each(a, function() {
+				if (o[this.name] !== undefined) {
+					if (!o[this.name].push) {
+						o[this.name] = [ o[this.name] ];
+					}
+					o[this.name].push(this.value || '');
+				} else {
+					o[this.name] = this.value || '';
+				}
+			});
+			return o;
+		};
 	</script>
 </body>
 </html>

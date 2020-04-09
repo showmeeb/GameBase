@@ -21,17 +21,14 @@ public class Game {
 	
 	private int productId;
 	private int gameId;
-	private String gameImg;
-	private String gameName;
+	
 	private String gameType;
 	private String gamePlatform;
 	private String gameLevel;
 	private Product product;
 	
 	public Game () {}
-	public Game (String gameImg,String gameName,String gameType,String gamePlatform,String gameLevel) {
-		this.gameImg=gameImg;
-		this.gameName=gameName;
+	public Game (String gameType,String gamePlatform,String gameLevel) {
 		this.gameType=gameType;
 		this.gamePlatform=gamePlatform;
 		this.gameLevel=gameLevel;
@@ -54,20 +51,6 @@ public class Game {
 	}
 	public void setGameId(int gameId) {
 		this.gameId = gameId;
-	}
-	@Column(name="GAMEIMG")
-	public String getGameImg() {
-		return gameImg;
-	}
-	public void setGameImg(String gameImg) {
-		this.gameImg = gameImg;
-	}
-	@Column(name="GAMENAME")
-	public String getGameName() {
-		return gameName;
-	}
-	public void setGameName(String gameName) {
-		this.gameName = gameName;
 	}
 	@Column(name="GAMETYPE")
 	public String getGameType() {
