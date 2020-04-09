@@ -9,14 +9,17 @@
 
 		<property name="show_sql">true</property>
 		<property name="format_sql">true</property>
-		<!-- <property name="hbm2ddl.auto">update</property> -->
+<!-- 		<property name="hbm2ddl.auto">update</property> -->
 		<!-- need to open this line during executing test -->
-		<!-- <property name="current_session_context_class">thread</property> -->
+<!-- 		<property name="current_session_context_class">thread</property> -->
 		<!-- article area -->
 		<!-- <mapping class="com.gamer.model.LoginInfo"/> -->
 		<!-- <mapping class="com.gamer.model.UserInfo"/> -->
 		<!-- <mapping class="com.gamer.model.Product"/> -->
-		<mapping class="com.gamebase.general.model.Message"></mapping>
-		<mapping class="com.gamebase.general.model.OutputMessage"></mapping>
+		<mapping class="com.gamebase.general.model.WebSocketMessage"/>
+		<mapping class="com.gamebase.general.model.OutputMessage"/>
+		<mapping class="com.gamebase.member.model.Rank"/>
+		<mapping class="com.gamebase.member.model.UserData"/>
+		<mapping class="com.gamebase.member.model.Role"/>
 	</session-factory>
 </hibernate-configuration>

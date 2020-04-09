@@ -45,8 +45,8 @@ public class Role {
 	public void setUserData(UserData userData) {
 		this.userData = userData;
 	}
-
-	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "RANKID")
 	public Rank getRank() {
 		return rank;
 	}

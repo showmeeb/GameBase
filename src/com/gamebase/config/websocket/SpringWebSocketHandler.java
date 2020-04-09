@@ -7,18 +7,21 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
+import com.gamebase.member.model.UserData;
+
 public class SpringWebSocketHandler extends DefaultHandshakeHandler {
 
 	@Override
 	protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler,
 			Map<String, Object> attributes) {
-		String userNo="-1";
-		if(attributes.containsKey("loginUser")) {
-			
+		String userId="-1";
+		
+		if(attributes.containsKey("UserData")) {
+			userId = ((UserData) attributes.get("UserData")).getUserId().toString();
 		}
 		
 		
-		return super.determineUser(request, wsHandler, attributes);
+		return new SpringWebSocketPrincipal(userId);
 	}
 
 	
