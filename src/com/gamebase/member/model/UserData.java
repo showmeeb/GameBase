@@ -1,8 +1,22 @@
 package com.gamebase.member.model;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+
 //import java.util.HashSet;
 //import java.util.Set;
-
+@Entity
+@Table(name = "userData")
+@Component
 public class UserData {
 
 	private Integer userId;
@@ -17,6 +31,9 @@ public class UserData {
 	public UserData() {
 	}
 
+	@Id
+	@Column(name = "USERID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer getUserId() {
 		return userId;
 	}
@@ -25,6 +42,7 @@ public class UserData {
 		this.userId = userId;
 	}
 
+	@Column(name = "USERID")
 	public String getAccount() {
 		return account;
 	}
@@ -33,6 +51,7 @@ public class UserData {
 		this.account = account;
 	}
 
+	@Column(name = "USERID")
 	public String getPassword() {
 		return password;
 	}
@@ -41,6 +60,7 @@ public class UserData {
 		this.password = password;
 	}
 
+	@Column(name = "USERID")
 	public String getEmail() {
 		return email;
 	}
@@ -49,6 +69,7 @@ public class UserData {
 		this.email = email;
 	}
 
+	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "userData")
 	public Role getRole() {
 		return role;
 	}
