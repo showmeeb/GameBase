@@ -7,19 +7,19 @@ import org.springframework.web.servlet.view.InternalResourceView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Configuration
-public class LoginViewJavaConfig {
+public class GeneralViewJavaConfig {
 
+//	@Bean
+//	public View LoginViewPage() {
+//		InternalResourceView view = new InternalResourceView();
+//		view.setUrl("/WEB-INF/pages/LoginPage.jsp");
+//		return view;
+//	}
 	@Bean
-	public View LoginViewPage() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/LoginPage.jsp");
-		return view;
-	}
-	@Bean
-	public View LoginSuccessPage() {
+	public View indexPage() {
 		RedirectView view = new RedirectView();
 		view.setContextRelative(true);
-		view.setUrl("/checkLogin");
+		view.setUrl("/");
 		return view;
 	}
 }
