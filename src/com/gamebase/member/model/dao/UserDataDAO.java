@@ -44,32 +44,47 @@ public class UserDataDAO implements IUserData {
 
 	@Override
 	public List<UserData> getAllUserData() {
-		// TODO Auto-generated method stub
-		return null;
+		Query<UserData> allQuery = getSession().createQuery("From UserData",UserData.class);
+		List<UserData> list = allQuery.list();
+		return list;
 	}
 
 	@Override
 	public boolean checkAccount(String account) {
-		// TODO Auto-generated method stub
+		Query<UserData> query = getSession().createQuery("From UserData where account=:acc",UserData.class);
+		query.setParameter("acc", account);
+		UserData myAccount = query.uniqueResult();
+		if(myAccount!=null) {
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public UserData getByUserId(Integer userId) {
-		// TODO Auto-generated method stub
+		Query<UserData> query = getSession().createQuery("From UserData where userId=:uid",UserData.class);
+		query.setParameter("uid", userId);
+		
 		return null;
 	}
 
 	@Override
 	public void deleteUserData(UserData userData) {
-		// TODO Auto-generated method stub
-
+		
+		
+		
+			getSession().delete(userData);
+		
 	}
 
 	@Override
 	public void saveUserData(UserData userData) {
-		// TODO Auto-generated method stub
-
+		Query<UserData> query = getSession().createQuery("From UserData",UserData.class);
+		query.setParameter("userData", userData);
+		UserData myBean = query.uniqueResult();
+		if(myBean==null) {
+			getSession().save(myBean);
+		}
 	}
 
 }

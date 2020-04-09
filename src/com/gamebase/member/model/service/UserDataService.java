@@ -31,8 +31,9 @@ public class UserDataService implements IUserDataService{
 
 	@Override
 	public boolean checkAccount(String account) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return udDao.checkAccount(account)
+				;
 	}
 
 	@Override

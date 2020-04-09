@@ -42,7 +42,7 @@ public class UserData {
 		this.userId = userId;
 	}
 
-	@Column(name = "USERID")
+	@Column(name = "ACCOUNT")
 	public String getAccount() {
 		return account;
 	}
@@ -51,7 +51,7 @@ public class UserData {
 		this.account = account;
 	}
 
-	@Column(name = "USERID")
+	@Column(name = "PASSWORD")
 	public String getPassword() {
 		return password;
 	}
@@ -60,7 +60,7 @@ public class UserData {
 		this.password = password;
 	}
 
-	@Column(name = "USERID")
+	@Column(name = "EMAIL")
 	public String getEmail() {
 		return email;
 	}
