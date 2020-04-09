@@ -18,7 +18,7 @@ import org.springframework.web.servlet.view.BeanNameViewResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = { "com.gamebase.general.controller", "com.gamebase.article.controller",
-		"com.gamebase.member.controller" })
+		"com.gamebase.member.controller","com.gamebase.tradesystem.controller"})
 
 //SpringMVCJavaConfig設定與MVC有關的操作
 //註冊ViewJavaConfig

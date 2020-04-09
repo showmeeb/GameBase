@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan(basePackages= { "com.gamebase.general", "com.gamebase.article", "com.gamebase.member" })
+@ComponentScan(basePackages= { "com.gamebase.general", "com.gamebase.article", "com.gamebase.member", "com.gamebase.tradesystem" })
 
 
 //SpringJavaConfig設定與資料庫有關的操作

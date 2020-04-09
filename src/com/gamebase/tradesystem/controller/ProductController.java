@@ -20,7 +20,7 @@ public class ProductController {
 		this.productService=productService;
 	}
 	
-	@RequestMapping(path="tradesystem/add" , method = RequestMethod.POST)
+	@RequestMapping(path="/tradesystem/add" , method = RequestMethod.POST)
 	@ResponseBody
 	public String tsAdd(@RequestParam(value ="form")String form) {
 		JSONObject jo =JSONObject.fromObject(form);
@@ -28,10 +28,14 @@ public class ProductController {
 		System.out.println(form);
 
 		boolean t=productService.add(jo);
-		out.print(t);
+//		out.print(t);
 
-			return "addProductPage";
-	
-		
+		return "addProductPage";
 }
+	
+	@RequestMapping(path= "/tradesystem", method = RequestMethod.GET)
+	public String showAddPage() {	
+		System.out.println("123");
+		return "addProductPage";
+	}
 }

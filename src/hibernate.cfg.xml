@@ -21,7 +21,7 @@
 
 		<mapping class="com.gamebase.tradesystem.model.Product"></mapping>
 		<mapping class="com.gamebase.tradesystem.model.Game"></mapping>
-		<mapping class="com.gamebase.tradesystem.model.Host"></mapping>
+		<!--<mapping class="com.gamebase.tradesystem.model.Host"></mapping>-->
 
 		<mapping class="com.gamebase.general.model.WebSocketMessage"/>
 		<mapping class="com.gamebase.general.model.OutputMessage"/>

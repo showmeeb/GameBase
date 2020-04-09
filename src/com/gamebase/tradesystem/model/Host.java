@@ -63,14 +63,14 @@ public class Host {
 	public void setHostName(String hostName) {
 		this.hostName = hostName;
 	}
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PRODUCTID")
-	public Product getProduct() {
-		return product;
-	}
-	public void setProduct(Product product) {
-		this.product = product;
-	}
+//	@OneToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "PRODUCTID")
+//	public Product getProduct() {
+//		return product;
+//	}
+//	public void setProduct(Product product) {
+//		this.product = product;
+//	}
 	
 	
 }

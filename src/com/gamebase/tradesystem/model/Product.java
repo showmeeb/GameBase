@@ -99,13 +99,13 @@ public class Product {
 	public void setProductInfo(String productInfo) {
 		this.productInfo = productInfo;
 	}
-	@OneToOne(fetch = FetchType.LAZY,mappedBy = "Product",cascade = CascadeType.ALL)
-	public Game getGame() {
-		return game;
-	}
-	public void setGame(Game game) {
-		this.game = game;
-	}
+//	@OneToOne(fetch = FetchType.LAZY,mappedBy = "Product",cascade = CascadeType.ALL)
+//	public Game getGame() {
+//		return game;
+//	}
+//	public void setGame(Game game) {
+//		this.game = game;
+//	}
 //	@OneToOne(fetch = FetchType.LAZY,mappedBy = "Product",cascade = CascadeType.ALL)
 //	public Host getHost() {
 //		return host;

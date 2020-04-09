@@ -10,5 +10,6 @@
 <body>
 This is index
 <a href="<c:url value="/loginact"/>"></a>
+<a href="<c:url value="/tradesystem"/>">tradesystem</a>
 </body>
 </html>

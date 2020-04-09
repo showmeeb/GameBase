@@ -36,7 +36,7 @@ public class Game {
 	
 	@GenericGenerator(name = "generator",strategy = "foreign",
 			parameters = @Parameter(name="property",value = "Product"))
-	@Id @GeneratedValue(generator = "generator")
+	@GeneratedValue(generator = "generator")
 	@Column(name = "PRODUCTID")
 	public int getProductId() {
 		return productId;
@@ -73,14 +73,14 @@ public class Game {
 	public void setGameLevel(String gameLevel) {
 		this.gameLevel = gameLevel;
 	}
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PRODUCTID")
-	public Product getProduct() {
-		return product;
-	}
-	public void setProduct(Product product) {
-		this.product = product;
-	}
+//	@OneToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "PRODUCTID")
+//	public Product getProduct() {
+//		return product;
+//	}
+//	public void setProduct(Product product) {
+//		this.product = product;
+//	}
 	
 	
 
