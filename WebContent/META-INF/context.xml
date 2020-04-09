@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context>
+	<Resource name="jdbc/GameBase" auth="Container"
+		type="javax.sql.DataSource" username="sa" password="P@ssW0rd"
+		driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+		url="jdbc:sqlserver://localhost:1433;databaseName=GameBase" />
+
+</Context>

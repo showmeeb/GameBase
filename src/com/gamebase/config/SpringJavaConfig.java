@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan(basePackages= "com.gamebase.model")
+@ComponentScan(basePackages= { "com.gamebase.general", "com.gamebase.article", "com.gamebase.member" })
 
 
 //SpringJavaConfig設定與資料庫有關的操作
@@ -58,7 +58,7 @@ public class SpringJavaConfig {
 	@Bean
 	public DataSource dataSource() {
 		JndiObjectFactoryBean factory = new JndiObjectFactoryBean();
-		factory.setJndiName("java:comp/env/jdbc/RegisterSystem");
+		factory.setJndiName("java:comp/env/jdbc/GameBase");
 		factory.setProxyInterface(DataSource.class);
 		
 		try {

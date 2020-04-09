@@ -10,42 +10,38 @@ import org.springframework.context.annotation.Import;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
-
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 
-
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages= "com.gamer.controller")
+@ComponentScan(basePackages = { "com.gamebase", "com.gamebase.article.controller", "com.gamebase.member.controller" })
 
 //SpringMVCJavaConfig設定與MVC有關的操作
 //註冊ViewJavaConfig
-@Import(com.gamebase.config.view.LoginViewJavaConfig.class)
-public class SpringMVCJavaConfig implements WebMvcConfigurer{
+@Import(com.gamebase.config.view.GeneralViewJavaConfig.class)
+public class SpringMVCJavaConfig implements WebMvcConfigurer {
 	@Autowired
 	ServletContext servletContext;
 
-
-//	public void addInterceptors(InterceptorRegistry registry) {
-//		registry.addInterceptor(new DemoInterceptor());
-//	}
-	//集中管理View Java Config，只要呼叫方法名稱即能導向路徑
+	// 集中管理View Java Config，只要呼叫方法名稱即能導向路徑
 	@Bean
 	public ViewResolver beanNameViewResolver() {
 		BeanNameViewResolver bnvr = new BeanNameViewResolver();
 		bnvr.setOrder(10);
 		return bnvr;
 	}
+
 	// for file upload
 	@Bean
-    public MultipartResolver multipartResolver() {
+	public MultipartResolver multipartResolver() {
 		StandardServletMultipartResolver resolver = new StandardServletMultipartResolver();
-		
-        return resolver;
-    }
-	//傳統作法Internal 仍然要呼叫路徑，且不易集中管理
+
+		return resolver;
+	}
+	// 傳統作法Internal 仍然要呼叫路徑，且不易集中管理
 //	@Bean
 //	public InternalResourceViewResolver viewResolver() { // 設定viewResolver取代xml
 //		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -54,6 +50,10 @@ public class SpringMVCJavaConfig implements WebMvcConfigurer{
 //		viewResolver.setOrder(2);
 //		System.out.println("viewResolver proceeding...");
 //		return viewResolver;
+//	}
+//	@Override
+//	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+//		configurer.enable();
 //	}
 
 }
