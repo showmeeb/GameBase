@@ -9,13 +9,13 @@ import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.dao.UserDataDAO;
 
 @Service
-public class UserDataService implements IUserDataService{
+public class UserDataService implements IUserDataService {
 
 	private UserDataDAO udDao;
 
 	@Autowired
 	public UserDataService(UserDataDAO udDao) {
-		this.udDao=udDao;
+		this.udDao = udDao;
 	}
 
 	@Override
@@ -25,33 +25,36 @@ public class UserDataService implements IUserDataService{
 
 	@Override
 	public List<UserData> getAllUserData() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return udDao.getAllUserData();
 	}
 
 	@Override
 	public boolean checkAccount(String account) {
-		
-		return udDao.checkAccount(account)
-				;
+
+		return udDao.checkAccount(account);
+
 	}
 
 	@Override
 	public UserData getByUserId(Integer userId) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return udDao.getByUserId(userId);
 	}
 
 	@Override
 	public void deleteUserData(UserData userData) {
-		// TODO Auto-generated method stub
 		
+		udDao.deleteUserData(userData);
+
 	}
 
 	@Override
 	public void saveUserData(UserData userData) {
-		// TODO Auto-generated method stub
-		
+
+
+		udDao.saveUserData(userData);
+
 	}
-	
+
 }

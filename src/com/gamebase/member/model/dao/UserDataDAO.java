@@ -71,8 +71,6 @@ public class UserDataDAO implements IUserData {
 	@Override
 	public void deleteUserData(UserData userData) {
 		
-		
-		
 			getSession().delete(userData);
 		
 	}
