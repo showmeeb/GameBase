@@ -24,14 +24,14 @@ public class MemberController {
 	public MemberController(UserDataService uService) {
 		this.uService = uService;
 	}
-	
+
 	@RequestMapping(value = "/gosuccess/{id}")
-	public String checkRole(@PathVariable("id") Integer uid,ModelMap model) {
+	public String checkRole(@PathVariable("id") Integer uid, ModelMap model) {
 //		UserData myUserData = uService.getByUserId(uid);
 //		model.addAttribute("UserData",myUserData);
 		return "LoginSuccessViewPage";
 	}
-	
+
 	@RequestMapping(value = "/loginact", method = RequestMethod.POST)
 	public String loginAction(@RequestParam("account") String acc, @RequestParam("password") String pwd,
 			Map<String, Object> map, ModelMap model) {
@@ -41,20 +41,52 @@ public class MemberController {
 		if (pwd == null || pwd.length() == 0) {
 			map.put("pwderr", "password is required");
 		}
+
 		if (map != null && !map.isEmpty()) {
-			return "gologin";
+			return "LoginFailedViewPage";
 		}
 		UserData userData = uService.getByLogin(acc, pwd);
 		if (userData != null) {
-			model.addAttribute("UserData",userData);
-			return "LoginSuccessViewPage" ;
+			model.addAttribute("UserData", userData);
+			return "LoginSuccessViewPage";
 		}
 		map.put("loginerr", "Account or password error");
-		return "gologin";
-	}
-	
-	@RequestMapping(value = "/gologin", method = RequestMethod.GET)
-	public String showLoginPage() {		
 		return "LoginFailedViewPage";
+	}
+
+//	
+//	@RequestMapping(value = "/gologin", method = RequestMethod.GET)
+//	public String showLoginPage() {		
+//		return "LoginFailedViewPage";
+//	}
+	@RequestMapping(value = "/goregister")
+	public String showRegisterPage() {
+		return "RegisterViewPage";
+	}
+
+	@RequestMapping(value = "/registact", method = RequestMethod.POST)
+	public String insertData(@RequestParam("account") String acc, @RequestParam("password") String pwd,
+			@RequestParam("email") String email, Map<String, Object> map, ModelMap model) {
+		System.out.println(acc + pwd + email);
+		if (acc == null || acc.length() == 0) {
+			map.put("accerr", "account is required");
+		}
+		if (pwd == null || pwd.length() == 0) {
+			map.put("pwderr", "password is required");
+		}
+		if (email == null || email.length() == 0) {
+			map.put("emailerr", "email is required");
+		}
+		if (map != null && !map.isEmpty()) {
+			return "RegistFailedViewPage";
+		}
+		UserData ud = new UserData();
+		ud.setAccount(acc);
+		ud.setPassword(pwd);
+		ud.setEmail(email);
+		uService.saveUserData(ud);
+
+		map.put("registerr", "Some column is null!");
+		return "RegistFailedViewPage";
 	}
 }
