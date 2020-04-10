@@ -19,13 +19,13 @@ public class TagSearchDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	public String tagSearch(String lookingFor, String keyword) {
+	public String tagSearch(String looking, String keyword) {
 
 		String jsonString = null;
 
-		if (lookingFor.equals("Product")) {
+		if (looking.equals("forProduct")) {
 			jsonString = searchProduct(keyword);
-		} else if (lookingFor.equals("")) {
+		} else if (looking.equals("")) {
 		}
 
 		return jsonString;
