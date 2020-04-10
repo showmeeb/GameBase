@@ -20,4 +20,22 @@ public class MemberViewJavaConfig {
 		view.setUrl("/WEB-INF/pages/UserLogin.jsp");
 		return view;
 	}
+	@Bean
+	public View RegisterViewPage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/Register.jsp");
+		return view;
+	}
+	@Bean
+	public View RegistFailedViewPage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/Register.jsp");
+		return view;
+	}
+	
+	public View RegistSuccessViewPage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/index.jsp");
+		return view;
+	}
 }
