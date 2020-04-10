@@ -7,7 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-
+import org.springframework.context.annotation.Import;
 import org.springframework.jndi.JndiObjectFactoryBean;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 		"com.gamebase.tradesystem" })
 
 //SpringJavaConfig設定與資料庫有關的操作
-//@Import(com.gamer.config.SpringWebSocketJavaConfig.class)
+@Import(com.gamebase.config.SpringWebSocketJavaConfig.class)
 public class SpringJavaConfig {
 
 	// standard dataSource

@@ -9,7 +9,8 @@
 </head>
 <body>
 This is index
-<a href="<c:url value="/loginact"/>"></a>
-<a href="<c:url value="/tradesystem"/>">tradesystem</a>
+<a href="<c:url value="/gologin"/>">login</a><br/>
+<a href="<c:url value="/tradesystem"/>">tradesystem</a><br/>
+<a href="chat.html">chatroom</a><br/>
 </body>
 </html>
