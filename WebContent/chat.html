@@ -3,7 +3,8 @@
 <head>
 <title>Chat WebSocket</title>
 <script src="https://d1fxtkz8shb9d2.cloudfront.net/sockjs-0.3.4.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script type="text/javascript">
             var stompClient = null;
              
@@ -21,9 +22,23 @@
                 stompClient.connect({}, function(frame) {
                     setConnected(true);
                     console.log('Connected: ' + frame);
-                    stompClient.subscribe('/topic/messages', function(messageOutput) {
-                        showMessageOutput(JSON.parse(messageOutput.body));
+                    stompClient.suscribe('/regist/messages', function(msgOutput){
+                        showOnlineUsers(JSON.parse(msgOutput.body));
                     });
+                    stompClient.subscribe('/topic/messages', function(msgOutput) {
+						if(JSON.parse(msgOutput.body).from == undefined){
+							hideOfflineUser(JSON.parse(msgOutput.body)
+					}else{
+                        showMessageOutput(JSON.parse(msgOutput.body));
+                    }
+                    });
+						stompClient.subscribe('/user/queue/messages', function(msgOutput) {
+					            showMessageOutput(JSON.parse(msgOutput.body));
+					});
+                });
+                 // get online list
+                    var data = JSON.parse(window.sessionStorage.getItem("UserData"));
+            		sendWebSocketMessage({from:data.uNo,to:['regist'],message:'',time:Date.now()});
                 });
             }
              
