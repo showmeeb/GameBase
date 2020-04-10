@@ -23,4 +23,11 @@ public class GeneralViewJavaConfig {
 		return view;
 	}
 	
+	@Bean
+	public View topBar() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/topBar.jsp");
+		return view;
+	}
+	
 }
