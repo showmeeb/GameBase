@@ -8,8 +8,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-This is index
-<a href="<c:url value="/loginact"/>"></a>
-<a href="<c:url value="/tradesystem"/>">tradesystem</a>
+This is index<br/>
+<a href="<c:url value="/loginact"/>">/loginact</a><br/>
+<a href="<c:url value="/tradesystem"/>">tradesystem</a><br/>
+<a href="<c:url value="/goMsgBoard"/>">/goMsgBoard</a><br/>
 </body>
 </html>
