@@ -9,6 +9,7 @@
 
 		<property name="show_sql">true</property>
 		<property name="format_sql">true</property>
+
 		<!-- <property name="hbm2ddl.auto">update</property> -->
 		<!-- need to open this line during executing test -->
 		<!-- <property name="current_session_context_class">thread</property> -->
@@ -23,13 +24,11 @@
 		<mapping class="com.gamebase.member.model.UserData" />
 		<mapping class="com.gamebase.member.model.Role" />
 		<mapping class="com.gamebase.member.model.Rank" />
-		<mapping class="com.gamebase.member.model.UserProfile" />
+		<!-- <mapping class="com.gamebase.member.model.UserProfile" /> -->
 
 		<!-- TradeSystem Area -->
 		<mapping class="com.gamebase.tradesystem.model.Game" />
-		<mapping class="com.gamebase.tradesystem.model.Host" />
 		<mapping class="com.gamebase.tradesystem.model.Product" />
-		<mapping class="com.gamebase.tradesystem.model.ProductType" />
 		<mapping class="com.gamebase.tradesystem.model.Order" />
 		<mapping class="com.gamebase.tradesystem.model.OrderDetail" />
 		
@@ -37,6 +36,7 @@
 		<mapping class="com.gamebase.article.model.Article" />
 		<mapping class="com.gamebase.article.model.ForumImg" />
 		<mapping class="com.gamebase.article.model.News" />
+		<mapping class="com.gamebase.article.model.MsgBoard" /><!-- for test -->
 
 		<!-- WebSocket Area -->
 		<mapping class="com.gamebase.general.model.WebSocketMessage" />

@@ -106,10 +106,16 @@
 		$.ajax({
 			url:"tradesystem/add",
 			data : {form : form},
-			dataType : "text",
+			dataType : "json",
 			type : "POST",
 			success : function(response) {
-				console.log(response);
+				console.log(response.t);
+				if(response.t==true){
+					alert("登記成功");
+					}
+				else{
+					alert("登記失敗");
+					}
 			}
 
 

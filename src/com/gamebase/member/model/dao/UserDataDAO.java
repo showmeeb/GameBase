@@ -13,17 +13,8 @@ import com.gamebase.member.model.UserData;
 
 @Repository
 public class UserDataDAO implements IUserData {
-
-	private SessionFactory sessionFactory;
-
 	@Autowired
-	public UserDataDAO(@Qualifier(value = "sessionFactory") SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
-
-	private Session getSession() {
-		return sessionFactory.getCurrentSession();
-	}
+	private SessionFactory sessionFactory;
 
 	/**
 	 * @param account , password
@@ -31,8 +22,8 @@ public class UserDataDAO implements IUserData {
 	 */
 	@Override
 	public UserData getByLogin(String account, String password) {
-		Query<UserData> query = getSession().createQuery("From UserData where account=:acc and password=:pwd",
-				UserData.class);
+		Query<UserData> query = sessionFactory.getCurrentSession()
+				.createQuery("From UserData where account=:acc and password=:pwd", UserData.class);
 		query.setParameter("acc", account);
 		query.setParameter("pwd", password);
 		UserData myUserData = query.uniqueResult();
@@ -44,17 +35,18 @@ public class UserDataDAO implements IUserData {
 
 	@Override
 	public List<UserData> getAllUserData() {
-		Query<UserData> allQuery = getSession().createQuery("From UserData",UserData.class);
+		Query<UserData> allQuery = sessionFactory.getCurrentSession().createQuery("From UserData", UserData.class);
 		List<UserData> list = allQuery.list();
 		return list;
 	}
 
 	@Override
 	public boolean checkAccount(String account) {
-		Query<UserData> query = getSession().createQuery("From UserData where account=:acc",UserData.class);
+		Query<UserData> query = sessionFactory.getCurrentSession().createQuery("From UserData where account=:acc",
+				UserData.class);
 		query.setParameter("acc", account);
 		UserData myAccount = query.uniqueResult();
-		if(myAccount!=null) {
+		if (myAccount != null) {
 			return true;
 		}
 		return false;
@@ -62,27 +54,25 @@ public class UserDataDAO implements IUserData {
 
 	@Override
 	public UserData getByUserId(Integer userId) {
-		Query<UserData> query = getSession().createQuery("From UserData where userId=:uid",UserData.class);
+		Query<UserData> query = sessionFactory.getCurrentSession().createQuery("From UserData where userId=:uid",
+				UserData.class);
 		query.setParameter("uid", userId);
-		
+
 		return null;
 	}
 
 	@Override
 	public void deleteUserData(UserData userData) {
-		
-			getSession().delete(userData);
-		
+
+		sessionFactory.getCurrentSession().delete(userData);
+
 	}
 
 	@Override
 	public void saveUserData(UserData userData) {
-		Query<UserData> query = getSession().createQuery("From UserData",UserData.class);
-		query.setParameter("userData", userData);
-		UserData myBean = query.uniqueResult();
-		if(myBean==null) {
-			getSession().save(myBean);
-		}
+
+		sessionFactory.getCurrentSession().save(userData);
+
 	}
 
 }
