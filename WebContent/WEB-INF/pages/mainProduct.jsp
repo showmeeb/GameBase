@@ -17,6 +17,9 @@
 	<div>
 		<input type="text" id="se1" placeholder="請輸入想搜尋的商品"><button id="search">查詢</button><input type="button" id="query" value="所有商品">
 	</div>
+	<div>
+	<span id="sp1"></span>
+	</div>
 
 	<div id="d1">
 		<form id="f1">
@@ -189,9 +192,28 @@
 			});
 		});
 
-		$(document).on('click', '#add1', function() {
-
+		$(document).on('keyup','#se1', function() {
+			var sh = $('#se1').val();
+			if(sh!=""&&sh!=null&&sh!=" "){
+			$.ajax({
+				url:"tradesystem/search",
+				datatype:"json",
+				type:"GET",
+				data : {
+					sh : sh
+				},
+				success : function(response) {
+					console.log("yes");
+					console.log(response);
+					var txt="";
+					$.map(response,function(v,index){
+						txt+=v.value+",";
+						});
+					$('#sp1').text(txt);
+				}
+				});
 			}
+		})
 		
 
 		$.fn.serializeObject = function() {

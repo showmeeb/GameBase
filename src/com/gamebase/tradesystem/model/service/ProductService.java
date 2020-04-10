@@ -37,4 +37,8 @@ public class ProductService {
 		boolean t =productDao.update(jobj);
 		return t;
 	}
+	
+	public JSONArray search(String a) {
+		return productDao.search(a);
+	}
 }

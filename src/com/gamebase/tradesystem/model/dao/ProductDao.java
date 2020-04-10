@@ -121,5 +121,22 @@ public class ProductDao {
 		}
 
 	}
+	
+	public JSONArray search(String a) {
+		
+		JSONArray jarray = new JSONArray();
+		Session session = sessionFactory.getCurrentSession();
+		
+		Query<String> query = session.createQuery("select productName from Product where productName LIKE '"+a+"%'",String.class);
 
+		List<String> list = query.list();
+		for(int i=0;i<=list.size()-1;i++) {
+			JSONObject jobj = new JSONObject();
+			jobj.put("value",list.get(i));
+			System.out.println(jobj);
+			jarray.add(jobj);
+		}
+		System.out.println(jarray);
+		return jarray;
+	}
 }

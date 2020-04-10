@@ -57,16 +57,23 @@ public class ProductController {
 		result.put("t", t);
 		return result;
 	}
+	
+	@RequestMapping(path = "/tradesystem/search", method = RequestMethod.GET)
+	@ResponseBody
+	public JSONArray search(@RequestParam(value="sh") String a) {
+		System.out.println(a);
+		return productService.search(a);
+	}
 
 	@RequestMapping(path = "/tradesystem", method = RequestMethod.GET)
 	public String showAddPage() {
-		System.out.println("1");
+		System.out.println("2");
 		return "addProductPage";
 	}
 
 	@RequestMapping(path = "/mainProduct", method = RequestMethod.GET)
 	public String showMainPage() {
-		System.out.println("2");
+		System.out.println("3");
 		return "mainProductPage";
 	}
 }
