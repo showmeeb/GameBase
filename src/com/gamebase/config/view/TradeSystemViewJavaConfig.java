@@ -14,4 +14,11 @@ public class TradeSystemViewJavaConfig {
 		view.setUrl("/WEB-INF/pages/addProduct.jsp");
 		return view;
 	}
+	@Bean
+	public View mainProductPage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/mainProduct.jsp");
+		return view;
+	}
+	
 }

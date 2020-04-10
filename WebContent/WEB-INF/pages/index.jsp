@@ -10,6 +10,7 @@
 <body>
 This is index
 <a href="<c:url value="/loginact"/>"></a>
-<a href="<c:url value="/tradesystem"/>">tradesystem</a>
+<a href="<c:url value="/tradesystem"/>">登記商品</a><br>
+<a href="<c:url value="/mainProduct"/>">商品管理</a><br>
 </body>
 </html>
