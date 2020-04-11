@@ -47,7 +47,7 @@ public class ProductDao implements IProductDao {
 				getSession().save(game);
 				return true;
 			}
-			Game game = new Game(pd1.getProductId(), null, null, null);
+			Game game = new Game(pd1.getProductId(),"null", null, null);
 			getSession().save(game);
 			return true;
 		} catch (Exception e) {
