@@ -15,7 +15,7 @@ import org.hibernate.annotations.Parameter;
 import org.springframework.stereotype.Component;
 
 @Entity
-@Table(name = "Game")
+@Table(name ="Game")
 @Component
 public class Game {
 
@@ -40,6 +40,7 @@ public class Game {
 //	@GenericGenerator(name = "generator",strategy = "foreign",
 //			parameters = @Parameter(name="property",value = "Product"))
 //	@GeneratedValue(generator = "generator")
+	@Id
 	@Column(name = "PRODUCTID")
 	public int getProductId() {
 		return productId;
@@ -49,7 +50,6 @@ public class Game {
 		this.productId = productId;
 	}
 
-	@Id
 	@Column(name = "GAMEID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getGameId() {

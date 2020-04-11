@@ -16,7 +16,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Repository("PDD")
-public class ProductDao {
+public class ProductDao implements IProductDao {
 	private SessionFactory sessionFactory;
 
 	@Autowired
@@ -29,6 +29,7 @@ public class ProductDao {
 		return sessionFactory.getCurrentSession();
 	}
 
+	@Override
 	public boolean add(JSONObject jobj) {
 
 		try {
@@ -56,6 +57,7 @@ public class ProductDao {
 
 	}
 
+	@Override
 	public JSONArray query() {
 		Session session = sessionFactory.getCurrentSession();
 		Query<Product> queryP = session.createQuery("from Product", Product.class);
@@ -81,14 +83,19 @@ public class ProductDao {
 		return jsonArray;
 	}
 
+	@Override
 	public boolean delete(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		try {
-			Product p1 = session.get(Product.class,id);
-			System.out.println(p1.getProductId());
-			System.out.println(p1.getProductName());
-			System.out.println(p1.getProductPrice());
-			
+			Game g1 = session.get(Game.class, id);
+			session.delete(g1);
+//			System.out.println(g1.getGameId());
+//			System.out.println(g1.getGameLevel());
+//			System.out.println(g1.getGameType());
+			Product p1 = session.get(Product.class, id);
+//			System.out.println(p1.getProductId());
+//			System.out.println(p1.getProductName());
+//			System.out.println(p1.getProductPrice());
 			session.delete(p1);
 			session.flush();
 			System.out.println("123");
@@ -99,13 +106,14 @@ public class ProductDao {
 		}
 	}
 
+	@Override
 	public boolean update(JSONObject jobj) {
 		Session session = sessionFactory.getCurrentSession();
 		try {
-			System.out.println(Integer.valueOf((String)jobj.get("0")));
-			Product p1 = session.get(Product.class,Integer.valueOf((String)jobj.get("0")));
+			System.out.println(Integer.valueOf((String) jobj.get("0")));
+			Product p1 = session.get(Product.class, Integer.valueOf((String) jobj.get("0")));
 			Session session2 = sessionFactory.getCurrentSession();
-			p1.setProductImg("IMG");//(String) jobj.get("1")
+			p1.setProductImg("IMG");// (String) jobj.get("1")
 			p1.setProductName((String) jobj.get("2"));
 			p1.setProductType((String) jobj.get("3"));
 			p1.setInventory((Integer.valueOf((String) jobj.get("4"))));
@@ -113,7 +121,7 @@ public class ProductDao {
 			p1.setProductTag((String) jobj.get("6"));
 			p1.setProductInfo((String) jobj.get("7"));
 			session2.update(p1);
-			System.out.println("update success"+p1.getProductName());
+			System.out.println("update success" + p1.getProductName());
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -121,22 +129,56 @@ public class ProductDao {
 		}
 
 	}
-	
+
+	@Override
 	public JSONArray search(String a) {
-		
+
 		JSONArray jarray = new JSONArray();
 		Session session = sessionFactory.getCurrentSession();
-		
-		Query<String> query = session.createQuery("select productName from Product where productName LIKE '"+a+"%'",String.class);
+
+		Query<String> query = session.createQuery("select productName from Product where productName LIKE '" + a + "%'",
+				String.class);
 
 		List<String> list = query.list();
-		for(int i=0;i<=list.size()-1;i++) {
+		for (int i = 0; i <= list.size() - 1; i++) {
 			JSONObject jobj = new JSONObject();
-			jobj.put("value",list.get(i));
+			jobj.put("value", list.get(i));
 			System.out.println(jobj);
 			jarray.add(jobj);
 		}
 		System.out.println(jarray);
+		return jarray;
+	}
+
+	@Override
+	public JSONArray getSearch(String a) {
+
+		JSONArray jarray = new JSONArray();
+		Session session = sessionFactory.getCurrentSession();
+		Query<String> query = session.createQuery("select productName from Product where productName like'%"+a+"%'",String.class);
+		List<String> list = query.list();
+		System.out.println(list.size());
+		if (list.size()>0) {
+			for (String beans : list) {
+				Query<Product> query1 = session.createQuery("from Product where productName =?1", Product.class);
+				query1.setParameter(1, beans);
+				List<Product> list1 = query1.getResultList();
+				for (Product beans1 : list1) {
+					JSONObject jobj = new JSONObject();
+					jobj.put("productId", beans1.getProductId());
+					jobj.put("productImg", beans1.getProductImg());
+					jobj.put("productName", beans1.getProductName());
+					jobj.put("productType", beans1.getProductType());
+					jobj.put("inventory", beans1.getInventory());
+					jobj.put("productPrice", beans1.getProductPrice());
+					jobj.put("productTag", beans1.getProductTag());
+					jobj.put("productInfo", beans1.getProductInfo());
+					jarray.add(jobj);
+				}
+
+			}
+		}
+		System.out.println(jarray + "1");
 		return jarray;
 	}
 }

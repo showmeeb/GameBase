@@ -8,17 +8,18 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <style type="text/css">
 #d1 {
-	display: none;
 }
 </style>
 </head>
 
 <body>
 	<div>
-		<input type="text" id="se1" placeholder="請輸入想搜尋的商品"><button id="search">查詢</button><input type="button" id="query" value="所有商品">
+		<input type="text" id="se1" placeholder="請輸入想搜尋的商品">
+		<button id="search">查詢</button>
+		<input type="button" id="query" value="所有商品">
 	</div>
 	<div>
-	<span id="sp1"></span>
+		<span id="sp1"></span>
 	</div>
 
 	<div id="d1">
@@ -27,17 +28,53 @@
 
 
 			</table>
-			<input type="button" id="add" value="新增">
+			<!-- <input type="button" id="add" value="新增"> -->
 		</form>
 	</div>
 
 	<script type="text/javascript">
+		function showtable(response){
+			$.ajax({
+				async : false,
+			    type: "POST",
+			    url:"tradesystem/query",
+			    dataType: "json",
+				beforesend:function(){
+					$('#t1').html("");
+					},
+				success:function(response){
+					var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th colspan='2'>設定";
+					for (let i = 0; i < response.length; i++) {
+						txt += "<tr><td>"
+								+ response[i].productId;
+						txt += "<td id='img'>";
+						txt += "<td>"
+								+ response[i].productName;
+						txt += "<td>"
+								+ response[i].productType;
+						txt += "<td>"
+								+ response[i].inventory;
+						txt += "<td>"
+								+ response[i].productPrice;
+						txt += "<td>"
+								+ response[i].productTag;
+						txt += "<td>"
+								+ response[i].productInfo;
+						txt += '<td><input type="button" id="update" value="修改">';
+						txt += '<td><input type="button" id="delete" value="刪除">';
+					}
+					$('#t1').html(txt);
+					},				    
+			});
+
+			}
+	
 		$(document)
 				.on(
 						"click",
 						"#query",
 						function() {
-							$('#d1').toggle();
+							//$('#d1').toggle();
 							$
 									.ajax({
 										url : "tradesystem/query",
@@ -102,6 +139,7 @@
 			var b = JSON.stringify(c);
 			console.log(b);
 			$.ajax({
+				async : false,
 				url : "tradesystem/update",
 				dataType : "json",
 				type : "POST",
@@ -110,15 +148,15 @@
 				},
 				success : function(response) {
 					console.log(response.t);
-					if(response.t==true){
+					if (response.t == true) {
 						alert("修改成功");
-					}else{
+					} else {
 						alert("修改失敗");
-						}
-				}
-				
-				
-
+					}
+				},
+				complete:function(){
+					showtable();
+					}
 			});
 			//var $tr=$this.parents("tr");
 
@@ -147,7 +185,7 @@
 
 				},
 				complete : function() {
-					$tr.remove();
+					showtable();
 				}
 			});
 		});
@@ -192,29 +230,67 @@
 			});
 		});
 
-		$(document).on('keyup','#se1', function() {
+		$(document).on('keyup', '#se1', function() {
 			var sh = $('#se1').val();
-			if(sh!=""&&sh!=null&&sh!=" "){
-			$.ajax({
-				url:"tradesystem/search",
-				datatype:"json",
-				type:"GET",
-				data : {
-					sh : sh
-				},
-				success : function(response) {
-					console.log("yes");
-					console.log(response);
-					var txt="";
-					$.map(response,function(v,index){
-						txt+=v.value+",";
+			if (sh != "" && sh != null && sh != " ") {
+				$.ajax({
+					url : "tradesystem/search",
+					datatype : "json",
+					type : "GET",
+					data : {
+						sh : sh
+					},
+					success : function(response) {
+						console.log("yes");
+						console.log(response);
+						var txt = "";
+						$.map(response, function(v, index) {
+							txt += v.value + ",";
 						});
-					$('#sp1').text(txt);
-				}
+						$('#sp1').text(txt);
+					}
 				});
 			}
 		})
 		
+		$(document).on('click','#search', function() {
+			console.log("search");
+			var search = $('#se1').val();
+			console.log(search);
+			
+			if (search != "" && search != null && search != " ") {
+				$.ajax({
+					url : "tradesystem/getSearch",
+					datatype : "json",
+					type : "POST",
+					data : {
+						search : search
+					},
+					beforesend:function(){
+						$('#d1').show();
+						},
+					success : function(response) {
+						console.log("yes1");
+						console.log(response);
+						console.log(response.length);
+						var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th colspan='2'>設定";
+						for (let i = 0; i < response.length; i++) {
+						txt += "<tr><td>"+ response[i].productId;
+						txt += "<td id='img'>"+ response[i].productImg;
+						txt += "<td>"+ response[i].productName;
+						txt += "<td>"+ response[i].productType;
+						txt += "<td>"+ response[i].inventory;
+						txt += "<td>"+ response[i].productPrice;
+						txt += "<td>"+ response[i].productTag;
+						txt += "<td>"+ response[i].productInfo;
+						txt += '<td><input type="button" id="add1" value="送出">';
+						txt += '<td><input type="button" id="delete" value="刪除">';
+						}	
+						$('#t1').html(txt);
+					}
+				});
+			};
+		})
 
 		$.fn.serializeObject = function() {
 			var o = {};

@@ -36,6 +36,7 @@ public class ProductController {
 	@RequestMapping(path = "/tradesystem/query", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONArray tsQuery() {
+		System.out.println("tsQuery");
 		return productService.query();
 	}
 	@RequestMapping(path = "/tradesystem/delete", method = RequestMethod.POST)
@@ -63,6 +64,12 @@ public class ProductController {
 	public JSONArray search(@RequestParam(value="sh") String a) {
 		System.out.println(a);
 		return productService.search(a);
+	}
+	@RequestMapping(path = "/tradesystem/getSearch", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONArray getSearch(@RequestParam(value="search") String a) {
+		System.out.println(a);
+		return productService.getSearch(a);
 	}
 
 	@RequestMapping(path = "/tradesystem", method = RequestMethod.GET)
