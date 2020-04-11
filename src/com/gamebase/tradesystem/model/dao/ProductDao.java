@@ -87,12 +87,20 @@ public class ProductDao implements IProductDao {
 	public boolean delete(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		try {
-			Game g1 = session.get(Game.class, id);
-			session.delete(g1);
+			Product p1 = session.get(Product.class, id);
+			System.out.println(p1.getProductId()+"11111");
+			 Query<Game> query = session.createQuery("from Game where productId=?1",Game.class);
+			 query.setParameter(1, p1.getProductId());
+			 List<Game> list = query.getResultList();
+			 for(Game g2:list) {
+				 session.delete(g2);
+			 }
+			
+			
 //			System.out.println(g1.getGameId());
 //			System.out.println(g1.getGameLevel());
 //			System.out.println(g1.getGameType());
-			Product p1 = session.get(Product.class, id);
+			
 //			System.out.println(p1.getProductId());
 //			System.out.println(p1.getProductName());
 //			System.out.println(p1.getProductPrice());

@@ -40,7 +40,7 @@ public class Game {
 //	@GenericGenerator(name = "generator",strategy = "foreign",
 //			parameters = @Parameter(name="property",value = "Product"))
 //	@GeneratedValue(generator = "generator")
-	@Id
+	
 	@Column(name = "PRODUCTID")
 	public int getProductId() {
 		return productId;
@@ -49,7 +49,7 @@ public class Game {
 	public void setProductId(int productId) {
 		this.productId = productId;
 	}
-
+	@Id
 	@Column(name = "GAMEID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getGameId() {
