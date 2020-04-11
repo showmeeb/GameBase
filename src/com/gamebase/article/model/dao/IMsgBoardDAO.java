@@ -9,7 +9,7 @@ public interface IMsgBoardDAO {
 
 	public MsgBoard queryOneMsg(MsgBoard mb);
 
-	public List<MsgBoard> querySomeMsg(MsgBoard mb);
+	public List<MsgBoard> queryParentMsg(MsgBoard mb);
 
 	public MsgBoard updateOneMsg(MsgBoard mb);
 

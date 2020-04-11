@@ -46,9 +46,10 @@ public class MsgBoardDAO implements IMsgBoardDAO {
 	}
 
 	@Override
-	public List<MsgBoard> querySomeMsg(MsgBoard mb) {
-		Query<MsgBoard> query = sessionFactory.getCurrentSession().createQuery("from MsgBoard where boardLocation=:boardLocation", MsgBoard.class)
-				.setParameter("boardLocation", mb.getBoardLocation());
+	public List<MsgBoard> queryParentMsg(MsgBoard mb) {
+		Query<MsgBoard> query = sessionFactory.getCurrentSession().createQuery("from MsgBoard where boardLocation=:boardLocation and parentId=:parentId", MsgBoard.class)
+				.setParameter("boardLocation", mb.getBoardLocation())
+				.setParameter("parentId", 0);
 		List<MsgBoard> list = query.list();
 		return list;
 	}
@@ -59,7 +60,7 @@ public class MsgBoardDAO implements IMsgBoardDAO {
 		result.setBoardTitle(mb.getBoardTitle());
 		result.setContent(mb.getContent());
 		sessionFactory.getCurrentSession().update(result);
-		return mb;
+		return result;
 	}
 
 	@Override

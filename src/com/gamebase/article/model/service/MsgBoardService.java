@@ -30,8 +30,8 @@ public class MsgBoardService implements IMsgBoardService {
 	}
 
 	@Override
-	public List<MsgBoard> querySomeMsg(MsgBoard mb) {
-		return mbDao.querySomeMsg(mb);
+	public List<MsgBoard> queryParentMsg(MsgBoard mb) {
+		return mbDao.queryParentMsg(mb);
 	}
 
 	@Override

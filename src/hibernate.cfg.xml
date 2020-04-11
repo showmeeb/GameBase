@@ -37,6 +37,7 @@
 		<mapping class="com.gamebase.article.model.ForumImg" />
 		<mapping class="com.gamebase.article.model.News" />
 		<mapping class="com.gamebase.article.model.MsgBoard" /><!-- for test -->
+		<mapping class="com.gamebase.article.model.Forum" /><!-- for test -->
 
 		<!-- WebSocket Area -->
 		<mapping class="com.gamebase.general.model.WebSocketMessage" />
