@@ -20,6 +20,29 @@
 			</tr>
 		</c:forEach>
 
+	<!-- new forum -->
+		<tr>
+			<td>${newForum.id}</td>
+			<td><a href="<c:url value="/forum/${newForum.forumName}"/>">${newForum.forumName}</td>
+			<td>${newForum.forumFigure}</td>
+		</tr>
 	</table>
+
+	<!-- insert new forum  -->
+	<hr>
+	<p>insert new forum</p>
+	<form action="<c:url value="/forum/add"/>" method="post">
+		<table>
+			<tr>
+				<td>Forum Name:</td>
+				<td><input type="text" name="forumName" /></td>
+			</tr>
+			<tr>
+				<td>Forum Figure:</td>
+				<td><input type="text" name="forumFigure" /></td>
+			</tr>
+		</table>
+		<input type="submit" value="submit" />
+	</form>
 </body>
 </html>

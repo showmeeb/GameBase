@@ -17,9 +17,9 @@ public class ArticleViewJavaConfig {
 //	}
 
 	@Bean
-	public View articleViewPage() {
+	public View parentArticleViewPage() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/article.jsp");
+		view.setUrl("/WEB-INF/pages/parentArticle.jsp");
 		return view;
 	}
 
@@ -27,6 +27,13 @@ public class ArticleViewJavaConfig {
 	public View forumViewPage() {
 		InternalResourceView view = new InternalResourceView();
 		view.setUrl("/WEB-INF/pages/forum.jsp");
+		return view;
+	}
+	
+	@Bean
+	public View childArticleViewPage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/childArticle.jsp");
 		return view;
 	}
 }

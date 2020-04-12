@@ -25,7 +25,7 @@
 	</div>
 	<br>
 	<div>
-		<a href="<c:url value="/goMsgBoard"/>">goMsgBoard</a>
+		<a href="<c:url value="/forum"/>">goMsgBoard</a>
 	</div>
 	<div>
 		<a href="<c:url value="/topBar"/>">topBar</a>

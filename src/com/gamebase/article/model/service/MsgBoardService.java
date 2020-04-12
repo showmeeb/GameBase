@@ -33,6 +33,11 @@ public class MsgBoardService implements IMsgBoardService {
 	public List<MsgBoard> queryParentMsg(MsgBoard mb) {
 		return mbDao.queryParentMsg(mb);
 	}
+	
+	@Override
+	public List<MsgBoard> queryArticlesByParentId(int parentId){
+		return mbDao.queryArticlesByParentId(parentId);
+	}
 
 	@Override
 	public MsgBoard updateOneMsg(MsgBoard mb) {
