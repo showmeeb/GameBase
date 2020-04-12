@@ -54,11 +54,11 @@ public class MemberController {
 		return "LoginFailedViewPage";
 	}
 
-//	
-//	@RequestMapping(value = "/gologin", method = RequestMethod.GET)
-//	public String showLoginPage() {		
-//		return "LoginFailedViewPage";
-//	}
+	
+	@RequestMapping(value = "/gologin", method = RequestMethod.GET)
+	public String showLoginPage() {		
+		return "LoginFailedViewPage";
+	}
 	@RequestMapping(value = "/goregister")
 	public String showRegisterPage() {
 		return "RegisterViewPage";
