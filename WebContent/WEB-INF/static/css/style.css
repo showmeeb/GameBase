@@ -1,0 +1,411 @@
+/* chat room area */
+.chat-room-area {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 650px;
+  height: 400px;
+  background-color: white;
+  border: 1px solid rgb(173, 173, 173);
+  z-index: 4;
+}
+
+.chat-room-hide {
+  right: -625px;
+  bottom: -375px;
+  border-radius: 10px 0 0 0;
+  overflow: hidden;
+}
+
+.chat-room-area #chat-room-fn-area {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 23px;
+  background-color: lightgrey;
+  border-bottom: 1px solid rgb(172, 172, 172);
+  z-index: 4;
+}
+
+.chat-room-area #chat-room-fn-area #chat-room-fn-btn-area {
+  float: right;
+  margin-right: 5px;
+  height: 100%;
+}
+
+.chat-room-area #chat-room-fn-area #chat-room-fn-btn-area i {
+  display: inline-block;
+  width: 20px;
+  height: 23px;
+  font-size: 14px;
+  line-height: 23px;
+  cursor: pointer;
+  transition: 0.7s;
+}
+
+
+
+.chat-room-area #chat-room-fn-area #chat-room-fn-btn-area i:hover {
+  color: red;
+  transition: 0.5s;
+}
+
+#chat-room-fn-area .fa-comments {
+  display: inline-block;
+  width: 20px;
+  height: 23px;
+  margin-left: 2px;
+  font-size: 14px;
+  line-height: 23px;
+  cursor: pointer;
+  transition: 0.7s;
+}
+
+#chat-room-fn-area .fa-comments:hover {
+  color: green;
+}
+
+.chat-room-area #chat-room-body {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: calc(100% - 23px);
+  z-index: 4;
+}
+
+.chat-room-area #chat-room-body #chat-room-users {
+  float: left;
+  margin: 0;
+  width: 40%;
+  height: 100%;
+  background-color: white;
+  border-right: 1px solid grey;
+  overflow: auto;
+}
+
+.chat-room-area #chat-room-body #chat-room-users .chat-room-user {
+  position: relative;
+  width: 100%;
+  height: 80px;
+  border-bottom: 1px solid lightgrey;
+}
+
+.chat-room-area #chat-room-body #chat-room-users .chat-room-user:hover {
+  background-color: rgb(230, 230, 230);
+}
+
+.chat-room-user .chat-user-icon {
+  display: inline-block;
+  width: 66px;
+  height: 66px;
+  margin: 7px;
+  border-radius: 30px;
+
+}
+
+.chat-room-user .chat-user-name {
+  position: absolute;
+  top: 7px;
+  left: 80px;
+  height: 20px;
+  max-width: 100px;
+  line-height: 20px;
+  font-size: 16px;
+  font-weight: 900;
+  overflow : hidden;
+  text-overflow : ellipsis;
+  white-space : nowrap;
+}
+
+.chat-room-user .chat-user-brief-message {
+  position: absolute;
+  top: 35px;
+  left: 80px;
+  font-size: 14px;
+  max-width: 120px;
+  overflow : hidden;
+  text-overflow : ellipsis;
+  white-space : nowrap;
+  color: grey;
+}
+
+.chat-room-user .chat-user-message-time {
+  position: absolute;
+  top: 7px;
+  right: 0;
+  padding-right: 5px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 12px;
+  color: grey;
+  text-align: right;
+}
+
+.chat-room-area #chat-room-body #chat-room-content {
+  position: relative;
+  float: right;
+  margin: 0;
+  width: 60%;
+  height: 100%;
+  background-image: url("/GameBase/img/MotoChat.png");
+  background-size: cover;
+}
+
+#chat-room-content #chat-header-area {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  padding-bottom: 10px;
+  border-bottom: 1px solid grey;
+  background-color: lightgrey;
+  height: 30px;
+}
+
+#chat-header-area #chat-header-name {
+  float: left;
+  width: 70%;
+  height: 30px;
+  line-height: 30px;
+  margin-left: 7px;
+  font-size: 18px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  
+}
+
+#chat-header-area i {
+  float: right;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.7s;
+}
+
+#chat-header-area i:hover {
+  color: red;
+  transition: 0.5s;
+}
+
+#chat-room-content #chat-message-area {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  width: 100%;
+  padding-bottom: 10px;
+  background-color: white;
+  height: calc(100% - 80px);
+  overflow: auto;
+}
+
+/* width */
+#chat-room-content #chat-message-area::-webkit-scrollbar,
+.chat-room-area #chat-room-body #chat-room-users::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+#chat-room-content #chat-message-area::-webkit-scrollbar-track,
+.chat-room-area #chat-room-body #chat-room-users::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 5px;
+}
+ 
+/* Handle */
+#chat-room-content #chat-message-area::-webkit-scrollbar-thumb,
+.chat-room-area #chat-room-body #chat-room-users::-webkit-scrollbar-thumb {
+  background: rgb(141, 141, 141); 
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+#chat-room-content #chat-message-area::-webkit-scrollbar-thumb:hover,
+.chat-room-area #chat-room-body #chat-room-users::-webkit-scrollbar-thumb:hover {
+  background: grey; 
+}
+
+
+.chat-messages {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  padding: 7px;
+}
+
+.chat-messages .chat-message-user-icon {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.chat-messages .chat-message {
+  display: flex;
+  background-color: lightgrey;
+  margin-left: 5px;
+  font-size: 18px;
+  padding: 5px 10px;
+  line-height: 30px;
+  max-width: 65%;
+  border-radius: 5px;
+  word-break: break-all;
+}
+
+.chat-messages .chat-time {
+  display: flex;
+  width: 40px;
+  font-size: 12px;
+  color: grey;
+  justify-content: center;
+  
+}
+
+.own-messages {
+  flex-direction: row-reverse;
+}
+
+.own-messages .chat-message {
+  background-color: lightgreen;
+}
+
+
+#chat-room-input-area {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  background-color: red;
+}
+
+#chat-room-input-area #chat-room-input {
+  width: 100%;
+  height: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 20px;
+  outline: none;
+}
+
+.chat-room-area .chat-room-friend-list-area {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 100%;
+  border: 1px solid lightgrey;
+  background-color: white;
+  z-index: 3;
+}
+
+.chat-room-area .friend-list-show {
+  top: 0;
+  left: -200px;
+}
+
+#friend-list-toggle-btn {
+  position: absolute;
+  top: 50%;
+  left: -15px;
+  width: 15px;
+  height: 30px;
+  margin-top: -15px;
+  background-color: rgb(173, 173, 173);
+  border-color: grey;
+  border: 1px 0 1px 1px; 
+  border-radius: 5px 0 0 5px;
+  cursor: pointer;
+  transition: 0.7s;
+}
+
+#friend-list-toggle-btn:hover {
+  background-color: grey;
+  transition: 0.5s;
+}
+
+#friend-list-toggle-btn:hover i {
+  color: red;
+  transition: 0.5s;
+}
+
+#friend-list-toggle-btn i {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
+  line-height: 30px;
+  color: black;
+  transition: 0.7s;
+}
+
+
+
+#chat-room-friend-list-header {
+  width: 100%;
+  height: 23px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 23px;
+  background-color: lightgrey;
+  border-bottom: 1px solid rgb(172, 172, 172);
+  border-right: 1px solid rgb(172, 172, 172);
+}
+
+.chat-room-friends {
+  clear: both;
+  width: 100%;
+}
+
+.chat-room-friend {
+  clear: both;
+  width: 100%;
+  height: 40px;
+  background-color: white;
+  border-bottom: 1px solid lightgrey;
+}
+
+.chat-room-friend:hover {
+  background-color: rgb(230, 230, 230);
+}
+
+.chat-room-friend .chat-room-friend-icon {
+  float: left;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  background-color: white;
+  margin: 5px;
+}
+
+.chat-room-friend .chat-room-friend-name {
+  float: left;
+  height: 40px;
+  max-width: 100px;
+  line-height: 40px;
+  font-size: 16px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space : nowrap;
+  overflow: hidden;
+}
+
+.chat-room-user-no {
+  display: none;
+}
+
+.chat-room-friend .chat-room-friend-online-light {
+  float: right;
+  width: 10px;
+  height: 10px;
+  margin: 15px;
+  background-color: springgreen;
+  border-radius: 5px;
+}

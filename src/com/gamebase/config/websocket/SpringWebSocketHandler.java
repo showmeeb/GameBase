@@ -14,14 +14,15 @@ public class SpringWebSocketHandler extends DefaultHandshakeHandler {
 	@Override
 	protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler,
 			Map<String, Object> attributes) {
-		String userId="-1";
+		String userNo="-1";
 		
+		/*拿取userId存成Principal的name*/
 		if(attributes.containsKey("UserData")) {
-			userId = ((UserData) attributes.get("UserData")).getUserId().toString();
+			userNo = ((UserData) attributes.get("UserData")).getUserId().toString();
 		}
 		
 		
-		return new SpringWebSocketPrincipal(userId);
+		return new SpringWebSocketPrincipal(userNo);
 	}
 
 	
