@@ -11,7 +11,7 @@ public class SpringWebSocketPrincipal implements Principal {
 	}
 
 	public SpringWebSocketPrincipal(String name) {
-		this.name = null;
+		this.name = name;
 	}
 
 	@Override

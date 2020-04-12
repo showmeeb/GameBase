@@ -8,12 +8,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h4>Register</h4>
+<h1>Register</h1>
 <form action="<c:url value="/registact"/>" method="POST">
-	Account:<input type="text" name="account"/><br><div>${accerr}</div>
-	Password:<input type="text" name="password"/><br><div>${pwderr}</div>
-	email:<input type="text" name="email"/><br><div>${emailerr}</div>
-	<input type="submit" value="submit"/>
+	Account:<input type="text" name="account"/>${accerr}<br>
+	Password:<input type="text" name="password"/>${pwderr}<br>
+	email:<input type="text" name="email"/>${emailerr}<br>
+	<input type="submit" value="submit"/>${registererr}
 </form>
 </body>
 </html>

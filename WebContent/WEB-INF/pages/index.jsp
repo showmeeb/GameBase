@@ -5,30 +5,66 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>GameBase</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Bootstrap -->
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	rel="stylesheet">
+<!-- jQuery library -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- javaScript -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<!-- Bootstrap -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<!-- WebSocket library -->
+<script src="https://d1fxtkz8shb9d2.cloudfront.net/sockjs-0.3.4.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<!-- mustache Template Engine library -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+<!-- main js -->
+<script src="<c:url value="/js/main.js"/>"></script>
+<!-- main style -->
+<link href="<c:url value="/css/style.css"/>" rel="stylesheet">
 </head>
 <body>
-	This is index
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+		<!-- Brand -->
+		<a class="navbar-brand" href="#">GameBase</a>
 
-	<div>
-		<form action="<c:url value="/loginact"/>" method="Post">
-			Account:<input type="text" name="account">${accerr}<br>
-			Password:<input type="password" name="password">${pwderr}<br>
-			<input type="submit" value="Login">${loginerr}
-		</form>
-		<a href="<c:url value="/goregister"/>">註冊</a>
-	</div>
+		<!-- Links -->
+		<ul class="navbar-nav">
+			<li class="nav-item dropdown"><a
+				class="nav-link dropdown-toggle" href="#" id="navbardrop"
+				data-toggle="dropdown">商城</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item" href="<c:url value="/tradesystem"/>">登記商品</a>
+					<a class="dropdown-item" href="<c:url value="/mainProduct"/>">商品管理</a>
+					<a class="dropdown-item" href="#"></a>
+				</div></li>
+			<!-- Dropdown -->
+			<li class="nav-item dropdown"><a
+				class="nav-link dropdown-toggle" href="#" id="navbardrop"
+				data-toggle="dropdown">會員系統</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item" href="<c:url value="/gologin"/>">登入</a> <a
+						class="dropdown-item" href="<c:url value="/goregister"/>">註冊</a> <a
+						class="dropdown-item" href="#">管理個人資料</a>
+				</div></li>
+			<li class="nav-item"><a class="nav-link"
+				href="<c:url value="/goMsgBoard"/>">討論區</a></li>
+			<li class="nav-item"><a class="nav-link"
+				href="<c:url value="/topBar"/>">TopBar</a></li>
+		</ul>
+	</nav>
 	<br>
-	<div>
-		<a href="<c:url value="/tradesystem"/>">登記商品</a>
-		<a href="<c:url value="/mainProduct"/>">商品管理</a>
-	</div>
-	<br>
-	<div>
-		<a href="<c:url value="/forum"/>">goMsgBoard</a>
-	</div>
-	<div>
-		<a href="<c:url value="/topBar"/>">topBar</a>
-	</div>
+	<!-- Start Chat Room Area -->
+	<%@ include file="include/chatRoom.jsp"%>
+	<!-- End Chat Room Area -->
 </body>
 </html>

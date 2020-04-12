@@ -16,7 +16,7 @@
                 document.getElementById('response').innerHTML = '';
             }
              
-            function connect() {
+            function connectChatroom() {
                 var socket = new SockJS('GameBase/chat');
                 stompClient = Stomp.over(socket);  
                 stompClient.connect({}, function(frame) {

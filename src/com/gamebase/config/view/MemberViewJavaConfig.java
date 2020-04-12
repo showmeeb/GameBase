@@ -9,33 +9,17 @@ import org.springframework.web.servlet.view.InternalResourceView;
 public class MemberViewJavaConfig {
 
 	@Bean
-	public View LoginSuccessViewPage() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/index.jsp");
-		return view;
-	}
-	@Bean
-	public View LoginFailedViewPage() {
+	public View LoginViewPage() {
 		InternalResourceView view = new InternalResourceView();
 		view.setUrl("/WEB-INF/pages/UserLogin.jsp");
 		return view;
 	}
+
 	@Bean
 	public View RegisterViewPage() {
 		InternalResourceView view = new InternalResourceView();
 		view.setUrl("/WEB-INF/pages/Register.jsp");
 		return view;
 	}
-	@Bean
-	public View RegistFailedViewPage() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/Register.jsp");
-		return view;
-	}
-	
-	public View RegistSuccessViewPage() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/index.jsp");
-		return view;
-	}
+
 }
