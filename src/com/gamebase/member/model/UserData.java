@@ -34,6 +34,11 @@ public class UserData {
 	public UserData() {
 	}
 
+	public UserData(String account,String email) {
+		this.account=account;
+		this.email=email;
+	}
+	
 	@Id
 	@Column(name = "USERID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

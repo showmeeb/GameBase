@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserOrder {
 	private int userId;
+	private String uuId;
 	private int orderId;
 	private String name;
 	private String orderAddress;
@@ -25,8 +26,9 @@ public class UserOrder {
 	public UserOrder() {
 	}
 
-	public UserOrder(int userId,String name, String orderAddress, int orderPrice, Date orderDate) {
+	public UserOrder(int userId,String uuId,String name, String orderAddress, int orderPrice, Date orderDate) {
 		this.userId = userId;
+		this.setUuId(uuId);
 		this.name=name;
 		this.orderAddress = orderAddress;
 		this.orderPrice = orderPrice;
@@ -40,6 +42,14 @@ public class UserOrder {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+	@Column(name = "uuId")
+	public String getUuId() {
+		return uuId;
+	}
+
+	public void setUuId(String uuId) {
+		this.uuId = uuId;
 	}
 
 	@Id
@@ -88,6 +98,8 @@ public class UserOrder {
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
 	}
+
+	
 
 	
 

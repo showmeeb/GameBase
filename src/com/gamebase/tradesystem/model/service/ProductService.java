@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gamebase.tradesystem.model.Product;
 import com.gamebase.tradesystem.model.dao.ProductDao;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-@Service("PDS")
+@Service
 @Transactional
 public class ProductService {
 	private ProductDao productDao;
@@ -45,4 +46,7 @@ public class ProductService {
 		return productDao.getSearch(a);
 	}
 
+	public void addProduct(Product product) {
+		productDao.addProduct(product);
+	}
 }

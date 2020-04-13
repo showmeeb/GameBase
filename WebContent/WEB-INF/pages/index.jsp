@@ -36,6 +36,8 @@
 <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
 </head>
 <body>
+<h1>${UserData.account}</h1>
+
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<!-- Brand -->
 		<a class="navbar-brand" href="#">GameBase</a>
@@ -48,6 +50,7 @@
 				<div class="dropdown-menu">
 					<a class="dropdown-item" href="<c:url value="/tradesystem"/>">登記商品</a>
 					<a class="dropdown-item" href="<c:url value="/mainProduct"/>">商品管理</a>
+					<a class="dropdown-item" href="<c:url value="/shoppingPage"/>">商城頁面</a>
 					<a class="dropdown-item" href="#"></a>
 				</div></li>
 			<!-- Dropdown -->

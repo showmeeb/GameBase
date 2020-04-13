@@ -14,6 +14,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gamebase.tradesystem.model.Product;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 @Repository
 public class TagSearchDAO {
 
@@ -82,6 +85,8 @@ public class TagSearchDAO {
 			hqlStr += fieldNameArray[i] + " like :field" + i + " or ";
 		}
 
+		
+		
 		Query query = session.createQuery(hqlStr);
 
 		for (int i = 0; i < keywordArray.length; i++) {
@@ -101,6 +106,31 @@ public class TagSearchDAO {
 			e.printStackTrace();
 		}
 
+		System.out.println(jsonString);
+		
 		return jsonString;
 	}
+	
+
+	public JSONArray showProduct(String keyword) {
+
+		Session session = sessionFactory.getCurrentSession();
+		JSONArray jsonArray = new JSONArray();
+			List<Product> list = session.createQuery("From Product where productTag like'%" + keyword + "%'", Product.class).list();
+			for (Product beans:list) {
+				JSONObject jobj = new JSONObject();
+				jobj.put("productId", beans.getProductId());
+				jobj.put("productImg", beans.getProductImg());
+				jobj.put("productName", beans.getProductName());
+				jobj.put("productType", beans.getProductType());
+				jobj.put("inventory", beans.getInventory());
+				jobj.put("productPrice", beans.getProductPrice());
+				jobj.put("productTag", beans.getProductTag());
+				jobj.put("productInfo", beans.getProductInfo());
+				jsonArray.add(jobj);
+			}	
+		return jsonArray;
+	}
+	
+	
 }

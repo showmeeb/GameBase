@@ -15,7 +15,7 @@ import com.gamebase.tradesystem.model.Product;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-@Repository("PDD")
+@Repository
 public class ProductDao implements IProductDao {
 	private SessionFactory sessionFactory;
 
@@ -176,5 +176,11 @@ public class ProductDao implements IProductDao {
 		}
 		System.out.println(jarray + "1");
 		return jarray;
+	}
+
+	@Override
+	public void addProduct(Product product) {
+		Session session = sessionFactory.getCurrentSession();
+		session.save(product);		
 	}
 }
