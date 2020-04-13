@@ -64,4 +64,7 @@ public class UserDataService {
 		return rankDao.getAllRank();
 	}
 
+	public UserData getByAccount(String account) {
+		return udDao.getByAccount(account);
+	}
 }

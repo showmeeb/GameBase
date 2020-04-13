@@ -21,5 +21,12 @@ public class MemberViewJavaConfig {
 		view.setUrl("/WEB-INF/pages/Register.jsp");
 		return view;
 	}
+	
+	@Bean
+	public View SendMailPage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/sendPage.jsp");
+		return view;
+	}
 
 }

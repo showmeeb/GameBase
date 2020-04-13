@@ -2,16 +2,22 @@ package com.gamebase.member.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.gamebase.member.model.MailInfo;
 import com.gamebase.member.model.Role;
 import com.gamebase.member.model.UserData;
+import com.gamebase.member.model.dao.MailSender;
 import com.gamebase.member.model.service.UserDataService;
 
 @Controller
@@ -54,7 +60,7 @@ public class MemberController {
 
 	@RequestMapping(value = "/registact", method = RequestMethod.POST)
 	public String insertData(@RequestParam("account") String acc, @RequestParam("password") String pwd,
-			@RequestParam("email") String email, Map<String, Object> map, ModelMap model) {
+			@RequestParam("email") String email, Map<String, Object> map, HttpServletRequest request) {
 		if (uService.checkAccount(acc)) {
 			map.put("registererr", "account already registered.");
 		}
@@ -76,10 +82,90 @@ public class MemberController {
 		ud.setPassword(pwd);
 		ud.setEmail(email);
 		uService.saveUserData(ud);
-		//default rank 'Uncertified'
-		Role role = new Role(uService.getByLogin(acc, pwd),uService.getByRankId(1));
+		// default rank 'Uncertified'
+		Role role = new Role(uService.getByLogin(acc, pwd), uService.getByRankId(1));
 		uService.changeRole(role);
-		
-		return "LoginViewPage";
+
+		int i = (int) (Math.random() * (99999999 - 1000 + 1) + 1000);
+		String registerId = "" + i;
+		System.out.println(registerId);
+		String url = "http://localhost:8080/GameBase/mailback/" + registerId;
+
+		HttpSession session = request.getSession();
+		session.setAttribute(registerId, acc);
+		session.setMaxInactiveInterval(600);
+
+		String content = acc + "(" + email + "),您好<br/>感谢您註冊GameBase!<br/>" + "<b>驗證您的註冊信箱</b><br/>請點擊鏈結來確認您的註冊<br/>"
+				+ "<a href='" + url + "'>確認!請點擊這裡來驗證您的信箱</a><br/>"
+				+ "如果您不能點擊上述標籤為“確認！”的鏈接，您還可以通過複製（或輸入）下面的URL到地址欄中來驗證您的郵件地址。" + "<a href='" + url + "'>" + url
+				+ "</a><br/>" + "如果您認為這是垃圾郵件，請忽略此郵件。";
+
+		MailInfo mailInfo = new MailInfo();
+
+		mailInfo.setMailSmtpHost("smtp.gmail.com");
+		mailInfo.setFromAddress("z0983177929@gmail.com");
+		mailInfo.setToAddress(email);
+		mailInfo.setMailSmtpPort("587");
+		mailInfo.setUserName("z0983177929@gmail.com");
+		mailInfo.setPassword("K98david");
+		mailInfo.setValidate(true);
+		mailInfo.setSubject("GameBase verification");
+		mailInfo.setContent(content);
+
+		MailSender.sendMail(mailInfo, true);
+		request.setAttribute("userName", acc);
+		request.setAttribute("email", email);
+
+		return "SendMailPage";
+	}
+
+	@RequestMapping(value = "/gmailregister", method = RequestMethod.POST)
+	public String reSendMail(@RequestParam("account") String acc, @RequestParam("email") String email,
+			HttpServletRequest request) {
+
+		String registerId = "" + Math.random() * Math.random();
+		String url = "http://localhost:8080/GameBase/mailback/" + registerId;
+
+		HttpSession session = request.getSession();
+		session.setAttribute(registerId, acc);
+		session.setMaxInactiveInterval(600);
+
+		String content = acc + "(" + email + "),您好<br/>感谢您註冊GameBase!<br/>" + "<b>驗證您的註冊信箱</b><br/>請點擊鏈結來確認您的註冊<br/>"
+				+ "<a href='" + url + "'>確認!請點擊這裡來驗證您的信箱</a><br/>"
+				+ "如果您不能點擊上述標籤為“確認！”的鏈接，您還可以通過複製（或輸入）下面的URL到地址欄中來驗證您的郵件地址。" + "<a href='" + url + "'>" + url
+				+ "</a><br/>" + "如果您認為這是垃圾郵件，請忽略此郵件。";
+
+		MailInfo mailInfo = new MailInfo();
+
+		mailInfo.setMailSmtpHost("smtp.gmail.com");
+		mailInfo.setFromAddress("z0983177929@gmail.com");
+		mailInfo.setToAddress(email);
+		mailInfo.setMailSmtpPort("587");
+		mailInfo.setUserName("z0983177929@gmail.com");
+		mailInfo.setPassword("K98david");
+		mailInfo.setValidate(true);
+		mailInfo.setSubject("GameBase verification");
+		mailInfo.setContent(content);
+
+		MailSender.sendMail(mailInfo, true);
+		request.setAttribute("userName", acc);
+		request.setAttribute("email", email);
+
+		return "SendMailPage";
+	}
+
+	@RequestMapping(value = "/mailback/{registerId}", method = RequestMethod.GET)
+	public String mailback(@PathVariable("registerId") String registerId, HttpServletRequest request) {
+		if (registerId == null) {
+			return "indexPage";
+		}
+		String registerName = (String) request.getSession().getAttribute(registerId);
+		if (registerName == null || registerName.equals("")) {
+			return "indexPage";
+		}
+		Role role = new Role(uService.getByAccount(registerName), uService.getByRankId(2));
+		uService.changeRole(role);
+		request.getSession().invalidate();
+		return "indexPage";
 	}
 }

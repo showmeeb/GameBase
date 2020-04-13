@@ -74,5 +74,15 @@ public class UserDataDAO implements IUserData {
 		sessionFactory.getCurrentSession().save(userData);
 
 	}
+	
+	public UserData getByAccount(String account) {
+		Query<UserData> query = sessionFactory.getCurrentSession().createQuery("From UserData where account=:acc",UserData.class);
+		query.setParameter("acc", account);
+		UserData myUserData=query.uniqueResult();
+		if(myUserData!=null) {
+			return myUserData;
+		}
+		return null;
+	}
 
 }
