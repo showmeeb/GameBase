@@ -5,6 +5,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.gamebase.tradesystem.model.Product;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -51,6 +53,13 @@ public class UserOrderDao implements IProductDao {
 	public JSONArray getSearch(String a) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	@Override
+	public void addProduct(Product product) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
