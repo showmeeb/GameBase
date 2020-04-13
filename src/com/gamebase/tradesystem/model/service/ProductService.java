@@ -9,7 +9,7 @@ import com.gamebase.tradesystem.model.dao.ProductDao;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-@Service("PDS")
+@Service
 @Transactional
 public class ProductService {
 	private ProductDao productDao;

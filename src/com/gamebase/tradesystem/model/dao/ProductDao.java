@@ -15,7 +15,7 @@ import com.gamebase.tradesystem.model.Product;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-@Repository("PDD")
+@Repository
 public class ProductDao implements IProductDao {
 	private SessionFactory sessionFactory;
 
