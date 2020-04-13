@@ -3,6 +3,10 @@
 <!doctype html>
 <html lang="en">
 <head>
+
+<style>
+img{width: 50px }
+</style>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
@@ -65,7 +69,7 @@
 		</div>
 	</nav>
 	<ul class="nav justify-content-center">
-		<li class="nav-item"><a class="nav-link active" href="#">Host</a></li>
+		<li class="nav-item"><img  src="https://i.imgur.com/pnzStW7.png">Switch</li>
 		<li class="nav-item"><a class="nav-link" href="#">Game</a></li>
 		<li class="nav-item"><img alt="" src="/WEB-INF/images/ns.png"></li>
 		<li class="nav-item"><a class="nav-link disabled" href="#"
