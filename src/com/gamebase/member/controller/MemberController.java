@@ -1,5 +1,8 @@
 package com.gamebase.member.controller;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Collections;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,14 +22,69 @@ import com.gamebase.member.model.Role;
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.dao.MailSender;
 import com.gamebase.member.model.service.UserDataService;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
 @Controller
 @SessionAttributes(names = "UserData")
 public class MemberController {
+	private static String client_id = "982957556355-9h99fuvvivi52g599iucre1v04ktheh0.apps.googleusercontent.com";
 
 	@Autowired
 	private UserDataService uService;
 
+	@RequestMapping(value = "/googleVerify", method = RequestMethod.POST)
+	public boolean verifyToken(String idtokenstr,ModelMap model) {
+		System.out.println(idtokenstr);
+		GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
+				new NetHttpTransport(), JacksonFactory.getDefaultInstance())
+				.setAudience(Collections.singletonList(client_id)).build();
+		GoogleIdToken idToken = null;
+		try {
+			idToken = verifier.verify(idtokenstr);
+		} catch (GeneralSecurityException e) {
+			System.out.println("GeneralSecurityException");
+		} catch (IOException e) {
+			System.out.println("IOException");
+		}
+		if (idToken != null) {
+			System.out.println("success.");
+			Payload payload = idToken.getPayload();
+			String userId = payload.getSubject();
+			System.out.println("User ID: " + userId);
+			String email = payload.getEmail();
+			System.out.println("email: " + email);
+			
+			if(uService.checkAccount(userId)) {
+				UserData gmailUser = uService.getByAccount(userId);
+				model.addAttribute("UserData", gmailUser);
+			}else {
+				uService.saveUserData(new UserData(userId,email));
+				UserData gmailUser = uService.getByAccount(userId);
+				Role role = new Role(gmailUser, uService.getByRankId(2));
+				uService.changeRole(role);
+				
+				model.addAttribute("UserData", gmailUser);
+			}
+			
+			return true;
+//			boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
+//			String name = (String) payload.get("name");
+//			System.out.println("name: " + name);
+//			String pictureUrl = (String) payload.get("picture");
+//			String locale = (String) payload.get("locale");
+//			String familyName = (String) payload.get("family_name");
+//			String givenName = (String) payload.get("given_name");
+		} else {
+			System.out.println("Invalid ID token.");
+		}
+		return false;
+		
+	}
+	
 	@RequestMapping(value = "/loginact", method = RequestMethod.POST)
 	public String loginAction(@RequestParam("account") String acc, @RequestParam("password") String pwd,
 			Map<String, Object> map, ModelMap model) {
@@ -56,6 +114,11 @@ public class MemberController {
 	@RequestMapping(value = "/goregister")
 	public String showRegisterPage() {
 		return "RegisterViewPage";
+	}
+	
+	@RequestMapping(value = "/index")
+	public String goindex() {
+		return "indexPage";
 	}
 
 	@RequestMapping(value = "/registact", method = RequestMethod.POST)
