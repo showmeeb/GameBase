@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -54,10 +55,52 @@ public class TagSearchDAO {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		System.out.println(jsonString);
 
 		return jsonString;
 
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public String tagSearchByFuzzy(String tableName, String fieldName, String keyword) {
+
+		String jsonString = null;
+
+		Session session = sessionFactory.getCurrentSession();
+
+		Set searchSet = new LinkedHashSet();
+
+		String[] fieldNameArray = fieldName.split("\\s+|,");
+		String[] keywordArray = keyword.split("\\s+|,");
+
+		String hqlStr = "From " + tableName + " where ";
+
+		for (int i = 0; i < fieldNameArray.length; i++) {
+			if (i + 1 == fieldNameArray.length) {
+				hqlStr += fieldNameArray[i] + " like :field" + i + "";
+				continue;
+			}
+			hqlStr += fieldNameArray[i] + " like :field" + i + " or ";
+		}
+
+		Query query = session.createQuery(hqlStr);
+
+		for (int i = 0; i < keywordArray.length; i++) {
+			for (int j = 0; j < fieldNameArray.length; j++) {
+				query.setParameter("field" + j, "%" + keywordArray[i] + "%");
+			}
+			List list = query.list();
+
+			for (int j = 0; j < list.size(); j++) {
+				searchSet.add(list.get(j));
+			}
+		}
+
+		try {
+			jsonString = new ObjectMapper().writeValueAsString(searchSet);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+
+		return jsonString;
+	}
 }

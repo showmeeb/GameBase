@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="BIG5">
+<meta charset="UTF-8">
 <title>GameBase遊戲基地</title>
 <style>
 * {
@@ -46,7 +46,7 @@
 
 .searchInput {
 	width: 70%;
-	height: 100%;
+	height: 50%;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	font-size: 30px;
@@ -82,12 +82,14 @@
 	<nav class="topBar">
 		<div class="logo">LOGO</div>
 		<div class="searchBar">
-			<form action="<c:url value="/tagSearch"/>" class="searchForm">
+			<form action="<c:url value="/tagSearch"/>" method="get"
+				class="searchForm">
 				<select name="looking">
 					<option value="forProduct">找商品</option>
 					<option value="foForumr">找論壇</option>
-				</select> <input class="searchInput" type="text" name="keyword"> <input
-					type="submit" value="搜尋" class="searchButton">
+				</select> <input class="searchInput" type="text" name="keyword"
+					value="${keyword}"> <input type="submit" value="搜尋"
+					class="searchButton">
 			</form>
 		</div>
 		<div class="signpost">
