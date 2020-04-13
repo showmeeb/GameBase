@@ -13,13 +13,12 @@ import com.gamebase.member.model.UserData;
 
 @Repository
 public class UserDataDAO implements IUserData {
-	@Autowired
+	
 	private SessionFactory sessionFactory;
-
-	/**
-	 * @param account , password
-	 * @return UserData , null
-	 */
+	@Autowired
+	public UserDataDAO(@Qualifier(value="sessionFactory")SessionFactory sessionFactory) {
+		this.sessionFactory=sessionFactory;
+	}
 	@Override
 	public UserData getByLogin(String account, String password) {
 		Query<UserData> query = sessionFactory.getCurrentSession()

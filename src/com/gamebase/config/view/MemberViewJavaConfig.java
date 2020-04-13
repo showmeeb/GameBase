@@ -28,5 +28,25 @@ public class MemberViewJavaConfig {
 		view.setUrl("/WEB-INF/pages/sendPage.jsp");
 		return view;
 	}
+	
+	@Bean
+	public View CreateProfilePage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/userProfileCreate.jsp");
+		return view;
+	}
+	
+	@Bean
+	public View CreateProfileSuccessPage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/index.jsp");
+		return view;
+	}
+	@Bean
+	public View UpdateProfilePage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/userProfileUpdate.jsp");
+		return view;
+	}
 
 }

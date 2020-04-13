@@ -24,7 +24,7 @@
 		<mapping class="com.gamebase.member.model.UserData" />
 		<mapping class="com.gamebase.member.model.Role" />
 		<mapping class="com.gamebase.member.model.Rank" />
-		<!-- <mapping class="com.gamebase.member.model.UserProfile" /> -->
+		<mapping class="com.gamebase.member.model.UserProfile" />
 
 		<!-- TradeSystem Area -->
 		<mapping class="com.gamebase.tradesystem.model.Game" />
