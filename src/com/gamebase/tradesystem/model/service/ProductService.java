@@ -20,22 +20,21 @@ public class ProductService {
 		this.productDao = productDao;
 	}
 
-	public boolean add(JSONObject jobj) {
-		return productDao.add(jobj);
+	public JSONObject add(String form) {
+		return productDao.add(form);
 	}
 
 	public JSONArray query() {
 		return productDao.query();
 	}
 
-	public boolean delete(int id) {
-		boolean t = productDao.delete(id);
-		return t;
+	public JSONObject delete(int id) {
+		return productDao.delete(id);
 	}
 
-	public boolean update(JSONObject jobj) {
-		boolean t = productDao.update(jobj);
-		return t;
+	public JSONObject update(String b) {
+		
+		return productDao.update(b);
 	}
 
 	public JSONArray search(String a) {
@@ -46,7 +45,4 @@ public class ProductService {
 		return productDao.getSearch(a);
 	}
 
-	public void addProduct(Product product) {
-		productDao.addProduct(product);
-	}
 }

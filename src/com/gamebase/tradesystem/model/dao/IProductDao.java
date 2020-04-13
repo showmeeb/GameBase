@@ -6,11 +6,11 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public interface IProductDao {
-	public boolean add(JSONObject jobj);
+	public JSONObject add(String form);
 	public JSONArray query();
-	public boolean delete(int id);
-	public boolean update(JSONObject jobj);
+	public JSONObject delete(int id);
+	public JSONObject update(String b);
 	public JSONArray search(String a);
 	public JSONArray getSearch(String a);
-	public void addProduct(Product product);
+
 }

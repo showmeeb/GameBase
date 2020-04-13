@@ -24,7 +24,6 @@ public class ShoppingController {
 	@ResponseBody
 	public JSONArray showProduct(@RequestParam(value = "type") String type) {
 		System.out.println(type);
-		
 		return shoppingService.showProduct(type);
 	}
 	

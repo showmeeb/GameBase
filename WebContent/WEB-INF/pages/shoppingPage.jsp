@@ -74,19 +74,23 @@ img{width: 50px }
 					tabindex="-1" aria-disabled="true">Disabled</a></li>
 			</ul>
 			<form class="form-inline my-2 my-lg-0">
-				<input class="form-control mr-sm-2" type="search"
+				<input id="se1" class="form-control mr-sm-2" type="search"
 					placeholder="Search" aria-label="Search">
+					<select id="se1">
+					</select>
 				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 			</form>
 		</div>
 	</nav>
-<<<<<<< HEAD:WebContent/WEB-INF/pages/shoppingPage.jsp
+
 	<div id="du1">
 		<ul class="nav justify-content-center">
-			<li id="sp" class="nav-item" role="button" tabindex="0"
+			<li id="swp" class="nav-item" role="button" tabindex="0"
 				aria-pressed="true"><img src="https://i.imgur.com/ilWFjYW.png"></li>
-			<li class="nav-item"><img src="https://i.imgur.com/chcSF3h.png"></li>
-			<li class="nav-item"><img src="https://i.imgur.com/pnzStW7.png"></li>
+			<li id="psp" class="nav-item"  role="button" tabindex="0"
+				aria-pressed="true"><img src="https://i.imgur.com/chcSF3h.png"></li>
+			<li id="pcp" class="nav-item"  role="button" tabindex="0"
+				aria-pressed="true"><img src="https://i.imgur.com/pnzStW7.png"></li>
 			<!-- <li class="nav-item"><a class="nav-link disabled" href="#"
 			tabindex="-1" aria-disabled="true">Disabled</a></li> -->
 		</ul>
@@ -96,8 +100,22 @@ img{width: 50px }
 	</div>
 
 	<script type="text/javascript">
+	function showtable(response) {
+						var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹";
+						for (let i = 0; i < response.length; i++) {
+							txt += "<tr><td>" + response[i].productId;
+							txt += "<td id='img'><img src='"+response[i].productImg+"'>";
+							txt += "<td>" + response[i].productName;
+							txt += "<td>" + response[i].productType;
+							txt += "<td>" + response[i].inventory;
+							txt += "<td>" + response[i].productPrice;
+							txt += "<td>" + response[i].productTag;
+							txt += "<td>" + response[i].productInfo;
+						}
+						$('#t1').html(txt);		
+	}
 		
-		$(document).on('click', '#sp', function() {
+		$(document).on('click', '#swp', function() {
 			var type = "switch";
 			$.ajax({
 				url : "shopping/switchProduct",
@@ -111,21 +129,68 @@ img{width: 50px }
 					var response = JSON.parse(JSON.stringify(response))
 					console.log(response);
 					console.log("yes");
-					var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th colspan='2'>設定";
-					for (let i = 0; i < response.length; i++) {
-						txt += "<tr><td>" + response[i].productId;
-						txt += "<td id='img'><img src='"+response[i].productImg+"'>";
-						txt += "<td>" + response[i].productName;
-						txt += "<td>" + response[i].productType;
-						txt += "<td>" + response[i].inventory;
-						txt += "<td>" + response[i].productPrice;
-						txt += "<td>" + response[i].productTag;
-						txt += "<td>" + response[i].productInfo;
-
-					}
-					$('#t1').html(txt);
+					showtable(response);
 				}
 			});
+		})
+		$(document).on('click', '#psp', function() {
+			var type = "PS";
+			$.ajax({
+				url : "shopping/switchProduct",
+				datatype : "text",
+				type : "POST",
+				data : {
+					type : type
+				},
+				success : function(response) {
+					console.log(response);
+					var response = JSON.parse(JSON.stringify(response))
+					console.log(response);
+					console.log("yes");
+					showtable(response);
+				}
+			});
+		})
+		$(document).on('click', '#pcp', function() {
+			var type = "pc";
+			$.ajax({
+				url : "shopping/switchProduct",
+				datatype : "text",
+				type : "POST",
+				data : {
+					type : type
+				},
+				success : function(response) {
+					console.log(response);
+					var response = JSON.parse(JSON.stringify(response))
+					console.log(response);
+					console.log("yes");
+					showtable(response);
+				}
+			});
+		})
+		
+		$(document).on('keyup', '#se1', function() {
+			var sh = $('#se1').val();
+			if (sh != "" && sh != null && sh != " ") {
+				$.ajax({
+					url : "tradesystem/search",
+					datatype : "json",
+					type : "GET",
+					data : {
+						sh : sh
+					},
+					success : function(response) {
+						console.log("yes");
+						console.log(response);
+						var txt = "";
+						$.map(response, function(v, index) {
+							txt +="<option>"+v.value;
+						});
+						$('#se1').html(txt);
+					}
+				});
+			}
 		})
 	</script>
 
