@@ -22,12 +22,19 @@ public class GeneralViewJavaConfig {
 		view.setUrl("/");
 		return view;
 	}
-	
+
 	@Bean
 	public View topBar() {
 		InternalResourceView view = new InternalResourceView();
 		view.setUrl("/WEB-INF/pages/topBar.jsp");
 		return view;
 	}
-	
+
+	@Bean
+	public View searchResults() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/searchResults.jsp");
+		return view;
+	}
+
 }
