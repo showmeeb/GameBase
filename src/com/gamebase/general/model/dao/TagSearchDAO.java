@@ -85,6 +85,8 @@ public class TagSearchDAO {
 			hqlStr += fieldNameArray[i] + " like :field" + i + " or ";
 		}
 
+		
+		
 		Query query = session.createQuery(hqlStr);
 
 		for (int i = 0; i < keywordArray.length; i++) {
@@ -104,6 +106,8 @@ public class TagSearchDAO {
 			e.printStackTrace();
 		}
 
+		System.out.println(jsonString);
+		
 		return jsonString;
 	}
 	

@@ -177,4 +177,10 @@ public class ProductDao implements IProductDao {
 		System.out.println(jarray + "1");
 		return jarray;
 	}
+
+	@Override
+	public void addProduct(Product product) {
+		Session session = sessionFactory.getCurrentSession();
+		session.save(product);		
+	}
 }

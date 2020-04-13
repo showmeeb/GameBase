@@ -3,6 +3,10 @@
 <!doctype html>
 <html lang="en">
 <head>
+
+<style>
+img{width: 50px }
+</style>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
@@ -76,6 +80,7 @@
 			</form>
 		</div>
 	</nav>
+<<<<<<< HEAD:WebContent/WEB-INF/pages/shoppingPage.jsp
 	<div id="du1">
 		<ul class="nav justify-content-center">
 			<li id="sp" class="nav-item" role="button" tabindex="0"

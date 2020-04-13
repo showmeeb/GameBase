@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gamebase.tradesystem.model.Product;
 import com.gamebase.tradesystem.model.service.ProductService;
+import com.google.gson.Gson;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -25,12 +27,15 @@ public class ProductController {
 	@RequestMapping(path = "/tradesystem/add", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject tsAdd(@RequestParam(value = "form") String form) {
-		JSONObject jo = JSONObject.fromObject(form);
-		System.out.println(jo);
-		System.out.println(form);
-		boolean t = productService.add(jo);
+		Product get = new Gson().fromJson(form, Product.class);
+		productService.addProduct(get);
+		
+//		JSONObject jo = JSONObject.fromObject(form);
+//		System.out.println(jo);
+//		System.out.println(form);
+//		boolean t = productService.add(jo);
 		JSONObject result = new JSONObject();
-		result.put("t", t);
+//		result.put("t", t);
 		return result;
 	}
 	@RequestMapping(path = "/tradesystem/query", method = RequestMethod.POST)
