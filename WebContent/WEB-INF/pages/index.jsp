@@ -63,6 +63,8 @@
 		</ul>
 	</nav>
 	<br>
+	<!-- login and regist pop up windows (with shadow) -->
+   	<%@ include file="include/loginArea.jsp" %>
 	<!-- Start Chat Room Area -->
 	<%@ include file="include/chatRoom.jsp"%>
 	<!-- End Chat Room Area -->

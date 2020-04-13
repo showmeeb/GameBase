@@ -9,8 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 //import java.util.HashSet;
 //import java.util.Set;
@@ -68,7 +71,7 @@ public class UserData {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
+	@Transient
 	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "userData")
 	public Role getRole() {
 		return role;
