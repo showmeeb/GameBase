@@ -5,6 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta  http-equiv="Expires"  CONTENT="0">   
+<meta  http-equiv="Cache-Control"  CONTENT="no-cache">
+<meta  http-equiv="Pragma"  CONTENT="no-cache">
 <title>GameBase</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Bootstrap -->
