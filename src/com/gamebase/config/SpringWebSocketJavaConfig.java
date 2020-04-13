@@ -38,4 +38,6 @@ public class SpringWebSocketJavaConfig implements WebSocketMessageBrokerConfigur
 		container.setMaxBinaryMessageBufferSize(8192); 
 		return container;
 	}
+	
+	
 }

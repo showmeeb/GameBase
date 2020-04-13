@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>this is XXX forum page</title>
+<title>this is ${forumName} forum page</title>
 <script
 	src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
 </head>
@@ -29,7 +29,7 @@
 				<table>
 					<tr>
 						<td>this is a figure</td>
-						<td><a href="<c:url value="/${forumName}/${item.id}"/>">${item.boardTitle}</a><br />
+						<td><a href="<c:url value="/forum/${forumName}/${item.id}"/>">${item.boardTitle}</a><br />
 							<p>this is a part of content ${item.content}</p></td>
 					</tr>
 					<tr>
@@ -61,13 +61,10 @@
 		</c:forEach>
 	</c:if>
 	
-	<hr />
+		<hr />
 	<!--輸入區 -->
-	<br /> ${mycontent}
-	<br />
 	<hr />
-	<h1>Classic editor</h1>
-	<form action="XXXcontroller" method="post">
+	<form action="<c:url value="/forum/${forumName}/add"/>" method="post">
 		<table>
 			<tr>
 				<td><p>your account id:</p></td>
@@ -75,23 +72,15 @@
 			</tr>
 			<tr>
 				<td><p>article title:</p></td>
-				<td><input type="text" name="articletitle"></td>
-			</tr>
-			<tr>
-				<td><p>article parent id:</p></td>
-				<td><input type="text" name="articleParentId"></td>
-			</tr>
-			<tr>
-				<td><p>article location:</p></td>
-				<td><input type="text" name="articlelocation"></td>
+				<td><input type="text" name="articleTitle"></td>
 			</tr>
 		</table>
 
 		<textarea name="content" id="editor">
-            ${mycontent}
+<%--             ${mycontent} --%>
         </textarea>
 		<p>
-			<input type="submit" value="Submit">
+			<input type="submit" value="create new article">
 		</p>
 	</form>
 
@@ -108,5 +97,6 @@
             } );
         CKEDITOR.config.extraPlugins = 'myplugin,anotherplugin';
     </script>
+<%-- 	<a href="<c:url value="/forum/${forumName}/add"/>">insert new parent article</a> --%>
 </body>
 </html>

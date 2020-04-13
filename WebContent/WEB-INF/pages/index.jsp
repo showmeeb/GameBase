@@ -57,7 +57,7 @@
 						class="dropdown-item" href="#">管理個人資料</a>
 				</div></li>
 			<li class="nav-item"><a class="nav-link"
-				href="<c:url value="/goMsgBoard"/>">討論區</a></li>
+				href="<c:url value="/forum"/>">討論區</a></li>
 			<li class="nav-item"><a class="nav-link"
 				href="<c:url value="/topBar"/>">TopBar</a></li>
 		</ul>

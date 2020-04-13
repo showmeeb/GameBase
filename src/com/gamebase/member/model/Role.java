@@ -21,8 +21,12 @@ public class Role {
 	private UserData userData;
 	private Rank rank;
 
-	
 	public Role() {
+	}
+
+	public Role(UserData userData, Rank rank) {
+		this.userData = userData;
+		this.rank = rank;
 	}
 
 	@Id
@@ -45,6 +49,7 @@ public class Role {
 	public void setUserData(UserData userData) {
 		this.userData = userData;
 	}
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "RANKID")
 	public Rank getRank() {
