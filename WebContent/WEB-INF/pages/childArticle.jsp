@@ -57,6 +57,8 @@
 
 		</c:forEach>
 	</c:if>
+
+
 	<a href="<c:url value="/forum/${forumName}/${item.id}/add"/>">insert
 		new child article</a>
 
@@ -66,7 +68,8 @@
 	<br />
 	<hr />
 	<h1>Classic editor</h1>
-	<form action="XXXcontroller" method="post">
+	<form action="<c:url value="/forum/${forumName}/${item.id}/add"/>"
+		method="post">
 		<table>
 			<tr>
 				<td><p>your account id:</p></td>
@@ -74,15 +77,7 @@
 			</tr>
 			<tr>
 				<td><p>article title:</p></td>
-				<td><input type="text" name="articletitle"></td>
-			</tr>
-			<tr>
-				<td><p>article parent id:</p></td>
-				<td><input type="text" name="articleParentId"></td>
-			</tr>
-			<tr>
-				<td><p>article location:</p></td>
-				<td><input type="text" name="articlelocation"></td>
+				<td><input type="text" name="articleTitle" value="${item.boardTitle}" disabled="disabled"></td>
 			</tr>
 		</table>
 
@@ -90,7 +85,7 @@
             ${mycontent}
         </textarea>
 		<p>
-			<input type="submit" value="Submit">
+			<input type="submit" value="Reply">
 		</p>
 	</form>
 

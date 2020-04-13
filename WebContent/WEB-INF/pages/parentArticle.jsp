@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>this is XXX forum page</title>
+<title>this is ${forumName} forum page</title>
 <script
 	src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
 </head>
@@ -60,6 +60,43 @@
 			
 		</c:forEach>
 	</c:if>
-	<a href="<c:url value="/forum/${forumName}/add"/>">insert new parent article</a>
+	
+		<hr />
+	<!--輸入區 -->
+	<hr />
+	<form action="<c:url value="/forum/${forumName}/add"/>" method="post">
+		<table>
+			<tr>
+				<td><p>your account id:</p></td>
+				<td><input type="text" name="accountId"></td>
+			</tr>
+			<tr>
+				<td><p>article title:</p></td>
+				<td><input type="text" name="articleTitle"></td>
+			</tr>
+		</table>
+
+		<textarea name="content" id="editor">
+<%--             ${mycontent} --%>
+        </textarea>
+		<p>
+			<input type="submit" value="create new article">
+		</p>
+	</form>
+
+
+	<script>
+        ClassicEditor
+            .create( document.querySelector( '#editor' ),{
+                mediaEmbed:{
+                	previewsInData:true
+                    }
+                } )
+            .catch( error => {
+                console.error( error );
+            } );
+        CKEDITOR.config.extraPlugins = 'myplugin,anotherplugin';
+    </script>
+<%-- 	<a href="<c:url value="/forum/${forumName}/add"/>">insert new parent article</a> --%>
 </body>
 </html>
