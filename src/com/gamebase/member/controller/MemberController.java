@@ -163,7 +163,8 @@ public class MemberController {
 		if (registerName == null || registerName.equals("")) {
 			return "indexPage";
 		}
-		Role role = new Role(uService.getByAccount(registerName), uService.getByRankId(2));
+		Role role = uService.getRoleByUserId(uService.getByAccount(registerName).getUserId());
+		role.setRank(uService.getByRankId(2));
 		uService.changeRole(role);
 		request.getSession().invalidate();
 		return "indexPage";
