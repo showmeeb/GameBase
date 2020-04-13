@@ -1,3 +1,62 @@
+//login
+$(document).ready(function(){
+    $("#login-submit-btn").click(function(){
+    	userLogin();
+    });
+});
+
+function userLogin() {
+    var userID = $("#login-form input[name='account']").val();
+    var pwd = $("#login-form input[name='password']").val();
+console.log(userID);
+console.log(pwd);
+    // empty check
+    if (userID != "" && pwd != "") {
+        // for login AJAX operation use
+        $.ajax({
+            url: "/GameBase/Users/" + userID,
+            type: "POST",
+            data: {pwd:pwd},
+            success: function (data) {
+            	console.log('true');
+                if (data) {
+                    // close login window
+//                    $("#login-submit-btn").parent().addClass("hidden-window", 700);
+//                    $("#shadow").fadeOut(700);
+
+                    // clear the form
+                    $(".input-group input").each(function () {
+                        $(this).val("");
+                    });
+
+                    $(".input-group").each(function () {
+                        $(this).removeClass("error-format accepted-format");
+                    });
+
+                    // get user information
+                    window.sessionStorage.setItem("UserData", JSON.stringify(data));
+                    console.log(window.sessionStroage.getItem("UserData"));
+                    console.log('UserData');
+
+                    // connect and show chat room
+                    connectChatRoom();
+                    $(".chat-room-area").show();
+
+                    // set chat room object
+                    chatRoom.friendsList = JSON.parse(window.sessionStorage.getItem("UserData")).friendsList;
+                    window.sessionStorage.setItem("chatRoom", JSON.stringify(chatRoom));
+
+                    // set friend list to chat room
+                    var friendsList = Mustache.render(chatRoomFriendsListTemplate, chatRoom);
+                    $("#chat-room-friends").html(friendsList);
+                    }
+                },error: function(){
+                	console.log('false');
+                }
+        });
+    }
+}
+//chatRoom Area
 var chatRoom = {
   friendsList: [],
   usersList: [],
@@ -17,7 +76,8 @@ if (window.sessionStorage.getItem("chatRoom") == undefined) {
 $(document).ready(function () {
 
   // hide when user not login yet
-  if (window.sessionStorage.getItem("UserData") == "" || window.sessionStorage.getItem("UserData") == undefined) {
+  if (window.sessionStorage.getItem("UserData") == "") {
+	  //|| window.sessionStorage.getItem("UserData") == undefined
     $(".chat-room-area").hide();
   } else {
     // set friend list to chat room
@@ -87,7 +147,8 @@ $(document).ready(function () {
 
   // check user login
   // if already login then update chat room
-  if (window.sessionStorage.getItem("UserData") != "" && window.sessionStorage.getItem("UserData") != undefined) {
+  if (window.sessionStorage.getItem("UserData") != "") {
+	  //&& window.sessionStorage.getItem("UserData") != undefined
     initChatRoom();
   }
 
