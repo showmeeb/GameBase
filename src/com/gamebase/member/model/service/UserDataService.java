@@ -1,6 +1,7 @@
 package com.gamebase.member.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import com.gamebase.member.model.Rank;
 import com.gamebase.member.model.Role;
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UserProfile;
+import com.gamebase.member.model.dao.MailSenderDAO;
 import com.gamebase.member.model.dao.RankDAO;
 import com.gamebase.member.model.dao.RoleDAO;
 import com.gamebase.member.model.dao.UserDataDAO;
@@ -27,6 +29,8 @@ public class UserDataService {
 	private RoleDAO roleDao;
 	@Autowired
 	private UserProfileDAO upDao;
+	@Autowired
+	private MailSenderDAO mDao;
 
 	public UserData getByLogin(String account, String password) {
 		return udDao.getByLogin(account, password);
@@ -78,5 +82,9 @@ public class UserDataService {
 
 	public UserProfile updateUserProfile(UserProfile userProfile) {
 		return upDao.updateUserProfile(userProfile);
+	}
+	
+	public Map<String,String>  mailAction(String acc,String email){
+		return mDao.mailAction(acc, email);
 	}
 }
