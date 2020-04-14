@@ -3,6 +3,7 @@ package com.gamebase.general.model.dao;
 import java.io.File;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -16,17 +17,22 @@ public class UploadImgDAO {
 
 	final ImgurAPI imgurApi = createImgurAPI();
 
-	public String uploadImg(String path) {
+	public String uploadImg(MultipartFile uploadImg) {
 		String returnURL = "";
 
 		try {
-			File image = new File(path);
+			// 暫存檔案(沒寫刪除，會覆蓋)
+			String savePath = "C:/temp/tempImg.jpg";
+			File saveFile = new File(savePath);
+			uploadImg.transferTo(saveFile);
+
+			// 上傳圖片
+			File image = new File("C:/temp/tempImg.jpg");
 			RequestBody request = RequestBody.create(MediaType.parse("image/*"), image);
 			Call<ImageResponse> call = imgurApi.postImage(request);
 			Response<ImageResponse> res = call.execute();
 
 			returnURL = res.body().data.link;
-			System.out.println(res.body().data.link);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
