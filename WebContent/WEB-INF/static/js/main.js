@@ -19,6 +19,7 @@ console.log(pwd);
             data: {pwd:pwd},
             success: function (data) {
             	console.log('true');
+            	console.log(data);
                 if (data) {
                     // close login window
 //                    $("#login-submit-btn").parent().addClass("hidden-window", 700);
@@ -35,16 +36,16 @@ console.log(pwd);
 
                     // get user information
                     window.sessionStorage.setItem("UserData", JSON.stringify(data));
-                    console.log(window.sessionStroage.getItem("UserData"));
-                    console.log('UserData');
+//                    console.log(window.sessionStorage.getItem("UserData"));
 
                     // connect and show chat room
                     connectChatRoom();
                     $(".chat-room-area").show();
 
                     // set chat room object
-                    chatRoom.friendsList = JSON.parse(window.sessionStorage.getItem("UserData")).friendsList;
+//                    chatRoom.friendsList = JSON.parse(window.sessionStorage.getItem("UserData")).friendsList;
                     window.sessionStorage.setItem("chatRoom", JSON.stringify(chatRoom));
+                    console.log('set chatRoom');
 
                     // set friend list to chat room
                     var friendsList = Mustache.render(chatRoomFriendsListTemplate, chatRoom);
@@ -69,6 +70,7 @@ var chatHistory = {
 
 if (window.sessionStorage.getItem("chatRoom") == undefined) {
   window.sessionStorage.setItem("chatRoom", "");
+  console.log('set chatRoom');
 } else if (window.sessionStorage.getItem("chatRoom") != "") {
   chatRoom = JSON.parse(window.sessionStorage.getItem("chatRoom"));
 }
@@ -79,11 +81,12 @@ $(document).ready(function () {
   if (window.sessionStorage.getItem("UserData") == "") {
 	  //|| window.sessionStorage.getItem("UserData") == undefined
     $(".chat-room-area").hide();
-  } else {
-    // set friend list to chat room
-    var friendsList = Mustache.render(chatRoomFriendsListTemplate, chatRoom);
-    $("#chat-room-friends").html(friendsList);
   }
+//    else {
+//    // set friend list to chat room
+//    var friendsList = Mustache.render(chatRoomFriendsListTemplate, chatRoom);
+//    $("#chat-room-friends").html(friendsList);
+//  }
 
   // chat room show button
   $("#chat-room-fn-area .fa-comments").click(function () {
@@ -148,6 +151,7 @@ $(document).ready(function () {
   // check user login
   // if already login then update chat room
   if (window.sessionStorage.getItem("UserData") != "") {
+	  console.log('initChatRoom');
 	  //&& window.sessionStorage.getItem("UserData") != undefined
     initChatRoom();
   }
@@ -418,15 +422,16 @@ function cleanChatRoom() {
 var stompClient = null;
 
 function connectChatroom() {
+  console.log('connect Chatroom');
   var socket = new SockJS('GameBase/chat');
   stompClient = Stomp.over(socket);
-
+  console.log(socket);
   stompClient.debug = null;
 
   stompClient.connect({}, function (frame) {
     var url = stompClient.ws._transport.url;
-    //console.log('Connected: ' + frame);
-    stompClient.suscribe('/regist/messages', function (msgOutput) {
+    console.log('Connected: ' + frame);
+    stompClient.subscribe('/regist/messages', function (msgOutput) {
       showOnlineUsers(JSON.parse(msgOutput.body));
     });
 

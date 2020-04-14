@@ -9,9 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gamebase.member.model.Rank;
 import com.gamebase.member.model.Role;
 import com.gamebase.member.model.UserData;
+import com.gamebase.member.model.UserProfile;
 import com.gamebase.member.model.dao.RankDAO;
 import com.gamebase.member.model.dao.RoleDAO;
 import com.gamebase.member.model.dao.UserDataDAO;
+import com.gamebase.member.model.dao.UserProfileDAO;
 
 @Service
 @Transactional
@@ -23,6 +25,8 @@ public class UserDataService {
 	private RankDAO rankDao;
 	@Autowired
 	private RoleDAO roleDao;
+	@Autowired
+	private UserProfileDAO upDao;
 
 	public UserData getByLogin(String account, String password) {
 		return udDao.getByLogin(account, password);
@@ -66,5 +70,13 @@ public class UserDataService {
 
 	public UserData getByAccount(String account) {
 		return udDao.getByAccount(account);
+	}
+	
+	public void saveUserPrfile(UserProfile userProfile) {
+		upDao.saveUserProfile(userProfile);
+	}
+
+	public UserProfile updateUserProfile(UserProfile userProfile) {
+		return upDao.updateUserProfile(userProfile);
 	}
 }

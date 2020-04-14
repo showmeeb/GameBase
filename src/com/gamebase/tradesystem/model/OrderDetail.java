@@ -28,7 +28,6 @@ public class OrderDetail {
 		this.productName=productName;
 		this.productPrice=productPrice;
 		this.amount=amount;
-		
 	}
 	@Column(name="ORDERID")
 	public int getOrderId() {

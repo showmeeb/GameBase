@@ -5,6 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta  http-equiv="Expires"  CONTENT="0">   
+<meta  http-equiv="Cache-Control"  CONTENT="no-cache">
+<meta  http-equiv="Pragma"  CONTENT="no-cache">
 <title>GameBase</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Bootstrap -->
@@ -47,6 +50,7 @@
 				<div class="dropdown-menu">
 					<a class="dropdown-item" href="<c:url value="/tradesystem"/>">登記商品</a>
 					<a class="dropdown-item" href="<c:url value="/mainProduct"/>">商品管理</a>
+					<a class="dropdown-item" href="<c:url value="/shoppingPage"/>">商城頁面</a>
 					<a class="dropdown-item" href="#"></a>
 				</div></li>
 			<!-- Dropdown -->
@@ -56,7 +60,10 @@
 				<div class="dropdown-menu">
 					<a class="dropdown-item" href="<c:url value="/gologin"/>">登入</a> <a
 						class="dropdown-item" href="<c:url value="/goregister"/>">註冊</a> <a
-						class="dropdown-item" href="#">管理個人資料</a>
+						class="dropdown-item" href="#">管理個人資料</a> <a class="dropdown-item"
+						href="<c:url value="/createProfile"/>">新增個人資料</a> <a
+						class="dropdown-item" href="<c:url value="/updateProfile"/>">修改個人資料</a>
+
 				</div></li>
 			<li class="nav-item"><a class="nav-link"
 				href="<c:url value="/forum"/>">討論區</a></li>
@@ -66,7 +73,7 @@
 	</nav>
 	<br>
 	<!-- login and regist pop up windows (with shadow) -->
-   	<%@ include file="include/loginArea.jsp" %>
+	<%@ include file="include/loginArea.jsp"%>
 	<!-- Start Chat Room Area -->
 	<%@ include file="include/chatRoom.jsp"%>
 	<!-- End Chat Room Area -->

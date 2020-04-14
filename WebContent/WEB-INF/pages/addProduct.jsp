@@ -99,10 +99,9 @@
 
 	$(document).on('click','#s1',function(){
 		var a=$(this.form).serializeObject();
-		console.log(a);
+		//console.log(a);
 		var form = JSON.stringify(a);
-		console.log(form);
-
+		//console.log(form);
 		$.ajax({
 			url:"tradesystem/add",
 			data : {form : form},
