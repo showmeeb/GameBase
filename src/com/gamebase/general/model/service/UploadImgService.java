@@ -2,6 +2,7 @@ package com.gamebase.general.model.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gamebase.general.model.dao.UploadImgDAO;
 
@@ -15,8 +16,8 @@ public class UploadImgService {
 		this.uploadImgDAO = uploadImgDAO;
 	}
 
-	public String uploadImg(String path) {
-		return uploadImgDAO.uploadImg(path);
+	public String uploadImg(MultipartFile uploadImg) {
+		return uploadImgDAO.uploadImg(uploadImg);
 
 	}
 }

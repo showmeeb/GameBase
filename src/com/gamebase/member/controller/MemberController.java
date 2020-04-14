@@ -1,5 +1,6 @@
 package com.gamebase.member.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,12 +57,12 @@ public class MemberController {
 	public String showRegisterPage() {
 		return "RegisterViewPage";
 	}
-	
+
 	@RequestMapping(value = "/createProfile")
 	public String showCreateProfilePage() {
 		return "CreateProfilePage";
 	}
-	
+
 	@RequestMapping(value = "/updateProfile")
 	public String showUpdateProfilePage() {
 		return "UpdateProfilePage";
@@ -133,36 +134,47 @@ public class MemberController {
 		request.getSession().invalidate();
 		return "indexPage";
 	}
-	
+
 	@RequestMapping(value = "/createProfileAct", method = RequestMethod.POST)
-	public String insertProfile(@RequestParam("name") String name, @RequestParam(value="gender",required = false) String gender,
-			@RequestParam("nickname") String nickname, @RequestParam("phone") String phone,
-			@RequestParam("age") Integer age, @RequestParam("address") String address, @RequestParam("img") String img,
-			Map<String, Object> map, ModelMap model,HttpServletRequest request) {
+	public String insertProfile(@RequestParam("name") String name,
+			@RequestParam(value = "gender", required = false) String gender, @RequestParam("nickname") String nickname,
+			@RequestParam("phone") String phone, @RequestParam("age") Integer age,
+			@RequestParam("address") String address, @RequestParam("img") String img, Map<String, Object> map,
+			ModelMap model, HttpServletRequest request) {
 		System.out.println(name + " " + gender + " " + nickname + " " + phone + " " + age + " " + address);
+
+		Map<String, String> errMap = new HashMap<String, String>();
+
 		if (name == null || name.length() == 0) {
-			map.put("nameerr", "name is required");
+			errMap.put("nameerr", "name is required");
+
 		}
 		if (gender == null || gender.length() == 0) {
-			map.put("gendererr", "gender is required");
+			errMap.put("gendererr", "gender is required");
+
 		}
 		if (nickname == null || nickname.length() == 0) {
-			map.put("nicknameerr", "nickname is required");
+			errMap.put("nicknameerr", "nickname is required");
+
 		}
 		if (phone == null || phone.length() == 0) {
-			map.put("phoneerr", "phone is required");
+			errMap.put("phoneerr", "phone is required");
+
 		}
 		if (age == null) {
-			map.put("ageerr", "age is required");
+			errMap.put("ageerr", "age is required");
+
 		}
 		if (address == null || address.length() == 0) {
-			map.put("addresserr", "address is required");
+			errMap.put("addresserr", "address is required");
+
 		}
-		if (map != null && !map.isEmpty()) {
-			System.out.println("?");
+		if (errMap != null && !errMap.isEmpty()) {
+			System.out.println("有錯");
 			return "CreateProfilePage";
 		}
 		UserProfile up = new UserProfile();
+		up.setUserId(((UserData)map.get("UserData")).getUserId());
 		up.setName(name);
 		up.setAge(age);
 		up.setAddress(address);
@@ -171,10 +183,10 @@ public class MemberController {
 		up.setNickName(nickname);
 		up.setPhone(phone);
 		uService.saveUserPrfile(up);
-		
+		System.out.println("沒錯");
 		return "CreateProfileSuccessPage";
 	}
-	
+
 	@RequestMapping(value = "/updateProfileAct", method = RequestMethod.POST)
 	public String updateProfile(@RequestParam("name") String name, @RequestParam("gender") String gender,
 			@RequestParam("nickname") String nickname, @RequestParam("phone") String phone,
@@ -206,8 +218,7 @@ public class MemberController {
 		up.setImage(img);
 		up.setNickName(nickname);
 		up.setPhone(phone);
-		
-		
+
 		return "UpdateProfileFailPage";
 	}
 
