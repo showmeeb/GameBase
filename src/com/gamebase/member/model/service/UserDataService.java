@@ -11,6 +11,7 @@ import com.gamebase.member.model.Rank;
 import com.gamebase.member.model.Role;
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UserProfile;
+import com.gamebase.member.model.dao.EncryptDAO;
 import com.gamebase.member.model.dao.MailSenderDAO;
 import com.gamebase.member.model.dao.RankDAO;
 import com.gamebase.member.model.dao.RoleDAO;
@@ -31,6 +32,8 @@ public class UserDataService {
 	private UserProfileDAO upDao;
 	@Autowired
 	private MailSenderDAO mDao;
+	@Autowired
+	private EncryptDAO eDao;
 
 	public UserData getByLogin(String account, String password) {
 		return udDao.getByLogin(account, password);
@@ -75,7 +78,7 @@ public class UserDataService {
 	public UserData getByAccount(String account) {
 		return udDao.getByAccount(account);
 	}
-	
+
 	public void saveUserPrfile(UserProfile userProfile) {
 		upDao.saveUserProfile(userProfile);
 	}
@@ -83,8 +86,24 @@ public class UserDataService {
 	public UserProfile updateUserProfile(UserProfile userProfile) {
 		return upDao.updateUserProfile(userProfile);
 	}
-	
-	public Map<String,String>  mailAction(String acc,String email){
+
+	public Map<String, String> mailAction(String acc, String email) {
 		return mDao.mailAction(acc, email);
+	}
+
+	public String getMD5Endocing(String message) {
+		return eDao.getMD5Endocing(message);
+	}
+
+	public String getSHA1Endocing(String message) {
+		return eDao.getSHA1Endocing(message);
+	}
+
+	public String encryptString(String message) {
+		return eDao.encryptString(message);
+	}
+
+	public String decryptString(String stringToDecrypt) {
+		return eDao.decryptString(stringToDecrypt);
 	}
 }

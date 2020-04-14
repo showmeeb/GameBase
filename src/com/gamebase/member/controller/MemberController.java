@@ -39,7 +39,8 @@ public class MemberController {
 		if (map != null && !map.isEmpty()) {
 			return "LoginViewPage";
 		}
-		UserData userData = uService.getByLogin(acc, pwd);
+		String encryptPwd = uService.encryptString(pwd);
+		UserData userData = uService.getByLogin(acc, encryptPwd);
 		if (userData != null) {
 			model.addAttribute("UserData", userData);
 			return "indexPage";
@@ -88,13 +89,14 @@ public class MemberController {
 		}
 		UserData ud = new UserData();
 		ud.setAccount(acc);
-		ud.setPassword(pwd);
+		String encryptPwd = uService.encryptString(pwd);
+		ud.setPassword(encryptPwd);
 		ud.setEmail(email);
 		uService.saveUserData(ud);
 		// default rank 'Uncertified'
-		Role role = new Role(uService.getByLogin(acc, pwd), uService.getByRankId(1));
+		Role role = new Role(uService.getByLogin(acc, encryptPwd), uService.getByRankId(1));
 		uService.changeRole(role);
-		
+
 		HttpSession session = request.getSession();
 		Map<String, String> mailMap = uService.mailAction(acc, email);
 		session.setAttribute(mailMap.get("registerId"), acc);
@@ -115,7 +117,7 @@ public class MemberController {
 		session.setMaxInactiveInterval(600);
 		request.setAttribute("userName", acc);
 		request.setAttribute("email", email);
-		
+
 		return "SendMailPage";
 	}
 
@@ -174,7 +176,7 @@ public class MemberController {
 			return "CreateProfilePage";
 		}
 		UserProfile up = new UserProfile();
-		up.setUserId(((UserData)map.get("UserData")).getUserId());
+		up.setUserId(((UserData) map.get("UserData")).getUserId());
 		up.setName(name);
 		up.setAge(age);
 		up.setAddress(address);
