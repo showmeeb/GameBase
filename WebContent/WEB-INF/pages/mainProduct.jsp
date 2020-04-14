@@ -135,7 +135,7 @@
 			console.log(b);
 			$.ajax({
 				async : false,
-				url : "tradesystem/update",
+				url : "shopping/addProduct",
 				dataType : "json",
 				type : "POST",
 				data : {

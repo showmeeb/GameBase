@@ -31,7 +31,7 @@
 		<mapping class="com.gamebase.tradesystem.model.Product" />
 		<mapping class="com.gamebase.tradesystem.model.UserOrder" />
 		<mapping class="com.gamebase.tradesystem.model.OrderDetail" />
-		
+		<mapping class="com.gamebase.tradesystem.model.ShoppingCart" />
 		<!-- Article Area -->
 		<mapping class="com.gamebase.article.model.Article" />
 		<mapping class="com.gamebase.article.model.ForumImg" />

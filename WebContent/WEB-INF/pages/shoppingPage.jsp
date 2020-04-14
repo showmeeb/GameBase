@@ -33,14 +33,13 @@ img{width: 50px }
 <title>Hello, world!</title>
 <style type="text/css">
 #du1 img {
-	width: 90px
+	width: 70px
 }
 
 #du1 li {
-	border: 1px solid black;
 	margin: 0px 10px 0px 10px;
 }
-#st1 img {width:150px}
+#st1 img {width:100px}
 </style>
 </head>
 <body>
@@ -80,6 +79,8 @@ img{width: 50px }
 					</select>
 				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 			</form>
+			<span id="shopcart" role="button" tabindex="0"
+				aria-pressed="true"><img src="https://i.imgur.com/fzG8Ocj.png"></span>
 		</div>
 	</nav>
 
@@ -101,7 +102,7 @@ img{width: 50px }
 
 	<script type="text/javascript">
 	function showtable(response) {
-						var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹";
+						var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th>購物車";
 						for (let i = 0; i < response.length; i++) {
 							txt += "<tr><td>" + response[i].productId;
 							txt += "<td id='img'><img src='"+response[i].productImg+"'>";
@@ -111,6 +112,7 @@ img{width: 50px }
 							txt += "<td>" + response[i].productPrice;
 							txt += "<td>" + response[i].productTag;
 							txt += "<td>" + response[i].productInfo;
+							txt += "<td><input type='button' id='addProduct' value='加入購物車'>"
 						}
 						$('#t1').html(txt);		
 	}
@@ -192,6 +194,51 @@ img{width: 50px }
 				});
 			}
 		})
+		
+		$(document).on('click', '#addProduct', function() {
+			var $tr = $(this).parents("tr");
+			var c = {};
+			$tr.find("td").not($("td:has(input)")).each(function(i, e) { //获取当前行所有除了含有button的td
+				var $td = $(this);
+				if(i==1){
+					c[i] = $td.find("img").attr("src");
+					console.log($td.find("img").attr("src"));
+					}
+				else{
+					c[i] = $td.text();
+					}
+				console.log($td.text());
+			});
+			console.log(c);
+			var b = JSON.stringify(c);
+			console.log(b);
+			$.ajax({
+				async : false,
+				url : "shopping/addProduct",
+				dataType : "json",
+				type : "POST",
+				data : {
+					b : b
+				},
+				success : function(response) {
+					console.log(response.t);
+					if (response.t == true) {
+						alert("放入成功");
+					} else {
+						alert("放入失敗");
+					}
+				}	
+			});
+
+
+			})
+			
+			$(document).on('click','#shopcart', function() {
+				location.assign("shoppingCartPage");
+			})
+			//$('#shopcart').click(function(){
+			//	window.location.href("/shoppingCartPage");
+			//	})
 	</script>
 
 </body>

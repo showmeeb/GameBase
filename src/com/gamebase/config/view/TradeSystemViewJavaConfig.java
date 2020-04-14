@@ -27,4 +27,11 @@ public class TradeSystemViewJavaConfig {
 		return view;
 	}
 	
+	@Bean
+	public View shoppingCartPage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/shoppingCartPage.jsp");
+		return view;
+	}
+	
 }

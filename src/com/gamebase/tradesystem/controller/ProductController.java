@@ -1,6 +1,6 @@
 package com.gamebase.tradesystem.controller;
 
-import java.io.PrintStream;
+
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.gamebase.tradesystem.model.Product;
+
 import com.gamebase.tradesystem.model.service.ProductService;
-import com.google.gson.Gson;
+
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -18,7 +18,7 @@ import net.sf.json.JSONObject;
 @Controller
 public class ProductController {
 	private ProductService productService;
-	private PrintStream out;
+
 
 	public ProductController(ProductService productService) {
 		this.productService = productService;

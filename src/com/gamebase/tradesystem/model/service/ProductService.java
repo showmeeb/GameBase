@@ -13,12 +13,8 @@ import net.sf.json.JSONObject;
 @Service
 @Transactional
 public class ProductService {
-	private ProductDao productDao;
-
 	@Autowired
-	public ProductService(ProductDao productDao) {
-		this.productDao = productDao;
-	}
+	private ProductDao productDao;
 
 	public JSONObject add(String form) {
 		return productDao.add(form);
