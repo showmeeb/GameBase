@@ -185,7 +185,7 @@ public class MemberController {
 	public String insertProfile(@RequestParam("name") String name, @RequestParam(value="gender",required = false) String gender,
 			@RequestParam("nickname") String nickname, @RequestParam("phone") String phone,
 			@RequestParam("age") Integer age, @RequestParam("address") String address, @RequestParam("img") String img,
-			Map<String, Object> map, ModelMap model) {
+			Map<String, Object> map, ModelMap model,HttpServletRequest request) {
 		System.out.println(name + " " + gender + " " + nickname + " " + phone + " " + age + " " + address);
 		if (name == null || name.length() == 0) {
 			map.put("nameerr", "name is required");
