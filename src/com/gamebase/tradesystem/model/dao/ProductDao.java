@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gamebase.tradesystem.model.Game;
 import com.gamebase.tradesystem.model.Product;
 import com.google.gson.Gson;
@@ -40,16 +42,16 @@ public class ProductDao implements IProductDao {
 				Game game = new Gson().fromJson(form, Game.class);
 				game.setProductId(pd.getProductId());
 				getSession().save(game);
-				result.put("t",true);
+				result.put("t", true);
 				return result;
 			}
-			Game game = new Game(pd.getProductId(),"null", null, null);
+			Game game = new Game(pd.getProductId(), "null", null, null);
 			getSession().save(game);
-			result.put("t",true);
+			result.put("t", true);
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.put("t",false);
+			result.put("t", false);
 			return result;
 		}
 
@@ -57,7 +59,7 @@ public class ProductDao implements IProductDao {
 
 	@Override
 	public JSONArray query() {
-		
+
 		Session session = sessionFactory.getCurrentSession();
 		Query<Product> queryP = session.createQuery("from Product", Product.class);
 		// Query<Game> queryG = getSession().createQuery("from Game",Game.class);
@@ -94,11 +96,11 @@ public class ProductDao implements IProductDao {
 
 			session.delete(p1);
 			session.flush();
-			result.put("t",true);
+			result.put("t", true);
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.put("t",false);
+			result.put("t", false);
 			return result;
 		}
 	}
@@ -107,7 +109,7 @@ public class ProductDao implements IProductDao {
 	public JSONObject update(String b) {
 		Session session = sessionFactory.getCurrentSession();
 		JSONObject result = new JSONObject();
-		try {	
+		try {
 			Product p1 = this.translateKey(b);
 			session.update(p1);
 //			System.out.println("update success");
@@ -144,10 +146,11 @@ public class ProductDao implements IProductDao {
 	public JSONArray getSearch(String a) {
 		JSONArray jarray = new JSONArray();
 		Session session = sessionFactory.getCurrentSession();
-		Query<String> query = session.createQuery("select productName from Product where productName like'%"+a+"%'",String.class);
+		Query<String> query = session.createQuery("select productName from Product where productName like'%" + a + "%'",
+				String.class);
 		List<String> list = query.list();
 		System.out.println(list.size());
-		if (list.size()>0) {
+		if (list.size() > 0) {
 			for (String beans : list) {
 				Query<Product> query1 = session.createQuery("from Product where productName =?1", Product.class);
 				query1.setParameter(1, beans);
@@ -169,7 +172,7 @@ public class ProductDao implements IProductDao {
 		System.out.println(jarray + "1");
 		return jarray;
 	}
-	
+
 	public Product translateKey(String b) {
 		JSONObject jobj = JSONObject.fromObject(b);
 		Product p1 = new Product();
@@ -182,5 +185,21 @@ public class ProductDao implements IProductDao {
 		p1.setProductTag((String) jobj.get("6"));
 		p1.setProductInfo((String) jobj.get("7"));
 		return p1;
+	}
+
+	public String getProductById(String productId) {
+		Product product = sessionFactory.getCurrentSession().get(Product.class, Integer.valueOf(productId));
+	//	Game game = sessionFactory.getCurrentSession().createQuery("Form Game where productId=" + productId, Game.class).uniqueResult();
+
+		String jsonString = "";
+		try {
+			jsonString = new ObjectMapper().writeValueAsString(product);
+	//		String gameString = new ObjectMapper().writeValueAsString(game);
+	//		System.out.println(jsonString+gameString);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+
+		return jsonString;
 	}
 }

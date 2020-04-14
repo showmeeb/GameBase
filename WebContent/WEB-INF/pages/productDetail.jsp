@@ -16,6 +16,12 @@
 <body>
 <div class="barSpace"></div>
 
+<script>
+var jsonResults = JSON.parse(JSON.stringify(${product}));
+
+console.log(jsonResults.productName);
+</script>
+
 
 </body>
 </html>

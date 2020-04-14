@@ -77,9 +77,11 @@ public class ProductController {
 
 	@RequestMapping(path = "/productDetail", method = RequestMethod.GET)
 	public String productDetail(@RequestParam("prodId") String prodId, Model model) {
+		String product = productService.getProductById(prodId);
+		model.addAttribute("product", product);
+		
+		System.out.println(product);
 
-		System.out.println("id:" + prodId);
-
-		return "topBar";
+		return "productDetail";
 	}
 }

@@ -33,7 +33,7 @@ public class ProductService {
 	}
 
 	public JSONObject update(String b) {
-		
+
 		return productDao.update(b);
 	}
 
@@ -43,6 +43,10 @@ public class ProductService {
 
 	public JSONArray getSearch(String a) {
 		return productDao.getSearch(a);
+	}
+
+	public String getProductById(String productId) {
+		return productDao.getProductById(productId);
 	}
 
 }
