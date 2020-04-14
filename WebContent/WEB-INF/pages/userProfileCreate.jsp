@@ -10,6 +10,7 @@
 <body>
 	<h4>請填入您的資料</h4>
 	<form action="<c:url value="/createProfileAct"/>" method="post">
+	
 		Name:<input type="text" name="name"/><br>
 		Nickname:<input type="text" name="nickname"/><br>
 		Gender:<input type="radio" name="gender" value="m">男<input type="radio" name="gender" value="f">女<br>

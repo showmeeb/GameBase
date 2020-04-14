@@ -4,15 +4,13 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 import org.springframework.stereotype.Component;
 
 @Entity
@@ -39,7 +37,9 @@ public class UserProfile implements Serializable{
 
 	}
 
-
+	@GenericGenerator(name="userId", strategy="foreign", parameters=@Parameter(name="property",value="userData"))
+	@Column(name="userId")
+	@GeneratedValue(generator = "userId")
 	public Integer getUserId() {
 		return userId;
 	}
