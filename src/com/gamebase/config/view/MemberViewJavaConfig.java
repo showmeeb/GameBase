@@ -11,14 +11,14 @@ public class MemberViewJavaConfig {
 	@Bean
 	public View LoginViewPage() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/UserLogin.jsp");
+		view.setUrl("/WEB-INF/pages/userLogin.jsp");
 		return view;
 	}
 
 	@Bean
 	public View RegisterViewPage() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/Register.jsp");
+		view.setUrl("/WEB-INF/pages/register.jsp");
 		return view;
 	}
 	
