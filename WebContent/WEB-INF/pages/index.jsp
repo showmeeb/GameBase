@@ -5,6 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta  http-equiv="Expires"  CONTENT="0">   
+<meta  http-equiv="Cache-Control"  CONTENT="no-cache">
+<meta  http-equiv="Pragma"  CONTENT="no-cache">
 <title>GameBase</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Bootstrap -->
@@ -47,6 +50,7 @@
 				<div class="dropdown-menu">
 					<a class="dropdown-item" href="<c:url value="/tradesystem"/>">登記商品</a>
 					<a class="dropdown-item" href="<c:url value="/mainProduct"/>">商品管理</a>
+					<a class="dropdown-item" href="<c:url value="/shoppingPage"/>">商城頁面</a>
 					<a class="dropdown-item" href="#"></a>
 				</div></li>
 			<!-- Dropdown -->

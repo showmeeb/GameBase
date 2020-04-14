@@ -29,7 +29,7 @@
 		<!-- TradeSystem Area -->
 		<mapping class="com.gamebase.tradesystem.model.Game" />
 		<mapping class="com.gamebase.tradesystem.model.Product" />
-		<mapping class="com.gamebase.tradesystem.model.Order" />
+		<mapping class="com.gamebase.tradesystem.model.UserOrder" />
 		<mapping class="com.gamebase.tradesystem.model.OrderDetail" />
 		
 		<!-- Article Area -->

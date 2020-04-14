@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gamebase.tradesystem.model.Product;
 import com.gamebase.tradesystem.model.dao.ProductDao;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-@Service("PDS")
+@Service
 @Transactional
 public class ProductService {
 	private ProductDao productDao;
@@ -19,22 +20,21 @@ public class ProductService {
 		this.productDao = productDao;
 	}
 
-	public boolean add(JSONObject jobj) {
-		return productDao.add(jobj);
+	public JSONObject add(String form) {
+		return productDao.add(form);
 	}
 
 	public JSONArray query() {
 		return productDao.query();
 	}
 
-	public boolean delete(int id) {
-		boolean t = productDao.delete(id);
-		return t;
+	public JSONObject delete(int id) {
+		return productDao.delete(id);
 	}
 
-	public boolean update(JSONObject jobj) {
-		boolean t = productDao.update(jobj);
-		return t;
+	public JSONObject update(String b) {
+		
+		return productDao.update(b);
 	}
 
 	public JSONArray search(String a) {
