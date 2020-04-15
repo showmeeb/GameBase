@@ -1,5 +1,8 @@
 package com.gamebase.article.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,14 +33,19 @@ public class MsgBoard {
 		this.boardLocation = boardLocation;
 	}
 
-	public MsgBoard(Integer parentId, Integer userId, String boardLocation, String boardTitle, String content,
-			String createTime) {
+	public MsgBoard(Integer parentId, Integer userId, String boardLocation, String boardTitle, String content) {
 		this.parentId = parentId;
 		this.userId = userId;
 		this.boardLocation = boardLocation;
 		this.boardTitle = boardTitle;
 		this.content = content;
-		this.createTime = createTime;
+		this.recordTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+		this.createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+	}
+	
+	public MsgBoard(String content, String recordTime) {
+		this.content = content;
+		this.recordTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 	}
 
 	@Id

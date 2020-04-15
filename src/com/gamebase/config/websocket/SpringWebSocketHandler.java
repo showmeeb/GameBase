@@ -7,7 +7,8 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
-import com.gamebase.member.model.UserData;
+
+import com.gamebase.member.model.UsersInfo;
 
 public class SpringWebSocketHandler extends DefaultHandshakeHandler {
 
@@ -17,8 +18,8 @@ public class SpringWebSocketHandler extends DefaultHandshakeHandler {
 		String userNo="-1";
 		
 		/*拿取userId存成Principal的name*/
-		if(attributes.containsKey("UserData")) {
-			userNo = ((UserData) attributes.get("UserData")).getUserId().toString();
+		if(attributes.containsKey("loginUser")) {
+			userNo = ((UsersInfo) attributes.get("loginUser")).getUserId().toString();
 		}
 		
 		

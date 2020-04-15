@@ -108,7 +108,7 @@ public class ArticleController {
 		JSONObject result = new JSONObject();
 		try {
 			MsgBoard newmb = mbService.insertMsg(
-					new MsgBoard(0, Integer.parseInt(accountId), forumName, articleTitle, content, getDateTime()));
+					new MsgBoard(0, Integer.parseInt(accountId), forumName, articleTitle, content));
 			result.put("t", 1);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -118,29 +118,22 @@ public class ArticleController {
 	}
 
 	/* insert new child article */
-	@RequestMapping(value = "/forum/${forumName}/${parentId}/add", method = RequestMethod.POST)
-	public String insertNewParent(@RequestParam("forumName") String forumName, @RequestParam("Content") String Content,
+	@RequestMapping(value = "/forum/{forumName}/{parentId}/add", produces = "application/json")
+	public JSONObject insertNewParent(@PathVariable("forumName") String forumName, @RequestParam("content") String content,
 			@RequestParam("accountId") String accountId, @RequestParam("articleTitle") String articleTitle,
-			@RequestParam("parentId") Integer parentId, ModelMap model) {
-
+			@PathVariable("parentId") Integer parentId, ModelMap model) {
+		JSONObject result = new JSONObject();
 		System.out.println("insert new child");
-		MsgBoard newchild = mbService.insertMsg(
-				new MsgBoard(parentId, Integer.parseInt(accountId), forumName, articleTitle, Content, getDateTime()));
-
-		List<MsgBoard> newchildList = (List<MsgBoard>) model.getAttribute("childList");
-		newchildList.add(newchild);
-		model.addAttribute("childList", newchildList);
-		return "parentArticleViewPage";
+		try {
+			MsgBoard newchild = mbService.insertMsg(
+					new MsgBoard(parentId, Integer.parseInt(accountId), forumName, articleTitle, content));
+			result.put("t", 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
-	/* 取得現在時間方法 */
-	public String getDateTime() {
-		SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
-		Date date = new Date();
-		String strDate = sdFormat.format(date);
-		// System.out.println(strDate);
-		return strDate;
-	}
 
 	/* update page */
 //	@RequestMapping(path = "", method = RequestMethod.GET)
