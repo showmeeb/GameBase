@@ -28,6 +28,13 @@ public class TradeSystemViewJavaConfig {
 	}
 	
 	@Bean
+	public View orderPage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/orderPage.jsp");
+		return view;
+	}
+	
+	@Bean
 	public View shoppingCartPage() {
 		InternalResourceView view = new InternalResourceView();
 		view.setUrl("/WEB-INF/pages/shoppingCartPage.jsp");

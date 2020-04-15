@@ -18,7 +18,8 @@ public class UserOrder {
 	private int userId;
 	private String uuId;
 	private int orderId;
-	private String name;
+	private String orderName;
+	private String orderPhone;
 	private String orderAddress;
 	private int orderPrice;
 	private Date orderDate;
@@ -26,10 +27,11 @@ public class UserOrder {
 	public UserOrder() {
 	}
 
-	public UserOrder(int userId,String uuId,String name, String orderAddress, int orderPrice, Date orderDate) {
+	public UserOrder(int userId,String uuId,String orderName,String orderPhone, String orderAddress, int orderPrice, Date orderDate) {
 		this.userId = userId;
-		this.setUuId(uuId);
-		this.name=name;
+		this.uuId=uuId;
+		this.orderName=orderName;
+		this.orderPhone=orderPhone;
 		this.orderAddress = orderAddress;
 		this.orderPrice = orderPrice;
 		this.orderDate = orderDate;
@@ -63,13 +65,21 @@ public class UserOrder {
 		this.orderId = orderId;
 	}
 	
-	@Column(name = "NAME")
-	public String getName() {
-		return name;
+	@Column(name = "ORDERNAME")
+	public String getOrderName() {
+		return orderName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setOrderName(String orderName) {
+		this.orderName = orderName;
+	}
+	@Column(name = "ORDERPHONE")
+	public String getOrderPhone() {
+		return orderPhone;
+	}
+
+	public void setOrderPhone(String orderPhone) {
+		this.orderPhone = orderPhone;
 	}
 
 	@Column(name = "ORDERADDRESS")
@@ -98,6 +108,8 @@ public class UserOrder {
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
 	}
+
+
 
 	
 

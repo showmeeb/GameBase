@@ -28,7 +28,6 @@ public class ShoppingCartDao {
 		Session session = sessionFactory.getCurrentSession();
 		JSONObject result= new JSONObject();
 		ShoppingCart sc = this.translateKey(form);
-		sc.setShoppingCartId(3);
 		session.save(sc);
 		result.put("t", true);
 		return result;
@@ -37,8 +36,9 @@ public class ShoppingCartDao {
 	public JSONArray querys(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		try {
-		List<ShoppingCart> list = session.createQuery("from ShoppingCart",ShoppingCart.class).list();
-		//query.setParameter(1,2);
+		Query<ShoppingCart> query = session.createQuery("from ShoppingCart where userId=?1",ShoppingCart.class);
+		query.setParameter(1,id);
+		List<ShoppingCart> list = query.getResultList();
 		
 		System.out.println("size:"+list.size());
 		System.out.println("list:"+list);
@@ -47,7 +47,7 @@ public class ShoppingCartDao {
 		for(ShoppingCart beans:list) {
 			JSONObject jobj = new JSONObject();
 			System.out.println(beans.getProductName());
-			jobj.put("shoppingCartId",beans.getShoppingCartId());
+			jobj.put("shoppingCartId", beans.getShoppingCartId());
 			jobj.put("productImg", beans.getProductImg());
 			jobj.put("productId", beans.getProductId());
 			jobj.put("productName", beans.getProductName());
@@ -63,6 +63,15 @@ public class ShoppingCartDao {
 		}
 	}
 	
+	public JSONObject deletes(int id) {
+		Session session = sessionFactory.getCurrentSession();
+		JSONObject result= new JSONObject();
+		ShoppingCart sc = session.get(ShoppingCart.class, id);
+		session.delete(sc);
+		result.put("t", true);
+		return result;
+	}
+	
 	public ShoppingCart translateKey(String b) {
 		JSONObject jobj = JSONObject.fromObject(b);
 		ShoppingCart p1 = new ShoppingCart();
@@ -70,6 +79,7 @@ public class ShoppingCartDao {
 		p1.setProductImg((String) jobj.get("1"));// (String) jobj.get("1")
 		p1.setProductName((String) jobj.get("2"));
 		p1.setProductPrice((Integer.valueOf((String) jobj.get("5"))));
+		p1.setUserId((int)jobj.get("8"));
 		p1.setAmount(1);
 		
 		return p1;

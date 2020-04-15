@@ -29,6 +29,10 @@ public class ShoppingService {
 	public JSONArray querys(int id) {
 		return shoppingCartDao.querys(id);
 	}
+	public JSONObject deletes(int id) {
+		
+		return shoppingCartDao.deletes(id);
+	}
 
 	
 	public JSONArray showProduct(String keyword) {

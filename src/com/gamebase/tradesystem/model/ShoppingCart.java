@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Columns;
 import org.springframework.stereotype.Component;
 
 @Entity
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 public class ShoppingCart {
 	
 	private int shoppingCartId;
+	private int userId;
 	private int productId;
 	private String productImg;
 	private String productName;
@@ -22,8 +24,9 @@ public class ShoppingCart {
 	private int amount;
 	
 	public ShoppingCart() {}
-	public ShoppingCart(int shoppingCartId,int productId,String productImg,String productName,int productPrice,int amount){
+	public ShoppingCart(int shoppingCartId,int userId,int productId,String productImg,String productName,int productPrice,int amount){
 		this.shoppingCartId=shoppingCartId;
+		this.userId=userId;
 		this.productId=productId;
 		this.productImg=productImg;
 		this.productName=productName;
@@ -32,9 +35,16 @@ public class ShoppingCart {
 	}
 	
 	@Id@Column(name="SHOPPINGCARTID")
-//	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getShoppingCartId() {
 		return shoppingCartId;
+	}
+	@Column(name="USERID")
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	public void setShoppingCartId(int shoppingCart) {
 		this.shoppingCartId = shoppingCart;
@@ -75,6 +85,7 @@ public class ShoppingCart {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
+	
 
 	
 	

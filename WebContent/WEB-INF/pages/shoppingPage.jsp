@@ -79,6 +79,8 @@ img{width: 50px }
 					</select>
 				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 			</form>
+			<span id="order" role="button" tabindex="0"
+				aria-pressed="true"><img src="https://i.imgur.com/MflYSUa.jpg"></span>
 			<span id="shopcart" role="button" tabindex="0"
 				aria-pressed="true"><img src="https://i.imgur.com/fzG8Ocj.png"></span>
 		</div>
@@ -196,6 +198,8 @@ img{width: 50px }
 		})
 		
 		$(document).on('click', '#addProduct', function() {
+			var userId =${UserData.userId};
+			console.log("userId:"+userId);
 			var $tr = $(this).parents("tr");
 			var c = {};
 			$tr.find("td").not($("td:has(input)")).each(function(i, e) { //获取当前行所有除了含有button的td
@@ -209,6 +213,7 @@ img{width: 50px }
 					}
 				console.log($td.text());
 			});
+			c[8]=userId;
 			console.log(c);
 			var b = JSON.stringify(c);
 			console.log(b);
@@ -229,8 +234,10 @@ img{width: 50px }
 					}
 				}	
 			});
-
-
+			})
+			
+			$(document).on('click','#order', function() {
+				location.assign("orderPage");
 			})
 			
 			$(document).on('click','#shopcart', function() {
