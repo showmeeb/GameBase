@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gamebase.member.model.Friends;
 import com.gamebase.member.model.Rank;
 import com.gamebase.member.model.Role;
 import com.gamebase.member.model.UserData;
@@ -66,5 +67,24 @@ public class UserDataService {
 
 	public UserData getByAccount(String account) {
 		return udDao.getByAccount(account);
+	}
+	public List<Friends> getFriendList(Integer userId){
+		return udDao.getFriendList(userId);
+	}
+	public UserData showUserData(String account) {
+		UserData bean = udDao.getByAccount(account);
+		
+		if(bean != null) {
+			// get friend list
+			List<Friends> list = udDao.getFriendList(bean.getUserId());
+			
+			// set friend list
+			bean.setFriendsList(list);
+			
+			return bean;
+		} else {
+			return null;
+		}
+		
 	}
 }

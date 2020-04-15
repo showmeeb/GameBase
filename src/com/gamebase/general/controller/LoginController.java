@@ -1,4 +1,4 @@
-package com.gamebase.member.controller;
+package com.gamebase.general.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,10 +6,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.service.UserDataService;
@@ -44,14 +46,24 @@ public class LoginController {
 		if (errors != null && !errors.isEmpty()) {
 			return null;
 		}
-		UserData user = null;
-		UserData userData = uService.getByLogin(userID, pwd);
+		UserData userBean = null;
+		UserData userData = null;
+		userData = uService.getByLogin(userID, pwd);
 		if (userData != null) {
-			model.addAttribute("UserData", userData);
+			userBean = uService.showUserData(userData.getAccount());
+			model.addAttribute("UserData", userBean);
 			System.out.println(userData);
-			return userData;
+			System.out.println(userBean);
+			return userBean;
 		}
 		errors.put("loginerr", "Account or password error");
 		return null;
+	}
+	@DeleteMapping(path="/Users/{account}")
+	@ResponseBody
+	public String logout(@PathVariable String account,SessionStatus sessionStatus) {
+		sessionStatus.setComplete();
+		System.out.println("logout");
+		return "logout";
 	}
 }

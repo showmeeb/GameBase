@@ -2,6 +2,8 @@ package com.gamebase.member.model.dao;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.gamebase.member.model.Friends;
 import com.gamebase.member.model.UserData;
 
 @Repository
@@ -74,15 +77,32 @@ public class UserDataDAO implements IUserData {
 		sessionFactory.getCurrentSession().save(userData);
 
 	}
-	
+
 	public UserData getByAccount(String account) {
-		Query<UserData> query = sessionFactory.getCurrentSession().createQuery("From UserData where account=:acc",UserData.class);
+		Query<UserData> query = sessionFactory.getCurrentSession().createQuery("From UserData where account=:acc",
+				UserData.class);
 		query.setParameter("acc", account);
-		UserData myUserData=query.uniqueResult();
-		if(myUserData!=null) {
+		UserData myUserData = query.uniqueResult();
+		if (myUserData != null) {
 			return myUserData;
 		}
 		return null;
+	}
+
+	@Override
+	public List<Friends> getFriendList(Integer userId) {
+		List<Friends> list = null;
+
+		try {
+			list = sessionFactory.getCurrentSession().createQuery("From Friends where userId=:uId", Friends.class)
+					.setParameter("uId", userId).getResultList();
+		} catch (NoResultException e) {
+			e.printStackTrace();
+			System.out.println("ERROR");
+			return null;
+		}
+		System.out.println(list);
+		return list;
 	}
 
 }

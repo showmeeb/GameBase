@@ -10,6 +10,8 @@
 <meta  http-equiv="Pragma"  CONTENT="no-cache">
 <title>GameBase</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 <!-- Bootstrap -->
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -31,7 +33,7 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
 <!-- main js -->
-<script src="<c:url value="/js/main.js"/>"></script>
+<script src="<c:url value="/js/chatRoom.js"/>"></script>
 <!-- main style -->
 <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
 </head>
@@ -72,7 +74,7 @@
 	<!-- login and regist pop up windows (with shadow) -->
    	<%@ include file="include/loginArea.jsp" %>
 	<!-- Start Chat Room Area -->
-	<%@ include file="include/chatRoom.jsp"%>
+	<%@ include file="include/chatRoom.jsp" %>
 	<!-- End Chat Room Area -->
 </body>
 </html>
