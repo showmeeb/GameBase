@@ -61,7 +61,7 @@ public class ChatController {
 					// Convert the given Object to serialized form, possibly using a
 					// MessageConverter, wrap it as a message and send it to the given destination.
 					simpMessagingTemplate.convertAndSendToUser(message.getFrom(), "/queue/messages", msg);
-					System.out.println(message.getFrom());
+					System.out.println("message.getFrom(): " + message.getFrom());
 				} else {
 					simpMessagingTemplate.convertAndSendToUser(to, "/queue/messages", message);
 				}

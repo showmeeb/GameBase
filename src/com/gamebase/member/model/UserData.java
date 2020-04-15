@@ -32,7 +32,7 @@ public class UserData {
 //	private UserProfile userProfile;
 //	private Set<Order> orders = new HashSet<Order>();
 //	private Set<Forum> forums = new HashSet<Forum>();
-	private List<Friends> friendsList;
+//	private List<Friends> friendsList;
 
 	public UserData() {
 	}
@@ -112,12 +112,12 @@ public class UserData {
 //	public void setForums(Set<Forum> forums) {
 //		this.forums = forums;
 //	}
-	@Transient
-	public List<Friends> getFriendsList() {
-		return friendsList;
-	}
-
-	public void setFriendsList(List<Friends> friendsList) {
-		this.friendsList = friendsList;
-	}
+//	@Transient
+//	public List<Friends> getFriendsList() {
+//		return friendsList;
+//	}
+//
+//	public void setFriendsList(List<Friends> friendsList) {
+//		this.friendsList = friendsList;
+//	}
 }

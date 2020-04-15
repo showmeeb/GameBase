@@ -14,13 +14,14 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.gamebase.member.model.UserData;
+import com.gamebase.member.model.UsersInfo;
 import com.gamebase.member.model.service.UserDataService;
 
 @Controller
-@SessionAttributes(names = "UserData")
+@SessionAttributes(names = "loginUser")
 public class LoginController {
 	private UserDataService uService;
-
+	
 	@Autowired
 	public LoginController(UserDataService uService) {
 		this.uService = uService;
@@ -28,7 +29,7 @@ public class LoginController {
 
 	@PostMapping(path = "/Users/{userID}", produces = "application/json")
 	@ResponseBody
-	public UserData login(@PathVariable String userID, String pwd, Model model) {
+	public UsersInfo login(@PathVariable String userID, String pwd, Model model) {
 		System.out.println(userID);
 		System.out.println(pwd);
 		Map<String, String> errors = new HashMap<String, String>();
@@ -46,24 +47,26 @@ public class LoginController {
 		if (errors != null && !errors.isEmpty()) {
 			return null;
 		}
-		UserData userBean = null;
+		UsersInfo usersInfo = null;
 		UserData userData = null;
 		userData = uService.getByLogin(userID, pwd);
 		if (userData != null) {
-			userBean = uService.showUserData(userData.getAccount());
-			model.addAttribute("UserData", userBean);
+			usersInfo = uService.showUserData(userData.getAccount());
+			model.addAttribute("loginUser", usersInfo);
 			System.out.println(userData);
-			System.out.println(userBean);
-			return userBean;
+			System.out.println(usersInfo);
+			return usersInfo;
 		}
 		errors.put("loginerr", "Account or password error");
 		return null;
 	}
-	@DeleteMapping(path="/Users/{account}")
+
+	@DeleteMapping(path = "/Users/{account}")
 	@ResponseBody
-	public String logout(@PathVariable String account,SessionStatus sessionStatus) {
+	public String logout(@PathVariable String account, SessionStatus sessionStatus) {
 		sessionStatus.setComplete();
 		System.out.println("logout");
 		return "logout";
 	}
+
 }
