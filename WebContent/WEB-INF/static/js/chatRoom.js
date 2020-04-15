@@ -148,7 +148,7 @@ function userLogin() {
 
                     // get user information
                     window.sessionStorage.setItem("loginUser", JSON.stringify(data));
-
+                    console.log(window.sessionStorage.getItem("loginUser"));
                     // connect and show chat room
                     connectChatRoom();
                     $(".chat-room-area").show();
@@ -669,14 +669,14 @@ $(document).ready(function () {
     $(".chat-room-friend").click(function () {
 
         var userObj = {};
-        userObj.uNo = $(this).children(".chat-room-user-no").text();
-        userObj.uName = $(this).children(".chat-room-friend-name").text();
+        userObj.userId = $(this).children(".chat-room-user-no").text();
+        userObj.account = $(this).children(".chat-room-friend-name").text();
         userObj.snapshot = $(this).children(".chat-room-friend-icon").attr("src");
 
         // in order to check is the user already in the user list
         var checkFlag = true;
         for (let user of chatRoom.usersList) {
-            if (user.uNo == userObj.uNo) {
+            if (user.userId == userObj.userId) {
                 checkFlag = false;
             }
         }
@@ -729,8 +729,8 @@ function showChatContentArea(element) {
     var userObj = "";
 
     for (let user of chatRoomObj.usersList) {
-        if (user.uNo == userNo) {
-        	console.log(user.uNo);
+        if (user.userId == userNo) {
+        	console.log(user.userId);
             userObj = user;
         }
     }
@@ -745,7 +745,7 @@ function showChatContentArea(element) {
     // fill chat area with chat history
     var chatContent;
     for (let singleChat of chatRoomObj.chatHistory) {
-        if (singleChat.userNo == userNo) {
+        if (singleChat.userId == userNo) {
             chatContent = singleChat.chatContent;
         }
     }
@@ -780,14 +780,14 @@ function showUsersDiaglog(element) {
 
     // get user data from friend list
     var userObj = {};
-    userObj.uNo = $(element).children(".chat-room-user-no").text();
-    userObj.uName = $(element).children(".chat-room-friend-name").text();
+    userObj.userId = $(element).children(".chat-room-user-no").text();
+    userObj.account = $(element).children(".chat-room-friend-name").text();
     userObj.snapshot = $(element).children(".chat-room-friend-icon").attr("src");
 
     // in order to check is the user already in the user list
     var checkFlag = true;
     for (let user of chatRoomObj.usersList) {
-        if (user.uNo == userObj.uNo) {
+        if (user.userId == userObj.userId) {
             checkFlag = false;
         }
     }
@@ -815,7 +815,7 @@ function showUserListFromMessage(msg) {
     // in order to check is the user already in the user list
     var checkFlag = true;
     for (let user of chatRoomObj.usersList) {
-        if (user.uNo == msg.from) {
+        if (user.userId == msg.from) {
             checkFlag = false;
 
             // update brief message
@@ -828,12 +828,12 @@ function showUserListFromMessage(msg) {
     if (checkFlag) {
         // get user data from friend list
         var userObj = {};
-        userObj.uNo = msg.from;
+        userObj.userId = msg.from;
         userObj.message = msg.message;
         userObj.time = msg.time;
         for (let user of chatRoomObj.friendsList) {
-            if (user.uNo == userObj.uNo) {
-                userObj.uName = user.uName;
+            if (user.userId == userObj.userId) {
+                userObj.account = user.account;
                 userObj.snapshot = user.snapshot;
             }
         }
@@ -935,7 +935,7 @@ function sendMessage(event) {
 
         // update user list
         for (let i = 0, len = chatRoomObj.usersList.length; i < len; i++) {
-            if (chatRoomObj.usersList[i].uNo == msgObj.to[0]) {
+            if (chatRoomObj.usersList[i].userId == msgObj.to[0]) {
                 chatRoomObj.usersList[i].message = msgObj.message;
                 chatRoomObj.usersList[i].time = msgObj.time;
                 //				console.log("Should update here");
@@ -977,7 +977,7 @@ function connectChatRoom() {
 
     stompClient.connect({}, function (frame) {
         var url = stompClient.ws._transport.url;
-        //        console.log('Connected: ' + frame);
+                console.log('Connected: ' + frame);
         stompClient.subscribe('/regist/messages', function (msgOutput) {
             showOnlineUsers(JSON.parse(msgOutput.body));
         });
@@ -1020,7 +1020,7 @@ function showMessageOutput(msgOutput) {
 
     // get user snapshot
     for (let friend of JSON.parse(window.sessionStorage.getItem("loginUser")).friendsList) {
-        if (friend.uNo == msgOutput.from) {
+        if (friend.userId == msgOutput.from) {
             msgOutput.snapshot = friend.snapshot;
         }
     }
@@ -1070,10 +1070,10 @@ function showOnlineUsers(userList) {
 
     // show specific online mark
     $(".chat-room-friend").each(function () {
-        var userNo = $(this).children(".chat-room-user-no").text();
+        var userNO = $(this).children(".chat-room-user-no").text();
 
         for (var user of userList) {
-            if (userNo == user) {
+            if (userNO == user) {
                 $(this).children(".chat-room-friend-online-light").show(500);
             }
         }
@@ -1083,10 +1083,10 @@ function showOnlineUsers(userList) {
 function hideOfflineUser(user) {
     // hide specific online mark
     $(".chat-room-friend").each(function () {
-        var userNo = $(this).children(".chat-room-user-no").text();
+        var userNO = $(this).children(".chat-room-user-no").text();
         //		console.log(userNo);
 
-        if (userNo == user) {
+        if (userNO == user) {
             $(this).children(".chat-room-friend-online-light").hide(500);
         }
     });
@@ -1103,8 +1103,8 @@ function hideOfflineUser(user) {
 var chatRoomFriendsListTemplate = '{{#friendsList}}'
     + '<div class="chat-room-friend" onclick="showUsersDiaglog(this)">'
     + '<img class="chat-room-friend-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}" />'
-    + '<div class="chat-room-friend-name">{{uName}}</div>'
-    + '<div class="chat-room-user-no">{{uNo}}</div>'
+    + '<div class="chat-room-friend-name">{{account}}</div>'
+    + '<div class="chat-room-user-no">{{userId}}</div>'
     + '<div class="chat-room-friend-online-light"></div>'
     + '</div>'
     + '{{/friendsList}}';
@@ -1124,8 +1124,8 @@ var chatRoomFriendsListTemplate = '{{#friendsList}}'
 
 var chatRoomUsersTemplate = '<div class="chat-room-user" onclick="showChatContentArea(this)" >'
     + '<img class="chat-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}" />'
-    + '<div class="chat-user-name">{{uName}}</div>'
-    + '<div class="chat-room-user-no">{{uNo}}</div>'
+    + '<div class="chat-user-name">{{account}}</div>'
+    + '<div class="chat-room-user-no">{{userId}}</div>'
     + '<div class="chat-user-brief-message">{{message}}</div>'
     + '<div class="chat-user-message-time">{{time}}</div>'
     + '</div>';
@@ -1162,10 +1162,10 @@ var chatRoomUsersTemplate = '<div class="chat-room-user" onclick="showChatConten
 //</div>
 
 var chatRoomContentTemplate = '<div id="chat-header-area">'
-    + '<div id="chat-header-name">{{uName}}</div>'
+    + '<div id="chat-header-name">{{account}}</div>'
     + '<i class="fas fa-times" onclick="emptyChatContentArea()"></i>'
     + '</div>'
-    + '<div id="chat-message-area" class="userNo-{{uNo}}"></div>'
+    + '<div id="chat-message-area" class="userNo-{{userId}}"></div>'
     + '<div id="chat-room-input-area">'
     + '<input type="text" id="chat-room-input" autocomplete="off" onkeypress="sendMessage(event)"/>'
     + '</div>';

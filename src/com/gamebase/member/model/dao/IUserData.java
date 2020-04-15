@@ -12,5 +12,4 @@ public interface IUserData {
 	public UserData getByUserId(Integer userId);
 	public void deleteUserData(UserData userData);
 	public void saveUserData(UserData userData);
-	public List<Friends> getFriendList(Integer userId);
 }

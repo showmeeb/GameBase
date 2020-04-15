@@ -86,20 +86,4 @@ public class UserDataDAO implements IUserData {
 		return null;
 	}
 
-	@Override
-	public List<Friends> getFriendList(Integer userId) {
-		List<Friends> list = null;
-
-		try {
-			list = sessionFactory.getCurrentSession().createQuery("From Friends where userId=:uId", Friends.class)
-					.setParameter("uId", userId).getResultList();
-		} catch (NoResultException e) {
-			e.printStackTrace();
-			System.out.println("ERROR");
-			return null;
-		}
-		System.out.println(list);
-		return list;
-	}
-
 }

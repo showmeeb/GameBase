@@ -12,12 +12,14 @@ import com.gamebase.member.model.Rank;
 import com.gamebase.member.model.Role;
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UserProfile;
+import com.gamebase.member.model.UsersInfo;
 import com.gamebase.member.model.dao.EncryptDAO;
 import com.gamebase.member.model.dao.MailSenderDAO;
 import com.gamebase.member.model.dao.RankDAO;
 import com.gamebase.member.model.dao.RoleDAO;
 import com.gamebase.member.model.dao.UserDataDAO;
 import com.gamebase.member.model.dao.UserProfileDAO;
+import com.gamebase.member.model.dao.UsersInfoDAO;
 
 @Service
 @Transactional
@@ -35,6 +37,8 @@ public class UserDataService {
 	private MailSenderDAO mDao;
 	@Autowired
 	private EncryptDAO eDao;
+	@Autowired
+	private UsersInfoDAO uiDao;
 
 	public UserData getByLogin(String account, String password) {
 		return udDao.getByLogin(account, password);
@@ -79,25 +83,39 @@ public class UserDataService {
 	public UserData getByAccount(String account) {
 		return udDao.getByAccount(account);
 	}
-	public List<Friends> getFriendList(Integer userId){
-		return udDao.getFriendList(userId);
-	}
-	public UserData showUserData(String account) {
-		UserData bean = udDao.getByAccount(account);
-		
-		if(bean != null) {
+
+	public UsersInfo showUserData(String account) {
+		UsersInfo usersInfo = uiDao.selectById(account);
+
+		if (usersInfo != null) {
 			// get friend list
-			List<Friends> list = udDao.getFriendList(bean.getUserId());
-			
+			List<UsersInfo> list = uiDao.getFriendList(usersInfo.getUserId());
+
 			// set friend list
-			bean.setFriendsList(list);
-			
-			return bean;
+			usersInfo.setFriendsList(list);
+
+			return usersInfo;
 		} else {
 			return null;
 		}
+	}
+
+	public UsersInfo showUserData(Integer userNo) {
+		UsersInfo usersInfo = uiDao.selectByNo(userNo);
+
+		if (usersInfo != null) {
+			// get friend list
+			List<UsersInfo> list = uiDao.getFriendList(usersInfo.getUserId());
+
+			// set friend list
+			usersInfo.setFriendsList(list);
+
+			return usersInfo;
+		} else {
+			return null;
 		}
-		
+	}
+
 	public void saveUserPrfile(UserProfile userProfile) {
 		upDao.saveUserProfile(userProfile);
 	}
