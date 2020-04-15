@@ -54,7 +54,7 @@ $(document).ready(function(){
 			console.log(myurl);
 			//ajax send data to controller
 			$.ajax({
-				url:"/forum/"+articleTitle+"/add",
+				url:articleTitle+"/add",
 				dataType:"json",
 				type:"POST",
 				cache: false,
