@@ -6,11 +6,77 @@
 <head>
 <meta charset="utf-8">
 <title>this is XXX forum page</title>
+<!-- jQuery library -->
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<!-- editor improt -->
 <script
 	src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
+<!-- create new article -->
+<script>
+let editor;
+
+$(document).ready(function(){
+
+	var articleTitle = location.href.substring(location.href.lastIndexOf("/") + 1);
+	console.log(articleTitle);
+	
+	//editor submit	
+	$("#submit").click(function(){
+		console.log("click submit");
+		//get form's inputs and transform to json form
+// 		var a=$(this.form).serializeObject();
+// 		console.log(a);
+// 		var form = JSON.stringify(a);
+		
+		//get url (forum name = article title =article location)
+
+		//get img source
+		var jsonObj = {"urlList":[]};
+		var imgSrc = "";
+		
+		//get all img-element's source from the editor block
+		$(".publish-area img").each(function(){
+			console.log("jsonObj.urlList ="+jsonObj.urlList+", jsonObj.urlList[jsonObj.urlList.length]= "+jsonObj.urlList[jsonObj.urlList.length]);
+			console.log($(this).attr("src"));
+			jsonObj.urlList[jsonObj.urlList.length] = $(this).attr("src");
+        });
+		
+		//get first img's src
+		if(jsonObj.urlList.length != 0){
+			console.log("first img's src: "+jsonObj.urlList[0]);
+			imgSrc = jsonObj.urlList[0];
+		}
+		
+		//do function when editor has data and title has value
+		if(editor.getData() && $("#articleTitle").val()){
+			console.log("has data");
+			console.log(editor.getData());
+			var myurl="/forum/"+$("#forumName").text()+"/"+articleTitle+"/add";
+			console.log(myurl);
+			//ajax send data to controller
+			$.ajax({
+				url:"/forum/"+$("#forumName").text()+"/"+articleTitle+"/add",
+// 				dataType:"json",
+				type:"POST",
+				cache: false,
+	            data:{articleTitle: $("#articleTitle").val(),
+	            	accountId: $("#accountId").val(),
+               		content: editor.getData()
+               		},
+         		success : function(response) {
+        			console.log(response);
+
+        		}        			
+			})
+		}
+		
+	})
+});
+	
+</script>
 </head>
 <body>
-	<h1>主題：${forumName}</h1>
+	<h1 id="forumName">${forumName}</h1>
 	<hr />
 	<h2>標題:${mbList[0].boardTitle }</h2>
 
@@ -58,49 +124,46 @@
 		</c:forEach>
 	</c:if>
 
-
-	<a href="<c:url value="/forum/${forumName}/${item.id}/add"/>">insert
-		new child article</a>
-
 	<hr />
 	<!--輸入區 -->
 	<br /> ${mycontent}
 	<br />
 	<hr />
 	<h1>Classic editor</h1>
-	<form action="<c:url value="/forum/${forumName}/${item.id}/add"/>"
-		method="post">
+	<form>
 		<table>
 			<tr>
 				<td><p>your account id:</p></td>
-				<td><input type="text" name="accountId"></td>
+				<td><input type="text" id="accountId" name="accountId"></td>
 			</tr>
 			<tr>
 				<td><p>article title:</p></td>
-				<td><input type="text" name="articleTitle" value="${item.boardTitle}" disabled="disabled"></td>
+				<td><input type="text" id="articleTitle" name="articleTitle"
+					value="${mbList[0].boardTitle }" disabled="disabled"></td>
 			</tr>
 		</table>
-
+		<!-- CKeditor -->
 		<textarea name="content" id="editor">
             ${mycontent}
         </textarea>
-		<p>
-			<input type="submit" value="Reply">
-		</p>
-	</form>
-
-
-	<script>
-        ClassicEditor
-            .create( document.querySelector( '#editor' ),{
-                mediaEmbed:{
-                	previewsInData:true
+		<script>
+			editor = ClassicEditor
+            	.create( document.querySelector( '#editor' ),{
+                	mediaEmbed:{
+                		previewsInData:true
                     }
                 } )
-            .catch( error => {
-                console.error( error );
-            } );
-        CKEDITOR.config.extraPlugins = 'myplugin,anotherplugin';
-    </script>
+                .then( newEditor => {
+                	editor = newEditor
+                } )
+            	.catch( error => {
+                	console.error( error );
+        		} );
+//         CKEDITOR.config.extraPlugins = 'myplugin,anotherplugin';
+    	</script>
+
+	</form>
+
+	<button id="submit">reply</button>
 </body>
 </html>

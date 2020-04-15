@@ -10,7 +10,7 @@
 <body>
 <h1>Register</h1>
 <form action="<c:url value="/registact"/>" method="POST">
-	Account:<input type="text" name="account"/>${accerr}<br>
+	Account:<input type="text" name="account" maxlength="20"/>${accerr}<br>
 	Password:<input type="text" name="password"/>${pwderr}<br>
 	email:<input type="text" name="email"/>${emailerr}<br>
 	<input type="submit" value="submit"/>${registererr}

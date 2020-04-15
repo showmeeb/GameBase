@@ -16,13 +16,14 @@ import com.gamebase.member.model.UserData;
 
 @Repository
 public class UserDataDAO implements IUserData {
-	@Autowired
+
 	private SessionFactory sessionFactory;
 
-	/**
-	 * @param account , password
-	 * @return UserData , null
-	 */
+	@Autowired
+	public UserDataDAO(@Qualifier(value = "sessionFactory") SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+
 	@Override
 	public UserData getByLogin(String account, String password) {
 		Query<UserData> query = sessionFactory.getCurrentSession()
@@ -66,16 +67,12 @@ public class UserDataDAO implements IUserData {
 
 	@Override
 	public void deleteUserData(UserData userData) {
-
 		sessionFactory.getCurrentSession().delete(userData);
-
 	}
 
 	@Override
 	public void saveUserData(UserData userData) {
-
 		sessionFactory.getCurrentSession().save(userData);
-
 	}
 
 	public UserData getByAccount(String account) {

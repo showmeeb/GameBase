@@ -33,14 +33,13 @@ img{width: 50px }
 <title>Hello, world!</title>
 <style type="text/css">
 #du1 img {
-	width: 90px
+	width: 70px
 }
 
 #du1 li {
-	border: 1px solid black;
 	margin: 0px 10px 0px 10px;
 }
-#st1 img {width:150px}
+#st1 img {width:100px}
 </style>
 </head>
 <body>
@@ -74,19 +73,25 @@ img{width: 50px }
 					tabindex="-1" aria-disabled="true">Disabled</a></li>
 			</ul>
 			<form class="form-inline my-2 my-lg-0">
-				<input class="form-control mr-sm-2" type="search"
+				<input id="se1" class="form-control mr-sm-2" type="search"
 					placeholder="Search" aria-label="Search">
+					<select id="se1">
+					</select>
 				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 			</form>
+			<span id="shopcart" role="button" tabindex="0"
+				aria-pressed="true"><img src="https://i.imgur.com/fzG8Ocj.png"></span>
 		</div>
 	</nav>
-<<<<<<< HEAD:WebContent/WEB-INF/pages/shoppingPage.jsp
+
 	<div id="du1">
 		<ul class="nav justify-content-center">
-			<li id="sp" class="nav-item" role="button" tabindex="0"
+			<li id="swp" class="nav-item" role="button" tabindex="0"
 				aria-pressed="true"><img src="https://i.imgur.com/ilWFjYW.png"></li>
-			<li class="nav-item"><img src="https://i.imgur.com/chcSF3h.png"></li>
-			<li class="nav-item"><img src="https://i.imgur.com/pnzStW7.png"></li>
+			<li id="psp" class="nav-item"  role="button" tabindex="0"
+				aria-pressed="true"><img src="https://i.imgur.com/chcSF3h.png"></li>
+			<li id="pcp" class="nav-item"  role="button" tabindex="0"
+				aria-pressed="true"><img src="https://i.imgur.com/pnzStW7.png"></li>
 			<!-- <li class="nav-item"><a class="nav-link disabled" href="#"
 			tabindex="-1" aria-disabled="true">Disabled</a></li> -->
 		</ul>
@@ -96,8 +101,23 @@ img{width: 50px }
 	</div>
 
 	<script type="text/javascript">
+	function showtable(response) {
+						var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th>購物車";
+						for (let i = 0; i < response.length; i++) {
+							txt += "<tr><td>" + response[i].productId;
+							txt += "<td id='img'><img src='"+response[i].productImg+"'>";
+							txt += "<td>" + response[i].productName;
+							txt += "<td>" + response[i].productType;
+							txt += "<td>" + response[i].inventory;
+							txt += "<td>" + response[i].productPrice;
+							txt += "<td>" + response[i].productTag;
+							txt += "<td>" + response[i].productInfo;
+							txt += "<td><input type='button' id='addProduct' value='加入購物車'>"
+						}
+						$('#t1').html(txt);		
+	}
 		
-		$(document).on('click', '#sp', function() {
+		$(document).on('click', '#swp', function() {
 			var type = "switch";
 			$.ajax({
 				url : "shopping/switchProduct",
@@ -111,22 +131,114 @@ img{width: 50px }
 					var response = JSON.parse(JSON.stringify(response))
 					console.log(response);
 					console.log("yes");
-					var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th colspan='2'>設定";
-					for (let i = 0; i < response.length; i++) {
-						txt += "<tr><td>" + response[i].productId;
-						txt += "<td id='img'><img src='"+response[i].productImg+"'>";
-						txt += "<td>" + response[i].productName;
-						txt += "<td>" + response[i].productType;
-						txt += "<td>" + response[i].inventory;
-						txt += "<td>" + response[i].productPrice;
-						txt += "<td>" + response[i].productTag;
-						txt += "<td>" + response[i].productInfo;
-
-					}
-					$('#t1').html(txt);
+					showtable(response);
 				}
 			});
 		})
+		$(document).on('click', '#psp', function() {
+			var type = "PS";
+			$.ajax({
+				url : "shopping/switchProduct",
+				datatype : "text",
+				type : "POST",
+				data : {
+					type : type
+				},
+				success : function(response) {
+					console.log(response);
+					var response = JSON.parse(JSON.stringify(response))
+					console.log(response);
+					console.log("yes");
+					showtable(response);
+				}
+			});
+		})
+		$(document).on('click', '#pcp', function() {
+			var type = "pc";
+			$.ajax({
+				url : "shopping/switchProduct",
+				datatype : "text",
+				type : "POST",
+				data : {
+					type : type
+				},
+				success : function(response) {
+					console.log(response);
+					var response = JSON.parse(JSON.stringify(response))
+					console.log(response);
+					console.log("yes");
+					showtable(response);
+				}
+			});
+		})
+		
+		$(document).on('keyup', '#se1', function() {
+			var sh = $('#se1').val();
+			if (sh != "" && sh != null && sh != " ") {
+				$.ajax({
+					url : "tradesystem/search",
+					datatype : "json",
+					type : "GET",
+					data : {
+						sh : sh
+					},
+					success : function(response) {
+						console.log("yes");
+						console.log(response);
+						var txt = "";
+						$.map(response, function(v, index) {
+							txt +="<option>"+v.value;
+						});
+						$('#se1').html(txt);
+					}
+				});
+			}
+		})
+		
+		$(document).on('click', '#addProduct', function() {
+			var $tr = $(this).parents("tr");
+			var c = {};
+			$tr.find("td").not($("td:has(input)")).each(function(i, e) { //获取当前行所有除了含有button的td
+				var $td = $(this);
+				if(i==1){
+					c[i] = $td.find("img").attr("src");
+					console.log($td.find("img").attr("src"));
+					}
+				else{
+					c[i] = $td.text();
+					}
+				console.log($td.text());
+			});
+			console.log(c);
+			var b = JSON.stringify(c);
+			console.log(b);
+			$.ajax({
+				async : false,
+				url : "shopping/addProduct",
+				dataType : "json",
+				type : "POST",
+				data : {
+					b : b
+				},
+				success : function(response) {
+					console.log(response.t);
+					if (response.t == true) {
+						alert("放入成功");
+					} else {
+						alert("放入失敗");
+					}
+				}	
+			});
+
+
+			})
+			
+			$(document).on('click','#shopcart', function() {
+				location.assign("shoppingCartPage");
+			})
+			//$('#shopcart').click(function(){
+			//	window.location.href("/shoppingCartPage");
+			//	})
 	</script>
 
 </body>

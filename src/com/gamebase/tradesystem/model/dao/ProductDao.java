@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gamebase.tradesystem.model.Game;
 import com.gamebase.tradesystem.model.Product;
+import com.google.gson.Gson;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -30,35 +33,33 @@ public class ProductDao implements IProductDao {
 	}
 
 	@Override
-	public boolean add(JSONObject jobj) {
-
+	public JSONObject add(String form) {
+		JSONObject result = new JSONObject();
 		try {
-			Product pd = new Product("img", (String) jobj.get("productName"), (String) jobj.get("productType"),
-					Integer.valueOf((String) jobj.get("inventory")), Integer.valueOf((String) jobj.get("productPrice")),
-					(String) jobj.get("productTag"), (String) jobj.get("productInfo"));
+			Product pd = new Gson().fromJson(form, Product.class);
 			getSession().save(pd);
-			Query<Product> query = getSession().createQuery("from Product where productName=?1", Product.class);
-			query.setParameter(1, (String) jobj.get("productName"));
-
-			Product pd1 = query.getSingleResult();
-			if (jobj.getString("productType").equals("game")) {
-				Game game = new Game(pd1.getProductId(), (String) jobj.get("gameType"),
-						(String) jobj.get("gamePlatform"), (String) jobj.get("gameLevel"));
+			if (pd.getProductType().equals("game")) {
+				Game game = new Gson().fromJson(form, Game.class);
+				game.setProductId(pd.getProductId());
 				getSession().save(game);
-				return true;
+				result.put("t", true);
+				return result;
 			}
-			Game game = new Game(pd1.getProductId(),"null", null, null);
+			Game game = new Game(pd.getProductId(), "null", null, null);
 			getSession().save(game);
-			return true;
+			result.put("t", true);
+			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			result.put("t", false);
+			return result;
 		}
 
 	}
 
 	@Override
 	public JSONArray query() {
+
 		Session session = sessionFactory.getCurrentSession();
 		Query<Product> queryP = session.createQuery("from Product", Product.class);
 		// Query<Game> queryG = getSession().createQuery("from Game",Game.class);
@@ -84,7 +85,8 @@ public class ProductDao implements IProductDao {
 	}
 
 	@Override
-	public boolean delete(int id) {
+	public JSONObject delete(int id) {
+		JSONObject result = new JSONObject();
 		Session session = sessionFactory.getCurrentSession();
 		try {
 			Query query = session.createQuery("delete from Game where productId=?1");
@@ -94,36 +96,30 @@ public class ProductDao implements IProductDao {
 
 			session.delete(p1);
 			session.flush();
-			System.out.println("123");
-			return true;
+			result.put("t", true);
+			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			result.put("t", false);
+			return result;
 		}
 	}
 
 	@Override
-	public boolean update(JSONObject jobj) {
+	public JSONObject update(String b) {
 		Session session = sessionFactory.getCurrentSession();
+		JSONObject result = new JSONObject();
 		try {
-			System.out.println(Integer.valueOf((String) jobj.get("0")));
-			Product p1 = session.get(Product.class, Integer.valueOf((String) jobj.get("0")));
-			Session session2 = sessionFactory.getCurrentSession();
-			p1.setProductImg("IMG");// (String) jobj.get("1")
-			p1.setProductName((String) jobj.get("2"));
-			p1.setProductType((String) jobj.get("3"));
-			p1.setInventory((Integer.valueOf((String) jobj.get("4"))));
-			p1.setProductPrice((Integer.valueOf((String) jobj.get("5"))));
-			p1.setProductTag((String) jobj.get("6"));
-			p1.setProductInfo((String) jobj.get("7"));
-			session2.update(p1);
-			System.out.println("update success" + p1.getProductName());
-			return true;
+			Product p1 = this.translateKey(b);
+			session.update(p1);
+//			System.out.println("update success");
+			result.put("t", true);
+			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			result.put("t", false);
+			return result;
 		}
-
 	}
 
 	@Override
@@ -148,13 +144,13 @@ public class ProductDao implements IProductDao {
 
 	@Override
 	public JSONArray getSearch(String a) {
-
 		JSONArray jarray = new JSONArray();
 		Session session = sessionFactory.getCurrentSession();
-		Query<String> query = session.createQuery("select productName from Product where productName like'%"+a+"%'",String.class);
+		Query<String> query = session.createQuery("select productName from Product where productName like'%" + a + "%'",
+				String.class);
 		List<String> list = query.list();
 		System.out.println(list.size());
-		if (list.size()>0) {
+		if (list.size() > 0) {
 			for (String beans : list) {
 				Query<Product> query1 = session.createQuery("from Product where productName =?1", Product.class);
 				query1.setParameter(1, beans);
@@ -171,16 +167,39 @@ public class ProductDao implements IProductDao {
 					jobj.put("productInfo", beans1.getProductInfo());
 					jarray.add(jobj);
 				}
-
 			}
 		}
 		System.out.println(jarray + "1");
 		return jarray;
 	}
 
-	@Override
-	public void addProduct(Product product) {
-		Session session = sessionFactory.getCurrentSession();
-		session.save(product);		
+	public Product translateKey(String b) {
+		JSONObject jobj = JSONObject.fromObject(b);
+		Product p1 = new Product();
+		p1.setProductId(Integer.valueOf((String) jobj.get("0")));
+		p1.setProductImg("IMG");// (String) jobj.get("1")
+		p1.setProductName((String) jobj.get("2"));
+		p1.setProductType((String) jobj.get("3"));
+		p1.setInventory((Integer.valueOf((String) jobj.get("4"))));
+		p1.setProductPrice((Integer.valueOf((String) jobj.get("5"))));
+		p1.setProductTag((String) jobj.get("6"));
+		p1.setProductInfo((String) jobj.get("7"));
+		return p1;
+	}
+
+	public String getProductById(String productId) {
+		Product product = sessionFactory.getCurrentSession().get(Product.class, Integer.valueOf(productId));
+	//	Game game = sessionFactory.getCurrentSession().createQuery("Form Game where productId=" + productId, Game.class).uniqueResult();
+
+		String jsonString = "";
+		try {
+			jsonString = new ObjectMapper().writeValueAsString(product);
+	//		String gameString = new ObjectMapper().writeValueAsString(game);
+	//		System.out.println(jsonString+gameString);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+
+		return jsonString;
 	}
 }

@@ -20,9 +20,9 @@ public class UserOrderDao implements IProductDao {
 	
 
 	@Override
-	public boolean add(JSONObject jobj) {
+	public JSONObject add(String obj) {
 		Session session = sessionFactory.getCurrentSession();
-		return false;
+		return null;
 	}
 
 	@Override
@@ -32,15 +32,15 @@ public class UserOrderDao implements IProductDao {
 	}
 
 	@Override
-	public boolean delete(int id) {
+	public JSONObject delete(int id) {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	@Override
-	public boolean update(JSONObject jobj) {
+	public JSONObject update(String b) {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	@Override
@@ -56,10 +56,5 @@ public class UserOrderDao implements IProductDao {
 	}
 
 
-	@Override
-	public void addProduct(Product product) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

@@ -20,9 +20,11 @@ public class UploadImgController {
 	private UploadImgService uploadImgService;
 
 	@RequestMapping(value = "/uploadImg", method = RequestMethod.POST)
-	
-	public String tagSearch(@RequestParam("theFile") MultipartFile theFile,Model model) {
 
+	public String tagSearch(@RequestParam("theFile") MultipartFile theFile, Model model) throws Exception {
+
+		String strURL = uploadImgService.uploadImg(theFile);
+		System.out.println(strURL);
 
 		return "searchResults";
 	}
