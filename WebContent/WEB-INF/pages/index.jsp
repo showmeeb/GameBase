@@ -10,8 +10,6 @@
 <meta  http-equiv="Pragma"  CONTENT="no-cache">
 <title>GameBase</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 <!-- Bootstrap -->
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -33,7 +31,7 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
 <!-- main js -->
-<script src="<c:url value="/js/chatRoom.js"/>"></script>
+<script src="<c:url value="/js/main.js"/>"></script>
 <!-- main style -->
 <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
 </head>
@@ -60,12 +58,14 @@
 				class="nav-link dropdown-toggle" href="#" id="navbardrop"
 				data-toggle="dropdown">會員系統</a>
 				<div class="dropdown-menu">
-					<a class="dropdown-item" href="<c:url value="/gologin"/>">登入</a> <a
-						class="dropdown-item" href="<c:url value="/goregister"/>">註冊</a> <a
-						class="dropdown-item" href="#">管理個人資料</a> <a class="dropdown-item"
-						href="<c:url value="/createProfile"/>">新增個人資料</a> <a
-						class="dropdown-item" href="<c:url value="/updateProfile"/>">修改個人資料</a>
-
+					<c:if test="${empty UserData.userId}">
+					<a class="dropdown-item" href="<c:url value="/gotologin"/>">登入</a> 
+					</c:if>
+					<a class="dropdown-item" href="<c:url value="/gotoregister"/>">註冊</a>
+					<c:if test="${!empty UserData.userId}">
+					<a class="dropdown-item" href="<c:url value="/createProfile/${UserData.userId}"/>">管理個人資料</a>
+					<a class="dropdown-item" href="<c:url value="/logout"/>">登出</a>
+					</c:if>
 				</div></li>
 			<li class="nav-item"><a class="nav-link"
 				href="<c:url value="/forum"/>">討論區</a></li>
@@ -77,7 +77,7 @@
 	<!-- login and regist pop up windows (with shadow) -->
 	<%@ include file="include/loginArea.jsp"%>
 	<!-- Start Chat Room Area -->
-	<%@ include file="include/chatRoom.jsp" %>
+	<%@ include file="include/chatRoom.jsp"%>
 	<!-- End Chat Room Area -->
 </body>
 </html>

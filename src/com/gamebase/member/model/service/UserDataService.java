@@ -3,6 +3,8 @@ package com.gamebase.member.model.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -120,10 +122,6 @@ public class UserDataService {
 		upDao.saveUserProfile(userProfile);
 	}
 
-	public UserProfile updateUserProfile(UserProfile userProfile) {
-		return upDao.updateUserProfile(userProfile);
-	}
-
 	public Map<String, String> mailAction(String acc, String email) {
 		return mDao.mailAction(acc, email);
 	}
@@ -143,4 +141,22 @@ public class UserDataService {
 	public String decryptString(String stringToDecrypt) {
 		return eDao.decryptString(stringToDecrypt);
 	}
+	
+	public UserProfile updateUserProfile(Map<String, String[]> upMap) {
+		return upDao.updateUserProfile(upMap);
+	}
+	
+	public void logout(HttpServletRequest request) {
+		udDao.logout(request);
+	}
+	
+	public UserProfile getProfileByUserId(Integer userId) {
+		UserProfile myBean = upDao.getProfileByUserId(userId);
+		if(myBean!=null) {
+			return myBean;
+		}
+		return null;
+		
+	}
+
 }

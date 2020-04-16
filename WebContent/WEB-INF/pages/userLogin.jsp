@@ -17,7 +17,7 @@
 	<form action="<c:url value="/loginact"/>" method="POST">
 		Account:<input type="text" name="account">${requestScope.accerr}
 		<br> Password:<input type="password" name="password">${requestScope.pwderr}
-		<br> <input type="submit" value="Login">${requestScope.loginerr}
+		<br> <input type="submit" value="Login">${requestScope.loginerr}<input type="checkbox" name="save"/>Remember Me
 	</form>
 	<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 	<a href="#" οnclick="signOut();">Sign out</a>
