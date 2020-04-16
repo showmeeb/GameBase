@@ -108,14 +108,14 @@ $(document).ready(function () {
 });
 
 function userLogin() {
-    var userID = $("#login-form input[name='user']").val();
+    var userAcc = $("#login-form input[name='user']").val();
     var pwd = $("#login-form input[name='pwd']").val();
 
     // empty check
-    if (userID != "" && pwd != "") {
+    if (userAcc != "" && pwd != "") {
         // for login AJAX operation use
         $.ajax({
-            url: "/GameBase/Users/" + userID,
+            url: "/GameBase/Users/" + userAcc,
             type: "POST",
             data: { pwd: pwd },
             success: function (data) {
@@ -669,7 +669,7 @@ $(document).ready(function () {
     $(".chat-room-friend").click(function () {
 
         var userObj = {};
-        userObj.userId = $(this).children(".chat-room-user-no").text();
+        userObj.userId = $(this).children(".chat-room-user-id").text();
         userObj.account = $(this).children(".chat-room-friend-name").text();
         userObj.snapshot = $(this).children(".chat-room-friend-icon").attr("src");
 
@@ -723,7 +723,7 @@ function showChatContentArea(element) {
     // get loginUser object from sessionStorage
     var loginUserObj = JSON.parse(window.sessionStorage.getItem("loginUser"));
 
-    var userNo = $(element).children(".chat-room-user-no").text();
+    var userNo = $(element).children(".chat-room-user-id").text();
 
     // get user object from user list in chat room object
     var userObj = "";
@@ -745,7 +745,7 @@ function showChatContentArea(element) {
     // fill chat area with chat history
     var chatContent;
     for (let singleChat of chatRoomObj.chatHistory) {
-        if (singleChat.userId == userNo) {
+        if (singleChat.userNo == userNo) {
             chatContent = singleChat.chatContent;
         }
     }
@@ -780,7 +780,7 @@ function showUsersDiaglog(element) {
 
     // get user data from friend list
     var userObj = {};
-    userObj.userId = $(element).children(".chat-room-user-no").text();
+    userObj.userId = $(element).children(".chat-room-user-id").text();
     userObj.account = $(element).children(".chat-room-friend-name").text();
     userObj.snapshot = $(element).children(".chat-room-friend-icon").attr("src");
 
@@ -871,6 +871,7 @@ function hideChatRoom(flag) {
             // for logout use
             if (flag) {
                 $(".chat-room-area").hide();
+                console.log('hideChatRoom.hide');
             }
         });
     });
@@ -909,7 +910,7 @@ function sendMessage(event) {
 
         // update brief message in users list
         $(".chat-room-user").each(function () {
-            if ($(this).children(".chat-room-user-no").text() == userNo) {
+            if ($(this).children(".chat-room-user-id").text() == userNo) {
                 $(this).children(".chat-user-brief-message").text($("#chat-room-input").val());
                 $(this).children(".chat-user-message-time").text(currentTime);
             }
@@ -922,6 +923,7 @@ function sendMessage(event) {
                 singleChat.chatContent[singleChat.chatContent.length] = msgObj;
                 flag = false;
             }
+            console.log(flag);
         }
 
         if (flag) {
@@ -929,7 +931,9 @@ function sendMessage(event) {
                 userNo: userNo,
                 chatContent: [msgObj]
             }
-
+            console.log(flag);
+            console.log(chatContent)
+            
             chatRoomObj.chatHistory[chatRoomObj.chatHistory.length] = chatContent;
         }
 
@@ -1027,7 +1031,7 @@ function showMessageOutput(msgOutput) {
 
     // update brief message and time in users list
     $(".chat-room-user").each(function () {
-        if ($(this).children(".chat-room-user-no").text() == msgOutput.from) {
+        if ($(this).children(".chat-room-user-id").text() == msgOutput.from) {
             $(this).children(".chat-user-brief-message").text(msgOutput.message);
             $(this).children(".chat-user-message-time").text(msgOutput.time);
         }
@@ -1040,6 +1044,7 @@ function showMessageOutput(msgOutput) {
             singleChat.chatContent[singleChat.chatContent.length] = msgOutput;
             flag = false;
         }
+        console.log(flag);
     }
 
     if (flag) {
@@ -1047,12 +1052,15 @@ function showMessageOutput(msgOutput) {
             userNo: msgOutput.from,
             chatContent: [msgOutput]
         }
+        console.log(flag);
+        console.log(chatContent)
 
         chatRoomObj.chatHistory[chatRoomObj.chatHistory.length] = chatContent;
     }
 
     // show data from message input area
-    if ($("#chat-message-area").hasClass("userNo-" + msgOutput.from)) {
+    //msgOutput.from<---userId
+    if ($("#chat-message-area").hasClass("id-" + msgOutput.from)) {
         $("#chat-message-area").append(Mustache.render(replyMsgTemplate, msgOutput));
 
         // move the scroll bar to the end
@@ -1070,8 +1078,9 @@ function showOnlineUsers(userList) {
 
     // show specific online mark
     $(".chat-room-friend").each(function () {
-        var userNO = $(this).children(".chat-room-user-no").text();
-
+        var userNO = $(this).children(".chat-room-user-id").text();
+//console.log(userNo);
+//console.log(userList);
         for (var user of userList) {
             if (userNO == user) {
                 $(this).children(".chat-room-friend-online-light").show(500);
@@ -1083,8 +1092,11 @@ function showOnlineUsers(userList) {
 function hideOfflineUser(user) {
     // hide specific online mark
     $(".chat-room-friend").each(function () {
-        var userNO = $(this).children(".chat-room-user-no").text();
-        //		console.log(userNo);
+    	console.log(this);	
+        var userNO = $(this).children(".chat-room-user-id").text();
+        	
+        console.log(userNO);
+        		console.log(user);
 
         if (userNO == user) {
             $(this).children(".chat-room-friend-online-light").hide(500);
@@ -1096,7 +1108,7 @@ function hideOfflineUser(user) {
 //<div class="chat-room-friend">
 //	<img class="chat-room-friend-icon" src="img/userIcon.png" />
 //	<div class="chat-room-friend-name">我GM</div>
-//	<div class="chat-room-user-no">100</div>
+//	<div class="chat-room-user-id">100</div>
 //	<div class="chat-room-friend-online-light"></div>
 //</div>
 
@@ -1104,7 +1116,7 @@ var chatRoomFriendsListTemplate = '{{#friendsList}}'
     + '<div class="chat-room-friend" onclick="showUsersDiaglog(this)">'
     + '<img class="chat-room-friend-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}" />'
     + '<div class="chat-room-friend-name">{{account}}</div>'
-    + '<div class="chat-room-user-no">{{userId}}</div>'
+    + '<div class="chat-room-user-id">{{userId}}</div>'
     + '<div class="chat-room-friend-online-light"></div>'
     + '</div>'
     + '{{/friendsList}}';
@@ -1113,7 +1125,7 @@ var chatRoomFriendsListTemplate = '{{#friendsList}}'
 //<div class="chat-room-user" onclick="showChatContentArea(this)" >
 //    <img class="chat-user-icon" src="img/userIcon.png" />
 //    <div class="chat-user-name">名字名字名字名字名字名字名字</div>
-//    <div class="chat-room-user-no">0</div>
+//    <div class="chat-room-user-id">0</div>
 //    <div class="chat-user-brief-message">
 //        訊息訊息訊息訊息訊息訊息訊息訊息
 //    </div>
@@ -1125,7 +1137,7 @@ var chatRoomFriendsListTemplate = '{{#friendsList}}'
 var chatRoomUsersTemplate = '<div class="chat-room-user" onclick="showChatContentArea(this)" >'
     + '<img class="chat-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}" />'
     + '<div class="chat-user-name">{{account}}</div>'
-    + '<div class="chat-room-user-no">{{userId}}</div>'
+    + '<div class="chat-room-user-id">{{userId}}</div>'
     + '<div class="chat-user-brief-message">{{message}}</div>'
     + '<div class="chat-user-message-time">{{time}}</div>'
     + '</div>';
@@ -1165,7 +1177,7 @@ var chatRoomContentTemplate = '<div id="chat-header-area">'
     + '<div id="chat-header-name">{{account}}</div>'
     + '<i class="fas fa-times" onclick="emptyChatContentArea()"></i>'
     + '</div>'
-    + '<div id="chat-message-area" class="userNo-{{userId}}"></div>'
+    + '<div id="chat-message-area" class="id-{{userId}}"></div>'
     + '<div id="chat-room-input-area">'
     + '<input type="text" id="chat-room-input" autocomplete="off" onkeypress="sendMessage(event)"/>'
     + '</div>';
