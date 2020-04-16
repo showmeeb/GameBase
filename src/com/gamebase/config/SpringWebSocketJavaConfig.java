@@ -22,7 +22,7 @@ public class SpringWebSocketJavaConfig implements WebSocketMessageBrokerConfigur
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		//topic=預設的廣播channel；queue=預設的一對一channel；regist=自己開一個讓大家知道自己上線的channel
-		registry.enableSimpleBroker("/topic/","/queue/","/registry/");
+		registry.enableSimpleBroker("/topic/","/queue/","/regist/");
 		registry.setApplicationDestinationPrefixes("/app");
 	}
 

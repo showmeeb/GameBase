@@ -8,6 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.jndi.JndiObjectFactoryBean;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
@@ -16,43 +20,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
+@EnableRedisRepositories(basePackages = "com.gamebase.general")
 @ComponentScan(basePackages = { "com.gamebase.general", "com.gamebase.article", "com.gamebase.member",
 		"com.gamebase.tradesystem" })
 
 //SpringJavaConfig設定與資料庫有關的操作
 @Import(com.gamebase.config.SpringWebSocketJavaConfig.class)
 public class SpringJavaConfig {
-
-	// standard dataSource
-//	@Bean
-//	public DataSource dataSource() {
-//		DataSource ds = null;
-//		
-//		try {
-//			InitialContext context = new InitialContext();
-//			ds = (DataSource) context.lookup("java:comp/env/jdbc/MotoZoneDB");
-//		} catch (NamingException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return ds;
-//		
-//	}
-
-	// spring fake dataSource
-//	@Bean
-//	public DataSource dataSource() {
-//		DriverManagerDataSource dmds = new DriverManagerDataSource();
-//		
-//		// set properties
-//		dmds.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-//		dmds.setUrl("jdbc:sqlserver://localhost:1433;databaseName=MotoZone");
-//		dmds.setUsername("sa");
-//		dmds.setPassword("passw0rd");
-//		
-//		return dmds;
-//		
-//	}
 
 	@Bean
 	public DataSource dataSource() {
@@ -74,6 +48,22 @@ public class SpringJavaConfig {
 
 		return (DataSource) factory.getObject();
 
+	}
+	@Bean
+	public RedisConnectionFactory connectionFactory() {
+		JedisConnectionFactory factory = new JedisConnectionFactory();
+		factory.setHostName("localhost");
+		factory.setPort(6379);
+		factory.setDatabase(0); // default is DB0
+		
+		return factory;
+	}
+	
+	@Bean
+	public RedisTemplate<String, Object> redisTemplate() {
+		RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
+		template.setConnectionFactory(connectionFactory());
+		return template;
 	}
 
 	@Bean
