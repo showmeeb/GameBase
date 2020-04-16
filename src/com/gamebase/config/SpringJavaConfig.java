@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@EnableRedisRepositories(basePackages = "com.gamebase.general")
+//@EnableRedisRepositories(basePackages = "com.gamebase.general")
 @ComponentScan(basePackages = { "com.gamebase.general", "com.gamebase.article", "com.gamebase.member",
 		"com.gamebase.tradesystem" })
 
@@ -49,22 +49,22 @@ public class SpringJavaConfig {
 		return (DataSource) factory.getObject();
 
 	}
-	@Bean
-	public RedisConnectionFactory connectionFactory() {
-		JedisConnectionFactory factory = new JedisConnectionFactory();
-		factory.setHostName("localhost");
-		factory.setPort(6379);
-		factory.setDatabase(0); // default is DB0
-		
-		return factory;
-	}
-	
-	@Bean
-	public RedisTemplate<String, Object> redisTemplate() {
-		RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
-		template.setConnectionFactory(connectionFactory());
-		return template;
-	}
+//	@Bean
+//	public RedisConnectionFactory connectionFactory() {
+//		JedisConnectionFactory factory = new JedisConnectionFactory();
+//		factory.setHostName("localhost");
+//		factory.setPort(6379);
+//		factory.setDatabase(0); // default is DB0
+//		
+//		return factory;
+//	}
+//	
+//	@Bean
+//	public RedisTemplate<String, Object> redisTemplate() {
+//		RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
+//		template.setConnectionFactory(connectionFactory());
+//		return template;
+//	}
 
 	@Bean
 	public SessionFactory sessionFactory() {

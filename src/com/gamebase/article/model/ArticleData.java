@@ -8,11 +8,13 @@ public class ArticleData {
 	private Integer likeNum;
 	private Integer unlikeNum;
 	private Integer shareNum;
+	private Integer forumId;
 
 	public ArticleData() {
 	}
 
-	public ArticleData(Integer titleId) {
+	public ArticleData(Integer forumId, Integer titleId) {
+		this.forumId = forumId;
 		this.titleId = titleId;
 		this.clickNum = 0;
 		this.likeNum = 0;
@@ -20,7 +22,8 @@ public class ArticleData {
 		this.shareNum = 0;
 	}
 	
-	public ArticleData(Integer titleId, Integer clickNum, Integer likeNum, Integer unlikeNum, Integer shareNum) {
+	public ArticleData(Integer forumId, Integer titleId, Integer clickNum, Integer likeNum, Integer unlikeNum, Integer shareNum) {
+		this.forumId = forumId;
 		this.titleId = titleId;
 		this.clickNum = clickNum;
 		this.likeNum = likeNum;
@@ -76,4 +79,13 @@ public class ArticleData {
 		this.shareNum = shareNum;
 	}
 
+	public Integer getForumId() {
+		return forumId;
+	}
+
+	public void setForumId(Integer forumId) {
+		this.forumId = forumId;
+	}
+
+	
 }
