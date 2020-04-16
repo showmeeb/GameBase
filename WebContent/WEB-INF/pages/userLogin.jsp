@@ -13,7 +13,22 @@
 <title>Login Page</title>
 </head>
 <body>
-
+	<%
+		String account="";
+		String password="";
+		
+		Cookie[] cookies = request.getCookies();
+		if(cookies!=null){
+			for(Cookie cookie:cookies){
+				String name=cookie.getName();
+				if("account".equals(name)){
+					account=cookie.getValue();
+				}else if("password".equals(name)){
+					password=cookie.getValue();
+				}
+			}
+		}
+	%>
 	<form action="<c:url value="/loginact"/>" method="POST">
 		Account:<input type="text" name="account">${requestScope.accerr}
 		<br> Password:<input type="password" name="password">${requestScope.pwderr}
