@@ -23,10 +23,12 @@ public class UploadImgController {
 
 	public String tagSearch(@RequestParam("theFile") MultipartFile theFile, Model model) throws Exception {
 
-		String strURL = uploadImgService.uploadImg(theFile);
-		System.out.println(strURL);
+		String imgURL = uploadImgService.uploadImg(theFile);
+		System.out.println(imgURL);
 
-		return "searchResults";
+		model.addAttribute("imgURL",imgURL);
+		
+		return "topBar";
 	}
 
 }
