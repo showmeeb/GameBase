@@ -5,7 +5,9 @@
 <head>
 
 <style>
-img{width: 50px }
+img {
+	width: 50px
+}
 </style>
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -39,7 +41,14 @@ img{width: 50px }
 #du1 li {
 	margin: 0px 10px 0px 10px;
 }
-#st1 img {width:100px}
+
+#st1 img {
+	width: 300px; float:left;
+}
+
+div {
+	border: 1px solid grey
+}
 </style>
 </head>
 <body>
@@ -75,14 +84,12 @@ img{width: 50px }
 			<form class="form-inline my-2 my-lg-0">
 				<input id="se1" class="form-control mr-sm-2" type="search"
 					placeholder="Search" aria-label="Search">
-					<select id="se1">
-					</select>
 				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 			</form>
-			<span id="order" role="button" tabindex="0"
-				aria-pressed="true"><img src="https://i.imgur.com/MflYSUa.jpg"></span>
-			<span id="shopcart" role="button" tabindex="0"
-				aria-pressed="true"><img src="https://i.imgur.com/fzG8Ocj.png"></span>
+			<span id="order" role="button" tabindex="0" aria-pressed="true"><img
+				src="https://i.imgur.com/MflYSUa.jpg"></span> <span id="shopcart"
+				role="button" tabindex="0" aria-pressed="true"><img
+				src="https://i.imgur.com/fzG8Ocj.png"></span>
 		</div>
 	</nav>
 
@@ -90,35 +97,85 @@ img{width: 50px }
 		<ul class="nav justify-content-center">
 			<li id="swp" class="nav-item" role="button" tabindex="0"
 				aria-pressed="true"><img src="https://i.imgur.com/ilWFjYW.png"></li>
-			<li id="psp" class="nav-item"  role="button" tabindex="0"
+			<li id="psp" class="nav-item" role="button" tabindex="0"
 				aria-pressed="true"><img src="https://i.imgur.com/chcSF3h.png"></li>
-			<li id="pcp" class="nav-item"  role="button" tabindex="0"
+			<li id="pcp" class="nav-item" role="button" tabindex="0"
 				aria-pressed="true"><img src="https://i.imgur.com/pnzStW7.png"></li>
 			<!-- <li class="nav-item"><a class="nav-link disabled" href="#"
 			tabindex="-1" aria-disabled="true">Disabled</a></li> -->
 		</ul>
 	</div>
 	<div id="st1">
-		<table id="t1"></table>
+		<table id="t1">
+			<div style="width:1500px; height:550px">
+				<ul style="display: flex; justify-content: flex-start;">
+					<li><div style="width: 28rem; display: flex; justify-content: flex-start; padding: 3px">
+							<div Style="width: 19rem; float:left; border:1px solid red"><img src="https://i.imgur.com/MFhKz0M.jpg?1" ></div>
+							
+							<div style="float: right">
+								<h5 class="card-title">薩俺達</h5>
+								<p class="card-text">Some quick example text to build on the
+									card title and make up the bulk of the card's content.</p>
+									<p class="card-text">1899</p>
+							</div>
+						</div>
+					</li>
+					<li><div style="width: 28rem; display: flex; justify-content: flex-start; padding: 3px">
+							<div Style="width: 19rem; float:left; border:1px solid red"><img src="https://i.imgur.com/MFhKz0M.jpg?1" ></div>
+							
+							<div style="float: right">
+								<h5 class="card-title">薩俺達</h5>
+								<p class="card-text">Some quick example text to build on the
+									card title and make up the bulk of the card's content.</p>
+									<p class="card-text">1899</p>
+							</div>
+						</div>
+					</li>
+					<li><div style="width: 28rem; display: flex; justify-content: flex-start; padding: 3px">
+							<div Style="width: 19rem; float:left; border:1px solid red"><img src="https://i.imgur.com/MFhKz0M.jpg?1" ></div>
+							
+							<div style="float: right">
+								<h5 class="card-title">薩俺達</h5>
+								<p class="card-text">Some quick example text to build on the
+									card title and make up the bulk of the card's content.</p>
+									<p class="card-text">1899</p>
+							</div>
+						</div>
+					</li>
+					<li><div style="width: 28rem; display: flex; justify-content: flex-start; padding: 3px">
+							<div Style="width: 19rem; float:left; border:1px solid red"><img src="https://i.imgur.com/MFhKz0M.jpg?1" ></div>
+							
+							<div style="float: right">
+								<h5 class="card-title">薩俺達</h5>
+								<p class="card-text">Some quick example text to build on the
+									card title and make up the bulk of the card's content.</p>
+									<p class="card-text">1899</p>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+		</table>
 	</div>
 
 	<script type="text/javascript">
-	function showtable(response) {
-						var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th>購物車";
-						for (let i = 0; i < response.length; i++) {
-							txt += "<tr><td>" + response[i].productId;
-							txt += "<td id='img'><img src='"+response[i].productImg+"'>";
-							txt += "<td>" + response[i].productName;
-							txt += "<td>" + response[i].productType;
-							txt += "<td>" + response[i].inventory;
-							txt += "<td>" + response[i].productPrice;
-							txt += "<td>" + response[i].productTag;
-							txt += "<td>" + response[i].productInfo;
-							txt += "<td><input type='button' id='addProduct' value='加入購物車'>"
-						}
-						$('#t1').html(txt);		
-	}
-		
+		function showtable(response) {
+			var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th>購物車";
+			for (let i = 0; i < response.length; i++) {
+				txt += "<tr><td>" + response[i].productId;
+				txt += "<td id='img'><img src='"+response[i].productImg+"'>";
+				txt += "<td>" + response[i].productName;
+				txt += "<td>" + response[i].productType;
+				txt += "<td>" + response[i].inventory;
+				txt += "<td>" + response[i].productPrice;
+				txt += "<td>" + response[i].productTag;
+				txt += "<td>" + response[i].productInfo;
+				txt += "<td><input type='button' id='addProduct' value='加入購物車'>"
+			}
+			$('#t1').html(txt);
+		}
+
 		$(document).on('click', '#swp', function() {
 			var type = "switch";
 			$.ajax({
@@ -173,47 +230,46 @@ img{width: 50px }
 				}
 			});
 		})
-		
-		$(document).on('keyup', '#se1', function() {
-			var sh = $('#se1').val();
-			if (sh != "" && sh != null && sh != " ") {
-				$.ajax({
-					url : "tradesystem/search",
-					datatype : "json",
-					type : "GET",
-					data : {
-						sh : sh
-					},
-					success : function(response) {
-						console.log("yes");
-						console.log(response);
-						var txt = "";
-						$.map(response, function(v, index) {
-							txt +="<option>"+v.value;
-						});
-						$('#se1').html(txt);
-					}
-				});
-			}
-		})
-		
+
+		//$(document).on('keyup', '#se1', function() {
+		//	var sh = $('#se1').val();
+		//	if (sh != "" && sh != null && sh != " ") {
+		//		$.ajax({
+		//			url : "tradesystem/search",
+		//			datatype : "json",
+		//			type : "GET",
+		//			data : {
+		//				sh : sh
+		//			},
+		//			success : function(response) {
+		//				console.log("yes");
+		//				console.log(response);
+		//				var txt = "";
+		//				$.map(response, function(v, index) {
+		//					txt +="<option>"+v.value;
+		//				});
+		//				$('#se1').html(txt);
+		//			}
+		//		});
+		//	}
+		//})
+
 		$(document).on('click', '#addProduct', function() {
-			var userId =${UserData.userId};
-			console.log("userId:"+userId);
+			//var userId =${UserData.userId};
+			console.log("userId:" + userId);
 			var $tr = $(this).parents("tr");
 			var c = {};
 			$tr.find("td").not($("td:has(input)")).each(function(i, e) { //获取当前行所有除了含有button的td
 				var $td = $(this);
-				if(i==1){
+				if (i == 1) {
 					c[i] = $td.find("img").attr("src");
 					console.log($td.find("img").attr("src"));
-					}
-				else{
+				} else {
 					c[i] = $td.text();
-					}
+				}
 				console.log($td.text());
 			});
-			c[8]=userId;
+			c[8] = userId;
 			console.log(c);
 			var b = JSON.stringify(c);
 			console.log(b);
@@ -232,20 +288,20 @@ img{width: 50px }
 					} else {
 						alert("放入失敗");
 					}
-				}	
+				}
 			});
-			})
-			
-			$(document).on('click','#order', function() {
-				location.assign("orderPage");
-			})
-			
-			$(document).on('click','#shopcart', function() {
-				location.assign("shoppingCartPage");
-			})
-			//$('#shopcart').click(function(){
-			//	window.location.href("/shoppingCartPage");
-			//	})
+		})
+
+		$(document).on('click', '#order', function() {
+			location.assign("orderPage");
+		})
+
+		$(document).on('click', '#shopcart', function() {
+			location.assign("shoppingCartPage");
+		})
+		//$('#shopcart').click(function(){
+		//	window.location.href("/shoppingCartPage");
+		//	})
 	</script>
 
 </body>
