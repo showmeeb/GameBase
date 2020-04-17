@@ -20,16 +20,12 @@ public class UserProfileDAO {
 		this.sessionFactory = sessionFactory;
 	}
 
-	
-
 	public void saveUserProfile(UserProfile userProfile) {
-
-		sessionFactory.getCurrentSession().save(userProfile);
-		System.out.println("1");
+			sessionFactory.getCurrentSession().saveOrUpdate(userProfile);
 	}
 
 	public UserProfile updateUserProfile(Map<String, String[]> upMap) {
-		
+
 		Query<UserProfile> up = sessionFactory.getCurrentSession().createQuery("From UserProfile where userId=:userId",
 				UserProfile.class);
 
@@ -43,8 +39,20 @@ public class UserProfileDAO {
 		userProfile.setGender(upMap.get("gender")[0]);
 		userProfile.setNickName(upMap.get("nickName")[0]);
 		userProfile.setPhone(upMap.get("phone")[0]);
-
+		userProfile.setImg(upMap.get("img")[0]);
 		return userProfile;
+	}
+
+	public Integer getProfileIdByUserId(Integer userId) {
+		Query<Integer> query = sessionFactory.getCurrentSession()
+				.createQuery("Select profileId From UserProfile where userId=:userId", Integer.class);
+		query.setParameter("userId", userId);
+		Integer myId = query.uniqueResult();
+		System.out.println("PId=" + myId);
+		if (myId != null) {
+			return myId;
+		}
+		return null;
 	}
 
 	public UserProfile getProfileByUserId(Integer userId) {
@@ -55,7 +63,6 @@ public class UserProfileDAO {
 		if (myBean != null) {
 			return myBean;
 		}
-			return null;
+		return myBean;
 	}
 }
-

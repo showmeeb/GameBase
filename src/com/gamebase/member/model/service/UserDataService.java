@@ -150,13 +150,21 @@ public class UserDataService {
 		udDao.logout(request);
 	}
 	
+	public Integer getProfileIdByUserId(Integer userId) {
+		Integer myId = upDao.getProfileIdByUserId(userId);
+		System.out.println("SPId="+myId);
+		if(myId!=null) {
+			return myId;
+		}
+		return null;
+	}
+	
 	public UserProfile getProfileByUserId(Integer userId) {
 		UserProfile myBean = upDao.getProfileByUserId(userId);
 		if(myBean!=null) {
 			return myBean;
 		}
-		return null;
-		
+		return myBean;
 	}
 
 }
