@@ -61,6 +61,10 @@ public class ArticleTitleDAO implements IArticleTitleDAO {
 		result.setTitleName(title.getTitleName());
 		result.setFirstFigure(title.getFirstFigure());
 		result.setLastReplyTime(title.getLastReplyTime());
+		result.setClickNum(title.getClickNum());
+		result.setLikeNum(title.getLikeNum());
+		result.setUnlikeNum(title.getUnlikeNum());
+		result.setShareNum(title.getShareNum());
 		return result;
 	}
 
