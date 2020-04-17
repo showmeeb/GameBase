@@ -26,8 +26,8 @@ public class Product {
 	private int productPrice;
 	private String productTag;
 	private String productInfo;
-	private Game game;
-//	private Host host;
+
+
 
 	public Product() {
 	};

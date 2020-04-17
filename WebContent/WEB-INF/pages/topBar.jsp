@@ -100,6 +100,8 @@
 				<a href="yahoo">註冊</a> | <a href="yahoo">登入</a>
 			</div>
 		</div>
+				<div style="margin-top:100px"><img src="${imgURL}"> </div>
+		
 	</nav>
 
 </body>

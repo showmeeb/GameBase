@@ -34,17 +34,22 @@ public class ChatController {
 		Map<String, String> userMap = new HashMap<>();
 
 		for (SimpUser user : simpUserRegistry.getUsers()) {
-			userList.add(user.getName());
-			userMap.put(user.getName(), "online");
+			String userName = user.getName();
+			userList.add(userName);
+			System.out.println("ChatController_user.getName: " + user.getName());
+			userMap.put(userName, "online");
 		}
-		if ("regist".equals(message.getTo()[0])) {
+		System.out.println("ChatController_message.getTo[0]: "+ message.getTo()[0]);
+		String toMessage = message.getTo()[0];
+		if ("regist".equals(toMessage)) {
 			// convertAndSend = send a message to the given user.
 			simpMessagingTemplate.convertAndSend("/regist/messages", userList);
-		} else if ("logout".equals(message.getTo()[0])) {
+		} else if ("logout".equals(toMessage)) {
 			simpMessagingTemplate.convertAndSend("/topic/messages", message.getFrom());
-		} else if ("broadcast".equals(message.getTo()[0])) {
+		} else if ("broadcast".equals(toMessage)) {
 			simpMessagingTemplate.convertAndSend("/topic/messages", message);
 		} else {
+			System.out.println("ChatController_message.getTo: "+ message.getTo());
 			for (String to : message.getTo()) {
 				// offline routine message
 				if (!userMap.containsKey(to)) {
@@ -56,6 +61,7 @@ public class ChatController {
 					// Convert the given Object to serialized form, possibly using a
 					// MessageConverter, wrap it as a message and send it to the given destination.
 					simpMessagingTemplate.convertAndSendToUser(message.getFrom(), "/queue/messages", msg);
+					System.out.println("message.getFrom(): " + message.getFrom());
 				} else {
 					simpMessagingTemplate.convertAndSendToUser(to, "/queue/messages", message);
 				}

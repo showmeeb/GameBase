@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
+<style>
+img{width: 50px }
+</style>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
@@ -25,10 +28,15 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
-
-<title>Hello, world!</title>
+<title>Insert title here</title>
+<style type="text/css">
+#du1 img {
+	width: 70px
+}
+</style>
 </head>
 <body>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand" href="#">Navbar</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -58,80 +66,66 @@
 					tabindex="-1" aria-disabled="true">Disabled</a></li>
 			</ul>
 			<form class="form-inline my-2 my-lg-0">
-				<input class="form-control mr-sm-2" type="search"
+				<input id="se1" class="form-control mr-sm-2" type="search"
 					placeholder="Search" aria-label="Search">
+					<select id="se1">
+					</select>
 				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 			</form>
+			<span id="order" role="button" tabindex="0"
+				aria-pressed="true"><img src="https://i.imgur.com/MflYSUa.jpg"></span>
+			<span id="shopcart" role="button" tabindex="0"
+				aria-pressed="true"><img src="https://i.imgur.com/fzG8Ocj.png"></span>
 		</div>
 	</nav>
-	<ul class="nav justify-content-center">
-		<li class="nav-item"><a class="nav-link active" href="#">Host</a></li>
-		<li class="nav-item"><a class="nav-link" href="#">Game</a></li>
-		<li class="nav-item"><img alt="" src="/WEB-INF/images/ns.png"></li>
-		<li class="nav-item"><a class="nav-link disabled" href="#"
-			tabindex="-1" aria-disabled="true">Disabled</a></li>
-	</ul>
-	<table class="table">
-		<thead class="thead-dark">
-			<tr>
-				<th scope="col">#</th>
-				<th scope="col">First</th>
-				<th scope="col">Last</th>
-				<th scope="col">Handle</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<th scope="row">1</th>
-				<td>Mark</td>
-				<td>Otto</td>
-				<td>@mdo</td>
-			</tr>
-			<tr>
-				<th scope="row">2</th>
-				<td>Jacob</td>
-				<td>Thornton</td>
-				<td>@fat</td>
-			</tr>
-			<tr>
-				<th scope="row">3</th>
-				<td>Larry</td>
-				<td>the Bird</td>
-				<td>@twitter</td>
-			</tr>
-		</tbody>
-	</table>
+	
+	<div id="du1">
+		<ul class="nav justify-content-center">
+			<li id="pay" class="nav-item" role="button" tabindex="0"
+				aria-pressed="true"><img src="https://i.imgur.com/3LdR5vh.jpg"></li>
+			<li id="history" class="nav-item"  role="button" tabindex="0"
+				aria-pressed="true"><img src="https://i.imgur.com/rQOseOf.png"></li>
+			<!-- <li class="nav-item"><a class="nav-link disabled" href="#"
+			tabindex="-1" aria-disabled="true">Disabled</a></li> -->
+		</ul>
+	</div>
+<h1>訂單紀錄</h1>
+
 
 	<table class="table">
-		<thead class="thead-light">
-			<tr>
-				<th scope="col">#</th>
-				<th scope="col">First</th>
-				<th scope="col">Last</th>
-				<th scope="col">Handle</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<th scope="row">1</th>
-				<td>Mark</td>
-				<td>Otto</td>
-				<td>@mdo</td>
-			</tr>
-			<tr>
-				<th scope="row">2</th>
-				<td>Jacob</td>
-				<td>Thornton</td>
-				<td>@fat</td>
-			</tr>
-			<tr>
-				<th scope="row">3</th>
-				<td>Larry</td>
-				<td>the Bird</td>
-				<td>@twitter</td>
-			</tr>
-		</tbody>
-	</table>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">uuId</th>
+      <th scope="col">orderId</th>
+	  <th scope="col">name</th>
+	  <th scope="col">Handle</th>
+	  <th scope="col">Last</th>
+	  <th scope="col">Handle</th>
+	  <th scope="col">Last</th>
+	  <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
 
 </body>
 </html>

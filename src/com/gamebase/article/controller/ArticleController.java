@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.gamebase.article.model.Forum;
@@ -22,8 +23,10 @@ import com.gamebase.article.model.MsgBoard;
 import com.gamebase.article.model.service.ForumService;
 import com.gamebase.article.model.service.MsgBoardService;
 
+import net.sf.json.JSONObject;
+
 @Controller
-@SessionAttributes(names = { "forumName", "newForum", "forumList", "mbList", "childList" })
+@SessionAttributes(names = { "newForum", "forumList", "mbList", "childList" })
 public class ArticleController {
 
 	private MsgBoardService mbService;
@@ -81,59 +84,56 @@ public class ArticleController {
 	}
 
 	/* insert new forum name */
-	@RequestMapping(value = "/forum/add", method = RequestMethod.POST)
-	public String insertNewForum(@RequestParam("forumName") String forumName,
+	@RequestMapping(value = "/forum/add", produces = "application/json")
+	@ResponseBody
+	public JSONObject insertNewForum(@RequestParam("forumName") String forumName,
 			@RequestParam("forumFigure") String forumFigure, ModelMap model) {
 		System.out.println("insert new Forum");
 		Forum newForum = fService.insertForum(new Forum(forumName, forumFigure));
-		List<Forum> newForumList = (List<Forum>) model.getAttribute("forumList");
-		newForumList.add(newForum);
-		model.addAttribute("forumList", newForumList);
-		return "forumViewPage";
+//		List<Forum> newForumList = (List<Forum>) model.getAttribute("forumList");
+//		newForumList.add(newForum);
+//		model.addAttribute("forumList", newForumList);
+		JSONObject result = new JSONObject();
+		result.put("newForum", newForum);
+		System.out.println(result);
+		return result;
 	}
 
 	/* insert new parent article */
-	@RequestMapping(value = "/forum/${forumName}/add", method = RequestMethod.POST)
-	public String insertNewParent(@RequestParam("forumName") String forumName, @RequestParam("content") String content,
-			@RequestParam("accountId") String accountId, @RequestParam("articleTitle") String articleTitle,
-			ModelMap model) {
-		System.out.println("insert new Parent");
+	@RequestMapping(value = "/forum/{forumName}/add", produces = "application/json")
+	@ResponseBody
+	public JSONObject insertNewParent(@PathVariable("forumName") String forumName, String content, String accountId,
+			String articleTitle, ModelMap model) {
+		System.out.println("insert new Parent Article");
+		JSONObject result = new JSONObject();
+		try {
+			MsgBoard newmb = mbService.insertMsg(
+					new MsgBoard(0, Integer.parseInt(accountId), forumName, articleTitle, content));
+			result.put("t", 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-//		MsgBoard newmb = mbService.insertMsg(
-//				new MsgBoard(0, Integer.parseInt(accountId), forumName, articleTitle, content, getDateTime()));
-
-		MsgBoard newmb = mbService.insertMsg(new MsgBoard(0, 1, forumName, "test", content, getDateTime()));
-
-		List<MsgBoard> newmbList = (List<MsgBoard>) model.getAttribute("mbList");
-		newmbList.add(newmb);
-		model.addAttribute("mbList", newmbList);
-		return "parentArticleViewPage";
+		return result;
 	}
 
 	/* insert new child article */
-	@RequestMapping(value = "/forum/${forumName}/${parentId}/add", method = RequestMethod.POST)
-	public String insertNewParent(@RequestParam("forumName") String forumName, @RequestParam("Content") String Content,
+	@RequestMapping(value = "/forum/{forumName}/{parentId}/add", produces = "application/json")
+	public JSONObject insertNewParent(@PathVariable("forumName") String forumName, @RequestParam("content") String content,
 			@RequestParam("accountId") String accountId, @RequestParam("articleTitle") String articleTitle,
-			@RequestParam("parentId") Integer parentId, ModelMap model) {
-
+			@PathVariable("parentId") Integer parentId, ModelMap model) {
+		JSONObject result = new JSONObject();
 		System.out.println("insert new child");
-		MsgBoard newchild = mbService.insertMsg(
-				new MsgBoard(parentId, Integer.parseInt(accountId), forumName, articleTitle, Content, getDateTime()));
-
-		List<MsgBoard> newchildList = (List<MsgBoard>) model.getAttribute("childList");
-		newchildList.add(newchild);
-		model.addAttribute("childList", newchildList);
-		return "parentArticleViewPage";
+		try {
+			MsgBoard newchild = mbService.insertMsg(
+					new MsgBoard(parentId, Integer.parseInt(accountId), forumName, articleTitle, content));
+			result.put("t", 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
-	/* 取得現在時間方法 */
-	public String getDateTime() {
-		SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
-		Date date = new Date();
-		String strDate = sdFormat.format(date);
-		// System.out.println(strDate);
-		return strDate;
-	}
 
 	/* update page */
 //	@RequestMapping(path = "", method = RequestMethod.GET)

@@ -6,8 +6,73 @@
 <head>
 <meta charset="utf-8">
 <title>this is ${forumName} forum page</title>
-<script
-	src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
+<!-- jQuery library -->
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<!-- editor improt -->
+<script src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
+<!-- create new article -->
+<script>
+let editor;
+
+$(document).ready(function(){
+
+	var articleTitle = location.href.substring(location.href.lastIndexOf("/") + 1);
+	console.log(articleTitle);
+	
+	//editor submit	
+	$("#submit").click(function(){
+		console.log("click submit");
+		//get form's inputs and transform to json form
+// 		var a=$(this.form).serializeObject();
+// 		console.log(a);
+// 		var form = JSON.stringify(a);
+		
+		//get url (forum name = article title =article location)
+
+		//get img source
+		var jsonObj = {"urlList":[]};
+		var imgSrc = "";
+		
+		//get all img-element's source from the editor block
+		$(".publish-area img").each(function(){
+			console.log("jsonObj.urlList ="+jsonObj.urlList+", jsonObj.urlList[jsonObj.urlList.length]= "+jsonObj.urlList[jsonObj.urlList.length]);
+			console.log($(this).attr("src"));
+			jsonObj.urlList[jsonObj.urlList.length] = $(this).attr("src");
+        });
+		
+		//get first img's src
+		if(jsonObj.urlList.length != 0){
+			console.log("first img's src: "+jsonObj.urlList[0]);
+			imgSrc = jsonObj.urlList[0];
+		}
+		
+		//do function when editor has data and title has value
+		if(editor.getData() && $("#articleTitle").val()){
+			console.log("has data");
+			console.log(editor.getData());
+			var myurl="/forum/"+articleTitle+"/add";
+			console.log(myurl);
+			//ajax send data to controller
+			$.ajax({
+				url:articleTitle+"/add",
+				dataType:"json",
+				type:"POST",
+				cache: false,
+	            data:{articleTitle: $("#articleTitle").val(),
+	            	accountId: $("#accountId").val(),
+               		content: editor.getData()
+               		},
+         		success : function(response) {
+        			console.log(response);
+
+        		}        			
+			})
+		}
+		
+	})
+});
+	
+</script>
 </head>
 <body>
 	<h1>主題：${forumName}</h1>
@@ -64,39 +129,41 @@
 		<hr />
 	<!--輸入區 -->
 	<hr />
-	<form action="<c:url value="/forum/${forumName}/add"/>" method="post">
+	
+<div class="publish-area">
+	<form>
+	<!-- User ID and Article Title -->
 		<table>
 			<tr>
 				<td><p>your account id:</p></td>
-				<td><input type="text" name="accountId"></td>
+				<td><input type="text" id="accountId" name="accountId"></td>
 			</tr>
 			<tr>
 				<td><p>article title:</p></td>
-				<td><input type="text" name="articleTitle"></td>
+				<td><input type="text" id="articleTitle" name="articleTitle"></td>
 			</tr>
 		</table>
-
-		<textarea name="content" id="editor">
-<%--             ${mycontent} --%>
-        </textarea>
-		<p>
-			<input type="submit" value="create new article">
-		</p>
-	</form>
-
-
-	<script>
-        ClassicEditor
-            .create( document.querySelector( '#editor' ),{
-                mediaEmbed:{
-                	previewsInData:true
-                    }
+	<!-- CKeditor -->
+		<textarea name="content" id="editor"></textarea>
+		
+		<script>
+		editor = ClassicEditor
+            	.create( document.querySelector( '#editor' ),{
+            	    mediaEmbed:{
+            	    	previewsInData:true
+          	        }
+         		} )
+         		.then( newEditor => {
+                	editor = newEditor
                 } )
-            .catch( error => {
-                console.error( error );
-            } );
-        CKEDITOR.config.extraPlugins = 'myplugin,anotherplugin';
-    </script>
-<%-- 	<a href="<c:url value="/forum/${forumName}/add"/>">insert new parent article</a> --%>
+            	.catch( error => {
+                	console.error( error );
+            	} );
+
+   		</script>
+	</form>
+	<button id="submit">Post Your Article</button>		
+</div>
+
 </body>
 </html>

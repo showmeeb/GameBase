@@ -11,14 +11,14 @@ public class MemberViewJavaConfig {
 	@Bean
 	public View LoginViewPage() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/UserLogin.jsp");
+		view.setUrl("/WEB-INF/pages/userLogin.jsp");
 		return view;
 	}
 
 	@Bean
 	public View RegisterViewPage() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/Register.jsp");
+		view.setUrl("/WEB-INF/pages/register.jsp");
 		return view;
 	}
 	
@@ -26,6 +26,26 @@ public class MemberViewJavaConfig {
 	public View SendMailPage() {
 		InternalResourceView view = new InternalResourceView();
 		view.setUrl("/WEB-INF/pages/sendPage.jsp");
+		return view;
+	}
+	
+	@Bean
+	public View CreateProfilePage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/userProfileCreate.jsp");
+		return view;
+	}
+	
+	@Bean
+	public View CreateProfileSuccessPage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/index.jsp");
+		return view;
+	}
+	@Bean
+	public View UpdateProfilePage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/userProfileUpdate.jsp");
 		return view;
 	}
 

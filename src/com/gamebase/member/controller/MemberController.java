@@ -1,5 +1,6 @@
 package com.gamebase.member.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,10 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.gamebase.member.model.MailInfo;
 import com.gamebase.member.model.Role;
 import com.gamebase.member.model.UserData;
-import com.gamebase.member.model.dao.MailSender;
+import com.gamebase.member.model.UserProfile;
 import com.gamebase.member.model.service.UserDataService;
 
 @Controller
@@ -39,7 +39,9 @@ public class MemberController {
 		if (map != null && !map.isEmpty()) {
 			return "LoginViewPage";
 		}
-		UserData userData = uService.getByLogin(acc, pwd);
+		String encryptPwd = uService.encryptString(pwd);
+		UserData userData = uService.getByLogin(acc, encryptPwd);
+
 		if (userData != null) {
 			model.addAttribute("UserData", userData);
 			return "indexPage";
@@ -48,14 +50,37 @@ public class MemberController {
 		return "LoginViewPage";
 	}
 
-	@RequestMapping(value = "/gologin", method = RequestMethod.GET)
+	@RequestMapping(value = "/gotologin", method = RequestMethod.GET)
 	public String showLoginPage() {
+		System.out.println("got");
 		return "LoginViewPage";
 	}
 
-	@RequestMapping(value = "/goregister")
+	@RequestMapping(value = "/gotoregister")
 	public String showRegisterPage() {
 		return "RegisterViewPage";
+	}
+
+	public String logout() {
+		return "indexPage";
+	}
+
+	@RequestMapping(value = "/createProfile/{userId}", method = RequestMethod.GET)
+	public String showCreateProfilePage(@PathVariable("userId") Integer userId, ModelMap model) {
+		UserProfile userProfile = uService.getProfileByUserId(userId);
+		model.addAttribute("userProfile", userProfile);
+		return "CreateProfilePage";
+	}
+
+	@RequestMapping(value = "/updateProfile")
+	public String showUpdateProfilePage() {
+		return "UpdateProfilePage";
+	}
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(HttpServletRequest request) {
+		uService.logout(request);
+		return "indexPage";
 	}
 
 	@RequestMapping(value = "/registact", method = RequestMethod.POST)
@@ -76,78 +101,37 @@ public class MemberController {
 		if (map != null && !map.isEmpty()) {
 			return "RegisterViewPage";
 		}
-
 		UserData ud = new UserData();
 		ud.setAccount(acc);
-		ud.setPassword(pwd);
+		String encryptPwd = uService.encryptString(pwd);
+		ud.setPassword(encryptPwd);
 		ud.setEmail(email);
 		uService.saveUserData(ud);
+		UserProfile up = new UserProfile();
+		up.setUserId(ud.getUserId());
+		uService.saveUserPrfile(up);
 		// default rank 'Uncertified'
-		Role role = new Role(uService.getByLogin(acc, pwd), uService.getByRankId(1));
+		Role role = new Role(uService.getByLogin(acc, encryptPwd), uService.getByRankId(1));
 		uService.changeRole(role);
 
-		int i = (int) (Math.random() * (99999999 - 1000 + 1) + 1000);
-		String registerId = "" + i;
-		System.out.println(registerId);
-		String url = "http://localhost:8080/GameBase/mailback/" + registerId;
-
 		HttpSession session = request.getSession();
-		session.setAttribute(registerId, acc);
+		Map<String, String> mailMap = uService.mailAction(acc, email);
+		session.setAttribute(mailMap.get("registerId"), acc);
 		session.setMaxInactiveInterval(600);
-
-		String content = acc + "(" + email + "),您好<br/>感谢您註冊GameBase!<br/>" + "<b>驗證您的註冊信箱</b><br/>請點擊鏈結來確認您的註冊<br/>"
-				+ "<a href='" + url + "'>確認!請點擊這裡來驗證您的信箱</a><br/>"
-				+ "如果您不能點擊上述標籤為“確認！”的鏈接，您還可以通過複製（或輸入）下面的URL到地址欄中來驗證您的郵件地址。" + "<a href='" + url + "'>" + url
-				+ "</a><br/>" + "如果您認為這是垃圾郵件，請忽略此郵件。";
-
-		MailInfo mailInfo = new MailInfo();
-
-		mailInfo.setMailSmtpHost("smtp.gmail.com");
-		mailInfo.setFromAddress("z0983177929@gmail.com");
-		mailInfo.setToAddress(email);
-		mailInfo.setMailSmtpPort("587");
-		mailInfo.setUserName("z0983177929@gmail.com");
-		mailInfo.setPassword("K98david");
-		mailInfo.setValidate(true);
-		mailInfo.setSubject("GameBase verification");
-		mailInfo.setContent(content);
-
-		MailSender.sendMail(mailInfo, true);
 		request.setAttribute("userName", acc);
 		request.setAttribute("email", email);
 
 		return "SendMailPage";
 	}
 
-	@RequestMapping(value = "/gmailregister", method = RequestMethod.POST)
+	@RequestMapping(value = "/gmailregister", method = RequestMethod.GET)
 	public String reSendMail(@RequestParam("account") String acc, @RequestParam("email") String email,
 			HttpServletRequest request) {
 
-		String registerId = "" + Math.random() * Math.random();
-		String url = "http://localhost:8080/GameBase/mailback/" + registerId;
-
 		HttpSession session = request.getSession();
-		session.setAttribute(registerId, acc);
+		Map<String, String> mailMap = uService.mailAction(acc, email);
+		session.setAttribute(mailMap.get("registerId"), acc);
 		session.setMaxInactiveInterval(600);
-
-		String content = acc + "(" + email + "),您好<br/>感谢您註冊GameBase!<br/>" + "<b>驗證您的註冊信箱</b><br/>請點擊鏈結來確認您的註冊<br/>"
-				+ "<a href='" + url + "'>確認!請點擊這裡來驗證您的信箱</a><br/>"
-				+ "如果您不能點擊上述標籤為“確認！”的鏈接，您還可以通過複製（或輸入）下面的URL到地址欄中來驗證您的郵件地址。" + "<a href='" + url + "'>" + url
-				+ "</a><br/>" + "如果您認為這是垃圾郵件，請忽略此郵件。";
-
-		MailInfo mailInfo = new MailInfo();
-
-		mailInfo.setMailSmtpHost("smtp.gmail.com");
-		mailInfo.setFromAddress("z0983177929@gmail.com");
-		mailInfo.setToAddress(email);
-		mailInfo.setMailSmtpPort("587");
-		mailInfo.setUserName("z0983177929@gmail.com");
-		mailInfo.setPassword("K98david");
-		mailInfo.setValidate(true);
-		mailInfo.setSubject("GameBase verification");
-		mailInfo.setContent(content);
-
-		MailSender.sendMail(mailInfo, true);
 		request.setAttribute("userName", acc);
 		request.setAttribute("email", email);
 
@@ -163,9 +147,27 @@ public class MemberController {
 		if (registerName == null || registerName.equals("")) {
 			return "indexPage";
 		}
-		Role role = new Role(uService.getByAccount(registerName), uService.getByRankId(2));
+		Role role = uService.getRoleByUserId(uService.getByAccount(registerName).getUserId());
+		role.setRank(uService.getByRankId(2));
 		uService.changeRole(role);
 		request.getSession().invalidate();
 		return "indexPage";
 	}
+
+	@RequestMapping(value = "/insertProfile", method = RequestMethod.POST)
+	public String insertProfile(@RequestParam("name") String name,
+			@RequestParam(value = "gender", required = false) String gender, @RequestParam("nickName") String nickName,
+			@RequestParam("phone") String phone, @RequestParam("age") Integer age,
+			@RequestParam("address") String address, Map<String, Object> map, ModelMap model,
+			HttpServletRequest request) {
+
+		Map<String, String[]> upMap = request.getParameterMap();
+
+		UserProfile upN = uService.updateUserProfile(upMap);
+		model.addAttribute("userProfile", upN);
+
+		System.out.println("瘝");
+		return "CreateProfileSuccessPage";
+	}
+
 }

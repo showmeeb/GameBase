@@ -2,7 +2,11 @@ package com.gamebase.member.model.dao;
 
 import java.util.List;
 
-import org.hibernate.Session;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +17,14 @@ import com.gamebase.member.model.UserData;
 
 @Repository
 public class UserDataDAO implements IUserData {
-	@Autowired
+
 	private SessionFactory sessionFactory;
 
-	/**
-	 * @param account , password
-	 * @return UserData , null
-	 */
+	@Autowired
+	public UserDataDAO(@Qualifier(value = "sessionFactory") SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+
 	@Override
 	public UserData getByLogin(String account, String password) {
 		Query<UserData> query = sessionFactory.getCurrentSession()
@@ -63,26 +68,52 @@ public class UserDataDAO implements IUserData {
 
 	@Override
 	public void deleteUserData(UserData userData) {
-
 		sessionFactory.getCurrentSession().delete(userData);
-
 	}
 
 	@Override
 	public void saveUserData(UserData userData) {
-
 		sessionFactory.getCurrentSession().save(userData);
-
 	}
-	
+
 	public UserData getByAccount(String account) {
-		Query<UserData> query = sessionFactory.getCurrentSession().createQuery("From UserData where account=:acc",UserData.class);
+		Query<UserData> query = sessionFactory.getCurrentSession().createQuery("From UserData where account=:acc",
+				UserData.class);
 		query.setParameter("acc", account);
-		UserData myUserData=query.uniqueResult();
-		if(myUserData!=null) {
+		UserData myUserData = query.uniqueResult();
+		if (myUserData != null) {
 			return myUserData;
 		}
 		return null;
+	}
+	
+	@Override
+	public String getCookies(String account, String password, HttpServletRequest request,
+			HttpServletResponse response) {
+		Cookie unameCookie = new Cookie("account", account);
+		Cookie upwdCookie = new Cookie("password", password);
+		
+		String save = request.getParameter("save");
+		
+		if(save!=null) {
+			unameCookie.setMaxAge(60*60*24*7);
+			upwdCookie.setMaxAge(60*60*24*7);
+		}else {
+			unameCookie.setMaxAge(0);
+			upwdCookie.setMaxAge(0);
+		}
+		
+		response.addCookie(unameCookie);
+		response.addCookie(upwdCookie);
+		return save;
+		
+	}
+
+	@Override
+	public void logout(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.setAttribute("UserData", null);
+		session.setAttribute("userProfile", null);
 	}
 
 }
