@@ -101,13 +101,26 @@ img{width: 50px }
 	<div id="st1">
 		<table id="t1"></table>
 	</div>
+	
+	
+	<div id="d1" >
+		<div id="d2">
+			<div id="d3">
+				<div id="d4">
+					<form id="f2">
+						
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<script type="text/javascript">
 	function showtable(response) {
 						var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th>購物車";
 						for (let i = 0; i < response.length; i++) {
 							txt += "<tr><td>" + response[i].productId;
-							txt += "<td id='img'><img src='"+response[i].productImg+"'>";
+							txt += "<td id='img'><span id='productDetail' role='button' tabindex='0'aria-pressed='true' data-toggle='modal'data-target='#d1'> <img src='"+response[i].productImg+"'></span>";
 							txt += "<td>" + response[i].productName;
 							txt += "<td>" + response[i].productType;
 							txt += "<td>" + response[i].inventory;
@@ -118,8 +131,13 @@ img{width: 50px }
 						}
 						$('#t1').html(txt);		
 	}
+		$(document).on('click', '#productDetail', function() {
+			var $tr = $(this).parents("tr");
+			
+		})
 		
-		$(document).on('click', '#swp', function() {
+		
+		var response =$(document).on('click', '#swp', function() {
 			var type = "switch";
 			$.ajax({
 				url : "shopping/switchProduct",
@@ -134,7 +152,16 @@ img{width: 50px }
 					console.log(response);
 					console.log("yes");
 					showtable(response);
-				}
+					document.write('response='+response+'<br>');
+				},
+				complete:function(){
+					$('#d1').addClass("modal fade").attr({"tabindex":"-1","role":"dialog","aria-labelledby":"exampleModalCenterTitle","aria-hidden":"true"});
+					$('#d2').addClass("modal-dialog modal-xl modal-dialog-centered").attr({"role":"document"});
+					$('#d3').addClass("modal-content");
+					$('#d4').addClass("modal-body");
+					$('#f2').html(123)
+
+					}
 			});
 		})
 		$(document).on('click', '#psp', function() {
@@ -198,7 +225,7 @@ img{width: 50px }
 		})
 		
 		$(document).on('click', '#addProduct', function() {
-			var userId =${UserData.userId};
+			//var userId =${UserData.userId};
 			console.log("userId:"+userId);
 			var $tr = $(this).parents("tr");
 			var c = {};

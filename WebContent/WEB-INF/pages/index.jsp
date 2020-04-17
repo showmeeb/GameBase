@@ -45,7 +45,10 @@
 <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
 </head>
 <body>
-	<h1>${UserData.account}</h1>
+
+	<h2>${UserData.account}</h2>
+
+<h1>${UserData.account} ${ProfileId}</h1>
 
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<!-- Brand -->
@@ -60,6 +63,7 @@
 					<a class="dropdown-item" href="<c:url value="/tradesystem"/>">登記商品</a>
 					<a class="dropdown-item" href="<c:url value="/mainProduct"/>">商品管理</a>
 					<a class="dropdown-item" href="<c:url value="/shoppingPage"/>">商城頁面</a>
+					<a class="dropdown-item" href="<c:url value="/test"/>">圖片上傳</a>
 					<a class="dropdown-item" href="#"></a>
 				</div></li>
 			<!-- Dropdown -->
@@ -70,11 +74,23 @@
 					<c:if test="${empty UserData.userId}">
 						<a class="dropdown-item" href="<c:url value="/gotologin"/>">登入</a>
 					</c:if>
+					<c:if test="${empty UserData.userId}">
 					<a class="dropdown-item" href="<c:url value="/gotoregister"/>">註冊</a>
+					</c:if>
 					<c:if test="${!empty UserData.userId}">
+						<c:if test="${!empty ProfileId}">
+							<a class="dropdown-item" href="<c:url value="/updateProfile/${UserData.userId}"/>">修改個人資料</a>
+						</c:if>
+						<c:if test="${empty ProfileId}">
+							<a class="dropdown-item" href="<c:url value="/createProfile"/>">新增個人資料</a>
+						</c:if>
+					</c:if>
+					<c:if test="${!empty UserData.userId}">
+
 						<a class="dropdown-item"
 							href="<c:url value="/createProfile/${UserData.userId}"/>">管理個人資料</a>
 						<a class="dropdown-item" href="<c:url value="/logout"/>">登出</a>
+
 					</c:if>
 				</div></li>
 			<li class="nav-item"><a class="nav-link"

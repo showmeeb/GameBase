@@ -53,7 +53,7 @@ img {
 
         for (i = 0; i < jsonResults.length; i++) {
             if (i % 5 == 0) { txt += "<tr>" }
-            txt += "<td><a href='/GameBase/productDetail?prodId="+jsonResults[i].productId+"'><img src='" + jsonResults[i].productImg + "'>";  
+            txt += "<td><id= href='/GameBase/productDetail?prodId="+jsonResults[i].productId+"'><img src='" + jsonResults[i].productImg + "'>";  
             txt += "<div>" + jsonResults[i].productName + "</div>";
             txt += "<div>" + jsonResults[i].productPrice + "</div></a>";
         }

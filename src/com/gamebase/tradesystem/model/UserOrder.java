@@ -1,6 +1,8 @@
 package com.gamebase.tradesystem.model;
 
-import java.sql.Date;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -109,9 +111,8 @@ public class UserOrder {
 		this.orderDate = orderDate;
 	}
 
-
-
 	
+
 
 	
 

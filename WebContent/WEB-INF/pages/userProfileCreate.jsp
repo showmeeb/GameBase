@@ -7,78 +7,41 @@
 <head>
 <meta charset="UTF-8">
 <title>UserProfileCreate</title>
-
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
 </head>
 <body>
-	<h4>您的資料</h4>
-	<form action="<c:url value="/insertProfile"/>" method="post">
-		<input type="hidden" name="userId" id="userId"
-			value="${UserData.userId}" /> 
-		<input type="hidden" name="profileId" id="profileId"
-			value="${userProfile.profileId}" /> 
 
-		
-		Name:<input type="text" name="name" />${userProfile.name}<br>
-		
-		Nickname:<input type="text" name="nickName" />${userProfile.nickName}<br>
+<c:if test="${!empty ProfileId}">
+<form action="<c:url value="/saveProfile"/>" method="POST"  enctype="multipart/form-data">
+	<input type="hidden" name="userId" value="${userProfile.userId}">
+	Name:<input type="text" name="name" value="${userProfile.name}"><br>
+	Nickname:<input type="text" name="nickName" value="${userProfile.nickName}"><br>
+	Gender:<input type="radio" name=gender value="m">男 <input type="radio" name=gender value="f">女${userProfile.gender}"<br>
+	Address:<input type="text" name="address" value="${userProfile.address }"><br>
+	Phone:<input type="text" name="phone" value="${userProfile.phone }"><br>
+	Age:<input type="text" name="age" value="${userProfile.age }"><br>
+	Image:<input type="text" name="img"><img src="${userProfile.img}"><br>
 	
-		Gender:<input type="radio" name="gender" id="male" value="m"><span class="gender"><label for="male">男</label></span>
-		<input type="radio" name="gender" id="female" value="f"><span class="gender"><label for="female">女</label></span>
-		${userProfile.gender}<br>
-		Age:<input type="text" name="age"/>
-		${userProfile.age}<br>
-		Address:<input type="text" name="address"/>
-		${userProfile.address}<br>
-		Phone:<input type="text" name="phone" />
-		${userProfile.phone}<br>
-		Img:<input type="text" name="img" value="Img" />
-		<input type="submit" id="update" value="update">
+	<input type="submit">
 </form>
 
-<button id="show">更改資料</button>
-<script type="text/javascript">
-	$(document).ready(function () {
-		$("input").css("display","none");
-		$(".gender").css("display","none");
-	});
-	
-//	$.fn.serializeObject = function() {
-	//	var formData = {};
-	//	var formArray = this.serializeArray();
-	//	for (var i = 0, n = formArray.length; i < n; ++i) {
-	//		formData[formArray[i].name] = formArray[i].value;
-	//	}
-	//	return formData;
-//	};
-	
-	$('#show').click(function(){
-		$("input").css("display","block");
-		$(".gender").css("display","block");
-	})
-		
-//	$('#update').click(function(){
-//		var form1=$('#f1').serializeObject();
-//		console.log(form1);
-//		var form = JSON.stringify(form1);
-//		console.log(form);
-	//	$.ajax({
-	//		url:"insert",
-	//		dataType : "json",
-		//	type:"POST",
-		//	data : {
-	//			form : form
-		//	},
-		//	success : function(response) {
-		//		console.log(response);
-		//		}
-	//	});
-		
-		//})
-		
-	
-</script>
-</body>
 
+
+</c:if>
+<c:if test="${empty ProfileId}">
+<form action="<c:url value="/saveProfile"/>" method="POST">
+	<input type="hidden" name="userId" value="${UserData.userId}">	
+	Name:<input type="text" name="name"><br>
+	Nickname:<input type="text" name="nickName"><br>
+	Gender:<input type="radio" name=gender value="m">男 <input type="radio" name=gender value="f">女<br>
+	Address:<input type="text" name="address"><br>
+	Phone:<input type="text" name="phone"><br>
+	Age:<input type="text" name="age"><br>
+	Image:<input type="text" name="img"><br>
+	<input type="submit">
+</form>
+</c:if>
+
+</body>
 </html>

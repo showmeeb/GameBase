@@ -11,8 +11,7 @@
 </head>
 <body>
 
-	<form action="<c:url value="/uploadImg"/>" method="POST"
-		enctype="multipart/form-data">
+	<form action="<c:url value="/uploadImg"/>" method="POST" enctype="multipart/form-data">
 		<div>
 			<input type="file" name="theFile" >
 		</div>
