@@ -13,6 +13,11 @@ public class ArticleTitle {
 	private String lastReplyTime;	
 	private boolean news;/*新聞文章*/
 	private String newsAddress;/*新聞網址*/
+	private Integer clickNum;
+	private Integer likeNum;
+	private Integer unlikeNum;
+	private Integer shareNum;
+	
 
 	public ArticleTitle() {
 	}
@@ -23,6 +28,10 @@ public class ArticleTitle {
 		this.firstFigure = firstFigure;
 		this.createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 		this.news = false;
+		this.clickNum = 0;
+		this.likeNum = 0;
+		this.unlikeNum = 0;
+		this.shareNum = 0;
 	}
 	
 	public ArticleTitle(Integer forumId, String titleName, String firstFigure, String newsAddress) {
@@ -32,6 +41,10 @@ public class ArticleTitle {
 		this.createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 		this.news = true;
 		this.newsAddress = newsAddress;
+		this.clickNum = 0;
+		this.likeNum = 0;
+		this.unlikeNum = 0;
+		this.shareNum = 0;
 	}
 
 	public Integer getTitleId() {
@@ -96,6 +109,38 @@ public class ArticleTitle {
 
 	public void setNewsAddress(String newsAddress) {
 		this.newsAddress = newsAddress;
+	}
+
+	public Integer getClickNum() {
+		return clickNum;
+	}
+
+	public void setClickNum(Integer clickNum) {
+		this.clickNum = clickNum;
+	}
+
+	public Integer getLikeNum() {
+		return likeNum;
+	}
+
+	public void setLikeNum(Integer likeNum) {
+		this.likeNum = likeNum;
+	}
+
+	public Integer getUnlikeNum() {
+		return unlikeNum;
+	}
+
+	public void setUnlikeNum(Integer unlikeNum) {
+		this.unlikeNum = unlikeNum;
+	}
+
+	public Integer getShareNum() {
+		return shareNum;
+	}
+
+	public void setShareNum(Integer shareNum) {
+		this.shareNum = shareNum;
 	}
 
 }
