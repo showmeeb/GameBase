@@ -16,12 +16,10 @@ import org.springframework.stereotype.Component;
 @Entity
 @Table(name = "userProfile")
 @Component
-public class UserProfile implements Serializable{
+public class UserProfile implements Serializable {
 
-	
 	private static final long serialVersionUID = -5382379947035200817L;
-	
-	
+
 	private Integer userId;
 	private Integer profileId;
 	private String name;
@@ -31,15 +29,27 @@ public class UserProfile implements Serializable{
 	private Integer age;
 	private String address;
 	private String img;
-	
 
 	public UserProfile() {
 
 	}
 
-	@GenericGenerator(name="userId", strategy="foreign", parameters=@Parameter(name="property",value="userData"))
-	@Column(name="userId")
-	@GeneratedValue(generator = "userId")
+	public UserProfile(Integer userId, String name, String gender, String nickName, String phone, Integer age,
+			String address, String img) {
+		this.userId = userId;
+		this.name = name;
+		this.gender = gender;
+		this.nickName = nickName;
+		this.phone = phone;
+		this.age = age;
+		this.address = address;
+		this.img = img;
+
+	}
+
+//	@GenericGenerator(name="userId", strategy="foreign", parameters=@Parameter(name="property",value="userData"))
+	@Column(name = "userId")
+//	@GeneratedValue(generator = "userId")
 	public Integer getUserId() {
 		return userId;
 	}
@@ -114,11 +124,11 @@ public class UserProfile implements Serializable{
 	}
 
 	@Column(name = "IMG")
-	public String getImage() {
+	public String getImg() {
 		return img;
 	}
 
-	public void setImage(String img) {
+	public void setImg(String img) {
 		this.img = img;
 	}
 
@@ -133,4 +143,3 @@ public class UserProfile implements Serializable{
 //	}
 
 }
-

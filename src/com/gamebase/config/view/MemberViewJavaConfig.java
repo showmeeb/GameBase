@@ -30,7 +30,7 @@ public class MemberViewJavaConfig {
 	}
 	
 	@Bean
-	public View CreateProfilePage() {
+	public View ProfilePage() {
 		InternalResourceView view = new InternalResourceView();
 		view.setUrl("/WEB-INF/pages/userProfileCreate.jsp");
 		return view;
@@ -42,11 +42,6 @@ public class MemberViewJavaConfig {
 		view.setUrl("/WEB-INF/pages/index.jsp");
 		return view;
 	}
-	@Bean
-	public View UpdateProfilePage() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/userProfileUpdate.jsp");
-		return view;
-	}
+	
 
 }

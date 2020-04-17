@@ -61,7 +61,7 @@ public class LoginController {
 		return null;
 	}
 
-	@DeleteMapping(path = "/Users/{account}")
+	@DeleteMapping(value = "/Users/{account}")
 	@ResponseBody
 	public String logout(@PathVariable String account, SessionStatus sessionStatus) {
 		sessionStatus.setComplete();
