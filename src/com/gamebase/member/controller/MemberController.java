@@ -33,8 +33,8 @@ public class MemberController {
 		System.out.println("create");
 
 		return "ProfilePage";
-
 	}
+	
 
 	@RequestMapping(value = "/updateProfile/{userId}")
 	public String updateProfile(@PathVariable("userId") Integer userId, Map<String, Object> map) {
@@ -42,6 +42,7 @@ public class MemberController {
 		map.put("userProfile", uService.getProfileByUserId(userId));
 		return "ProfilePage";
 	}
+	
 	@RequestMapping(value="/saveProfile",method=RequestMethod.POST)
 	public String saveProfileAction(@RequestParam("userId") Integer userId, @RequestParam("name") String name,
 			@RequestParam("nickName") String nickName, @RequestParam("address") String address,
