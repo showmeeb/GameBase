@@ -42,6 +42,7 @@ public class UploadImgDAO {
 	}
 
 	private ImgurAPI createImgurAPI() {
+		//從server發送request至API
 		Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
 				.baseUrl(ImgurAPI.SERVER).build();
 		return retrofit.create(ImgurAPI.class);

@@ -57,7 +57,7 @@ $(document).ready(function () {
                 // clean session
                 window.sessionStorage.setItem("loginUser", "");
                 window.sessionStorage.setItem("chatRoom", "");
-
+                console.log('success');
 
                 // hide and clean chat room
                 hideChatRoom(true);
@@ -857,21 +857,23 @@ function showUserListFromMessage(msg) {
 }
 
 function hideChatRoom(flag) {
-
+	console.log('hideChatRoom.hide0');
     // close friend list
     $(".chat-room-friend-list-area").removeClass("friend-list-show", 700, function () {
         // change button icon
         $("#friend-list-toggle-btn i").removeClass("fa-chevron-right");
         $("#friend-list-toggle-btn i").addClass("fa-chevron-left");
 
+        console.log('hideChatRoom.hide1');
         // hide chat room area
         $(".chat-room-area").addClass("chat-room-hide", 600, function () {
             $("#chat-room-fn-area .fa-comments").show(700);
-
+            console.log('hideChatRoom.hide2');
+            
             // for logout use
             if (flag) {
                 $(".chat-room-area").hide();
-                console.log('hideChatRoom.hide');
+                console.log('hideChatRoom.hide3');
             }
         });
     });
@@ -983,7 +985,9 @@ function connectChatRoom() {
         var url = stompClient.ws._transport.url;
                 console.log('Connected: ' + frame);
         stompClient.subscribe('/regist/messages', function (msgOutput) {
-            showOnlineUsers(JSON.parse(msgOutput.body));
+            //顯示上線清單
+        	console.log('regist/messages');
+        	showOnlineUsers(JSON.parse(msgOutput.body));
         });
         stompClient.subscribe('/topic/messages', function (msgOutput) {
             if (JSON.parse(msgOutput.body).from == undefined) {
@@ -1078,11 +1082,11 @@ function showOnlineUsers(userList) {
 
     // show specific online mark
     $(".chat-room-friend").each(function () {
-        var userNO = $(this).children(".chat-room-user-id").text();
+        var userNo = $(this).children(".chat-room-user-id").text();
 //console.log(userNo);
 //console.log(userList);
         for (var user of userList) {
-            if (userNO == user) {
+            if (userNo == user) {
                 $(this).children(".chat-room-friend-online-light").show(500);
             }
         }
@@ -1093,13 +1097,14 @@ function hideOfflineUser(user) {
     // hide specific online mark
     $(".chat-room-friend").each(function () {
     	console.log(this);	
-        var userNO = $(this).children(".chat-room-user-id").text();
+        var userNo = $(this).children(".chat-room-user-id").text();
         	
-        console.log(userNO);
+        console.log(userNo);
         		console.log(user);
 
-        if (userNO == user) {
+        if (userNo == user) {
             $(this).children(".chat-room-friend-online-light").hide(500);
+            console.log('This is hideOffineUser');
         }
     });
 }
