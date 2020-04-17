@@ -1,5 +1,6 @@
 package com.gamebase.member.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,14 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gamebase.member.model.Friends;
 import com.gamebase.member.model.Rank;
-import com.gamebase.member.model.Role;
+//import com.gamebase.member.model.Role;
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UserProfile;
 import com.gamebase.member.model.UsersInfo;
 import com.gamebase.member.model.dao.EncryptDAO;
 import com.gamebase.member.model.dao.MailSenderDAO;
 import com.gamebase.member.model.dao.RankDAO;
-import com.gamebase.member.model.dao.RoleDAO;
+//import com.gamebase.member.model.dao.RoleDAO;
 import com.gamebase.member.model.dao.UserDataDAO;
 import com.gamebase.member.model.dao.UserProfileDAO;
 import com.gamebase.member.model.dao.UsersInfoDAO;
@@ -31,8 +32,8 @@ public class UserDataService {
 	private UserDataDAO udDao;
 	@Autowired
 	private RankDAO rankDao;
-	@Autowired
-	private RoleDAO roleDao;
+//	@Autowired
+//	private RoleDAO roleDao;
 	@Autowired
 	private UserProfileDAO upDao;
 	@Autowired
@@ -44,6 +45,18 @@ public class UserDataService {
 
 	public UserData getByLogin(String account, String password) {
 		return udDao.getByLogin(account, password);
+	}
+
+	public Map<String, Object> getLogin(String account, String password) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		UserData userData = udDao.getByLogin(account, password);
+		if (userData != null) {
+			map.put("UserData", userData);
+			map.put("status", true);
+			return map;
+		}
+		map.put("status", false);
+		return map;
 	}
 
 	public List<UserData> getAllUserData() {
@@ -66,13 +79,13 @@ public class UserDataService {
 		udDao.saveUserData(userData);
 	}
 
-	public Role getRoleByUserId(Integer usreId) {
-		return roleDao.getRoleByUserId(usreId);
-	}
-
-	public void changeRole(Role role) {
-		roleDao.changeRole(role);
-	}
+//	public Role getRoleByUserId(Integer usreId) {
+//		return roleDao.getRoleByUserId(usreId);
+//	}
+//
+//	public void changeRole(Role role) {
+//		roleDao.changeRole(role);
+//	}
 
 	public Rank getByRankId(Integer rankId) {
 		return rankDao.getByRankId(rankId);
@@ -150,13 +163,21 @@ public class UserDataService {
 		udDao.logout(request);
 	}
 	
+	public Integer getProfileIdByUserId(Integer userId) {
+		Integer myId = upDao.getProfileIdByUserId(userId);
+		System.out.println("SPId="+myId);
+		if(myId!=null) {
+			return myId;
+		}
+		return null;
+	}
+	
 	public UserProfile getProfileByUserId(Integer userId) {
 		UserProfile myBean = upDao.getProfileByUserId(userId);
 		if(myBean!=null) {
 			return myBean;
 		}
-		return null;
-		
+		return myBean;
 	}
 
 }

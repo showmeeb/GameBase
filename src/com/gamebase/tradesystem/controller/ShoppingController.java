@@ -50,6 +50,13 @@ public class ShoppingController {
 		return shoppingService.deletes(Integer.valueOf(d));
 	}
 	
+	@RequestMapping(path = "/shoppingCart/payBill", method = RequestMethod.POST)
+	public String payBill() {
+		System.out.println("payBill");
+		
+		return shoppingService.processOrder();
+	}
+	
 	
 	
 	@RequestMapping(path = "/shoppingPage", method = RequestMethod.GET)

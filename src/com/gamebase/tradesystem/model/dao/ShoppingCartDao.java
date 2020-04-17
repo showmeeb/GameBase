@@ -28,9 +28,17 @@ public class ShoppingCartDao {
 		Session session = sessionFactory.getCurrentSession();
 		JSONObject result= new JSONObject();
 		ShoppingCart sc = this.translateKey(form);
-		session.save(sc);
-		result.put("t", true);
-		return result;
+		try {
+			this.checkCartLimit(sc.getUserId());
+			session.save(sc);
+			result.put("t", true);
+		}catch(Exception e) {
+			e.printStackTrace();
+			result.put("t", false);
+		}finally{
+			return result;
+		}	
+		
 	}
 
 	public JSONArray querys(int id) {
@@ -66,10 +74,18 @@ public class ShoppingCartDao {
 	public JSONObject deletes(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		JSONObject result= new JSONObject();
+		try {
 		ShoppingCart sc = session.get(ShoppingCart.class, id);
 		session.delete(sc);
 		result.put("t", true);
-		return result;
+		}catch(Exception e) {
+			e.printStackTrace();
+			result.put("t", false);
+			
+		}finally{
+			return result;
+		}
+		
 	}
 	
 	public ShoppingCart translateKey(String b) {
@@ -83,6 +99,16 @@ public class ShoppingCartDao {
 		p1.setAmount(1);
 		
 		return p1;
+	}
+	
+	public boolean checkCartLimit(int id) {
+		Session session = sessionFactory.getCurrentSession();
+		Query<ShoppingCart> query = session.createQuery("from ShoppingCart where userId=?1",ShoppingCart.class);
+		List<ShoppingCart> list = query.getResultList();
+		if(list.size()>=50) {
+			return false;
+		}
+		return true;
 	}
 
 	

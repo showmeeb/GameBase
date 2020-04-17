@@ -27,13 +27,13 @@ public class LoginController {
 		this.uService = uService;
 	}
 
-	@PostMapping(path = "/Users/{userID}", produces = "application/json")
+	@PostMapping(path = "/Users/{userAcc}", produces = "application/json")
 	@ResponseBody
-	public UsersInfo login(@PathVariable String userID, String pwd, Model model) {
-		System.out.println(userID);
+	public UsersInfo login(@PathVariable String userAcc, String pwd, Model model) {
+		System.out.println(userAcc);
 		System.out.println(pwd);
 		Map<String, String> errors = new HashMap<String, String>();
-		if (userID == null || userID.length() == 0) {
+		if (userAcc == null || userAcc.length() == 0) {
 			errors.put("uID", "Wrong userID format");
 			System.out.println("Wrong userID format");
 			return null;
@@ -49,7 +49,7 @@ public class LoginController {
 		}
 		UsersInfo usersInfo = null;
 		UserData userData = null;
-		userData = uService.getByLogin(userID, pwd);
+		userData = uService.getByLogin(userAcc, pwd);
 		if (userData != null) {
 			usersInfo = uService.showUserData(userData.getAccount());
 			model.addAttribute("loginUser", usersInfo);
@@ -61,7 +61,7 @@ public class LoginController {
 		return null;
 	}
 
-	@DeleteMapping(path = "/Users/{account}")
+	@DeleteMapping(value = "/Users/{account}")
 	@ResponseBody
 	public String logout(@PathVariable String account, SessionStatus sessionStatus) {
 		sessionStatus.setComplete();

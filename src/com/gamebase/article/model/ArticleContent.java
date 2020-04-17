@@ -7,7 +7,7 @@ public class ArticleContent {
 	private Integer userId;
 	private String content;
 	private String createTime;
-	private String lastReplytime;
+	private String updatetime;
 
 	public ArticleContent() {
 	}
@@ -56,12 +56,14 @@ public class ArticleContent {
 		this.createTime = createTime;
 	}
 
-	public String getLastReplytime() {
-		return lastReplytime;
+	public String getUpdatetime() {
+		return updatetime;
 	}
 
-	public void setLastReplytime(String lastReplytime) {
-		this.lastReplytime = lastReplytime;
+	public void setUpdatetime(String updatetime) {
+		this.updatetime = updatetime;
 	}
+
+
 
 }
