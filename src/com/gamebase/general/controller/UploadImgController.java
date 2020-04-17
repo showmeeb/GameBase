@@ -19,10 +19,9 @@ public class UploadImgController {
 	@Autowired
 	private UploadImgService uploadImgService;
 
-	@RequestMapping(value = "/uploadImg", method = RequestMethod.POST)
-
+	@RequestMapping(value ="/uploadImg", method = RequestMethod.POST)
 	public String tagSearch(@RequestParam("theFile") MultipartFile theFile, Model model) throws Exception {
-
+		System.out.println("123");
 		String imgURL = uploadImgService.uploadImg(theFile);
 		System.out.println(imgURL);
 
