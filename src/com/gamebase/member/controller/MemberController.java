@@ -31,7 +31,6 @@ public class MemberController {
 	@RequestMapping(value = "/createProfile")
 	public String createProfile() {
 		System.out.println("create");
-
 		return "ProfilePage";
 	}
 	
@@ -49,7 +48,7 @@ public class MemberController {
 			@RequestParam("age") Integer age, @RequestParam(value = "gender", required = false) String gender,
 			@RequestParam("img") String img, @RequestParam("phone") String phone, Map<String, Object> map,
 			ModelMap model) {		
-		if(uService.getProfileByUserId(userId)==null) {
+		if(uService.getProfileIdByUserId(userId)==null) {
 			UserProfile sa = new UserProfile(userId, name, gender, nickName, phone, age, address, img);
 			uService.saveUserPrfile(sa);
 			System.out.println("save");
@@ -66,7 +65,8 @@ public class MemberController {
 		uService.saveUserPrfile(up);
 		System.out.println("update");
 		}
-
+		model.remove("ProfileId");
+		model.addAttribute("ProfileId", uService.getProfileIdByUserId(userId));
 		System.out.println("success");
 		return "indexPage";
 

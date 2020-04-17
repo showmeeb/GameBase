@@ -29,6 +29,7 @@ public class UserData {
 	private String password;
 	private String email;
 	private Role role;
+	private Rank rank;
 //	private UserProfile userProfile;
 //	private Set<Order> orders = new HashSet<Order>();
 //	private Set<Forum> forums = new HashSet<Forum>();
@@ -87,6 +88,14 @@ public class UserData {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "userData")
+	public Rank getRank() {
+		return rank;
+	}
+
+	public void setRank(Rank rank) {
+		this.rank = rank;
 	}
 
 //	public UserProfile getUserProfile() {

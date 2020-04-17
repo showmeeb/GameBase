@@ -32,8 +32,6 @@ public class UserDataService {
 	@Autowired
 	private RankDAO rankDao;
 	@Autowired
-	private RoleDAO roleDao;
-	@Autowired
 	private UserProfileDAO upDao;
 	@Autowired
 	private MailSenderDAO mDao;

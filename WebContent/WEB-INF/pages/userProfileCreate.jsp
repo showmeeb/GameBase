@@ -22,9 +22,9 @@
 	Phone:<input type="text" name="phone" value="${userProfile.phone }"><br>
 	Age:<input type="text" name="age" value="${userProfile.age }"><br>
 	Image:<input type="text" name="img"><img src="${userProfile.img}"><br>
-	
 	<input type="submit">
 </form>
+<script type="text/javascript"></script>
 
 
 

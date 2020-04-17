@@ -42,7 +42,7 @@
 <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
 </head>
 <body>
-<h1>${UserData.account} ${ProfileId}</h1>
+<h1>${UserData.account} ${ProfileId} </h1>
 	
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<!-- Brand -->
