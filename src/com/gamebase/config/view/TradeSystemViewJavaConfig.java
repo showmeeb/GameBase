@@ -48,4 +48,12 @@ public class TradeSystemViewJavaConfig {
 		return view;
 	}
 	
+	@Bean
+	public View testPage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/test.jsp");
+
+		return view;
+	}
+	
 }
