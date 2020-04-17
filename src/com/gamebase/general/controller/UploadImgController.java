@@ -30,5 +30,11 @@ public class UploadImgController {
 		
 		return "topBar";
 	}
+	
+	@RequestMapping(path = "/test", method = RequestMethod.GET)
+	public String testPage() {
+		System.out.println("1");
+		return "testPage";
+	}
 
 }
