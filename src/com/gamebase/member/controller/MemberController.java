@@ -3,6 +3,7 @@ package com.gamebase.member.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.gamebase.member.model.Role;
 import com.gamebase.member.model.UserData;
@@ -63,8 +65,7 @@ public class MemberController {
 		uService.saveUserPrfile(up);
 		System.out.println("update");
 		}
-		model.remove("ProfileId");
-		model.addAttribute("ProfileId",uService.getProfileIdByUserId(userId));
+
 		System.out.println("success");
 		return "indexPage";
 
@@ -106,22 +107,6 @@ public class MemberController {
 		return "RegisterViewPage";
 	}
 
-	@RequestMapping(value = "/createProfile/{userId}", method = RequestMethod.GET)
-	public String showCreateProfilePage(@PathVariable("userId") Integer userId, ModelMap model,
-			Map<String, Object> map) {
-
-		map.put("TESTUserId", userId);
-		return "CreateProfilePage";
-	}
-
-
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(ModelMap model) {
-		System.out.println("lllllout");
-		model.remove("UserData");
-		model.remove("userProfile");
-		return "indexPage";
-	}
 
 	@RequestMapping(value = "/registact", method = RequestMethod.POST)
 	public String insertData(@RequestParam("account") String acc, @RequestParam("password") String pwd,
@@ -190,21 +175,17 @@ public class MemberController {
 		request.getSession().invalidate();
 		return "indexPage";
 	}
+	@RequestMapping(value="/logout")
+	public String logout(HttpServletRequest request,HttpServletResponse response,SessionStatus status) {
+		HttpSession session = request.getSession();
+		session.removeAttribute("UserData");
+		session.removeAttribute("userProfile");
+		status.setComplete();
+		
+		
+		return "indexPage";
+	}
 
-//	@RequestMapping(value = "/insertProfile", method = RequestMethod.POST)
-//	public String insertProfile(@RequestParam("name") String name,
-//			@RequestParam(value = "gender", required = false) String gender, @RequestParam("nickName") String nickName,
-//			@RequestParam("phone") String phone, @RequestParam("age") Integer age,
-//			@RequestParam("address") String address, Map<String, Object> map, ModelMap model,
-//			HttpServletRequest request) {
-//
-//		Map<String, String[]> upMap = request.getParameterMap();
-//
-//		UserProfile upN = uService.updateUserProfile(upMap);
-//		model.addAttribute("userProfile", upN);
-//
-//		System.out.println("沒錯");
-//		return "CreateProfileSuccessPage";
-//	}
+
 
 }
