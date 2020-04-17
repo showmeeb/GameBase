@@ -2,7 +2,7 @@ package com.gamebase.member.model.dao;
 
 import java.util.List;
 
-import org.hibernate.Session;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,7 @@ public class UserDataDAO implements IUserData {
 		query.setParameter("acc", account);
 		query.setParameter("pwd", password);
 		UserData myUserData = query.uniqueResult();
+		System.out.println("UDDAO");
 		if (myUserData != null) {
 			return myUserData;
 		}

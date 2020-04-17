@@ -5,9 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta  http-equiv="Expires"  CONTENT="0">   
-<meta  http-equiv="Cache-Control"  CONTENT="no-cache">
-<meta  http-equiv="Pragma"  CONTENT="no-cache">
+<meta http-equiv="Expires" CONTENT="0">
+<meta http-equiv="Cache-Control" CONTENT="no-cache">
+<meta http-equiv="Pragma" CONTENT="no-cache">
 <title>GameBase</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Bootstrap -->
@@ -36,7 +36,7 @@
 <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
 </head>
 <body>
-<h1>${UserData.account}</h1>
+	<h1>${UserData.account}</h1>
 
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<!-- Brand -->
@@ -58,12 +58,32 @@
 				class="nav-link dropdown-toggle" href="#" id="navbardrop"
 				data-toggle="dropdown">會員系統</a>
 				<div class="dropdown-menu">
-					<a class="dropdown-item" href="<c:url value="/gologin"/>">登入</a> <a
-						class="dropdown-item" href="<c:url value="/goregister"/>">註冊</a> <a
-						class="dropdown-item" href="#">管理個人資料</a> <a class="dropdown-item"
-						href="<c:url value="/createProfile"/>">新增個人資料</a> <a
-						class="dropdown-item" href="<c:url value="/updateProfile"/>">修改個人資料</a>
+					<!-- Ajax -->
+					<a class="dropdown-item" href="<c:url value="/loginAjax"/>">登入</a>
+					<a class="dropdown-item" href="<c:url value="/registerAjax"/>">註冊</a>
+					<!-- original -->
+					<a class="dropdown-item">--This line down is Original--</a>
+					<c:if test="${empty UserData.userId}">
+						<a class="dropdown-item" href="<c:url value="/gotologin"/>">登入</a>
+					</c:if>
+					<c:if test="${empty UserData.userId}">
+					<a class="dropdown-item" href="<c:url value="/gotoregister"/>">註冊</a>
+					</c:if>
+					<c:if test="${!empty UserData.userId}">
+						<c:if test="${!empty ProfileId}">
+							<a class="dropdown-item" href="<c:url value="/updateProfile/${UserData.userId}"/>">修改個人資料</a>
+						</c:if>
+						<c:if test="${empty ProfileId}">
+							<a class="dropdown-item" href="<c:url value="/createProfile"/>">新增個人資料</a>
+						</c:if>
+					</c:if>
+					<c:if test="${!empty UserData.userId}">
 
+						<a class="dropdown-item"
+							href="<c:url value="/createProfile/${UserData.userId}"/>">管理個人資料</a>
+						<a class="dropdown-item" href="<c:url value="/logout"/>">登出</a>
+
+					</c:if>
 				</div></li>
 			<li class="nav-item"><a class="nav-link"
 				href="<c:url value="/forum"/>">討論區</a></li>

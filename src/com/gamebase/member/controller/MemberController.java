@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.gamebase.member.model.Role;
+//import com.gamebase.member.model.Role;
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UserProfile;
 import com.gamebase.member.model.service.UserDataService;
@@ -49,12 +49,12 @@ public class MemberController {
 		return "LoginViewPage";
 	}
 
-	@RequestMapping(value = "/gologin", method = RequestMethod.GET)
+	@RequestMapping(value = "/gotologin", method = RequestMethod.GET)
 	public String showLoginPage() {
 		return "LoginViewPage";
 	}
 
-	@RequestMapping(value = "/goregister")
+	@RequestMapping(value = "/gotoregister")
 	public String showRegisterPage() {
 		return "RegisterViewPage";
 	}
@@ -92,10 +92,11 @@ public class MemberController {
 		String encryptPwd = uService.encryptString(pwd);
 		ud.setPassword(encryptPwd);
 		ud.setEmail(email);
+		ud.setRankId(1);
 		uService.saveUserData(ud);
 		// default rank 'Uncertified'
-		Role role = new Role(uService.getByLogin(acc, encryptPwd), uService.getByRankId(1));
-		uService.changeRole(role);
+//		Role role = new Role(uService.getByLogin(acc, encryptPwd), uService.getByRankId(1));
+//		uService.changeRole(role);
 
 		HttpSession session = request.getSession();
 		Map<String, String> mailMap = uService.mailAction(acc, email);
@@ -130,9 +131,12 @@ public class MemberController {
 		if (registerName == null || registerName.equals("")) {
 			return "indexPage";
 		}
-		Role role = uService.getRoleByUserId(uService.getByAccount(registerName).getUserId());
-		role.setRank(uService.getByRankId(2));
-		uService.changeRole(role);
+		UserData userdata = uService.getByAccount(registerName);
+		userdata.setRankId(2);
+		uService.saveUserData(userdata);
+//		Role role = uService.getRoleByUserId(uService.getByAccount(registerName).getUserId());
+//		role.setRank(uService.getByRankId(2));
+//		uService.changeRole(role);
 		request.getSession().invalidate();
 		return "indexPage";
 	}

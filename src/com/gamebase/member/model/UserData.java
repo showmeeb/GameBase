@@ -1,19 +1,13 @@
 package com.gamebase.member.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 //import java.util.HashSet;
 //import java.util.Set;
@@ -26,19 +20,16 @@ public class UserData {
 	private String account;
 	private String password;
 	private String email;
-	private Role role;
-//	private UserProfile userProfile;
-//	private Set<Order> orders = new HashSet<Order>();
-//	private Set<Forum> forums = new HashSet<Forum>();
+	private Integer rankId;
 
 	public UserData() {
 	}
 
-	public UserData(String account,String email) {
-		this.account=account;
-		this.email=email;
+	public UserData(String account, String email) {
+		this.account = account;
+		this.email = email;
 	}
-	
+
 	@Id
 	@Column(name = "USERID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -76,37 +67,13 @@ public class UserData {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	@Transient
-	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "userData")
-	public Role getRole() {
-		return role;
+
+	public Integer getRankId() {
+		return rankId;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setRankId(Integer rankId) {
+		this.rankId = rankId;
 	}
 
-//	public UserProfile getUserProfile() {
-//		return userProfile;
-//	}
-//
-//	public void setUserProfile(UserProfile userProfile) {
-//		this.userProfile = userProfile;
-//	}
-//
-//	public Set<Order> getOrders() {
-//		return orders;
-//	}
-//
-//	public void setOrders(Set<Order> orders) {
-//		this.orders = orders;
-//	}
-//
-//	public Set<Forum> getForums() {
-//		return forums;
-//	}
-//
-//	public void setForums(Set<Forum> forums) {
-//		this.forums = forums;
-//	}
 }
