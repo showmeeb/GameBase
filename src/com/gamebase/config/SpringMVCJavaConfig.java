@@ -60,17 +60,6 @@ public class SpringMVCJavaConfig implements WebMvcConfigurer {
 	}
 	
 	
-//	@Override   //註冊來源  還沒成功
-//	   public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
-	      // Register resource handler for CSS and JS
-	      //registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/statics/", "D:/statics/")
-	      //      .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
-
-	      // Register resource handler for images
-//	      registry.addResourceHandler("/images/**").addResourceLocations("/WEB-INF/images/")
-//	            .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
-//	   }
 	// 傳統作法Internal 仍然要呼叫路徑，且不易集中管理
 //	@Bean
 //	public InternalResourceViewResolver viewResolver() { // 設定viewResolver取代xml

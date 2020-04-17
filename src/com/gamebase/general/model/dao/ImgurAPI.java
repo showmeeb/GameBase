@@ -10,7 +10,7 @@ public interface ImgurAPI {
 	String SERVER = "https://api.imgur.com";
 	public static final String AUTH = "e1d6333cdc6b9dd";
 
-	@Headers("Authorization: Client-ID " + AUTH)
+	@Headers("Authorization: Client-ID " + AUTH) //for Retrofit
 	@POST("/3/upload")
 	Call<ImageResponse> postImage(@Body RequestBody image);
 

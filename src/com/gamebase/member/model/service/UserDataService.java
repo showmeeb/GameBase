@@ -4,20 +4,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gamebase.member.model.Friends;
 import com.gamebase.member.model.Rank;
 //import com.gamebase.member.model.Role;
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UserProfile;
+import com.gamebase.member.model.UsersInfo;
 import com.gamebase.member.model.dao.EncryptDAO;
 import com.gamebase.member.model.dao.MailSenderDAO;
 import com.gamebase.member.model.dao.RankDAO;
 //import com.gamebase.member.model.dao.RoleDAO;
 import com.gamebase.member.model.dao.UserDataDAO;
 import com.gamebase.member.model.dao.UserProfileDAO;
+import com.gamebase.member.model.dao.UsersInfoDAO;
 
 @Service
 @Transactional
@@ -35,6 +40,8 @@ public class UserDataService {
 	private MailSenderDAO mDao;
 	@Autowired
 	private EncryptDAO eDao;
+	@Autowired
+	private UsersInfoDAO uiDao;
 
 	public UserData getByLogin(String account, String password) {
 		return udDao.getByLogin(account, password);
@@ -92,12 +99,40 @@ public class UserDataService {
 		return udDao.getByAccount(account);
 	}
 
-	public void saveUserPrfile(UserProfile userProfile) {
-		upDao.saveUserProfile(userProfile);
+	public UsersInfo showUserData(String account) {
+		UsersInfo usersInfo = uiDao.selectById(account);
+
+		if (usersInfo != null) {
+			// get friend list
+			List<UsersInfo> list = uiDao.getFriendList(usersInfo.getUserId());
+
+			// set friend list
+			usersInfo.setFriendsList(list);
+
+			return usersInfo;
+		} else {
+			return null;
+		}
 	}
 
-	public UserProfile updateUserProfile(UserProfile userProfile) {
-		return upDao.updateUserProfile(userProfile);
+	public UsersInfo showUserData(Integer userNo) {
+		UsersInfo usersInfo = uiDao.selectByNo(userNo);
+
+		if (usersInfo != null) {
+			// get friend list
+			List<UsersInfo> list = uiDao.getFriendList(usersInfo.getUserId());
+
+			// set friend list
+			usersInfo.setFriendsList(list);
+
+			return usersInfo;
+		} else {
+			return null;
+		}
+	}
+
+	public void saveUserPrfile(UserProfile userProfile) {
+		upDao.saveUserProfile(userProfile);
 	}
 
 	public Map<String, String> mailAction(String acc, String email) {
@@ -119,4 +154,30 @@ public class UserDataService {
 	public String decryptString(String stringToDecrypt) {
 		return eDao.decryptString(stringToDecrypt);
 	}
+	
+	public UserProfile updateUserProfile(Map<String, String[]> upMap) {
+		return upDao.updateUserProfile(upMap);
+	}
+	
+	public void logout(HttpServletRequest request) {
+		udDao.logout(request);
+	}
+	
+	public Integer getProfileIdByUserId(Integer userId) {
+		Integer myId = upDao.getProfileIdByUserId(userId);
+		System.out.println("SPId="+myId);
+		if(myId!=null) {
+			return myId;
+		}
+		return null;
+	}
+	
+	public UserProfile getProfileByUserId(Integer userId) {
+		UserProfile myBean = upDao.getProfileByUserId(userId);
+		if(myBean!=null) {
+			return myBean;
+		}
+		return myBean;
+	}
+
 }

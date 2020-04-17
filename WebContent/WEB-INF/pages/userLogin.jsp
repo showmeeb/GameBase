@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,11 +14,31 @@
 <title>Login Page</title>
 </head>
 <body>
+	<%
+		String account="";
+		String password="";
+		
+		Cookie[] cookies=request.getCookies();
+		
+		if(cookies!=null){
+			for(Cookie cookie:cookies){
+				String name = cookie.getName();
+				if("account".equals(name)){
+					account=cookie.getValue();
+				}else if("password".equals(name)){
+					password=cookie.getValue();
+				}
+			}
+		}
+	%>
 
+
+	
 	<form action="<c:url value="/loginact"/>" method="POST">
-		Account:<input type="text" name="account">${requestScope.accerr}
-		<br> Password:<input type="password" name="password">${requestScope.pwderr}
-		<br> <input type="submit" value="Login">${requestScope.loginerr}
+		Account:<input type="text" name="account" value="<%=account%>"/>${requestScope.accerr}
+		<br> Password:<input type="password" name="password" value="<%=password%>"/>${requestScope.pwderr}
+		<br> <input type="submit" value="Login">${requestScope.loginerr}<input type="checkbox" name="save">Remember Me
+		
 	</form>
 	<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 	<a href="#" οnclick="signOut();">Sign out</a>

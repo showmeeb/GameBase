@@ -55,7 +55,7 @@ $(document).ready(function(){
 			console.log(myurl);
 			//ajax send data to controller
 			$.ajax({
-				url:"/forum/"+$("#forumName").text()+"/"+articleTitle+"/add",
+				url:articleTitle+"/add",
 // 				dataType:"json",
 				type:"POST",
 				cache: false,
@@ -139,7 +139,7 @@ $(document).ready(function(){
 			<tr>
 				<td><p>article title:</p></td>
 				<td><input type="text" id="articleTitle" name="articleTitle"
-					value="${mbList[0].boardTitle }" disabled="disabled"></td>
+					value="${childList[0].boardTitle }" disabled="disabled"></td>
 			</tr>
 		</table>
 		<!-- CKeditor -->

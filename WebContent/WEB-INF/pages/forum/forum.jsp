@@ -8,10 +8,12 @@
 <title>this is forum list</title>
 <!-- jQuery library -->
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-
+<!-- Font Awesome icons -->
+<script src="https://kit.fontawesome.com/83bb506b46.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
+<i class="fa fa-pencil-square-o" aria-hidden="true"></i><!-- 編輯  -->
+<i class="fa fa-plus" aria-hidden="true"></i><!-- 新增  -->
 	<br />
 	<!-- forum list -->
 	<table id="forumTable">
@@ -50,6 +52,8 @@
 			<button id="submit">Post New Forum</button>
 		</form>
 	</div>
+	<!-- include -->
+	<%@include file="testuploadimg.jsp"%>
 	
 	<!-- create new article -->
 <script>

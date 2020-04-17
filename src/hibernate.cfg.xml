@@ -24,6 +24,8 @@
 		<mapping class="com.gamebase.member.model.UserData" />
 		<mapping class="com.gamebase.member.model.Role" />
 		<mapping class="com.gamebase.member.model.Rank" />
+		<mapping class="com.gamebase.member.model.Friends" />
+		<mapping class="com.gamebase.member.model.UsersInfo" />
 		<mapping class="com.gamebase.member.model.UserProfile" />
 
 		<!-- TradeSystem Area -->
@@ -34,10 +36,14 @@
 		<mapping class="com.gamebase.tradesystem.model.ShoppingCart" />
 		<!-- Article Area -->
 		<mapping class="com.gamebase.article.model.Article" />
+		<mapping class="com.gamebase.article.model.ArticleTitle" />		<!-- 標題  -->
+		<mapping class="com.gamebase.article.model.ArticleContent" />	<!-- 內文  -->
+		<mapping class="com.gamebase.article.model.ArticleData" />		<!-- 數據  -->
+		<mapping class="com.gamebase.article.model.ArticleRecord" />	<!-- 紀錄  -->
 		<mapping class="com.gamebase.article.model.ForumImg" />
 		<mapping class="com.gamebase.article.model.News" />
 		<mapping class="com.gamebase.article.model.MsgBoard" /><!-- for test -->
-		<mapping class="com.gamebase.article.model.Forum" /><!-- for test -->
+		<mapping class="com.gamebase.article.model.Forum" />			<!-- 論壇 -->
 
 		<!-- WebSocket Area -->
 		<mapping class="com.gamebase.general.model.WebSocketMessage" />

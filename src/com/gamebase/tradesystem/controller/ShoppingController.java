@@ -43,10 +43,32 @@ public class ShoppingController {
 		return shoppingService.querys(Integer.valueOf(id));
 	}
 	
+	@RequestMapping(path = "/shopping/deleteCartProduct", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject deleteCartProduct(@RequestParam(value = "d") String d) {
+		System.out.println("d:"+d);
+		return shoppingService.deletes(Integer.valueOf(d));
+	}
+	
+	@RequestMapping(path = "/shoppingCart/payBill", method = RequestMethod.POST)
+	public String payBill() {
+		System.out.println("payBill");
+		
+		return shoppingService.processOrder();
+	}
+	
+	
+	
 	@RequestMapping(path = "/shoppingPage", method = RequestMethod.GET)
 	public String shoppingPage() {
 		System.out.println("1");
 		return "shoppingPage";
+	}
+	
+	@RequestMapping(path = "/orderPage", method = RequestMethod.GET)
+	public String orderPage() {
+		System.out.println("1");
+		return "orderPage";
 	}
 	
 	@RequestMapping(path = "/shoppingCartPage", method = RequestMethod.GET)
