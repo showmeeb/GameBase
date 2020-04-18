@@ -33,7 +33,17 @@
 	<h1>購物車</h1>
 	<div id="st1">
 		<table id="t1"></table>
-
+	<div class="form-row align-items-center">
+							<div class="col-auto my-1">
+								<label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+								<select class="custom-select mr-sm-2"
+									id="inlineFormCustomSelect">
+									<option selected>付款方式</option>
+									<option value="1">賣器官</option>
+									<option value="2">信用卡</option>
+								</select>
+							</div>
+						</div>
 	</div>
 
 	<!-- Button trigger modal -->
@@ -70,21 +80,11 @@
 							<label for="userPhone">住址:</label> <input type="text"
 								class="form-control" id="userPhone" aria-describedby="emailHelp">
 						</div>
-						<div class="form-row align-items-center">
-							<div class="col-auto my-1">
-								<label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
-								<select class="custom-select mr-sm-2"
-									id="inlineFormCustomSelect">
-									<option selected>付款方式</option>
-									<option value="1">賣器官</option>
-									<option value="2">信用卡</option>
-								</select>
-							</div>
-						</div>
+						
 					</form>
 				</div>
 				<div class="modal-footer">
-					<span id="total">總金額:</span>
+					<span id="total"></span>
 					<button id="paybill" type="button" class="btn btn-primary">結帳</button>
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">取消</button>

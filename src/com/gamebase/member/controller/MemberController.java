@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+
 import com.gamebase.member.model.Rank;
 import com.gamebase.member.model.Role;
+
+
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UserProfile;
 import com.gamebase.member.model.service.UserDataService;
@@ -132,9 +135,18 @@ public class MemberController {
 		String encryptPwd = uService.encryptString(pwd);
 		ud.setPassword(encryptPwd);
 		ud.setEmail(email);
+
 		ud.setRankId(rk.getRankId());
 		uService.saveUserData(ud);
 	
+
+		ud.setRankId(1);
+		uService.saveUserData(ud);
+		// default rank 'Uncertified'
+//		Role role = new Role(uService.getByLogin(acc, encryptPwd), uService.getByRankId(1));
+//		uService.changeRole(role);
+
+
 		HttpSession session = request.getSession();
 		Map<String, String> mailMap = uService.mailAction(acc, email);
 		session.setAttribute(mailMap.get("registerId"), acc);
@@ -169,8 +181,14 @@ public class MemberController {
 		if (registerName == null || registerName.equals("")) {
 			return "indexPage";
 		}
-		UserData userData = uService.getByAccount(registerName);
-		userData.setRankId(2);
+
+		UserData userdata = uService.getByAccount(registerName);
+		userdata.setRankId(2);
+		uService.saveUserData(userdata);
+//		Role role = uService.getRoleByUserId(uService.getByAccount(registerName).getUserId());
+//		role.setRank(uService.getByRankId(2));
+//		uService.changeRole(role);
+
 		request.getSession().invalidate();
 		return "indexPage";
 	}

@@ -1,5 +1,7 @@
 package com.gamebase.member.model;
 
+import java.beans.Transient;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,10 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 import org.springframework.stereotype.Component;
 
 //import java.util.HashSet;
@@ -89,15 +88,12 @@ public class UserData {
 		this.rankId = rankId;
 	}
 
-	@Transient
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userData")
-	public Role getRole() {
-		return role;
-	}
+//	@Transient
+//	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userData")
+//	public Role getRole() {
+//		return role;
+//	}
 
-	public void setRole(Role role) {
-		this.role = role;
-	}
 	@Transient
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userData")
 	public Rank getRank() {
@@ -108,35 +104,4 @@ public class UserData {
 		this.rank = rank;
 	}
 
-//	public UserProfile getUserProfile() {
-//		return userProfile;
-//	}
-//
-//	public void setUserProfile(UserProfile userProfile) {
-//		this.userProfile = userProfile;
-//	}
-//
-//	public Set<Order> getOrders() {
-//		return orders;
-//	}
-//
-//	public void setOrders(Set<Order> orders) {
-//		this.orders = orders;
-//	}
-//
-//	public Set<Forum> getForums() {
-//		return forums;
-//	}
-//
-//	public void setForums(Set<Forum> forums) {
-//		this.forums = forums;
-//	}
-//	@Transient
-//	public List<Friends> getFriendsList() {
-//		return friendsList;
-//	}
-//
-//	public void setFriendsList(List<Friends> friendsList) {
-//		this.friendsList = friendsList;
-//	}
 }

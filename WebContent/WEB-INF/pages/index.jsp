@@ -45,10 +45,24 @@
 <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
 </head>
 <body>
-
+	<%
+		String account="";
+		String password="";
+		
+		Cookie[] cookies = request.getCookies();
+		if(cookies!=null){
+			for(Cookie cookie:cookies){
+				String name=cookie.getName();
+				if("account".equals(name)){
+					account=cookie.getValue();
+				}else if("password".equals(name)){
+					password=cookie.getValue();
+				}
+			}
+		}
+	%>
 
 <h1>${UserData.account} ${ProfileId}</h1>
-
 
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<!-- Brand -->
@@ -71,6 +85,11 @@
 				class="nav-link dropdown-toggle" href="#" id="navbardrop"
 				data-toggle="dropdown">會員系統</a>
 				<div class="dropdown-menu">
+					<!-- Ajax -->
+					<a class="dropdown-item" href="<c:url value="/loginAjax"/>">登入</a>
+					<a class="dropdown-item" href="<c:url value="/registerAjax"/>">註冊</a>
+					<!-- original -->
+					<a class="dropdown-item">--This line down is Original--</a>
 					<c:if test="${empty UserData.userId}">
 						<a class="dropdown-item" href="<c:url value="/gotologin"/>">登入</a>
 					</c:if>
@@ -88,7 +107,6 @@
 					<c:if test="${!empty UserData.userId}">
 
 						<a class="dropdown-item" href="<c:url value="/logout"/>">登出</a>
-
 					</c:if>
 				</div></li>
 			<li class="nav-item"><a class="nav-link"

@@ -18,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.gamebase.general.model.WebSocketMessage;
-import com.gamebase.general.model.dao.OnlineUserRepo;
 
 @Controller
 public class ChatController {
