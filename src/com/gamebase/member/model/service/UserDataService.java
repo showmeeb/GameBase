@@ -63,14 +63,14 @@ public class UserDataService {
 	public void saveUserData(UserData userData) {
 		udDao.saveUserData(userData);
 	}
-
-	public Role getRoleByUserId(Integer usreId) {
-		return roleDao.getRoleByUserId(usreId);
-	}
-
-	public void changeRole(Role role) {
-		roleDao.changeRole(role);
-	}
+//
+//	public Role getRoleByUserId(Integer usreId) {
+//		return roleDao.getRoleByUserId(usreId);
+//	}
+//
+//	public void changeRole(Role role) {
+//		roleDao.changeRole(role);
+//	}
 
 	public Rank getByRankId(Integer rankId) {
 		return rankDao.getByRankId(rankId);

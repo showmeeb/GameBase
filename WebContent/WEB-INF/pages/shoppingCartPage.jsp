@@ -40,6 +40,8 @@
 	<button type="button" class="btn btn-primary" data-toggle="modal"
 		data-target="#exampleModalCenter">結帳</button>
 
+
+
 	<!-- Modal -->
 	<div class="modal fade" id="exampleModalCenter" tabindex="-1"
 		role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -55,7 +57,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form>
+					<form id="f1">
 						<div class="form-group">
 							<label for="userName">姓名:</label> <input type="text"
 								class="form-control" id="userName" aria-describedby="emailHelp">
@@ -91,6 +93,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<script type="text/javascript">
 		function showtables(response) {
 			var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品價錢<th>商品數量<th>總金額<th>編輯";
@@ -173,11 +176,37 @@
 		});
 
 		$(document).on('click', '#paybill', function() {
-			var userId =${UserData.userId};
-			var form 
+			//var userId =${UserData.userId};
+			var a = $('#f1').serializeObject();
+			var form = JSON.stringify(a);
+			$.ajax({
+				url :"shoppingCart/payBill",
+				dataType : "text",
+				type : "POST",
+				success : function(response) {
+					console.log(response);
 
+				}
+			});
 
 			})
+			
+			
+			$.fn.serializeObject = function() {
+			var o = {};
+			var a = this.serializeArray();
+			$.each(a, function() {
+				if (o[this.name] !== undefined) {
+					if (!o[this.name].push) {
+						o[this.name] = [ o[this.name] ];
+					}
+					o[this.name].push(this.value || '');
+				} else {
+					o[this.name] = this.value || '';
+				}
+			});
+			return o;
+		};
 		
 	</script>
 

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.gamebase.member.model.Rank;
 import com.gamebase.member.model.Role;
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UserProfile;
@@ -30,14 +31,12 @@ public class MemberController {
 
 	@RequestMapping(value = "/createProfile")
 	public String createProfile() {
-		System.out.println("create");
 		return "ProfilePage";
 	}
 	
 
 	@RequestMapping(value = "/updateProfile/{userId}")
 	public String updateProfile(@PathVariable("userId") Integer userId, Map<String, Object> map) {
-		System.out.println("update");
 		map.put("userProfile", uService.getProfileByUserId(userId));
 		return "ProfilePage";
 	}
@@ -99,7 +98,6 @@ public class MemberController {
 
 	@RequestMapping(value = "/gotologin", method = RequestMethod.GET)
 	public String showLoginPage() {
-		System.out.println("got");
 		return "LoginViewPage";
 	}
 
@@ -127,16 +125,16 @@ public class MemberController {
 		if (map != null && !map.isEmpty()) {
 			return "RegisterViewPage";
 		}
+		Rank rk = new Rank();
+		rk.setRankId(1);
 		UserData ud = new UserData();
 		ud.setAccount(acc);
 		String encryptPwd = uService.encryptString(pwd);
 		ud.setPassword(encryptPwd);
 		ud.setEmail(email);
+		ud.setRankId(rk.getRankId());
 		uService.saveUserData(ud);
-		// default rank 'Uncertified'
-		Role role = new Role(uService.getByLogin(acc, encryptPwd), uService.getByRankId(1));
-		uService.changeRole(role);
-
+	
 		HttpSession session = request.getSession();
 		Map<String, String> mailMap = uService.mailAction(acc, email);
 		session.setAttribute(mailMap.get("registerId"), acc);
@@ -167,12 +165,12 @@ public class MemberController {
 			return "indexPage";
 		}
 		String registerName = (String) request.getSession().getAttribute(registerId);
+		System.out.println("rName: " + registerName);
 		if (registerName == null || registerName.equals("")) {
 			return "indexPage";
 		}
-		Role role = uService.getRoleByUserId(uService.getByAccount(registerName).getUserId());
-		role.setRank(uService.getByRankId(2));
-		uService.changeRole(role);
+		UserData userData = uService.getByAccount(registerName);
+		userData.setRankId(2);
 		request.getSession().invalidate();
 		return "indexPage";
 	}

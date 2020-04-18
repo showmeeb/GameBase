@@ -5,15 +5,19 @@
 <html lang="zh-Hant-TW">
 <head>
 <meta charset="UTF-8">
-<title>上傳頭像</title>
+<title>上傳</title>
+<!-- cropper -->
 <link href="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.js"></script>
+<!-- bootstrap -->
 <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- jquery -->
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
-
-<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- css -->
 <style type="text/css">
     body{
         text-align: center;
@@ -55,7 +59,7 @@
 <body>
 <button class="btn btn-primary" data-target="#changeModal" data-toggle="modal">上傳圖片</button><br/>
 <div class="user-photo-box">
-    <img id="user-photo" src="<c:url value="/images/001.png"/>">  
+    <img id="user-photo" src="#">  
 </div>
 <div class="modal fade" id="changeModal" tabindex="-1" role="dialog" aria-hidden="true">
 <div class="modal-dialog">
@@ -93,9 +97,7 @@
     </div>
 </div>
 </div>
-<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <script type="text/javascript">
     var initCropperInModal = function(img, input, modal){
         var $image = img;
@@ -159,6 +161,7 @@
     }
 
     var sendPhoto = function(){
+        console.log('sendphoto')
     	$('#photo').cropper('getCroppedCanvas',{
             width:300,
             height:300
@@ -192,6 +195,7 @@
     }
 
     $(function(){
+        console.log('photo input')
         initCropperInModal($('#photo'),$('#photoInput'),$('#changeModal'));
     });
 </script>

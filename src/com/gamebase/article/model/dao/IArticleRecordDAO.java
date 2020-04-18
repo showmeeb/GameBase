@@ -10,7 +10,7 @@ public interface IArticleRecordDAO {
 	
 	public ArticleRecord queryRecord(ArticleRecord record);/*暫時不用*/
 	
-	public List<ArticleRecord> queryByUserIdAndTitleId(ArticleRecord record);
+	public ArticleRecord queryByUserIdAndTitleId(ArticleRecord record);
 	
 	public ArticleRecord updateByUserIdAndTitleId(ArticleRecord record);
 	

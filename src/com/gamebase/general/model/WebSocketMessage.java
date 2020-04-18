@@ -10,6 +10,7 @@ public class WebSocketMessage {
 	private String message;
 	private String[] to;
 	private Timestamp time = new Timestamp(System.currentTimeMillis());
+	private String serverName;
 
 	public WebSocketMessage() {
 
@@ -57,5 +58,13 @@ public class WebSocketMessage {
 
 	public void setTime(Timestamp time) {
 		this.time = time;
+	}
+
+	public String getServerName() {
+		return serverName;
+	}
+
+	public void setServerName(String serverName) {
+		this.serverName = serverName;
 	}
 }
