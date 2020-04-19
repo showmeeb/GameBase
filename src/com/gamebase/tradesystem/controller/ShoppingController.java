@@ -31,9 +31,10 @@ public class ShoppingController {
 	
 	@RequestMapping(path = "/shopping/addProduct", method = RequestMethod.POST)
 	@ResponseBody
-	public JSONObject addProducts(@RequestParam(value = "b") String b) {
+	public JSONObject addProducts(@RequestParam(value = "b") String b,@RequestParam(value = "userId") String userId) {
 		System.out.println(b);
-		return shoppingService.adds(b);
+		System.out.println(userId);
+		return shoppingService.adds(b,Integer.valueOf(userId));
 	}
 	
 	@RequestMapping(path = "/shopping/showCartProduct", method = RequestMethod.POST)
@@ -51,6 +52,7 @@ public class ShoppingController {
 	}
 	
 	@RequestMapping(path = "/shoppingCart/payBill", method = RequestMethod.POST)
+	@ResponseBody
 	public String payBill() {
 		System.out.println("payBill");
 		

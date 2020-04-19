@@ -37,17 +37,24 @@ public class UserOrderDao {
 		AioCheckOutALL order = new AioCheckOutALL();
 		order.setChoosePayment("Credit");
 		order.setMerchantID("2000132");
-		order.setMerchantTradeNo(this.makeUUID());// 要用UUID加密產生，不可重複
-		order.setMerchantTradeDate(String.valueOf(sdFormat.format(date)));
+		String uuid = this.makeUUID();
+		order.setMerchantTradeNo(uuid);// 要用UUID加密產生，不可重複
+		System.out.println(uuid);
+		String date1 = String.valueOf(sdFormat.format(date));
+		System.out.println("data1:"+date1);
+		order.setMerchantTradeDate(date1);
 		order.setPaymentType("aio");
 		order.setTotalAmount("1000");//前端引入
-		order.setTradeDesc("遊戲片");
-		order.setItemName("遊戲名子");//前端引入
+		order.setTradeDesc("Game");//不能中文
+		order.setItemName("Game1");//不能中文前端引入
 		order.setReturnURL("123");
-		order.setClientBackURL("https://a7612c5a.ngrok.io/EcpayTest/callback.jsp");
+		order.setClientBackURL("http://localhost:8080/GameBase/shoppingPage");
 		String str = Ecpay.aioCheckOut(order, invoice);
 		System.out.println(str);
 		return str;
+	}
+	public void addOrder(String form) {
+		
 	}
 
 	public JSONArray query() {
@@ -86,7 +93,7 @@ public class UserOrderDao {
 		System.out.println(iddd[0]);
 		SimpleDateFormat sFormat = new SimpleDateFormat("yyMMdd");
 //		System.out.println(sFormat.format(date));
-		StringBuffer MerchantTradeNo = new StringBuffer("gbitem");
+		StringBuffer MerchantTradeNo = new StringBuffer("GBitem");
 //		System.out.println("MerchantTradeNo=" + MerchantTradeNo);
 		MerchantTradeNo.insert(MerchantTradeNo.length(), String.valueOf(sFormat.format(date)));
 //		System.out.println("MerchantTradeNo=" + MerchantTradeNo);
