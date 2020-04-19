@@ -15,10 +15,10 @@ public class TagSearchController {
 	@Autowired
 	private TagSearchService tagSearchService;
 
-	@RequestMapping(value = "/topBar", method = RequestMethod.GET)
-	public String topBar(Model model) {
+	@RequestMapping(value = "/homePage", method = RequestMethod.GET)
+	public String topBar() {
 
-		return "topBar";
+		return "homePage";
 	}
 
 	@RequestMapping(value = "/tagSearch", method = RequestMethod.GET)
