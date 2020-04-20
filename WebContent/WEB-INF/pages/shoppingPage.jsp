@@ -190,16 +190,7 @@ div {
 		<div id="d2">
 			<div id="d3" style="width: 800px ;height: 600px;display: flex; justify-content: flex-start; padding: 3px;margin:auto;">
 				<div id="d4" >
-					<div class="quantity_buttons">
-	<div id="quantity_inc_button"
-		class="quantity_inc quantity_control" id="quantity_inc_button">
-		+<i class="fa fa-chevron-up" aria-hidden="true"></i>
-	</div>
-	<div id="quantity_dec_button"
-		class="quantity_dec quantity_control">
-		-<i class="fa fa-chevron-down" aria-hidden="true"></i>
-	</div>
-	</div>
+					
 				</div>
 			</div>
 		</div>
@@ -216,8 +207,11 @@ div {
 	//			}
 	//			})
 		$(document).on('change', '#quantity_input', function() {
+			if($("#quantity_input").val()<1){
+				$("#quantity_input").val(1);
+				}
 			var num=$("#quantity_input").val();
-			var price = $('#tprice').text();
+			var price = $('#oriPrice').text();
 			
 			$("#tprice").html(price*num);
 			
@@ -225,6 +219,10 @@ div {
 				
 		$(document).on('click', '#plus', function() {
 			$("#quantity_input").val(parseInt($("#quantity_input").val()) + 1)
+			var num=$("#quantity_input").val();
+			var price = $('#oriPrice').text();
+			
+			$("#tprice").html(price*num);
 			
 		})
 		
@@ -232,6 +230,10 @@ div {
 			if ($("#quantity_input").val() > 1) {
                 $("#quantity_input").val(parseInt($("#quantity_input").val()) - 1)
             }
+			var num=$("#quantity_input").val();
+			var price = $('#oriPrice').text();
+			
+			$("#tprice").html(price*num);
 			
 		})
 	
@@ -250,12 +252,12 @@ div {
 			txt+="<span>數量:<button id='noplus' type='button' class='btn btn-outline-secondary btn-sm'>-</button>";
 			txt+="<input style='width: 40px;' id='quantity_input' type='text' value='1'>";
 			txt+="<button id='plus' type='button' class='btn btn-outline-secondary btn-sm'>+</button></span>";
-			txt+="金額:<p id='tprice' class='card-text'>"+response.productPrice+"</p></div>";
+			txt+="金額:<span id='oriPrice' style='display:none'>"+response.productPrice+"</span>"+"<p id='tprice' class='card-text'>"+response.productPrice+"</p></div>";
 			txt+="</div>";
 			txt+="<div style='width:760px;'class='modal-footer'><span id='itemdetail' style='display:none'>"+JSON.stringify(response)+"</span>"+"<button id='addProduct1' type='button' class='btn btn-primary'>加入購物車</button></div>";
 			return txt;
 		}
-
+		
 	function showtable(response) {
 		
 						var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th>購物車";

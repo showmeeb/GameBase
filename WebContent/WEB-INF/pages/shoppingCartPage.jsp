@@ -65,21 +65,21 @@
 					<form id="f1">
 						<div class="form-group">
 							<label for="userName">姓名:</label> <input type="text"
-								class="form-control" id="userName" aria-describedby="emailHelp">
+								class="form-control" name="orderName" aria-describedby="emailHelp">
 						</div>
 						<div class="form-group">
 							<label for="userPhone">電話:</label> <input type="text"
-								class="form-control" id="userPhone" aria-describedby="emailHelp">
+								class="form-control" name="orderPhone" aria-describedby="emailHelp">
 						</div>
 						<div class="form-group">
 							<label for="userPhone">住址:</label> <input type="text"
-								class="form-control" id="userPhone" aria-describedby="emailHelp">
+								class="form-control" name="orderAddress" aria-describedby="emailHelp">
 						</div>
 						
 					</form>
 				</div>
 				<div class="modal-footer">
-					<span id="total"></span>
+					
 					<button id="paybill" type="button" class="btn btn-primary">結帳</button>
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">取消</button>
@@ -94,8 +94,8 @@
 		<a class="navbar-brand" href="#"></a>
 	  	<div style="position:relative; margin-right:100px;">
   		<form class="form-inline "> 
-  		<span id="total"></span>
-    		<button  style="width:200px;" class="btn btn-outline-success btn-lg"  type="button" data-toggle="modal"
+  		<span >總金額&nbsp;&nbsp;:&nbsp;&nbsp;</span><span id="total"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+    		<button id="paybillF" style="width:200px;" class="btn btn-outline-success btn-lg"  type="button" data-toggle="modal"
 		data-target="#exampleModalCenter">結&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;帳</button>
 	
   		</form>
@@ -104,6 +104,19 @@
 	</nav>
 	
 	<script type="text/javascript">
+
+		function total(){
+		var a=0;
+		$('tr').find("td[id='money']").each(function(i, e) {
+			console.log("e:"+e.innerHTML);
+			a+=parseInt(e.innerHTML);
+			})
+		console.log("a:"+a);
+		
+		$('#total').html(a);
+		return a;
+		}
+	
 		function showtables(response) {
 			var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品價錢<th>商品數量<th>總金額<th>編輯";
 			for (let i = 0; i < response.length; i++) {
@@ -141,17 +154,10 @@
 					showtables(response);
 				},
 				complete : function() {
-					var a=0;
-					var c = {};
-					$(document).find('#money').each(function(i,e){
-						console.log(e.value);
-						c[i]=e.value;
-						console.log(e);
-						})
-					$('#total').html(a)
+					total();
 					
-					}
-			});
+				}
+			});		
 
 		})
 		$(document).on('click', '#delete', function() {
@@ -168,48 +174,47 @@
 					console.log(response);
 					if (response.t == true) {
 						alert("刪除成功");
+						$tr.remove();
+						total();
 					} else {
 						alert("刪除失敗");
 					}
-
-				},
-				complete : function() {
-					$(document).ready(function() {
-						var id = 0;
-						$.ajax({
-							url : "shopping/showCartProduct",
-							dataType : "html",
-							type : "POST",
-							data : {
-								id : id
-							},
-							success : function(response) {
-								console.log(response);
-								showtables(response);
-							}
-						});
-
-					})
 				}
+				})
 			});
-		});
-
+		
+		$(document).on('click', '#paybillF', function() {
+			var a=total();
+			if(a>30000){
+				alert("信用卡刷卡最大金額不得超過3萬元台幣");
+				}
+			})
 		$(document).on('click', '#paybill', function() {
 			//var userId =${UserData.userId};
 			var a = $('#f1').serializeObject();
+			var totalPrice = $('#total').html();
+			a['orderPrice']=totalPrice;
 			var form = JSON.stringify(a);
+			
+			console.log(a);
+			console.log(total);
 			console.log(form);
-			$.ajax({
-				url :"shoppingCart/payBill",
-				dataType : "text",
-				data:{form:form},
-				type : "POST",
-				success : function(response) {
-					console.log(response);
-					document.write(response);
-				}
-			});
-
+			
+			var a=total();
+			if(a>30000){
+				alert("信用卡刷卡最大金額不得超過3萬元台幣");
+				}else{
+					$.ajax({
+						url :"shoppingCart/payBill",
+						dataType : "text",
+						data:{form:form},
+						type : "POST",
+						success : function(response) {
+							console.log(response);
+							document.write(response);
+						}
+					});
+					}
 			})
 			
 			
