@@ -44,6 +44,7 @@
 		<mapping class="com.gamebase.article.model.News" />
 		<mapping class="com.gamebase.article.model.MsgBoard" /><!-- for test -->
 		<mapping class="com.gamebase.article.model.Forum" />			<!-- 論壇 -->
+		<mapping class="com.gamebase.article.model.ForumListView" />	<!-- Forum List View -->
 
 		<!-- WebSocket Area -->
 		<mapping class="com.gamebase.general.model.WebSocketMessage" />

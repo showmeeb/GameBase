@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.gamebase.article.model.ArticleContent;
+import com.gamebase.member.model.UserProfile;
 
 @Repository
 public class ArticleContentDAO implements IArticleContentDAO {
@@ -67,5 +68,13 @@ public class ArticleContentDAO implements IArticleContentDAO {
 		}
 		return false;
 	}
+	
+	/*need to use view*/
+//	public List<UserProfile> queryUserImgByUserId() {
+//		Query<UserProfile> query = sessionFactory.getCurrentSession()
+//				.createQuery("Select img From UserProfile",UserProfile.class);
+//		List<UserProfile> list = query.list();
+//		return list;		
+//	}
 
 }

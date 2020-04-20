@@ -68,6 +68,10 @@ $(document).ready(function(){
                		content: editor.getData()
                		},
          		success : function(response) {
+         			/*clear input value*/
+         			$("#articleTitle").val()="";
+         			$("#accountId").val()="";
+         			editor.setData()=""
          			/*ajax response*/
         			var txt = '<div class="article"><div class="article_part"><h2>'+
 						'<a href="<c:url value="/forum_test/${forumId}/'+

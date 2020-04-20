@@ -73,19 +73,21 @@ $(document).ready(function(){
         			console.log(response);
         			/*ajac response*/
         								<!-- user data and update/post time -->
-        			var txt = '<div class="article_time_record">'+
+        			var txt = '<div>'+
+            			'<span>userId : '+response.newContent.userId+'</span>'+
+            			'<div class="article_time_record">'+
 						'<i class="fas fa-pen-alt">Post Time : '+response.newContent.createTime+'</i><br />'+
 						'</div>'+
 						'<div class="article_time_record">'+
 						'<i class="fas fa-pen-alt">Update Time : '+response.newContent.updateTime+'</i><br />'+
 						'</div>'+
-						'<span>userId : '+response.newContent.userId+'</span>'+
+						'</div>'+
 						'<br />'+
 						<!-- content area -->
-						'<div class="article_content">'+
+						'<div class="content_content">'+
 						'<span>'+response.newContent.content+'</span><br />'+
-						'</div>';
-					$("#contentList").append(txt);
+						'</div><hr />';
+					$("#publish-area").before(txt);
 
         		}        			
 			})
@@ -192,6 +194,7 @@ $(document).ready(function(){
 					<!-- user data and update/post time -->					
 					<!-- user -->
 					<div>
+<%-- 					<img src=${profileList[item.userId].Img }> --%>
 					<span>userId : ${item.userId}</span>
 					<!-- time -->
 					<div class="article_time_record">
@@ -213,29 +216,27 @@ $(document).ready(function(){
 					<div class="article_part article_datas">
 						<!-- like -->
 						<div class="article_icons">
-							<i class="far fa-thumbs-up fa-2x">123</i> <i
-								class="fas fa-thumbs-up fa-2x">132</i>
+							<i class="far fa-thumbs-up fa-2x">${title.likeNum}</i> <i
+								class="fas fa-thumbs-up fa-2x">${title.likeNum}</i>
 						</div>
 						<!-- unlike -->
 						<div class="article_icons">
-							<i class="far fa-thumbs-down fa-2x">123</i> <i
-								class="fas fa-thumbs-down fa-2x">123</i>
+							<i class="far fa-thumbs-down fa-2x">${title.unlikeNum}</i> <i
+								class="fas fa-thumbs-down fa-2x">${title.unlikeNum}</i>
 						</div>
 						<!-- click -->
 						<div class="article_icons">
-							<i class="far fa-eye fa-2x">123123</i> <i
-								class="fas fa-eye fa-2x">123123</i><br />
+							<i class="far fa-eye fa-2x">${title.clickNum}</i> <i
+								class="fas fa-eye fa-2x">${title.clickNum}</i><br />
 						</div>
 						<!-- create time -->
 						<div class="article_time_record">
-							<i class="fas fa-pen-alt fa-2x">Post Time : 2020-04-19
-								07:07:07</i><br />
+							<i class="fas fa-pen-alt fa-2x">Post Time : ${title.createTime}</i><br />
 						</div>
 						<!-- last reply time -->
 						<div class="article_time_record">
-							<i class="far fa-comment-dots fa-2x">Last Reply : 2020-04-19
-								07:07:07</i><br /> <i class="fas fa-comment-dots fa-2x">Last
-								Reply : 2020-04-19 07:07:07</i><br />
+							<i class="far fa-comment-dots fa-2x">Last Reply : ${title.lastReplyTime}</i><br /> 
+							<i class="fas fa-comment-dots fa-2x">Last Reply : ${title.lastReplyTime}</i><br />
 						</div>
 					</div>
 					</c:if>
@@ -249,8 +250,7 @@ $(document).ready(function(){
 	</c:if>
 	<!-- ================================================================================ -->
 	<!--輸入區 -->
-	<hr />
-	<div class="publish-area">
+	<div id="publish-area" class="publish-area">
 		<form>
 			<!-- User ID and Article Title -->
 			<table>

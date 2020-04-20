@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gamebase.article.model.ArticleContent;
 import com.gamebase.article.model.ArticleRecord;
@@ -12,8 +12,10 @@ import com.gamebase.article.model.ArticleTitle;
 import com.gamebase.article.model.dao.ArticleContentDAO;
 import com.gamebase.article.model.dao.ArticleRecordDAO;
 import com.gamebase.article.model.dao.ArticleTitleDAO;
+import com.gamebase.member.model.UserProfile;
 
 @Service
+@Transactional
 public class ArticleService {
 
 	@Autowired
@@ -62,5 +64,9 @@ public class ArticleService {
 	public ArticleRecord updateRecord(ArticleRecord record) {
 		return recordDao.updateByUserIdAndTitleId(record);
 	}
+	
+//	public List<UserProfile> queryUserProfile() {
+//		return contentDao.queryUserImgByUserId();
+//	}
 
 }

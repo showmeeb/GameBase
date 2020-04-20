@@ -109,7 +109,7 @@
 					</c:if>
 				</div></li>
 			<li class="nav-item"><a class="nav-link"
-				href="<c:url value="/forum"/>">討論區</a></li>
+				href="<c:url value="/forum_test"/>">討論區</a></li>
 			<li class="nav-item"><a class="nav-link"
 				href="<c:url value="/topBar"/>">TopBar</a></li>
 		</ul>
