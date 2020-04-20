@@ -1,5 +1,7 @@
 package com.gamebase.general.controller;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +36,11 @@ public class TagSearchController {
 
 		return "searchResults";
 	}
-	
 
+	@RequestMapping(value = "/autoComple", method = RequestMethod.GET)
+	public void autoComple(Model model) {
+		Set<String> returnSet = tagSearchService.autoComple();
+		model.addAttribute("autoComple",returnSet);
+		
+	}
 }
