@@ -77,7 +77,6 @@
 					<a class="dropdown-item" href="<c:url value="/tradesystem"/>">登記商品</a>
 					<a class="dropdown-item" href="<c:url value="/mainProduct"/>">商品管理</a>
 					<a class="dropdown-item" href="<c:url value="/shoppingPage"/>">商城頁面</a>
-					<a class="dropdown-item" href="<c:url value="/test"/>">圖片上傳</a>
 					<a class="dropdown-item" href="#"></a>
 				</div></li>
 			<!-- Dropdown -->

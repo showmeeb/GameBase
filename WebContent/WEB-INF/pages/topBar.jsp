@@ -117,8 +117,7 @@ td {
 				aria-expanded="true">商城</button>
 			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 				<a class="dropdown-item" href="#">登記商品</a> <a class="dropdown-item"
-					href="#">商品管理</a> <a class="dropdown-item" href="<c:url value="/mallHome"/>">商城頁面</a> <a
-					class="dropdown-item" href="#">圖片上傳</a>
+					href="#">商品管理</a> <a class="dropdown-item" href="<c:url value="/mallHome"/>">商城頁面</a>
 			</div>
 		</div>
 
