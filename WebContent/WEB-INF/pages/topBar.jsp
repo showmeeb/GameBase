@@ -27,7 +27,7 @@
 	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 	crossorigin="anonymous"></script>
 
-<link href="<c:url value="/css/style.css"/>" rel="stylesheet">
+<link href="<c:url value="/css/topBar.css"/>" rel="stylesheet">
 
 </head>
 
