@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.gamebase.tradesystem.model.Product;
+import com.gamebase.tradesystem.model.UserOrder;
+import com.google.gson.Gson;
 
 import ecpay.payment.integration.AllInOne;
 import ecpay.payment.integration.domain.AioCheckOutALL;
@@ -23,15 +25,19 @@ public class UserOrderDao {
 	
 	private InvoiceObj invoice = null;
 
+	private SimpleDateFormat sdFormat;
+
+	private Date date;
+
 	@Autowired
 	public UserOrderDao(@Qualifier(value = "sessionFactory") SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
 	public String processOrder() {
-		SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		sdFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Session session = sessionFactory.getCurrentSession();
-		Date date = new Date();
+		date = new Date();
 
 		AllInOne Ecpay = new AllInOne("");
 		AioCheckOutALL order = new AioCheckOutALL();
@@ -47,14 +53,17 @@ public class UserOrderDao {
 		order.setTotalAmount("1000");//前端引入
 		order.setTradeDesc("Game");//不能中文
 		order.setItemName("Game1");//不能中文前端引入
-		order.setReturnURL("123");
+		order.setReturnURL("/shoppingCart/addOrder");
 		order.setClientBackURL("http://localhost:8080/GameBase/shoppingPage");
 		String str = Ecpay.aioCheckOut(order, invoice);
 		System.out.println(str);
 		return str;
 	}
 	public void addOrder(String form) {
-		
+		UserOrder uo = new Gson().fromJson(form, UserOrder.class);
+		uo.setPayStatus(0);
+		uo.setOrderDate(date);
+		System.out.println(date);
 	}
 
 	public JSONArray query() {

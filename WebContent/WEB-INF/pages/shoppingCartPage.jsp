@@ -47,12 +47,6 @@
 		<table id="t1"></table>
 	</div>
 
-	<!-- Button trigger modal -->
-	<button type="button" class="btn btn-primary" data-toggle="modal"
-		data-target="#exampleModalCenter">結帳</button>
-
-
-
 	<!-- Modal -->
 	<div class="modal fade" id="exampleModalCenter" tabindex="-1"
 		role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -95,6 +89,20 @@
 		</div>
 	</div>
 	
+	<nav  class="navbar navbar-expand-lg fixed-bottom navbar-light bg-light" style="height: 90px">
+	<div class="container-fluid" style="position:absolute;height:90px">
+		<a class="navbar-brand" href="#"></a>
+	  	<div style="position:relative; margin-right:100px;">
+  		<form class="form-inline "> 
+  		<span id="total"></span>
+    		<button  style="width:200px;" class="btn btn-outline-success btn-lg"  type="button" data-toggle="modal"
+		data-target="#exampleModalCenter">結&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;帳</button>
+	
+  		</form>
+  		</div>
+  	</div>
+	</nav>
+	
 	<script type="text/javascript">
 		function showtables(response) {
 			var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品價錢<th>商品數量<th>總金額<th>編輯";
@@ -106,14 +114,21 @@
 				txt += "<td>" + response[i].productName;
 				txt += "<td>" + response[i].productPrice;
 				txt += "<td>" + response[i].amount;
-				txt += "<td>" + (response[i].productPrice * response[i].amount)
+				txt += "<td id='money'>" + (response[i].productPrice * response[i].amount)
 				txt += "<td><input type='button' id='delete' value='移除'>"
 			}
 			$('#t1').html(txt);
 		}
 
 		$(document).ready(function() {
-			var id = ${UserData.userId};
+			//var user=null;
+			//	if(window.sessionStorage.getItem("loginUser")==null){
+			//		user=1;
+			//	}else{
+			//		user=window.sessionStorage.getItem("loginUser");
+			//	}
+			//console.log(user);
+			var id =0;
 			$.ajax({
 				url : "shopping/showCartProduct",
 				dataType : "json",
@@ -124,7 +139,18 @@
 				success : function(response) {
 					console.log("資料回應:"+response);
 					showtables(response);
-				}
+				},
+				complete : function() {
+					var a=0;
+					var c = {};
+					$(document).find('#money').each(function(i,e){
+						console.log(e.value);
+						c[i]=e.value;
+						console.log(e);
+						})
+					$('#total').html(a)
+					
+					}
 			});
 
 		})
@@ -149,11 +175,7 @@
 				},
 				complete : function() {
 					$(document).ready(function() {
-						var id = $
-						{
-							UserData.userId
-						}
-						;
+						var id = 0;
 						$.ajax({
 							url : "shopping/showCartProduct",
 							dataType : "html",
@@ -176,9 +198,11 @@
 			//var userId =${UserData.userId};
 			var a = $('#f1').serializeObject();
 			var form = JSON.stringify(a);
+			console.log(form);
 			$.ajax({
 				url :"shoppingCart/payBill",
 				dataType : "text",
+				data:{form:form},
 				type : "POST",
 				success : function(response) {
 					console.log(response);
