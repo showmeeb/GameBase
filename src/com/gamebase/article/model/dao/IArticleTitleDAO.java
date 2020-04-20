@@ -8,9 +8,9 @@ public interface IArticleTitleDAO {
 
 	public ArticleTitle insertArticleTitle(ArticleTitle title);
 
-	public ArticleTitle queryOneArticleTitle(ArticleTitle title);
+	public ArticleTitle queryOneArticleTitle(Integer titleId);
 
-	public List<ArticleTitle> querySomeArticleTitleByForumId(ArticleTitle title);
+	public List<ArticleTitle> querySomeArticleTitleByForumId(Integer forumId);
 
 	public List<ArticleTitle> queryAllArticleTitle();
 

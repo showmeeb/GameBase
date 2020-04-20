@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import org.springframework.stereotype.Component;
 
 @Entity
@@ -14,31 +13,31 @@ import org.springframework.stereotype.Component;
 @Component
 public class Forum {
 
-	private int id;
+	private Integer forumId;
 	private String forumName;
 	private String forumFigure;
-	
-	public Forum() {		
+
+	public Forum() {
 	}
-	
-	public Forum(String forumName) {
-		this.forumName = forumName;
+
+	public Forum(Integer forumId) {
+		this.forumId = forumId;
 	}
-	
+
 	public Forum(String forumName, String forumFigure) {
 		this.forumName = forumName;
 		this.forumFigure = forumFigure;
 	}
 
+	@Column(name = "FORUMID")
 	@Id
-	@Column(name = "ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public int getId() {
-		return id;
+	public Integer getForumId() {
+		return forumId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setForumId(Integer forumId) {
+		this.forumId = forumId;
 	}
 
 	@Column(name = "FORUMNAME")
@@ -58,5 +57,4 @@ public class Forum {
 	public void setForumFigure(String forumFigure) {
 		this.forumFigure = forumFigure;
 	}
-
 }

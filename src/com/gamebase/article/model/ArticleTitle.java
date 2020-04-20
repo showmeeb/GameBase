@@ -3,6 +3,18 @@ package com.gamebase.article.model;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+
+@Component
+@Entity
+@Table(name = "articleTitle")
 public class ArticleTitle {
 
 	private Integer titleId;
@@ -10,16 +22,18 @@ public class ArticleTitle {
 	private String titleName;
 	private String firstFigure;
 	private String createTime;
-	private String lastReplyTime;	
-	private boolean news;/*新聞文章*/
-	private String newsAddress;/*新聞網址*/
+	private String lastReplyTime;
+	private Boolean news;/* 新聞文章 */
+	private String newsAddress;/* 新聞網址 */
 	private Integer clickNum;
 	private Integer likeNum;
 	private Integer unlikeNum;
-	private Integer shareNum;
-	
 
 	public ArticleTitle() {
+	}
+	
+	public ArticleTitle(Integer forumId) {
+		this.forumId = forumId;
 	}
 
 	public ArticleTitle(Integer forumId, String titleName, String firstFigure) {
@@ -31,9 +45,8 @@ public class ArticleTitle {
 		this.clickNum = 0;
 		this.likeNum = 0;
 		this.unlikeNum = 0;
-		this.shareNum = 0;
 	}
-	
+
 	public ArticleTitle(Integer forumId, String titleName, String firstFigure, String newsAddress) {
 		this.forumId = forumId;
 		this.titleName = titleName;
@@ -44,9 +57,11 @@ public class ArticleTitle {
 		this.clickNum = 0;
 		this.likeNum = 0;
 		this.unlikeNum = 0;
-		this.shareNum = 0;
 	}
 
+	@Id
+	@Column(name = "TITLEID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer getTitleId() {
 		return titleId;
 	}
@@ -55,6 +70,7 @@ public class ArticleTitle {
 		this.titleId = titleId;
 	}
 
+	@Column(name = "FORUMID")
 	public Integer getForumId() {
 		return forumId;
 	}
@@ -63,6 +79,7 @@ public class ArticleTitle {
 		this.forumId = forumId;
 	}
 
+	@Column(name = "TITLENAME")
 	public String getTitleName() {
 		return titleName;
 	}
@@ -71,6 +88,7 @@ public class ArticleTitle {
 		this.titleName = titleName;
 	}
 
+	@Column(name = "FIRSTFIGURE")
 	public String getFirstFigure() {
 		return firstFigure;
 	}
@@ -79,6 +97,7 @@ public class ArticleTitle {
 		this.firstFigure = firstFigure;
 	}
 
+	@Column(name = "CREATETIME")
 	public String getCreateTime() {
 		return createTime;
 	}
@@ -87,6 +106,7 @@ public class ArticleTitle {
 		this.createTime = createTime;
 	}
 
+	@Column(name = "LASTREPLYTIME")
 	public String getLastReplyTime() {
 		return lastReplyTime;
 	}
@@ -95,14 +115,16 @@ public class ArticleTitle {
 		this.lastReplyTime = lastReplyTime;
 	}
 
-	public boolean isNews() {
+	@Column(name = "NEWS")
+	public Boolean isNews() {
 		return news;
 	}
 
-	public void setNews(boolean news) {
+	public void setNews(Boolean news) {
 		this.news = news;
 	}
 
+	@Column(name = "NEWSADDRESS")
 	public String getNewsAddress() {
 		return newsAddress;
 	}
@@ -111,6 +133,7 @@ public class ArticleTitle {
 		this.newsAddress = newsAddress;
 	}
 
+	@Column(name = "CLICKNUM")
 	public Integer getClickNum() {
 		return clickNum;
 	}
@@ -119,6 +142,7 @@ public class ArticleTitle {
 		this.clickNum = clickNum;
 	}
 
+	@Column(name = "LIKENUM")
 	public Integer getLikeNum() {
 		return likeNum;
 	}
@@ -127,20 +151,13 @@ public class ArticleTitle {
 		this.likeNum = likeNum;
 	}
 
+	@Column(name = "UNLIKENUM")
 	public Integer getUnlikeNum() {
 		return unlikeNum;
 	}
 
 	public void setUnlikeNum(Integer unlikeNum) {
 		this.unlikeNum = unlikeNum;
-	}
-
-	public Integer getShareNum() {
-		return shareNum;
-	}
-
-	public void setShareNum(Integer shareNum) {
-		this.shareNum = shareNum;
 	}
 
 }

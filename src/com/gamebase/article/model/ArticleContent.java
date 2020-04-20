@@ -1,5 +1,20 @@
 package com.gamebase.article.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+
+@Component
+@Entity
+@Table(name = "articleContent")
 public class ArticleContent {
 
 	private Integer contentId;
@@ -7,15 +22,26 @@ public class ArticleContent {
 	private Integer userId;
 	private String content;
 	private String createTime;
-	private String updatetime;
+	private String updateTime;
 
 	public ArticleContent() {
 	}
 
-	public ArticleContent(Integer titleId, Integer userId, String content, String createTime, String lastReplytime) {
-
+	public ArticleContent(Integer titleId) {
+		this.titleId = titleId;
 	}
 
+	/* be used when insert new content */
+	public ArticleContent(Integer titleId, Integer userId, String content) {
+		this.titleId = titleId;
+		this.userId = userId;
+		this.content = content;
+		this.createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+	}
+
+	@Id
+	@Column(name = "CONTENTID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer getContentId() {
 		return contentId;
 	}
@@ -24,6 +50,7 @@ public class ArticleContent {
 		this.contentId = contentId;
 	}
 
+	@Column(name = "TITLEID")
 	public Integer getTitleId() {
 		return titleId;
 	}
@@ -32,6 +59,7 @@ public class ArticleContent {
 		this.titleId = titleId;
 	}
 
+	@Column(name = "USERID")
 	public Integer getUserId() {
 		return userId;
 	}
@@ -40,6 +68,7 @@ public class ArticleContent {
 		this.userId = userId;
 	}
 
+	@Column(name = "CONTENT")
 	public String getContent() {
 		return content;
 	}
@@ -48,6 +77,7 @@ public class ArticleContent {
 		this.content = content;
 	}
 
+	@Column(name = "CREATETIME")
 	public String getCreateTime() {
 		return createTime;
 	}
@@ -56,14 +86,13 @@ public class ArticleContent {
 		this.createTime = createTime;
 	}
 
-	public String getUpdatetime() {
-		return updatetime;
+	@Column(name = "UPDATETIME")
+	public String getUpdateTime() {
+		return updateTime;
 	}
 
-	public void setUpdatetime(String updatetime) {
-		this.updatetime = updatetime;
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
 	}
-
-
 
 }

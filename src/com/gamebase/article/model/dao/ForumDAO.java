@@ -35,7 +35,7 @@ public class ForumDAO implements IForumDAO {
 
 	@Override
 	public Forum queryOneForum(Forum forum) {
-		forum = sessionFactory.getCurrentSession().get(Forum.class, forum.getId());
+		forum = sessionFactory.getCurrentSession().get(Forum.class, forum.getForumId());
 		return forum;
 	}
 
@@ -48,7 +48,7 @@ public class ForumDAO implements IForumDAO {
 
 	@Override
 	public Forum updateOneForum(Forum forum) {
-		Forum result = sessionFactory.getCurrentSession().get(Forum.class, forum.getId());
+		Forum result = sessionFactory.getCurrentSession().get(Forum.class, forum.getForumId());
 		result.setForumName(forum.getForumName());
 		result.setForumFigure(forum.getForumFigure());
 		sessionFactory.getCurrentSession().update(result);
@@ -57,7 +57,7 @@ public class ForumDAO implements IForumDAO {
 
 	@Override
 	public boolean deleteOneForum(Forum forum) {
-		Forum rs = sessionFactory.getCurrentSession().get(Forum.class, forum.getId());
+		Forum rs = sessionFactory.getCurrentSession().get(Forum.class, forum.getForumId());
 		if (rs != null) {
 			sessionFactory.getCurrentSession().delete(rs);
 			return true;

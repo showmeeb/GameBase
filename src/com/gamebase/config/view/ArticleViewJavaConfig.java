@@ -36,4 +36,25 @@ public class ArticleViewJavaConfig {
 		view.setUrl("/WEB-INF/pages/forum/childArticle.jsp");
 		return view;
 	}
+	
+	@Bean
+	public View testForumViewPage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/forum/forum_test.jsp");
+		return view;
+	}
+	
+	@Bean
+	public View testTitleViewPage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/forum/title_test.jsp");
+		return view;
+	}
+	
+	@Bean
+	public View testContentViewPage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/forum/content_test.jsp");
+		return view;
+	}
 }
