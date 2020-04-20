@@ -48,6 +48,7 @@
 		<!-- WebSocket Area -->
 		<mapping class="com.gamebase.general.model.WebSocketMessage" />
 		<mapping class="com.gamebase.general.model.ChatBot" />
+		<mapping class="com.gamebase.general.model.OnlineUser" />
 
 
 	</session-factory>
