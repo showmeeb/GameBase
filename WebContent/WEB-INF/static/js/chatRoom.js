@@ -999,7 +999,7 @@ function connectChatRoom() {
         stompClient.subscribe('/user/queue/messages', function (msgOutput) {
             showMessageOutput(JSON.parse(msgOutput.body));
         });
-
+//        stompClient.send("/app/chat", {}, JSON.stringify({'msg':'userLogin'}));
         // get online list
         var data = JSON.parse(window.sessionStorage.getItem("loginUser"));
         sendWebSocketMessage({ from: data.userId, to: ['regist'], message: '', time: Date.now() });
@@ -1017,6 +1017,7 @@ function disconnectChatRoom() {
 
 function sendWebSocketMessage(msg) {
     stompClient.send("/app/chat", {}, JSON.stringify(msg));
+//    stompClient.send("/app/chat", {}, JSON.stringify({'msg':'userLogin'}));
 }
 
 function showMessageOutput(msgOutput) {

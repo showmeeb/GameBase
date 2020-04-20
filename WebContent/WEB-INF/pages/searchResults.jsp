@@ -11,28 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <style>
-.barSpace {
-	width: 100%;
-	height: 100px;
-	padding: 5px;
-}
 
-#resultsDiv {
-	width: auto;
-	display: table;
-	margin-left: auto;
-	margin-right: auto;
-	border: 1px solid black;
-}
-
-td {
-	text-align: center;
-}
-
-img {
-	width: 200px;
-	height: 260px;
-}
 </style>
 </head>
 <body>
@@ -44,6 +23,9 @@ img {
 		<table id=resultsTable></table>
 	</div>
 
+	<jsp:include page="footer.jsp" />
+
+
    <script>
         $("#looking").val('${looking}');
 
@@ -53,7 +35,7 @@ img {
 
         for (i = 0; i < jsonResults.length; i++) {
             if (i % 5 == 0) { txt += "<tr>" }
-            txt += "<td><a href='/GameBase/productDetail?prodId="+jsonResults[i].productId+"'><img src='" + jsonResults[i].productImg + "'>";  
+            txt += "<td><a href='/GameBase/productDetail?prodId="+jsonResults[i].productId+"'><img class='resultImg' src='" + jsonResults[i].productImg + "'>";  
             txt += "<div>" + jsonResults[i].productName + "</div>";
             txt += "<div>" + jsonResults[i].productPrice + "</div></a>";
         }

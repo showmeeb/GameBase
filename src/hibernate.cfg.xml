@@ -22,7 +22,7 @@
 
 		<!-- Member Area -->
 		<mapping class="com.gamebase.member.model.UserData" />
-		<mapping class="com.gamebase.member.model.Role" />
+	<!--  <mapping class="com.gamebase.member.model.Role" />-->	
 		<mapping class="com.gamebase.member.model.Rank" />
 		<mapping class="com.gamebase.member.model.Friends" />
 		<mapping class="com.gamebase.member.model.UsersInfo" />
@@ -48,6 +48,7 @@
 		<!-- WebSocket Area -->
 		<mapping class="com.gamebase.general.model.WebSocketMessage" />
 		<mapping class="com.gamebase.general.model.ChatBot" />
+		<mapping class="com.gamebase.general.model.OnlineUser" />
 
 
 	</session-factory>

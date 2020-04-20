@@ -24,13 +24,25 @@ public class ShoppingCartDao {
 	}
 
 	
-	public JSONObject adds(String form) {
+	public JSONObject adds(String form,int id) {
 		Session session = sessionFactory.getCurrentSession();
 		JSONObject result= new JSONObject();
-		ShoppingCart sc = this.translateKey(form);
-		session.save(sc);
-		result.put("t", true);
-		return result;
+		ShoppingCart sc = new Gson().fromJson(form, ShoppingCart.class);
+		try {
+			if(this.checkCartLimit(id)) {
+				session.save(sc);
+				result.put("t", true);
+			}else {
+				result.put("t", false);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+			result.put("t", false);
+		}finally{
+			System.out.println("result:"+result);
+			return result;
+		}	
+		
 	}
 
 	public JSONArray querys(int id) {
@@ -66,10 +78,18 @@ public class ShoppingCartDao {
 	public JSONObject deletes(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		JSONObject result= new JSONObject();
+		try {
 		ShoppingCart sc = session.get(ShoppingCart.class, id);
 		session.delete(sc);
 		result.put("t", true);
-		return result;
+		}catch(Exception e) {
+			e.printStackTrace();
+			result.put("t", false);
+			
+		}finally{
+			return result;
+		}
+		
 	}
 	
 	public ShoppingCart translateKey(String b) {
@@ -83,6 +103,29 @@ public class ShoppingCartDao {
 		p1.setAmount(1);
 		
 		return p1;
+	}
+	
+	public boolean checkCartLimit(int id) {
+		Session session = sessionFactory.getCurrentSession();
+		boolean t =true;
+		try {
+		Query<ShoppingCart> query = session.createQuery("from ShoppingCart where userId=?1",ShoppingCart.class);
+		query.setParameter(1, id);
+		List<ShoppingCart> list = query.getResultList();
+		System.out.println("會員購物車商品數量:"+list.size());
+		if(list.size()>=50) {
+			t= false;
+		}
+		System.out.println("t:"+t);
+		return t;
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+			t= true;
+			System.out.println("t:"+t);
+			return t;
+		}
+			
 	}
 
 	

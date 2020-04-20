@@ -7,24 +7,27 @@
 <head>
 <meta charset="UTF-8">
 <title>UserProfileCreate</title>
-
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
 </head>
 <body>
 
 <c:if test="${!empty ProfileId}">
-<form action="<c:url value="/saveProfile"/>" method="POST">
+<form action="<c:url value="/saveProfile"/>" method="POST"  enctype="multipart/form-data">
 	<input type="hidden" name="userId" value="${userProfile.userId}">
 	Name:<input type="text" name="name" value="${userProfile.name}"><br>
 	Nickname:<input type="text" name="nickName" value="${userProfile.nickName}"><br>
-	Gender:<input type="radio" name=gender value="m">男 <input type="radio" name=gender value="f">女${userProfile.gender}"<br>
+	Gender:<input type="radio" name=gender value="m">男 <input type="radio" name=gender value="f">女<span>${userProfile.gender}</span><br>
 	Address:<input type="text" name="address" value="${userProfile.address }"><br>
 	Phone:<input type="text" name="phone" value="${userProfile.phone }"><br>
 	Age:<input type="text" name="age" value="${userProfile.age }"><br>
 	Image:<input type="text" name="img"><img src="${userProfile.img}"><br>
-<input type="submit">
+	<input type="submit">
 </form>
+<script type="text/javascript"></script>
+
+
+
 </c:if>
 <c:if test="${empty ProfileId}">
 <form action="<c:url value="/saveProfile"/>" method="POST">
@@ -39,6 +42,6 @@
 	<input type="submit">
 </form>
 </c:if>
-</body>
 
+</body>
 </html>

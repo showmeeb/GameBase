@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-
-
 import com.gamebase.tradesystem.model.service.ProductService;
 
 
@@ -26,6 +23,12 @@ public class ProductController {
 		this.productService = productService;
 	}
 
+	@RequestMapping(value = "/mallHome", method = RequestMethod.GET)
+	public String mallHome() {
+
+		return "mallHome";
+	}
+	
 	@RequestMapping(path = "/tradesystem/add", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject tsAdd(@RequestParam(value = "form") String form) {

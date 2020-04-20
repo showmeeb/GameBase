@@ -1,6 +1,6 @@
 package com.gamebase.member.model;
 
-import java.util.List;
+import java.beans.Transient;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,11 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 //import java.util.HashSet;
 //import java.util.Set;
@@ -28,7 +25,9 @@ public class UserData {
 	private String account;
 	private String password;
 	private String email;
+	private Integer rankId;
 	private Role role;
+	private Rank rank;
 //	private UserProfile userProfile;
 //	private Set<Order> orders = new HashSet<Order>();
 //	private Set<Forum> forums = new HashSet<Forum>();
@@ -37,11 +36,11 @@ public class UserData {
 	public UserData() {
 	}
 
-	public UserData(String account,String email) {
-		this.account=account;
-		this.email=email;
+	public UserData(String account, String email) {
+		this.account = account;
+		this.email = email;
 	}
-	
+
 	@Id
 	@Column(name = "USERID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -79,45 +78,30 @@ public class UserData {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	@Transient
-	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "userData")
-	public Role getRole() {
-		return role;
+
+	@Column(name = "RANKID")
+	public Integer getRankId() {
+		return rankId;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setRankId(Integer rankId) {
+		this.rankId = rankId;
 	}
 
-//	public UserProfile getUserProfile() {
-//		return userProfile;
-//	}
-//
-//	public void setUserProfile(UserProfile userProfile) {
-//		this.userProfile = userProfile;
-//	}
-//
-//	public Set<Order> getOrders() {
-//		return orders;
-//	}
-//
-//	public void setOrders(Set<Order> orders) {
-//		this.orders = orders;
-//	}
-//
-//	public Set<Forum> getForums() {
-//		return forums;
-//	}
-//
-//	public void setForums(Set<Forum> forums) {
-//		this.forums = forums;
-//	}
 //	@Transient
-//	public List<Friends> getFriendsList() {
-//		return friendsList;
+//	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userData")
+//	public Role getRole() {
+//		return role;
 //	}
-//
-//	public void setFriendsList(List<Friends> friendsList) {
-//		this.friendsList = friendsList;
-//	}
+
+	@Transient
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "userData")
+	public Rank getRank() {
+		return rank;
+	}
+
+	public void setRank(Rank rank) {
+		this.rank = rank;
+	}
+
 }

@@ -1,12 +1,6 @@
 package com.gamebase.article.controller;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.gamebase.article.model.Forum;
 import com.gamebase.article.model.MsgBoard;
+import com.gamebase.article.model.service.ArticleService;
 import com.gamebase.article.model.service.ForumService;
 import com.gamebase.article.model.service.MsgBoardService;
 
@@ -31,11 +26,18 @@ public class ArticleController {
 
 	private MsgBoardService mbService;
 	private ForumService fService;
+	private ArticleService aService;
 
 	@Autowired
 	public ArticleController(MsgBoardService mbService, ForumService fService) {
 		this.mbService = mbService;
 		this.fService = fService;
+	}
+
+	@RequestMapping(value = "/forumHome", method = RequestMethod.GET)
+	public String forumHome() {
+
+		return "forumHome";
 	}
 
 	/* query all forum name */
@@ -89,10 +91,13 @@ public class ArticleController {
 	public JSONObject insertNewForum(@RequestParam("forumName") String forumName,
 			@RequestParam("forumFigure") String forumFigure, ModelMap model) {
 		System.out.println("insert new Forum");
+		String imgURL = (String) model.getAttribute("imgURL");
+		if (imgURL.length() == 0 || imgURL == null) {
+			System.out.println("img did not upload!");
+		} else {
+			forumFigure = imgURL;
+		}
 		Forum newForum = fService.insertForum(new Forum(forumName, forumFigure));
-//		List<Forum> newForumList = (List<Forum>) model.getAttribute("forumList");
-//		newForumList.add(newForum);
-//		model.addAttribute("forumList", newForumList);
 		JSONObject result = new JSONObject();
 		result.put("newForum", newForum);
 		System.out.println(result);
@@ -107,8 +112,8 @@ public class ArticleController {
 		System.out.println("insert new Parent Article");
 		JSONObject result = new JSONObject();
 		try {
-			MsgBoard newmb = mbService.insertMsg(
-					new MsgBoard(0, Integer.parseInt(accountId), forumName, articleTitle, content));
+			MsgBoard newmb = mbService
+					.insertMsg(new MsgBoard(0, Integer.parseInt(accountId), forumName, articleTitle, content));
 			result.put("t", 1);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -119,21 +124,21 @@ public class ArticleController {
 
 	/* insert new child article */
 	@RequestMapping(value = "/forum/{forumName}/{parentId}/add", produces = "application/json")
-	public JSONObject insertNewParent(@PathVariable("forumName") String forumName, @RequestParam("content") String content,
-			@RequestParam("accountId") String accountId, @RequestParam("articleTitle") String articleTitle,
-			@PathVariable("parentId") Integer parentId, ModelMap model) {
+	public JSONObject insertNewParent(@PathVariable("forumName") String forumName,
+			@RequestParam("content") String content, @RequestParam("accountId") String accountId,
+			@RequestParam("articleTitle") String articleTitle, @PathVariable("parentId") Integer parentId,
+			ModelMap model) {
 		JSONObject result = new JSONObject();
 		System.out.println("insert new child");
 		try {
-			MsgBoard newchild = mbService.insertMsg(
-					new MsgBoard(parentId, Integer.parseInt(accountId), forumName, articleTitle, content));
+			MsgBoard newchild = mbService
+					.insertMsg(new MsgBoard(parentId, Integer.parseInt(accountId), forumName, articleTitle, content));
 			result.put("t", 1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
-
 
 	/* update page */
 //	@RequestMapping(path = "", method = RequestMethod.GET)

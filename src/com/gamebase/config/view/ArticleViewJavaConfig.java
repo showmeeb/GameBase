@@ -19,21 +19,28 @@ public class ArticleViewJavaConfig {
 	@Bean
 	public View parentArticleViewPage() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/parentArticle.jsp");
+		view.setUrl("/WEB-INF/pages/forum/parentArticle.jsp");
 		return view;
 	}
 
 	@Bean
 	public View forumViewPage() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/forum.jsp");
+		view.setUrl("/WEB-INF/pages/forum/forum.jsp");
 		return view;
 	}
 	
 	@Bean
 	public View childArticleViewPage() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/childArticle.jsp");
+		view.setUrl("/WEB-INF/pages/forum/childArticle.jsp");
+		return view;
+	}
+	
+	@Bean
+	public View forumHome() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/forumHome.jsp");
 		return view;
 	}
 }

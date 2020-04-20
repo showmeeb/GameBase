@@ -32,13 +32,13 @@ public class ArticleRecordDAO implements IArticleRecordDAO {
 	}
 
 	@Override
-	public List<ArticleRecord> queryByUserIdAndTitleId(ArticleRecord record) {
+	public ArticleRecord queryByUserIdAndTitleId(ArticleRecord record) {
 		Query<ArticleRecord> query = sessionFactory.getCurrentSession().createQuery("from ArticleRecord where userId=?1 and titleId=?2", ArticleRecord.class)
 				.setParameter(1, record.getUserId())
 				.setParameter(2, record.getTitleId());
-		List<ArticleRecord> list = query.list();
+		ArticleRecord result = query.uniqueResult();
 		
-		return list;
+		return result;
 	}
 
 	@Override

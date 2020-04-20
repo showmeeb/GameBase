@@ -32,6 +32,7 @@ public class UserDataDAO implements IUserData {
 		query.setParameter("acc", account);
 		query.setParameter("pwd", password);
 		UserData myUserData = query.uniqueResult();
+		System.out.println("UDDAO");
 		if (myUserData != null) {
 			return myUserData;
 		}
@@ -86,34 +87,32 @@ public class UserDataDAO implements IUserData {
 		}
 		return null;
 	}
-	
 
 	@Override
 	public void logout(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		
+
 		session.invalidate();
 	}
 
 	@Override
 	public void GetCookie(String account, String password, HttpServletRequest request, HttpServletResponse response) {
-		Cookie accCookie = new Cookie("account",account);
-		Cookie pwdCookie = new Cookie("password",password);
-		
+		Cookie accCookie = new Cookie("account", account);
+		Cookie pwdCookie = new Cookie("password", password);
+
 		String save = request.getParameter("save");
-		
-		if(save!=null) {
-			
-			accCookie.setMaxAge(60*60*24*7);
-			pwdCookie.setMaxAge(60*60*24*7);
-		}else {
+
+		if (save != null) {
+
+			accCookie.setMaxAge(60 * 60 * 24 * 7);
+			pwdCookie.setMaxAge(60 * 60 * 24 * 7);
+		} else {
 			accCookie.setMaxAge(0);
 			pwdCookie.setMaxAge(0);
 		}
 		response.addCookie(accCookie);
 		response.addCookie(pwdCookie);
-		
+
 	}
 
-	
 }

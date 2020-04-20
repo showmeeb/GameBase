@@ -32,13 +32,26 @@
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 	<h1>購物車</h1>
 	<div id="st1">
+		
+						<div class="form-row align-items-center">
+							<div class="col-auto my-1">
+								<label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+								<select class="custom-select mr-sm-2"
+									id="inlineFormCustomSelect">
+									<option selected>付款方式</option>
+									<option value="1">賣器官</option>
+									<option value="2">信用卡</option>
+								</select>
+							</div>
+						</div>
 		<table id="t1"></table>
-
 	</div>
 
 	<!-- Button trigger modal -->
 	<button type="button" class="btn btn-primary" data-toggle="modal"
 		data-target="#exampleModalCenter">結帳</button>
+
+
 
 	<!-- Modal -->
 	<div class="modal fade" id="exampleModalCenter" tabindex="-1"
@@ -55,7 +68,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form>
+					<form id="f1">
 						<div class="form-group">
 							<label for="userName">姓名:</label> <input type="text"
 								class="form-control" id="userName" aria-describedby="emailHelp">
@@ -68,21 +81,11 @@
 							<label for="userPhone">住址:</label> <input type="text"
 								class="form-control" id="userPhone" aria-describedby="emailHelp">
 						</div>
-						<div class="form-row align-items-center">
-							<div class="col-auto my-1">
-								<label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
-								<select class="custom-select mr-sm-2"
-									id="inlineFormCustomSelect">
-									<option selected>付款方式</option>
-									<option value="1">賣器官</option>
-									<option value="2">信用卡</option>
-								</select>
-							</div>
-						</div>
+						
 					</form>
 				</div>
 				<div class="modal-footer">
-					<span id="total">總金額:</span>
+					<span id="total"></span>
 					<button id="paybill" type="button" class="btn btn-primary">結帳</button>
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">取消</button>
@@ -91,6 +94,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<script type="text/javascript">
 		function showtables(response) {
 			var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品價錢<th>商品數量<th>總金額<th>編輯";
@@ -109,11 +113,7 @@
 		}
 
 		$(document).ready(function() {
-			var id = $
-			{
-				UserData.userId
-			}
-			;
+			var id = ${UserData.userId};
 			$.ajax({
 				url : "shopping/showCartProduct",
 				dataType : "json",
@@ -122,7 +122,7 @@
 					id : id
 				},
 				success : function(response) {
-					console.log(response);
+					console.log("資料回應:"+response);
 					showtables(response);
 				}
 			});
@@ -156,7 +156,7 @@
 						;
 						$.ajax({
 							url : "shopping/showCartProduct",
-							dataType : "json",
+							dataType : "html",
 							type : "POST",
 							data : {
 								id : id
@@ -173,11 +173,37 @@
 		});
 
 		$(document).on('click', '#paybill', function() {
-			var userId =${UserData.userId};
-			var form 
-
+			//var userId =${UserData.userId};
+			var a = $('#f1').serializeObject();
+			var form = JSON.stringify(a);
+			$.ajax({
+				url :"shoppingCart/payBill",
+				dataType : "text",
+				type : "POST",
+				success : function(response) {
+					console.log(response);
+					document.write(response);
+				}
+			});
 
 			})
+			
+			
+			$.fn.serializeObject = function() {
+			var o = {};
+			var a = this.serializeArray();
+			$.each(a, function() {
+				if (o[this.name] !== undefined) {
+					if (!o[this.name].push) {
+						o[this.name] = [ o[this.name] ];
+					}
+					o[this.name].push(this.value || '');
+				} else {
+					o[this.name] = this.value || '';
+				}
+			});
+			return o;
+			};
 		
 	</script>
 
