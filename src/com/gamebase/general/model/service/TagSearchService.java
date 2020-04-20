@@ -1,5 +1,7 @@
 package com.gamebase.general.model.service;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,11 @@ public class TagSearchService {
 
 	public String tagSearchByFuzzy(String tableName, String fieldName, String keyword) {
 		return tagSearchDAO.tagSearchByFuzzy(tableName, fieldName, keyword);
+
+	}
+
+	public Set<String> autoComple() {
+		return tagSearchDAO.autoComple();
 
 	}
 }

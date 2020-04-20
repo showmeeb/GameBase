@@ -111,7 +111,6 @@ public class TagSearchDAO {
 		return jsonString;
 	}
 	
-
 	public JSONArray showProduct(String keyword) {
 
 		Session session = sessionFactory.getCurrentSession();
@@ -132,5 +131,22 @@ public class TagSearchDAO {
 		return jsonArray;
 	}
 	
-	
+	public Set<String> autoComple()  {
+		List<Object[]> resultList =sessionFactory.getCurrentSession().createQuery("Select productName,productTag from Product").list();
+		Set<String> returnSet = new LinkedHashSet<String>();
+
+		for(Object[] object : resultList) {
+			returnSet.add((String)object[0]);
+			
+			String[] tagSplit = ((String)object[1]).split(",");
+			for(String tagItem:tagSplit) {
+				returnSet.add(tagItem);
+			}
+		}
+		
+		
+
+
+		return returnSet;
+	}
 }
