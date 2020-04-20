@@ -32,8 +32,10 @@ public class UserDataService {
 	private UserDataDAO udDao;
 	@Autowired
 	private RankDAO rankDao;
+
 //	@Autowired
 //	private RoleDAO roleDao;
+
 	@Autowired
 	private UserProfileDAO upDao;
 	@Autowired

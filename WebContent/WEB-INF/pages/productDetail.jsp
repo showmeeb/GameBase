@@ -18,11 +18,7 @@
 </script>
 
 <style>
-.barSpace {
-	width: 100%;
-	height: 100px;
-	padding: 5px;
-}
+
 </style>
 
 

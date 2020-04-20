@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-//import com.gamebase.member.model.Role;
+
+import com.gamebase.member.model.Rank;
+import com.gamebase.member.model.Role;
+
+
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UserProfile;
 import com.gamebase.member.model.service.UserDataService;
@@ -30,15 +34,12 @@ public class MemberController {
 
 	@RequestMapping(value = "/createProfile")
 	public String createProfile() {
-		System.out.println("create");
-
 		return "ProfilePage";
 	}
 	
 
 	@RequestMapping(value = "/updateProfile/{userId}")
 	public String updateProfile(@PathVariable("userId") Integer userId, Map<String, Object> map) {
-		System.out.println("update");
 		map.put("userProfile", uService.getProfileByUserId(userId));
 		return "ProfilePage";
 	}
@@ -49,7 +50,7 @@ public class MemberController {
 			@RequestParam("age") Integer age, @RequestParam(value = "gender", required = false) String gender,
 			@RequestParam("img") String img, @RequestParam("phone") String phone, Map<String, Object> map,
 			ModelMap model) {		
-		if(uService.getProfileByUserId(userId)==null) {
+		if(uService.getProfileIdByUserId(userId)==null) {
 			UserProfile sa = new UserProfile(userId, name, gender, nickName, phone, age, address, img);
 			uService.saveUserPrfile(sa);
 			System.out.println("save");
@@ -66,7 +67,8 @@ public class MemberController {
 		uService.saveUserPrfile(up);
 		System.out.println("update");
 		}
-
+		model.remove("ProfileId");
+		model.addAttribute("ProfileId", uService.getProfileIdByUserId(userId));
 		System.out.println("success");
 		return "indexPage";
 
@@ -99,7 +101,6 @@ public class MemberController {
 
 	@RequestMapping(value = "/gotologin", method = RequestMethod.GET)
 	public String showLoginPage() {
-		System.out.println("got");
 		return "LoginViewPage";
 	}
 
@@ -127,16 +128,24 @@ public class MemberController {
 		if (map != null && !map.isEmpty()) {
 			return "RegisterViewPage";
 		}
+		Rank rk = new Rank();
+		rk.setRankId(1);
 		UserData ud = new UserData();
 		ud.setAccount(acc);
 		String encryptPwd = uService.encryptString(pwd);
 		ud.setPassword(encryptPwd);
 		ud.setEmail(email);
+
+		ud.setRankId(rk.getRankId());
+		uService.saveUserData(ud);
+	
+
 		ud.setRankId(1);
 		uService.saveUserData(ud);
 		// default rank 'Uncertified'
 //		Role role = new Role(uService.getByLogin(acc, encryptPwd), uService.getByRankId(1));
 //		uService.changeRole(role);
+
 
 		HttpSession session = request.getSession();
 		Map<String, String> mailMap = uService.mailAction(acc, email);
@@ -168,15 +177,18 @@ public class MemberController {
 			return "indexPage";
 		}
 		String registerName = (String) request.getSession().getAttribute(registerId);
+		System.out.println("rName: " + registerName);
 		if (registerName == null || registerName.equals("")) {
 			return "indexPage";
 		}
+
 		UserData userdata = uService.getByAccount(registerName);
 		userdata.setRankId(2);
 		uService.saveUserData(userdata);
 //		Role role = uService.getRoleByUserId(uService.getByAccount(registerName).getUserId());
 //		role.setRank(uService.getByRankId(2));
 //		uService.changeRole(role);
+
 		request.getSession().invalidate();
 		return "indexPage";
 	}
