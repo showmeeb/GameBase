@@ -2,6 +2,7 @@ package com.gamebase.member.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -76,7 +77,7 @@ public class MemberController {
 
 	@RequestMapping(value = "/loginact", method = RequestMethod.POST)
 	public String loginAction(@RequestParam("account") String acc, @RequestParam("password") String pwd,
-			Map<String, Object> map, ModelMap model) {
+			Map<String, Object> map, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 		if (acc == null || acc.length() == 0) {
 			map.put("accerr", "account is required");
 		}
@@ -89,6 +90,9 @@ public class MemberController {
 		String encryptPwd = uService.encryptString(pwd);
 		UserData userData = uService.getByLogin(acc, encryptPwd);
 
+		
+		uService.GetCookie(acc, pwd, request, response);
+		
 		if (userData != null) {
 			model.addAttribute("UserData", userData);
 			model.addAttribute("ProfileId", uService.getProfileIdByUserId(userData.getUserId()));
@@ -136,16 +140,8 @@ public class MemberController {
 		ud.setPassword(encryptPwd);
 		ud.setEmail(email);
 
-		ud.setRankId(rk.getRankId());
-		uService.saveUserData(ud);
-	
-
 		ud.setRankId(1);
 		uService.saveUserData(ud);
-		// default rank 'Uncertified'
-//		Role role = new Role(uService.getByLogin(acc, encryptPwd), uService.getByRankId(1));
-//		uService.changeRole(role);
-
 
 		HttpSession session = request.getSession();
 		Map<String, String> mailMap = uService.mailAction(acc, email);
