@@ -45,8 +45,25 @@
 <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
 </head>
 <body>
-<h2>${UserData.account}</h2>
+	<%
+		String account="";
+		String password="";
+		
+		Cookie[] cookies = request.getCookies();
+		if(cookies!=null){
+			for(Cookie cookie:cookies){
+				String name=cookie.getName();
+				if("account".equals(name)){
+					account=cookie.getValue();
+				}else if("password".equals(name)){
+					password=cookie.getValue();
+				}
+			}
+		}
+	%>
+
 <h1>${UserData.account} ${ProfileId}</h1>
+
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<!-- Brand -->
 		<a class="navbar-brand" href="#">GameBase</a>
@@ -88,8 +105,7 @@
 						</c:if>
 					</c:if>
 					<c:if test="${!empty UserData.userId}">
-						<a class="dropdown-item"
-							href="<c:url value="/createProfile/${UserData.userId}"/>">管理個人資料</a>
+
 						<a class="dropdown-item" href="<c:url value="/logout"/>">登出</a>
 					</c:if>
 				</div></li>

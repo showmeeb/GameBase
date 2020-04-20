@@ -9,6 +9,13 @@ import org.springframework.web.servlet.view.InternalResourceView;
 public class TradeSystemViewJavaConfig {
 
 	@Bean
+	public View mallHome() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/mallHome.jsp");
+		return view;
+	}
+	
+	@Bean
 	public View addProductPage() {
 		InternalResourceView view = new InternalResourceView();
 		view.setUrl("/WEB-INF/pages/addProduct.jsp");

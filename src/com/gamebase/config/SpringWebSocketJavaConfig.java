@@ -28,7 +28,7 @@ public class SpringWebSocketJavaConfig implements WebSocketMessageBrokerConfigur
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/chat").addInterceptors(new HttpSessionHandshakeInterceptor()) //從session拿attribute
+		registry.addEndpoint("/chat").addInterceptors(new HttpSessionHandshakeInterceptor()) // for catching attribute in session scope
 				.setHandshakeHandler(new SpringWebSocketHandler()).withSockJS();
 	}
 	//tomcat config

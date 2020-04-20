@@ -15,14 +15,20 @@
 </head>
 <body>
 	<%
+		
+		
 		String account="";
 		String password="";
 		
+		String sessionId=session.getId();
+		System.out.println("sID: " + sessionId);
 		Cookie[] cookies=request.getCookies();
-		
+		System.out.println("我的cookie:" + cookies);
 		if(cookies!=null){
+			System.out.println("我的cookie2:" + cookies);
 			for(Cookie cookie:cookies){
 				String name = cookie.getName();
+				
 				if("account".equals(name)){
 					account=cookie.getValue();
 				}else if("password".equals(name)){

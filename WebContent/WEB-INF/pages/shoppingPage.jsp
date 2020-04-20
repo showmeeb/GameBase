@@ -46,8 +46,10 @@ img {
 	width: 300px; float:left;
 }
 
+#d4 img {width:300px;height:450px;}
+
 div {
-	border: 1px solid grey
+	border: 1px solid grey ;
 }
 </style>
 </head>
@@ -105,7 +107,7 @@ div {
 			tabindex="-1" aria-disabled="true">Disabled</a></li> -->
 		</ul>
 	</div>
-	<div id="st1">
+	<!--  測試中 <div id="st1">
 		<table id="t1">
 			<div style="width:1500px; height:550px">
 				<ul style="display: flex; justify-content: flex-start;">
@@ -157,16 +159,23 @@ div {
 			</div>
 
 		</table>
+	</div>-->
+	
+						
+	
+	<div >
+		<form >
+			<table id="t1">
+			</table>		
+		</form>
 	</div>
 	
 	
 	<div id="d1" >
 		<div id="d2">
-			<div id="d3">
-				<div id="d4">
-					<form id="f2">
-						
-					</form>
+			<div id="d3" style="width: 800px ;height: 600px;display: flex; justify-content: flex-start; padding: 3px;margin:auto;">
+				<div id="d4" >
+					
 				</div>
 			</div>
 		</div>
@@ -174,24 +183,57 @@ div {
 
 	<script type="text/javascript">
 
+	function showprodetail(response){
+		var txt="";
+			txt+="<div><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>X</span></button></div>"
+			//txt+="<div style='width: 750px; display: flex; justify-content: flex-start; padding: 3px'>";
+			txt+="<div style='width:350px;height:450px; float:left;margin:30px 0px 10px 0px; text-align: center;'>";
+			txt+="<img src='"+response.productImg+"'></div>";
+			txt+="<div style='float: right;width:400px;height:450px;margin:6px 0px 10px 0px;' ><div class='modal-header'><h5 class='modal-title'>"+response.productName+"</h5></div>";
+			txt+="<div style='height:330px;'class='modal-body'>";
+			txt+="<p class='card-text'>"+response.productInfo+"</p>";
+			txt+="<p class='card-text'>"+response.productTag+"</p>";
+			txt+="</div>";
+			txt+="<div style='margin-bottom:0px;align:left;' class='modal-footer'>金額:<p class='card-text'>"+response.productPrice+"</p></div>";
+			txt+="</div>";
+			txt+="<div style='width:760px;'class='modal-footer'><span id='itemdetail' style='display:none'>"+JSON.stringify(response)+"</span>"+"<button id='addProduct1' type='button' class='btn btn-primary'>加入購物車</button></div>";
+			return txt;
+		}
 
 	function showtable(response) {
+		
 						var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th>購物車";
+						
 						for (let i = 0; i < response.length; i++) {
+							var s = {productId:response[i].productId,
+									 productName:response[i].productName,
+									 	productImg:response[i].productImg,
+										 productType:response[i].productType,
+											 inventory:response[i].inventory,
+												 productPrice:response[i].productPrice,
+													 productTag:response[i].productTag,
+														 productInfo:response[i].productInfo
+									};
+							//var a=JSON.stringify(s);
+							//console.log("a:"+a);
 							txt += "<tr><td>" + response[i].productId;
-							txt += "<td id='img'><span id='productDetail' role='button' tabindex='0'aria-pressed='true' data-toggle='modal'data-target='#d1'> <img src='"+response[i].productImg+"'></span>";
+							txt += "<td id='img'><span id='productDetail' role='button' tabindex='0'aria-pressed='true' data-toggle='modal'data-target='#d1'> <img src='"+response[i].productImg+"' alt='"+JSON.stringify(s)+"'></span>";
 							txt += "<td>" + response[i].productName;
 							txt += "<td>" + response[i].productType;
 							txt += "<td>" + response[i].inventory;
 							txt += "<td>" + response[i].productPrice;
 							txt += "<td>" + response[i].productTag;
 							txt += "<td>" + response[i].productInfo;
-							txt += "<td><input type='button' id='addProduct' value='加入購物車'>"
+							txt += "<td><input type='button' id='addProduct' value='加入購物車'>";
 						}
-						$('#t1').html(txt);		
+						$('#t1').html(txt);	
+							
 		}
 		$(document).on('click', '#productDetail', function() {
 			var $tr = $(this).parents("tr");
+			var s=$tr.find("img").attr("alt");
+			var a=JSON.parse(s);
+			$('#d4').html(showprodetail(a));
 			
 		})
 		
@@ -207,12 +249,9 @@ div {
 					type : type
 				},
 				success : function(response) {
-					console.log(response);
-					var response = JSON.parse(JSON.stringify(response))
-					console.log(response);
+					console.log(response[1]);
 					console.log("yes");
 					showtable(response);
-					document.write('response='+response+'<br>');
 				},
 				complete:function(){
 					$('#d1').addClass("modal fade").attr({"tabindex":"-1","role":"dialog","aria-labelledby":"exampleModalCenterTitle","aria-hidden":"true"});
@@ -284,8 +323,35 @@ div {
 		//	}
 		//})
 
-		$(document).on('click', '#addProduct', function() {
+		$(document).on('click', '#addProduct1', function() {
 			var userId =${UserData.userId};
+			console.log("userId:"+userId);
+			var b = $('#itemdetail').text();
+			console.log(b);
+			//var b=JSON.stringify(s);
+			//console.log(b);
+			$.ajax({
+				async : false,
+				url : "shopping/addProduct",
+				dataType : "json",
+				type : "POST",
+				data : {
+					userId:userId,
+					b : b
+				},
+				success : function(response) {
+					console.log(response.t);
+					if (response.t == true) {
+						alert("放入成功");
+					} else {
+						alert("放入失敗");
+					}
+				}
+			});
+		})
+		
+		$(document).on('click', '#addProduct', function() {
+			//var userId =${UserData.userId};
 			//console.log("userId:"+userId);
 			var $tr = $(this).parents("tr");
 			var c = {};

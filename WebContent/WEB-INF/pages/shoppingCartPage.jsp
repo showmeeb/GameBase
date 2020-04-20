@@ -32,8 +32,8 @@
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 	<h1>購物車</h1>
 	<div id="st1">
-		<table id="t1"></table>
-	<div class="form-row align-items-center">
+		
+						<div class="form-row align-items-center">
 							<div class="col-auto my-1">
 								<label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
 								<select class="custom-select mr-sm-2"
@@ -44,6 +44,7 @@
 								</select>
 							</div>
 						</div>
+		<table id="t1"></table>
 	</div>
 
 	<!-- Button trigger modal -->
@@ -112,11 +113,7 @@
 		}
 
 		$(document).ready(function() {
-			var id = $
-			{
-				UserData.userId
-			}
-			;
+			var id = ${UserData.userId};
 			$.ajax({
 				url : "shopping/showCartProduct",
 				dataType : "json",
@@ -125,7 +122,7 @@
 					id : id
 				},
 				success : function(response) {
-					console.log(response);
+					console.log("資料回應:"+response);
 					showtables(response);
 				}
 			});
@@ -159,7 +156,7 @@
 						;
 						$.ajax({
 							url : "shopping/showCartProduct",
-							dataType : "json",
+							dataType : "html",
 							type : "POST",
 							data : {
 								id : id
@@ -185,7 +182,7 @@
 				type : "POST",
 				success : function(response) {
 					console.log(response);
-
+					document.write(response);
 				}
 			});
 
@@ -206,7 +203,7 @@
 				}
 			});
 			return o;
-		};
+			};
 		
 	</script>
 

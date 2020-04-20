@@ -34,6 +34,12 @@ public class ArticleController {
 	@Autowired
 	private ArticleService aService;
 
+	@RequestMapping(value = "/forumHome", method = RequestMethod.GET)
+	public String forumHome() {
+
+		return "forumHome";
+	}
+
 	/* query all forum name */
 	@RequestMapping(value = "/forum")
 	public String goMsgBoard(ModelMap model) {

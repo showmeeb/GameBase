@@ -26,8 +26,8 @@ public class ShoppingService {
 	private UserOrderDao userOrderDao;
 	
 	
-	public JSONObject adds(String form) {
-		return shoppingCartDao.adds(form);
+	public JSONObject adds(String form ,int id) {
+		return shoppingCartDao.adds(form,id);
 	}
 	
 	public JSONArray querys(int id) {

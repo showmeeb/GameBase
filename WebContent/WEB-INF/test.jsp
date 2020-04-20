@@ -53,7 +53,7 @@
 <button class="btn btn-primary" data-target="#changeModal" data-toggle="modal">上傳圖片</button><br/>  <!-- 上傳按鈕設定 -->
 
 <div class="user-photo-box">
-    <img id="user-photo" src="<c:url value="/images/001.png"/>">  
+    <img id="user-photo" src="../images/001.png">  
 </div>
 <div class="modal fade" id="changeModal" tabindex="-1" role="dialog" aria-hidden="true">
 <div class="modal-dialog">
@@ -94,6 +94,6 @@
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="static/js/crop.js" charset="UTF-8"></script>
+<script src="/static/js/crop.js"></script>
 </body>
 </html>

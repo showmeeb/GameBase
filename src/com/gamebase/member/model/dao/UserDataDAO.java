@@ -97,22 +97,25 @@ public class UserDataDAO implements IUserData {
 
 	@Override
 	public void GetCookie(String account, String password, HttpServletRequest request, HttpServletResponse response) {
+		
+		
 		Cookie accCookie = new Cookie("account", account);
 		Cookie pwdCookie = new Cookie("password", password);
-
+		
 		String save = request.getParameter("save");
-
+		
 		if (save != null) {
-
+			System.out.println("Get Cookies: " + accCookie + " " + pwdCookie);
 			accCookie.setMaxAge(60 * 60 * 24 * 7);
 			pwdCookie.setMaxAge(60 * 60 * 24 * 7);
 		} else {
+			System.out.println("Get Cookies(without): " + accCookie + " " + pwdCookie);
 			accCookie.setMaxAge(0);
 			pwdCookie.setMaxAge(0);
 		}
 		response.addCookie(accCookie);
 		response.addCookie(pwdCookie);
-
+		
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,10 @@ public class UserDataService {
 	private UserDataDAO udDao;
 	@Autowired
 	private RankDAO rankDao;
+
 //	@Autowired
 //	private RoleDAO roleDao;
+
 	@Autowired
 	private UserProfileDAO upDao;
 	@Autowired
@@ -179,5 +182,8 @@ public class UserDataService {
 		}
 		return myBean;
 	}
-
+	
+	public void GetCookie(String account, String password, HttpServletRequest request, HttpServletResponse response) {
+		udDao.GetCookie(account, password, request, response);
+	}
 }

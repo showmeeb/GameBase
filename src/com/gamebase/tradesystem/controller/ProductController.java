@@ -23,6 +23,12 @@ public class ProductController {
 		this.productService = productService;
 	}
 
+	@RequestMapping(value = "/mallHome", method = RequestMethod.GET)
+	public String mallHome() {
+
+		return "mallHome";
+	}
+	
 	@RequestMapping(path = "/tradesystem/add", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject tsAdd(@RequestParam(value = "form") String form) {

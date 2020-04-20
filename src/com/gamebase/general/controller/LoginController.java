@@ -53,8 +53,8 @@ public class LoginController {
 		if (userData != null) {
 			usersInfo = uService.showUserData(userData.getAccount());
 			model.addAttribute("loginUser", usersInfo);
-			System.out.println(userData);
-			System.out.println(usersInfo);
+//			System.out.println(userData);
+//			System.out.println(usersInfo);
 			return usersInfo;
 		}
 		errors.put("loginerr", "Account or password error");
