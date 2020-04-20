@@ -4,20 +4,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gamebase.article.model.ArticleContent;
 import com.gamebase.article.model.ArticleRecord;
 import com.gamebase.article.model.ArticleTitle;
 import com.gamebase.article.model.dao.ArticleContentDAO;
-import com.gamebase.article.model.dao.ArticleDataDAO;
 import com.gamebase.article.model.dao.ArticleRecordDAO;
 import com.gamebase.article.model.dao.ArticleTitleDAO;
-import com.gamebase.general.model.dao.UploadImgDAO;
 
 @Service
-@Transactional
 public class ArticleService {
 
 	@Autowired
@@ -27,8 +23,12 @@ public class ArticleService {
 	@Autowired
 	private ArticleRecordDAO recordDao;
 
-	public List<ArticleTitle> queryTitleByForumId(ArticleTitle title) {
-		return titleDao.querySomeArticleTitleByForumId(title);
+	public List<ArticleTitle> queryTitleByForumId(Integer forumId) {
+		return titleDao.querySomeArticleTitleByForumId(forumId);
+	}
+	
+	public ArticleTitle queryTitleByTitleId(Integer titleId) {
+		return titleDao.queryOneArticleTitle(titleId);
 	}
 
 	public List<ArticleContent> queryContentByTitleId(ArticleContent content) {
@@ -39,7 +39,7 @@ public class ArticleService {
 		return recordDao.queryByUserIdAndTitleId(record);
 	}
 
-	public ArticleTitle inertTitle(ArticleTitle title, MultipartFile uploadImg) {
+	public ArticleTitle inertTitle(ArticleTitle title) {
 		return titleDao.insertArticleTitle(title);
 	}
 

@@ -409,3 +409,60 @@
   background-color: springgreen;
   border-radius: 5px;
 }
+
+/*topBar*/
+.logo {
+	width: 50px;
+}
+
+.topBarBGC {
+	background-color: #e3f2fd;
+}
+
+.shot {
+	border-radius: 50%;
+}
+
+body {
+	background-color: wheat;
+}
+
+.indexImg {
+	width: 100%;
+}
+
+.forumBGC {
+	background-color: oldlace;
+	margin: 5px;
+}
+
+.forumImg {
+	width: 100%;
+	margin: 5px;
+}
+
+.forumBorder {
+	margin-top: 5px;
+	border: 1px solid gray;
+}
+
+#resultsDiv {
+	width: auto;
+	display: table;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid black;
+}
+
+td {
+	text-align: center;
+}
+
+.resultImg {
+	width: 200px;
+	height: 260px;
+}
+
+.mallImg {
+	width: 100%;
+}

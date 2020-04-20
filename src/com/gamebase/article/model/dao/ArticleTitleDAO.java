@@ -14,7 +14,7 @@ import com.gamebase.article.model.ArticleTitle;
 public class ArticleTitleDAO implements IArticleTitleDAO {
 
 	private SessionFactory sessionFactory;
-	
+
 	@Autowired
 	public ArticleTitleDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
@@ -24,10 +24,8 @@ public class ArticleTitleDAO implements IArticleTitleDAO {
 	public ArticleTitle insertArticleTitle(ArticleTitle title) {
 		List<ArticleTitle> query = sessionFactory.getCurrentSession()
 				.createQuery("from ArticleTitle where forumId=?1 and titleName=?2", ArticleTitle.class)
-				.setParameter(1, title.getForumId())
-				.setParameter(2, title.getTitleName())
-				.list();
-		if(query.size() > 0) {
+				.setParameter(1, title.getForumId()).setParameter(2, title.getTitleName()).list();
+		if (query.size() > 0) {
 			return null;
 		}
 		sessionFactory.getCurrentSession().save(title);
@@ -35,22 +33,24 @@ public class ArticleTitleDAO implements IArticleTitleDAO {
 	}
 
 	@Override
-	public ArticleTitle queryOneArticleTitle(ArticleTitle title) {
-		title = sessionFactory.getCurrentSession().get(ArticleTitle.class, title.getTitleId());
+	public ArticleTitle queryOneArticleTitle(Integer titleId) {
+		ArticleTitle title = sessionFactory.getCurrentSession().get(ArticleTitle.class, titleId);
 		return title;
 	}
 
 	@Override
-	public List<ArticleTitle> querySomeArticleTitleByForumId(ArticleTitle title) {
-		Query<ArticleTitle> query = sessionFactory.getCurrentSession().createQuery("from ArticleTitle where forumId=?1", ArticleTitle.class)
-				.setParameter(1, title.getForumId());
+	public List<ArticleTitle> querySomeArticleTitleByForumId(Integer forumId) {
+		Query<ArticleTitle> query = sessionFactory.getCurrentSession()
+				.createQuery("from ArticleTitle where forumId=:forumId", ArticleTitle.class)
+				.setParameter("forumId", forumId);
 		List<ArticleTitle> list = query.list();
 		return list;
 	}
 
 	@Override
 	public List<ArticleTitle> queryAllArticleTitle() {
-		Query<ArticleTitle> query = sessionFactory.getCurrentSession().createQuery("from ArticleTitle", ArticleTitle.class);
+		Query<ArticleTitle> query = sessionFactory.getCurrentSession().createQuery("from ArticleTitle",
+				ArticleTitle.class);
 		List<ArticleTitle> list = query.list();
 		return list;
 	}
@@ -64,7 +64,7 @@ public class ArticleTitleDAO implements IArticleTitleDAO {
 		result.setClickNum(title.getClickNum());
 		result.setLikeNum(title.getLikeNum());
 		result.setUnlikeNum(title.getUnlikeNum());
-		result.setShareNum(title.getShareNum());
+//		result.setShareNum(title.getShareNum());
 		return result;
 	}
 

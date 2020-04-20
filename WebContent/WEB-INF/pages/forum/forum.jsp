@@ -53,12 +53,12 @@
 		</form>
 	</div>
 	<!-- include -->
-	<%@include file="testuploadimg.jsp"%>
+<%-- 	<%@include file="test1.jsp"%> --%>
 	
 	<!-- create new article -->
 <script>
 $(document).ready(function(){
-	
+	console.log("document ready");
 	//editor submit	
 	$("#submit").click(function(){
 		console.log("submit");
@@ -81,13 +81,10 @@ $(document).ready(function(){
          				+response.newForum.forumName+'"/>">'+response.newForum.forumName+'</td><td>'
          				+response.newForum.forumFigure+'</td></tr>';
 					$("#forumTable").append(txt);
-         		}	
+    			}
 			})
-// 		}
-		
-	})
-});
-	
+		});
+	});
 </script>
 </body>
 </html>

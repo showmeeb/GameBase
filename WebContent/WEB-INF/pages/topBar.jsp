@@ -27,63 +27,8 @@
 	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 	crossorigin="anonymous"></script>
 
-<style>
-.logo {
-	width: 50px;
-}
+<link href="<c:url value="/css/topBar.css"/>" rel="stylesheet">
 
-.topBarBGC {
-	background-color: #e3f2fd;
-}
-
-.shot {
-	border-radius: 50%;
-}
-
-body {
-	background-color: wheat;
-}
-
-.indexImg {
-	width: 100%;
-}
-
-.forumBGC {
-	background-color: oldlace;
-	margin: 5px;
-}
-
-.forumImg {
-	width: 100%;
-	margin: 5px;
-}
-
-.forumBorder {
-	margin-top: 5px;
-	border: 1px solid gray;
-}
-
-#resultsDiv {
-	width: auto;
-	display: table;
-	margin-left: auto;
-	margin-right: auto;
-	border: 1px solid black;
-}
-
-td {
-	text-align: center;
-}
-
-.resultImg {
-	width: 200px;
-	height: 260px;
-}
-
-.mallImg {
-	width: 100%;
-}
-</style>
 </head>
 
 <body>
@@ -116,9 +61,10 @@ td {
 				id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
 				aria-expanded="true">商城</button>
 			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
 				<a class="dropdown-item" href="#">登記商品</a> <a class="dropdown-item"
-					href="#">商品管理</a> <a class="dropdown-item" href="<c:url value="/mallHome"/>">商城頁面</a> <a
-					class="dropdown-item" href="#">圖片上傳</a>
+					href="#">商品管理</a> <a class="dropdown-item" href="<c:url value="/mallHome"/>">商城頁面</a>
+
 			</div>
 		</div>
 
@@ -147,11 +93,11 @@ td {
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 					<a class="dropdown-item" href="<c:url value="/gotologin"/>">登入</a>
-					<a class="dropdown-item" href="#">個人資訊</a> <a class="dropdown-item"
-						href="#">購物車</a> <a class="dropdown-item" href="#">文章管理</a> <a
-						class="dropdown-item" href="<c:url value="/logout"/>">登出</a> <a
-						class="dropdown-item" href="<c:url value="/gotoregister"/>">註冊</a>
-
+					<a class="dropdown-item" href="<c:url value="/這邊輸入路徑"/>">個人資訊</a> 
+					<a class="dropdown-item" href="<c:url value="/這邊輸入路徑"/>">購物車</a> 
+					<a class="dropdown-item" href="<c:url value="/這邊輸入路徑"/>">文章管理</a> 
+					<a class="dropdown-item" href="<c:url value="/logout"/>">登出</a> 
+					<a class="dropdown-item" href="<c:url value="/gotoregister"/>">註冊</a>
 				</div>
 			</div>
 		</div>

@@ -1,0 +1,135 @@
+@charset "UTF-8";
+
+* {
+	font-family: '微軟正黑體';
+}
+/* body { */
+/*   background-image: url(/motozone/img/index_bg.jpg); */
+/*   background-size: cover; */
+/*   background-repeat: no-repeat; */
+/*   background-position: 0px -50px; */
+/*   background-attachment: fixed; */
+/* } */
+ul, li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+h2 {
+	margin: 0;
+}
+
+/*=====================================================*/
+/* icons setting*/
+i {
+	margin: auto;
+	width: auto;
+	text-align: center;
+}
+
+.fa-thumbs-up {
+	color: #0080ff;
+}
+/*=====================================================*/
+
+img {
+	margin: auto;
+}
+
+div.forum {
+	width: 80%;
+	margin: 5px auto;
+	padding: 10px;
+	border: 1px solid DodgerBlue;
+	overflow:hidden;/*避免float跑框*/
+}
+
+div.forum_img {
+	float: left;
+	width: 50%;
+	margin: auto;
+	padding: 5px;
+	border: 1px solid DodgerBlue;
+}
+
+div.forum_articles{
+	float: right;
+	width: 45%;
+	margin: auto;
+	padding: 5px;
+/* 	border: 1px solid DodgerBlue; */
+}
+/*=====================================================*/
+/*article stytle*/
+div.article {
+	width: 80%;
+	margin: 5px auto;
+	padding: 10px;
+	border: 1px solid DodgerBlue;
+}
+div.article_part {	
+	width: 100%;
+	margin: 5px auto;
+	padding: 0;
+/* 	border: 1px solid DodgerBlue; */
+	overflow:hidden;/*避免float跑框*/
+}
+
+div.article_title {
+	margin: 5px auto;
+	padding: 10px;
+	border: 1px solid DodgerBlue;
+}
+
+div.article_img {
+	float: left;
+	width: 30%;
+	margin: auto;
+	padding: 5px;
+/* 	border: 1px solid DodgerBlue; */
+}
+
+div.article_content {
+	float: left;
+	width: 65%;
+	margin: 5px auto;
+	padding: 10px;
+	border: 1px solid DodgerBlue;
+}
+div.article_datas {
+	border: 1px solid DodgerBlue;
+}
+div.article_icons {
+	float: left;
+	width: 8%;
+	padding: 1px;
+	margin: auto;
+/* 	border: 1px solid DodgerBlue; */
+}
+div.article_time_record {
+	float: right;
+	width: 36%;
+	padding: 1px;
+	margin: auto;
+/* 	border: 1px solid DodgerBlue; */
+}
+div.article_content_noimg {
+	width: 100%;
+}
+/*=====================================================*/
+/*content stytle*/
+div.content_content {
+	width: 50%;
+	margin: 5px auto;
+	padding: 10px;
+	border: 3px solid DodgerBlue;
+}
+
+div.content_datas {
+	width: 90%;
+	margin: 5px auto;
+	padding: 10px;
+	border: 3px solid DodgerBlue;
+	overflow:hidden;/*避免float跑框*/
+}

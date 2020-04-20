@@ -53,11 +53,19 @@ public class ShoppingController {
 	
 	@RequestMapping(path = "/shoppingCart/payBill", method = RequestMethod.POST)
 	@ResponseBody
-	public String payBill() {
+	public String payBill(@RequestParam(value = "form") String form) {
 		System.out.println("payBill");
-		
+		shoppingService.addOrder(form);
 		return shoppingService.processOrder();
 	}
+	
+//	@RequestMapping(path = "/shoppingCart/addOrder", method = RequestMethod.POST)
+//	@ResponseBody
+//	public String addOrder() {
+//		System.out.println("payBill");
+//		
+//		return shoppingService.addOrder();
+//	}
 	
 	
 	
