@@ -7,9 +7,11 @@ import org.springframework.data.redis.core.RedisHash;
 public class OnlineUser {
 	@Id
 	private String name;
+	private String history;
 	
-	public OnlineUser(String name) {
+	public OnlineUser(String name, String history) {
 		this.name=name;
+		this.history=history;
 	}
 
 	public String getName() {
@@ -18,5 +20,13 @@ public class OnlineUser {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getHistory() {
+		return history;
+	}
+
+	public void setHistory(String history) {
+		this.history = history;
 	}
 }

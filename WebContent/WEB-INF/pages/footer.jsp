@@ -12,8 +12,10 @@
 
 </head>
 <body>
+
       <div class="card-footer bg-dark text-center text-light">
         Copyright © 202 GameBase. All rights reserved.
       </div>
+      
 </body>
 </html>
