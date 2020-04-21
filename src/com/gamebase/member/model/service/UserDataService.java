@@ -33,10 +33,6 @@ public class UserDataService {
 	private UserDataDAO udDao;
 	@Autowired
 	private RankDAO rankDao;
-
-//	@Autowired
-//	private RoleDAO roleDao;
-
 	@Autowired
 	private UserProfileDAO upDao;
 	@Autowired
@@ -54,6 +50,7 @@ public class UserDataService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		UserData userData = udDao.getByLogin(account, password);
 		if (userData != null) {
+			map.put("loginUser", showUserData(userData.getAccount()));
 			map.put("UserData", userData);
 			map.put("status", true);
 			return map;
@@ -140,6 +137,10 @@ public class UserDataService {
 
 	public Map<String, String> mailAction(String acc, String email) {
 		return mDao.mailAction(acc, email);
+	}
+	
+	public Map<String, String> authAction(String acc, String email) {
+		return mDao.authAction(acc, email);
 	}
 
 	public String getMD5Endocing(String message) {

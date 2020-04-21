@@ -47,6 +47,34 @@ public class MailSenderDAO {
 		return map;
 	}
 	
+	public Map<String,String> authAction(String acc,String email){
+		Map<String,String> map = new HashMap<String,String>();
+		System.out.println("Mail send start.");
+		
+		int i = (int) (Math.random() * (99999 - 1000 + 1) + 1000);
+		String registerId = "" + i;
+		map.put("registerId",registerId);
+		String url = "http://localhost:8080/GameBase/Authcode/" + registerId;
+		map.put("url",url);
+		String content = "新會員"+acc + "(" + email + "),您好<br/>感谢您註冊GameBase!<br/>" + "<b>驗證您的註冊信箱</b><br/>請輸入下面的驗證碼來確認您的註冊<br/>"
+				+"<h3><a href='" + url + "'>"+registerId+"</a></h3>"+"<br/>如果您認為這是垃圾郵件，請忽略此郵件。";
+		
+		MailInfo mailInfo = new MailInfo();
+		mailInfo.setMailSmtpHost("smtp.gmail.com");
+		mailInfo.setFromAddress("z0983177929@gmail.com");
+		mailInfo.setToAddress(email);
+		mailInfo.setMailSmtpPort("587");
+		mailInfo.setUserName("z0983177929@gmail.com");
+		mailInfo.setPassword("K98david");
+		mailInfo.setValidate(true);
+		mailInfo.setSubject("GameBase verification");
+		mailInfo.setContent(content);
+		MailSender.sendMail(mailInfo, true);
+		System.out.println("Mail send down.");
+		
+		return map;
+	}
+	
 	public Map<String,String> password(String acc,String email){
 		Map<String,String> map = new HashMap<String,String>();
 		System.out.println("Mail send start.");
