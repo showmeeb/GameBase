@@ -14,6 +14,8 @@
 	crossorigin="anonymous"></script>
 <!-- forum style -->
 <link href="<c:url value="/css/forumStyle.css"/>" rel="stylesheet">
+<!-- btn js import -->
+<script src="<c:url value="/js/content.js"/>"></script>
 <!-- editor improt -->
 <script
 	src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
@@ -73,19 +75,20 @@ $(document).ready(function(){
         			console.log(response);
         			/*ajac response*/
         								<!-- user data and update/post time -->
-        			var txt = '<div class="article_time_record">'+
+        			var txt = '<div>'+
+            			'<span>userId : '+response.newContent.userId+'</span>'+
+            			'<div class="article_time_record">'+
 						'<i class="fas fa-pen-alt">Post Time : '+response.newContent.createTime+'</i><br />'+
 						'</div>'+
 						'<div class="article_time_record">'+
 						'<i class="fas fa-pen-alt">Update Time : '+response.newContent.updateTime+'</i><br />'+
 						'</div>'+
-						'<span>userId : '+response.newContent.userId+'</span>'+
+						'</div>'+
 						'<br />'+
-						<!-- content area -->
-						'<div class="article_content">'+
+						'<div class="content_content">'+<!-- content area -->
 						'<span>'+response.newContent.content+'</span><br />'+
-						'</div>';
-					$("#contentList").append(txt);
+						'</div><hr />';
+					$("#publish-area").before(txt);
 
         		}        			
 			})
@@ -138,18 +141,19 @@ $(document).ready(function(){
 		<div class="article_part article_datas">
 			<!-- like button -->
 			<div class="article_icons">
-				<i class="far fa-thumbs-up fa-2x">123</i> <i
-					class="fas fa-thumbs-up fa-2x">132</i>
+				<i class="far fa-thumbs-up fa-2x">123</i> 
+				<i class="fas fa-thumbs-up fa-2x">132</i>
 			</div>
 			<!-- unlike button -->
 			<div class="article_icons">
-				<i class="far fa-thumbs-down fa-2x">123</i> <i
-					class="fas fa-thumbs-down fa-2x">123</i>
+				<i class="far fa-thumbs-down fa-2x">123</i> 
+				<i class="fas fa-thumbs-down fa-2x">123</i>
 			</div>
 			<!-- click -->
 			<!-- 可不要使用 -->
 			<div class="article_icons">
-				<i class="far fa-eye fa-2x">123123</i> <i class="fas fa-eye fa-2x">123123</i><br />
+				<i class="far fa-eye fa-2x">123123</i> 
+<!-- 				<i class="fas fa-eye fa-2x">123123</i><br /> -->
 			</div>
 			<!-- reply article button -->
 			<div class="article_icons">
@@ -157,13 +161,13 @@ $(document).ready(function(){
 			</div>
 			<!-- delete article button -->
 			<div class="article_icons">
-				<i class="far fa-trash-alt fa-2x"></i><br /> <i
-					class="fas fa-trash-alt fa-2x"></i><br />
+				<i class="far fa-trash-alt fa-2x"></i><br /> 
+<!-- 				<i class="fas fa-trash-alt fa-2x"></i><br /> -->
 			</div>
 			<!-- update article button -->
 			<div class="article_icons">
-				<i class="fas fa-edit fa-2x"></i><br /> <i
-					class="far fa-edit fa-2x"></i><br />
+<!-- 				<i class="fas fa-edit fa-2x"></i><br />  -->
+				<i class="far fa-edit fa-2x"></i><br />
 			</div>
 
 		</div>
@@ -189,16 +193,35 @@ $(document).ready(function(){
 				<hr />
 				<c:forEach items="${contentList}" var="item" varStatus="itemStatus">
 				
-					<!-- user data and update/post time -->					
-					<!-- user -->
+					<!-- user data and update/post time -->	
+					<div>				
+					<!-- user img -->
 					<div>
-					<span>userId : ${item.userId}</span>
+					<c:if test="${empty item.img}"><img src="<c:url value="/img/userIcon.png"/>" width="60" height="60"/></c:if>
+					<c:if test="${not empty item.img}"><img src=${item.img} alt="" width="40" height="40"/></c:if>
+					</div>
+					<!-- user account -->
+					<div>
+					<span>
+					user ID 		: ${item.userId}<br/>
+					user Account 	: ${item.account}<br/>
+					user NickName 	: ${item.nickName}<br/>
+					</span>
+					</div>
 					<!-- time -->
 					<div class="article_time_record">
 						<i class="fas fa-pen-alt">Post Time : ${item.createTime}</i><br />
 					</div>
 					<div class="article_time_record">
 						<i class="fas fa-pen-alt">Update Time : ${item.updateTime}</i><br />
+					</div>
+					<!-- delete article button -->
+					<div class="article_icons">
+						<a id="delete" class="btn_update_content" href="#"><i class="far fa-trash-alt fa-2x"></i></a>
+					</div>
+					<!-- update article button -->
+					<div class="article_icons">
+						<a id="update" class="btn_update_content" href="#"><i class="far fa-edit fa-2x"></i></a>
 					</div>					
 					</div>
 					<hr />
@@ -211,31 +234,64 @@ $(document).ready(function(){
 					<!-- icons input and time record -->
 					<c:if test="${itemStatus.count==1 }">
 					<div class="article_part article_datas">
+					<!-- user clicked like -->
+					<c:if test="${record.record == like}">
 						<!-- like -->
 						<div class="article_icons">
-							<i class="far fa-thumbs-up fa-2x">123</i> <i
-								class="fas fa-thumbs-up fa-2x">132</i>
+							<a id="like" class="btn_record" href="#"><i class="fas fa-thumbs-up fa-2x">${title.likeNum}</i></a>
 						</div>
 						<!-- unlike -->
 						<div class="article_icons">
-							<i class="far fa-thumbs-down fa-2x">123</i> <i
-								class="fas fa-thumbs-down fa-2x">123</i>
+							<a id="unlike" class="btn_record" href="#"><i class="far fa-thumbs-down fa-2x">${title.unlikeNum}</i></a> 
 						</div>
+					</c:if>
+					<!-- user clicked unlike -->
+					<c:if test="${record.record == 'unlike'}">
+						<!-- like -->
+						<div class="article_icons">
+							<a id="like" class="btn_record" href="#"><i class="far fa-thumbs-up fa-2x">${title.likeNum}</i></a>
+						</div>
+						<!-- unlike -->
+						<div class="article_icons">
+							<a id="unlike" class="btn_record" href="#"><i class="fas fa-thumbs-down fa-2x">${title.unlikeNum}</i></a>
+						</div>
+					</c:if>
+					<!-- user cancel clicked or nothing -->
+					<c:if test="${record.record == 'no' || empty record}">
+						<!-- like -->
+						<div class="article_icons">
+							<a id="like" class="btn_record" href="#"><i class="far fa-thumbs-up fa-2x">${title.likeNum}</i></a>
+						</div>
+						<!-- unlike -->
+						<div class="article_icons">
+							<a id="unlike" class="btn_record" href="#"><i class="far fa-thumbs-down fa-2x">${title.unlikeNum}</i> </a>
+						</div>
+					</c:if>
+					
+<!-- 						like -->
+<!-- 						<div class="article_icons"> -->
+<%-- 							<i class="far fa-thumbs-up fa-2x">${title.likeNum}</i>  --%>
+<%-- 							<i class="fas fa-thumbs-up fa-2x">${title.likeNum}</i> --%>
+<!-- 						</div> -->
+<!-- 						unlike -->
+<!-- 						<div class="article_icons"> -->
+<%-- 							<i class="far fa-thumbs-down fa-2x">${title.unlikeNum}</i> <i --%>
+<%-- 								class="fas fa-thumbs-down fa-2x">${title.unlikeNum}</i> --%>
+<!-- 						</div> -->
+
 						<!-- click -->
 						<div class="article_icons">
-							<i class="far fa-eye fa-2x">123123</i> <i
-								class="fas fa-eye fa-2x">123123</i><br />
+							<i class="far fa-eye fa-2x">${title.clickNum}</i> 
+<%-- 							<i class="fas fa-eye fa-2x">${title.clickNum}</i><br /> --%>
 						</div>
 						<!-- create time -->
 						<div class="article_time_record">
-							<i class="fas fa-pen-alt fa-2x">Post Time : 2020-04-19
-								07:07:07</i><br />
+							<i class="fas fa-pen-alt fa-2x">Post Time : ${title.createTime}</i><br />
 						</div>
 						<!-- last reply time -->
 						<div class="article_time_record">
-							<i class="far fa-comment-dots fa-2x">Last Reply : 2020-04-19
-								07:07:07</i><br /> <i class="fas fa-comment-dots fa-2x">Last
-								Reply : 2020-04-19 07:07:07</i><br />
+							<i class="far fa-comment-dots fa-2x">Last Reply : ${title.lastReplyTime}</i><br /> 
+<%-- 							<i class="fas fa-comment-dots fa-2x">Last Reply : ${title.lastReplyTime}</i><br /> --%>
 						</div>
 					</div>
 					</c:if>
@@ -249,8 +305,7 @@ $(document).ready(function(){
 	</c:if>
 	<!-- ================================================================================ -->
 	<!--輸入區 -->
-	<hr />
-	<div class="publish-area">
+	<div id="publish-area" class="publish-area">
 		<form>
 			<!-- User ID and Article Title -->
 			<table>

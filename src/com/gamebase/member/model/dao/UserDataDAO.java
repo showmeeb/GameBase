@@ -32,7 +32,6 @@ public class UserDataDAO implements IUserData {
 		query.setParameter("acc", account);
 		query.setParameter("pwd", password);
 		UserData myUserData = query.uniqueResult();
-		System.out.println("UDDAO");
 		if (myUserData != null) {
 			return myUserData;
 		}

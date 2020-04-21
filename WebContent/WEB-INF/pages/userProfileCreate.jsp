@@ -133,9 +133,9 @@
 	
 
 <script>
-function re(){
+//function re(){
 	
-}
+//}
 
 $.fn.serializeObject= function(){
 	var formData = {};
@@ -161,7 +161,7 @@ $.ajax({
 	var name=$('#name').val(data);
 	console.log(data);
 	},
-	complete:function()
+	
 }
 )}
 function editNickName(){

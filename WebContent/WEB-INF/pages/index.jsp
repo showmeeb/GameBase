@@ -61,9 +61,12 @@
 			}
 		}
 	%>
+<<<<<<< HEAD
 
 	<h1>${UserData.account}${ProfileId}</h1>
 
+=======
+>>>>>>> 49c56960ad652d02e703947416b35f18f7b3a793
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<!-- Brand -->
 		<a class="navbar-brand" href="#">GameBase</a>
@@ -77,8 +80,12 @@
 					<a class="dropdown-item" href="<c:url value="/tradesystem"/>">登記商品</a>
 					<a class="dropdown-item" href="<c:url value="/mainProduct"/>">商品管理</a>
 					<a class="dropdown-item" href="<c:url value="/shoppingPage"/>">商城頁面</a>
+<<<<<<< HEAD
 					<a class="dropdown-item" href="<c:url value="/test"/>">圖片上傳</a> <a
 						class="dropdown-item" href="#"></a>
+=======
+					<a class="dropdown-item" href="#"></a>
+>>>>>>> 49c56960ad652d02e703947416b35f18f7b3a793
 				</div></li>
 			<!-- Dropdown -->
 			<li class="nav-item dropdown"><a
@@ -86,8 +93,9 @@
 				data-toggle="dropdown">會員系統</a>
 				<div class="dropdown-menu">
 					<!-- Ajax -->
-					<a class="dropdown-item" href="<c:url value="/loginAjax"/>">登入</a>
-					<a class="dropdown-item" href="<c:url value="/registerAjax"/>">註冊</a>
+					<a class="dropdown-item" id="login-str" href="#">登入</a>
+					<a class="dropdown-item" id="regiest-str" href="#">註冊</a>
+					<a class="dropdown-item hidden-window" id="logout-str" href="#">登出</a>
 					<!-- original -->
 					<a class="dropdown-item">--This line down is Original--</a>
 					<c:if test="${empty UserData.userId}">
@@ -111,7 +119,7 @@
 					</c:if>
 				</div></li>
 			<li class="nav-item"><a class="nav-link"
-				href="<c:url value="/forum"/>">討論區</a></li>
+				href="<c:url value="/forum_test"/>">討論區</a></li>
 			<li class="nav-item"><a class="nav-link"
 				href="<c:url value="/topBar"/>">TopBar</a></li>
 		</ul>

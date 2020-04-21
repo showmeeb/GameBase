@@ -35,11 +35,11 @@ img {
 <title>Hello, world!</title>
 <style type="text/css">
 #du1 img {
-	width: 70px
+	width: 60px
 }
 
 #du1 li {
-	margin: 0px 10px 0px 10px;
+	margin: 0px 20px 0px 20px;
 }
 
 #st1 img {
@@ -94,8 +94,9 @@ div {
 				src="https://i.imgur.com/fzG8Ocj.png"></span>
 		</div>
 	</nav>
+	
 
-	<div id="du1">
+	<div id="du1" style="background-color:#D0D0D0">
 		<ul class="nav justify-content-center">
 			<li id="swp" class="nav-item" role="button" tabindex="0"
 				aria-pressed="true"><img src="https://i.imgur.com/ilWFjYW.png"></li>
@@ -107,6 +108,20 @@ div {
 			tabindex="-1" aria-disabled="true">Disabled</a></li> -->
 		</ul>
 	</div>
+	
+	<!-- <nav  class="navbar navbar-expand-lg fixed-bottom navbar-light bg-light" style="height: 90px">
+	<div class="container-fluid" style="position:absolute;height:90px">
+		<a class="navbar-brand" href="#"></a>
+	  	<div style="position:relative; margin-right:100px;">
+  		<form class="form-inline "> 
+    		<button id="" style="width:200px;" class="btn btn-outline-success btn-lg"  type="button" data-toggle="modal"
+		data-target="#exampleModalCenter">結&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;帳</button>
+	
+  		</form>
+  		</div>
+  	</div>
+	</nav> -->
+	
 	<!--  測試中 <div id="st1">
 		<table id="t1">
 			<div style="width:1500px; height:550px">
@@ -183,6 +198,45 @@ div {
 
 	<script type="text/javascript">
 
+	//var user =$(document).ready(function() {
+	//			if(window.sessionStorage.getItem("loginUser")==null){
+	//				alert("非會員");
+	//				return 1;
+	//			}else{
+	//				return window.sessionStorage.getItem("loginUser");
+	//			}
+	//			})
+		$(document).on('change', '#quantity_input', function() {
+			if($("#quantity_input").val()<1){
+				$("#quantity_input").val(1);
+				}
+			var num=$("#quantity_input").val();
+			var price = $('#oriPrice').text();
+			
+			$("#tprice").html(price*num);
+			
+		})		
+				
+		$(document).on('click', '#plus', function() {
+			$("#quantity_input").val(parseInt($("#quantity_input").val()) + 1)
+			var num=$("#quantity_input").val();
+			var price = $('#oriPrice').text();
+			
+			$("#tprice").html(price*num);
+			
+		})
+		
+		$(document).on('click', '#noplus', function() {
+			if ($("#quantity_input").val() > 1) {
+                $("#quantity_input").val(parseInt($("#quantity_input").val()) - 1)
+            }
+			var num=$("#quantity_input").val();
+			var price = $('#oriPrice').text();
+			
+			$("#tprice").html(price*num);
+			
+		})
+	
 	function showprodetail(response){
 		var txt="";
 			txt+="<div><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>X</span></button></div>"
@@ -194,12 +248,16 @@ div {
 			txt+="<p class='card-text'>"+response.productInfo+"</p>";
 			txt+="<p class='card-text'>"+response.productTag+"</p>";
 			txt+="</div>";
-			txt+="<div style='margin-bottom:0px;align:left;' class='modal-footer'>金額:<p class='card-text'>"+response.productPrice+"</p></div>";
+			txt+="<div style='margin-bottom:0px;align:left;' class='modal-footer'>";
+			txt+="<span>數量:<button id='noplus' type='button' class='btn btn-outline-secondary btn-sm'>-</button>";
+			txt+="<input style='width: 40px;' id='quantity_input' type='text' value='1'>";
+			txt+="<button id='plus' type='button' class='btn btn-outline-secondary btn-sm'>+</button></span>";
+			txt+="金額:<span id='oriPrice' style='display:none'>"+response.productPrice+"</span>"+"<p id='tprice' class='card-text'>"+response.productPrice+"</p></div>";
 			txt+="</div>";
 			txt+="<div style='width:760px;'class='modal-footer'><span id='itemdetail' style='display:none'>"+JSON.stringify(response)+"</span>"+"<button id='addProduct1' type='button' class='btn btn-primary'>加入購物車</button></div>";
 			return txt;
 		}
-
+		
 	function showtable(response) {
 		
 						var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th>購物車";
@@ -212,7 +270,8 @@ div {
 											 inventory:response[i].inventory,
 												 productPrice:response[i].productPrice,
 													 productTag:response[i].productTag,
-														 productInfo:response[i].productInfo
+														 productInfo:response[i].productInfo,
+														 	amount:1
 									};
 							//var a=JSON.stringify(s);
 							//console.log("a:"+a);
@@ -323,20 +382,25 @@ div {
 		//	}
 		//})
 
-		$(document).on('click', '#addProduct1', function() {
-			var userId =${UserData.userId};
-			console.log("userId:"+userId);
+		$(document).on('click', '#addProduct1', function(user) {
+			var a=$('#quantity_input').val();
+			console.log("數量:"+a);
 			var b = $('#itemdetail').text();
+			var b1=JSON.parse(b)
+			b1.amount=a;
+			console.log("b1.amount:"+b1.amount);
+			b=JSON.stringify(b1);
 			console.log(b);
-			//var b=JSON.stringify(s);
-			//console.log(b);
+			//console.log(user);
+			//console.log("user:"+user.userId);
+			var user =0;
 			$.ajax({
 				async : false,
 				url : "shopping/addProduct",
 				dataType : "json",
 				type : "POST",
 				data : {
-					userId:userId,
+					userId:user,
 					b : b
 				},
 				success : function(response) {
