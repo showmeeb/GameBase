@@ -22,9 +22,6 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.gamebase.config.websocket.MessagePublisher;
-import com.gamebase.config.websocket.RedisMessagePublisher;
-
 
 @Configuration
 @EnableTransactionManagement
@@ -84,27 +81,5 @@ public class SpringJavaConfig {
 		return new HibernateTransactionManager(sessionFactory());
 
 	}
-//	@Bean
-//	public MessagePublisher messagePublisher() { 
-//	    return new RedisMessagePublisher(redisTemplate(), topic(), onlineUserListTopic());
-//	}
-//	@Bean
-//	public RedisMessageListenerContainer redisContainer(@Autowired RedisMessageSubscriber redisMessageSubscriber,
-//														@Autowired RedisUserListSubscriber redisUserListSubscriber) {
-//	    RedisMessageListenerContainer container = new RedisMessageListenerContainer(); 
-//	    container.setConnectionFactory(connectionFactory()); 
-//	    container.addMessageListener(new MessageListenerAdapter(redisMessageSubscriber), topic()); 
-//	    container.addMessageListener(new MessageListenerAdapter(redisUserListSubscriber), onlineUserListTopic()); 
-//	    
-//	    return container; 
-//	}
-//	@Bean
-//	public ChannelTopic topic() {
-//	    return new ChannelTopic("messageQueue");
-//	}
-//	
-//	@Bean
-//	public ChannelTopic onlineUserListTopic() {
-//	    return new ChannelTopic("userList");
-//	}
+
 }

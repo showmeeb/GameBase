@@ -515,6 +515,7 @@ function connectChatRoom() {
         	console.log('regist/messages');
         	showOnlineUsers(JSON.parse(msgOutput.body));
         });
+        // topic and regist 只是慣用設定，後端沒有特別設定的話就是純廣播
         stompClient.subscribe('/topic/messages', function (msgOutput) {
             if (JSON.parse(msgOutput.body).from == undefined) {
                 hideOfflineUser(JSON.parse(msgOutput.body));
@@ -522,6 +523,7 @@ function connectChatRoom() {
                 showMessageOutput(JSON.parse(msgOutput.body));
             }
         });
+        // /user原始碼-->/queue/message-{websocket session id}
         stompClient.subscribe('/user/queue/messages', function (msgOutput) {
             showMessageOutput(JSON.parse(msgOutput.body));
         });
