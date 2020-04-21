@@ -194,6 +194,7 @@
 			var a = $('#f1').serializeObject();
 			var totalPrice = $('#total').html();
 			a['orderPrice']=totalPrice;
+			a['userId']=0;
 			var form = JSON.stringify(a);
 			
 			console.log(a);

@@ -1,6 +1,8 @@
 package com.gamebase.tradesystem.controller;
 
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,10 +61,27 @@ public class ShoppingController {
 	}
 	
 	@RequestMapping(path = "/shoppingCart/orderStatus", method = RequestMethod.POST)
-	public void orderStatus(@RequestParam(value = "MerchantTradeNo") String uuid) {
-		System.out.println("orderStatus"+uuid);
+	@ResponseBody
+	public void orderStatus(HttpServletRequest request) {
+		String rtnCode = request.getParameter("RtnCode");
+		String orderName = request.getParameter("CustomField1");
+		String orderPhone = request.getParameter("CustomField2");
+		String orderAddress = request.getParameter("CustomField3");
+		String userId = request.getParameter("CustomField4");
+		String uuId = request.getParameter("MerchantTradeNo");
+		String orderDate = request.getParameter("TradeDate");
+		String orderPrice = request.getParameter("TradeAmt");
+//		System.out.println("RtnCode:"+rtnCode);
+//		System.out.println("orderName:"+orderName);
+//		System.out.println("orderPhone:"+orderPhone);
+//		System.out.println("orderAddress:"+orderAddress);
+//		System.out.println("userId:"+userId);
+//		System.out.println("uuId:"+uuId);
+//		System.out.println("orderDate:"+orderDate);
+//		System.out.println("orderPrice:"+orderPrice);
+		
 		System.out.println("付款成功!!");
-		shoppingService.orderStatus(uuid);
+		shoppingService.orderStatus(Integer.parseInt(rtnCode),Integer.parseInt(userId),uuId,orderDate,orderName,orderPhone,orderAddress,Integer.parseInt(orderPrice));
 	}
 	
 	

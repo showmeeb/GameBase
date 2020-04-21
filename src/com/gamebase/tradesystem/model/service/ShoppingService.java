@@ -51,9 +51,9 @@ public class ShoppingService {
 		
 	}
 	
-	public void orderStatus(String uuid) {
+	public void orderStatus(int rtnCode,int userId,String uuId,String orderDate,String orderName,String orderPhone,String orderAddress,int orderPrice) {
 		
-		 userOrderDao.orderStatus(uuid);
+		 userOrderDao.orderStatus(rtnCode,userId,uuId,orderDate,orderName,orderPhone,orderAddress,orderPrice);
 		
 	}
 	
