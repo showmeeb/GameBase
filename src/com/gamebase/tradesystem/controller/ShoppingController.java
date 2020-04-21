@@ -53,10 +53,16 @@ public class ShoppingController {
 	
 	@RequestMapping(path = "/shoppingCart/payBill", method = RequestMethod.POST)
 	@ResponseBody
-	public String payBill() {
+	public String payBill(@RequestParam(value = "form") String form) {
 		System.out.println("payBill");
-		
-		return shoppingService.processOrder();
+		return shoppingService.processOrder(form);
+	}
+	
+	@RequestMapping(path = "/shoppingCart/orderStatus", method = RequestMethod.POST)
+	public void orderStatus(@RequestParam(value = "MerchantTradeNo") String uuid) {
+		System.out.println("orderStatus"+uuid);
+		System.out.println("付款成功!!");
+		shoppingService.orderStatus(uuid);
 	}
 	
 	

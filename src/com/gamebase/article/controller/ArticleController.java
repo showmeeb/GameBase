@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.gamebase.article.model.ArticleContent;
+import com.gamebase.article.model.ArticleListView;
+import com.gamebase.article.model.ArticleRecord;
 import com.gamebase.article.model.ArticleTitle;
+import com.gamebase.article.model.ContentListView;
 import com.gamebase.article.model.Forum;
+import com.gamebase.article.model.ForumListView;
 import com.gamebase.article.model.MsgBoard;
 import com.gamebase.article.model.service.ArticleService;
 import com.gamebase.article.model.service.ForumService;
@@ -23,8 +27,7 @@ import com.gamebase.article.model.service.MsgBoardService;
 import net.sf.json.JSONObject;
 
 @Controller
-@SessionAttributes(names = { "newForum", "newTitle", "forumList", "forum", "title", "titleList", "contentList",
-		"userId" })
+@SessionAttributes(names = { })
 public class ArticleController {
 
 	@Autowired
@@ -36,7 +39,6 @@ public class ArticleController {
 
 	@RequestMapping(value = "/forumHome", method = RequestMethod.GET)
 	public String forumHome() {
-
 		return "forumHome";
 	}
 
@@ -156,13 +158,17 @@ public class ArticleController {
 //		return "xxx";
 //	}
 
-	/* test */
+	/*final*/
 	/* query all forum name */
 	@RequestMapping(value = "/forum_test")
 	public String goForumTest(ModelMap model) {
 		System.out.println("Welcome to Forum");
-		List<Forum> forumList = fService.queryForumAndTitle();
+		/*選取點閱數最高前N個*/
+		List<ForumListView> forumList = fService.queryForumListByClickNum(1);
 		model.addAttribute("forumList", forumList);
+		JSONObject j = new JSONObject();
+		j.put("forumList", forumList);
+		System.out.println(j);
 		return "testForumViewPage";
 	}
 
@@ -188,7 +194,6 @@ public class ArticleController {
 			System.out.println("forumFigure is null !");
 			forumFigure = "https://i.imgur.com/8g2jFuM.png";
 		}
-
 		Forum newForum = fService.insertForum(new Forum(forumName, forumFigure));
 		JSONObject result = new JSONObject();
 		result.put("newForum", newForum);
@@ -196,26 +201,27 @@ public class ArticleController {
 		return result;
 	}
 
-	/* test */
-	/* query article by forum name */
+	/*final*/
+	/* query article by forum ID */
 	@RequestMapping(value = "/forum_test/{forumId}", method = RequestMethod.GET)
 	public String getArticlesByForumId_test(@PathVariable(name = "forumId") Integer forumId, ModelMap model) {
 		System.out.println("get in controller");
+		/*query foum*/
 		Forum forum = fService.queryOneForum(new Forum(forumId));
 		JSONObject j = new JSONObject();
 		j.put("forum", forum);
 		System.out.println(j);
 		model.addAttribute("forum", forum);
-
-		List<ArticleTitle> titleList = aService.queryTitleByForumId(forumId);
-		if (titleList != null && titleList.size() != 0) {
-			model.addAttribute("titleList", titleList);
-			System.out.println("title list found!!");
+		/*query article title list*/
+		List<ArticleListView> articleList = aService.queryArticleListByContentRN(1, forumId);
+		if (articleList != null && articleList.size() != 0) {
+			model.addAttribute("articleList", articleList);
+			System.out.println("article list found!!");
 		} else {
-			System.out.println("title list not found!!");
-			model.addAttribute("titleList", null);
+			System.out.println("article list not found!!");
+			model.addAttribute("articleList", null);
 		}
-		j.put("titleList", titleList);
+		j.put("articleList", articleList);
 		System.out.println(j);
 		return "testTitleViewPage";
 	}
@@ -235,44 +241,43 @@ public class ArticleController {
 			/* insert content */
 			ArticleContent newContent = aService
 					.insertContent(new ArticleContent(newTitle.getTitleId(), userId, content));
-
 			result.put("newTitle", newTitle);
 			result.put("newContent", newContent);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return result;
 	}
 
-	/* test */
+	/* final */
 	/* query article content */
 	@RequestMapping(value = "/forum_test/{forumId}/{titleId}", method = RequestMethod.GET)
 	public String getArticleListByTitleId_test(@PathVariable(name = "forumId") Integer forumId,
 			@PathVariable(name = "titleId") Integer titleId, ModelMap model) {
 		System.out.println("getArticleListByTitleId_test");
-
+		/*query forum*/
 		Forum forum = fService.queryOneForum(new Forum(forumId));
-		JSONObject j = new JSONObject();
-		j.put("forum", forum);
-		System.out.println(j);
 		model.addAttribute("forum", forum);
-
+		/*query title*/
 		ArticleTitle title = aService.queryTitleByTitleId(titleId);
-		j.put("title", title);
-		System.out.println(j);
 		model.addAttribute("title", title);
-
-		List<ArticleContent> contentList = aService.queryContentByTitleId(new ArticleContent(titleId));
+		/*click num +1*/
+		Integer clickNum = title.getClickNum()+1;
+		title.setClickNum(clickNum);
+		title = aService.updateTitle(title);
+		/*query content list view*/
+		List<ContentListView> contentList = aService.queryContentListByTitleId(titleId);
 		if (contentList != null && contentList.size() != 0) {
 			model.addAttribute("contentList", contentList);
 			System.out.println("content list found!!");
 		} else {
 			System.out.println("content list not found!!");
-			model.addAttribute("contentList", null);
+			model.addAttribute("contentList", "");
 		}
-
+		/*query user record*/
+		model.addAttribute("userId", (Integer)1);
+		ArticleRecord record = aService.queryRecordByUserIdAndTitleId(new ArticleRecord((Integer) model.getAttribute("userId"), titleId));
+		model.addAttribute("record", record);
 		return "testContentViewPage";
 	}
 
@@ -286,18 +291,18 @@ public class ArticleController {
 		System.out.println("insert new article content");
 		JSONObject result = new JSONObject();
 		try {
-			/* session title */
-			ArticleTitle title = (ArticleTitle) model.getAttribute("title");
+			/*query title*/
+			ArticleTitle title = aService.queryTitleByTitleId(titleId);
+			model.addAttribute("title", title);
 			/* insert new reply content */
-			ArticleContent newContent = aService
-					.insertContent(new ArticleContent(title.getTitleId(), userId, content));
-			
+			ArticleContent newContent = aService.insertContent(new ArticleContent(title.getTitleId(), userId, content));
 			result.put("newContent", newContent);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return result;
 	}
+	
+	/**/
+//	public JSONObject like
 }

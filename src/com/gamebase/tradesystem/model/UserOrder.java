@@ -25,6 +25,7 @@ public class UserOrder {
 	private String orderAddress;
 	private int orderPrice;
 	private Date orderDate;
+	private int payStatus;
 
 	public UserOrder() {
 	}
@@ -109,6 +110,14 @@ public class UserOrder {
 
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
+	}
+	@Column(name = "PAYSTATUS")
+	public int getPayStatus() {
+		return payStatus;
+	}
+
+	public void setPayStatus(int payStatus) {
+		this.payStatus = payStatus;
 	}
 
 	

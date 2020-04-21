@@ -68,6 +68,10 @@ $(document).ready(function(){
                		content: editor.getData()
                		},
          		success : function(response) {
+         			/*clear input value*/
+         			$("#articleTitle").val()="";
+         			$("#accountId").val()="";
+         			editor.setData()=""
          			/*ajax response*/
         			var txt = '<div class="article"><div class="article_part"><h2>'+
 						'<a href="<c:url value="/forum_test/${forumId}/'+
@@ -192,14 +196,14 @@ $(document).ready(function(){
 	<h1>主題：${forum.forumName}</h1>
 	<br />
 	<div id="titleList">
-	<c:if test="${titleList==null}">
+	<c:if test="${articleList==null}">
 		<p>there is no article</p>
 	</c:if>
 
-	<c:if test="${titleList!=null}">
+	<c:if test="${articleList!=null}">
 	
 		<p>there is articles</p>
-		<c:forEach items="${titleList}" var="item" varStatus="itemStatus">
+		<c:forEach items="${articleList}" var="item" varStatus="itemStatus">
 			<div class="article">
 				<div class="article_part">
 					<h2>
@@ -212,7 +216,7 @@ $(document).ready(function(){
 						<!-- 柴犬圖 -->
 					</div>
 					<div class="article_content">
-						<span>content...</span><br />
+						<span>${item.content}</span><br />
 					</div>
 				</div>
 				<!-- icons input and time record -->
