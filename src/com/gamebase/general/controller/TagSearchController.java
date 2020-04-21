@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gamebase.general.model.service.TagSearchService;
 
@@ -37,10 +38,10 @@ public class TagSearchController {
 		return "searchResults";
 	}
 
-	@RequestMapping(value = "/autoComple", method = RequestMethod.GET)
-	public void autoComple(Model model) {
-		Set<String> returnSet = tagSearchService.autoComple();
-		model.addAttribute("autoComple",returnSet);
-		
+	@RequestMapping(value = "/autoComplete", method = RequestMethod.GET)
+	@ResponseBody
+	public Set<String> autoComplete(Model model) {
+		Set<String> returnSet = tagSearchService.autoComplete();
+		return returnSet;
 	}
 }

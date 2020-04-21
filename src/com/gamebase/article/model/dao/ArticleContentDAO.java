@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.gamebase.article.model.ArticleContent;
+import com.gamebase.member.model.UserProfile;
 
 @Repository
 public class ArticleContentDAO implements IArticleContentDAO {
@@ -66,6 +67,6 @@ public class ArticleContentDAO implements IArticleContentDAO {
 			return true;
 		}
 		return false;
-	}
+	}	
 
 }

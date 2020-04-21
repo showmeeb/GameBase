@@ -1,5 +1,6 @@
 package com.gamebase.member.controller;
 
+import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -7,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,14 +20,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-
 import com.gamebase.member.model.Rank;
-import com.gamebase.member.model.Role;
-
-
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UserProfile;
 import com.gamebase.member.model.service.UserDataService;
+import com.gamebase.tradesystem.model.ShoppingCart;
+import com.google.gson.Gson;
+
+import net.sf.json.JSONObject;
 
 @Controller
 @SessionAttributes(names = {"UserData","ProfileId"})
@@ -33,47 +36,60 @@ public class MemberController {
 	@Autowired
 	private UserDataService uService;
 
-	@RequestMapping(value = "/createProfile")
-	public String createProfile() {
+	@RequestMapping(value = "/createProfile/{userId}")
+	public String createProfile(@PathVariable("userId") Integer userId, UserProfile userProfile) {
+		System.out.println("Create");
+		if(userProfile.getProfileId()==null) {
+		UserProfile up = new UserProfile();
+		up.setUserId(userId);
+		uService.saveUserPrfile(up);
+		}
 		return "ProfilePage";
+		
 	}
 	
 
 	@RequestMapping(value = "/updateProfile/{userId}")
 	public String updateProfile(@PathVariable("userId") Integer userId, Map<String, Object> map) {
+		System.out.println("UpdateCookie");
+		
 		map.put("userProfile", uService.getProfileByUserId(userId));
+		
 		return "ProfilePage";
 	}
 	
-	@RequestMapping(value="/saveProfile",method=RequestMethod.POST)
-	public String saveProfileAction(@RequestParam("userId") Integer userId, @RequestParam("name") String name,
-			@RequestParam("nickName") String nickName, @RequestParam("address") String address,
-			@RequestParam("age") Integer age, @RequestParam(value = "gender", required = false) String gender,
-			@RequestParam("img") String img, @RequestParam("phone") String phone, Map<String, Object> map,
-			ModelMap model) {		
-		if(uService.getProfileIdByUserId(userId)==null) {
-			UserProfile sa = new UserProfile(userId, name, gender, nickName, phone, age, address, img);
-			uService.saveUserPrfile(sa);
-			System.out.println("save");
-		}else {
-		UserProfile up = uService.getProfileByUserId(userId);		
-		up.setName(name);
-		up.setNickName(nickName);
-		up.setAddress(address);
-		up.setGender(gender);
-		up.setImg(img);
-		up.setPhone(phone);
-		up.setUserId(userId);
-		up.setAge(age);
-		uService.saveUserPrfile(up);
-		System.out.println("update");
-		}
-		model.remove("ProfileId");
-		model.addAttribute("ProfileId", uService.getProfileIdByUserId(userId));
-		System.out.println("success");
-		return "indexPage";
-
-	}
+//	@RequestMapping(value="/saveProfile",method=RequestMethod.POST)
+//	public String saveProfileAction(@RequestParam("userId") Integer userId, @RequestParam("name") String name,
+//			@RequestParam("nickName") String nickName, @RequestParam("address") String address,
+//			@RequestParam("age") Integer age, @RequestParam(value = "gender", required = false) String gender,
+//			@RequestParam("img") String img, @RequestParam("phone") String phone, Map<String, Object> map,
+//			ModelMap model,HttpServletResponse response) throws IOException {
+//		
+//		if(uService.getProfileIdByUserId(userId)==null) {
+//			UserProfile sa = new UserProfile(userId, name, gender, nickName, phone, age, address, img);
+//			uService.saveUserPrfile(sa);
+//			System.out.println("save");
+//
+//		}else {
+//		UserProfile up = uService.getProfileByUserId(userId);		
+//		up.setName(name);
+//		up.setNickName(nickName);
+//		up.setAddress(address);
+//		up.setGender(gender);
+//		up.setImg(img);
+//		up.setPhone(phone);
+//		up.setUserId(userId);
+//		up.setAge(age);
+//		uService.saveUserPrfile(up);
+//		System.out.println("update");
+//		}
+//		model.remove("ProfileId");
+//		model.addAttribute("ProfileId", uService.getProfileIdByUserId(userId));
+//		System.out.println("success");
+//		return "indexPage";
+//
+//	}
+	
 
 	@RequestMapping(value = "/loginact", method = RequestMethod.POST)
 	public String loginAction(@RequestParam("account") String acc, @RequestParam("password") String pwd,
@@ -96,7 +112,7 @@ public class MemberController {
 		if (userData != null) {
 			model.addAttribute("UserData", userData);
 			model.addAttribute("ProfileId", uService.getProfileIdByUserId(userData.getUserId()));
-		
+			request.getSession().setAttribute("UserData", userData);
 			return "indexPage";
 		}
 		map.put("loginerr", "Account or password error");

@@ -52,6 +52,8 @@ public class ProductController {
 	@RequestMapping(path = "/tradesystem/update", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject tsUpdate(@RequestParam(value = "b") String b) {
+		System.out.println("tsUpdate");
+		System.out.println("b:"+b);
 		return productService.update(b);
 	}
 

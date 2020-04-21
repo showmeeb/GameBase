@@ -44,17 +44,17 @@ public class ShoppingService {
 	}
 	
 	
-	public JSONObject addOrder(String obj) {
+	
+	public String processOrder(String obj) {
 		
-		return null;
+		return userOrderDao.processOrder(obj);
 		
 	}
 	
-public String processOrder() {
+	public void orderStatus(int rtnCode,int userId,String uuId,String orderDate,String orderName,String orderPhone,String orderAddress,int orderPrice) {
 		
-		return userOrderDao.processOrder();
+		 userOrderDao.orderStatus(rtnCode,userId,uuId,orderDate,orderName,orderPhone,orderAddress,orderPrice);
 		
 	}
-	
 	
 	}

@@ -175,6 +175,8 @@ public class ProductDao implements IProductDao {
 
 	public Product translateKey(String b) {
 		JSONObject jobj = JSONObject.fromObject(b);
+		System.out.println("b:"+b);
+		System.out.println(jobj);
 		Product p1 = new Product();
 		p1.setProductId(Integer.valueOf((String) jobj.get("0")));
 		p1.setProductImg("IMG");// (String) jobj.get("1")

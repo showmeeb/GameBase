@@ -21,7 +21,7 @@
         width:300px;
         height:300px;
         margin-top: 10px;
-    }
+
     #photo {
         max-width:100%;
         max-height:350px;
