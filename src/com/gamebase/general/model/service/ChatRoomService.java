@@ -10,13 +10,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gamebase.general.model.ChatRoom;
 import com.gamebase.general.model.WebSocketMessage;
+import com.gamebase.general.model.dao.ChatRoomCrudRepository;
 import com.gamebase.general.model.dao.ChatRoomDAO;
 
 @Service
 @Transactional
 public class ChatRoomService {
 
-	private Integer redisId = 100;
+	private Integer redisId = 0;
+	@Autowired
+	private ChatRoomCrudRepository cRud;
 	@Autowired
 	private ChatRoomDAO cDao;
 
@@ -27,36 +30,35 @@ public class ChatRoomService {
 		Timestamp time = msg.getTime();
 
 		ChatRoom bean = new ChatRoom(redisId, sender, receiver, history, time);
-		cDao.save(bean);
+		cRud.save(bean);
 		redisId++;
 		System.out.println("cDao.save: " + bean);
 	}
 
-	public void selectByRedis(WebSocketMessage msg) {
-		System.out.println("===================");
-		System.out.println("selectByRedis");
-		System.out.println(msg.getFrom());
-		System.out.println(msg.getTo()[0]);
+	public void redisToSql(WebSocketMessage msg) {
 
 		try {
 			Integer username = Integer.parseInt(msg.getFrom());
-			List<ChatRoom> history = cDao.findBySenderOrReceiver(username, username);
-			System.out.println("===================");
-			System.out.println("history: " + history);
+			List<ChatRoom> history = cRud.findBySenderOrReceiver(username, username);
+			cRud.deleteAll(history);
+			System.out.println("Data Delete");
 			for (ChatRoom record : history) {
-				System.out.println("record: " + record);
+				record.setId(null);
+				cDao.insert(record);
 			}
+			System.out.println("Data to Redis finished");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void findAll() {
+	public void deleteAll(WebSocketMessage msg) {
 		try {
-			Iterable<ChatRoom> findAll = cDao.findAll();
+			Integer username = Integer.parseInt(msg.getFrom());
+			List<ChatRoom> history = cRud.findBySenderOrReceiver(username, username);
+			cRud.deleteAll(history);
 			System.out.println("===================");
-			System.out.println("findAll:");
-			System.out.println(findAll);
+			System.out.println("Data Delete");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

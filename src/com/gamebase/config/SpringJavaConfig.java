@@ -1,5 +1,7 @@
 package com.gamebase.config;
 
+import java.util.Arrays;
+
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
@@ -12,6 +14,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.convert.RedisCustomConversions;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
@@ -21,6 +24,8 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.gamebase.general.model.BytesToDateConverter;
 
 
 @Configuration
@@ -70,6 +75,10 @@ public class SpringJavaConfig {
 		template.setConnectionFactory(connectionFactory());
 		return template;
 	}
+	@Bean
+    public RedisCustomConversions redisCustomConversions(BytesToDateConverter bytesToDate) {
+        return new RedisCustomConversions(Arrays.asList(bytesToDate));
+    }
 
 	@Bean
 	public SessionFactory sessionFactory() {

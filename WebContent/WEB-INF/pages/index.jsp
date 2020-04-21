@@ -15,7 +15,7 @@
 	href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
 	integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
 	crossorigin="anonymous">
-<!-- Bootstrap -->
+<!-- Bootstrap css-->
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -29,7 +29,7 @@
 <!-- javaScript -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<!-- Bootstrap -->
+<!-- Bootstrap js -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <!-- WebSocket library -->
@@ -39,7 +39,7 @@
 <!-- mustache Template Engine library -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
-<!-- main js -->
+<!-- chatRoom js -->
 <script src="<c:url value="/js/chatRoom.js"/>"></script>
 <!-- main style -->
 <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
