@@ -46,23 +46,23 @@
 </head>
 <body>
 	<%
-		String account="";
-		String password="";
-		
+		String account = "";
+		String password = "";
+
 		Cookie[] cookies = request.getCookies();
-		if(cookies!=null){
-			for(Cookie cookie:cookies){
-				String name=cookie.getName();
-				if("account".equals(name)){
-					account=cookie.getValue();
-				}else if("password".equals(name)){
-					password=cookie.getValue();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				String name = cookie.getName();
+				if ("account".equals(name)) {
+					account = cookie.getValue();
+				} else if ("password".equals(name)) {
+					password = cookie.getValue();
 				}
 			}
 		}
 	%>
 
-<h1>${UserData.account} ${ProfileId}</h1>
+	<h1>${UserData.account}${ProfileId}</h1>
 
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<!-- Brand -->
@@ -77,8 +77,8 @@
 					<a class="dropdown-item" href="<c:url value="/tradesystem"/>">登記商品</a>
 					<a class="dropdown-item" href="<c:url value="/mainProduct"/>">商品管理</a>
 					<a class="dropdown-item" href="<c:url value="/shoppingPage"/>">商城頁面</a>
-					<a class="dropdown-item" href="<c:url value="/test"/>">圖片上傳</a>
-					<a class="dropdown-item" href="#"></a>
+					<a class="dropdown-item" href="<c:url value="/test"/>">圖片上傳</a> <a
+						class="dropdown-item" href="#"></a>
 				</div></li>
 			<!-- Dropdown -->
 			<li class="nav-item dropdown"><a
@@ -94,14 +94,15 @@
 						<a class="dropdown-item" href="<c:url value="/gotologin"/>">登入</a>
 					</c:if>
 					<c:if test="${empty UserData.userId}">
-					<a class="dropdown-item" href="<c:url value="/gotoregister"/>">註冊</a>
+						<a class="dropdown-item" href="<c:url value="/gotoregister"/>">註冊</a>
 					</c:if>
 					<c:if test="${!empty UserData.userId}">
 						<c:if test="${!empty ProfileId}">
-							<a class="dropdown-item" href="<c:url value="/updateProfile/${UserData.userId}"/>">修改個人資料</a>
+							<a class="dropdown-item"
+								href="<c:url value="/updateProfile/${UserData.userId}"/>">修改個人資料</a>
 						</c:if>
 						<c:if test="${empty ProfileId}">
-							<a class="dropdown-item" href="<c:url value="/createProfile"/>">新增個人資料</a>
+							<a class="dropdown-item" href="<c:url value="/createProfile/${UserData.userId}"/>">新增個人資料</a>
 						</c:if>
 					</c:if>
 					<c:if test="${!empty UserData.userId}">
