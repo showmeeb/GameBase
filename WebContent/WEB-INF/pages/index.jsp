@@ -60,13 +60,10 @@
 				}
 			}
 		}
-	%>
-<<<<<<< HEAD
+%>
 
-	<h1>${UserData.account}${ProfileId}</h1>
 
-=======
->>>>>>> 49c56960ad652d02e703947416b35f18f7b3a793
+
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<!-- Brand -->
 		<a class="navbar-brand" href="#">GameBase</a>
@@ -80,12 +77,12 @@
 					<a class="dropdown-item" href="<c:url value="/tradesystem"/>">登記商品</a>
 					<a class="dropdown-item" href="<c:url value="/mainProduct"/>">商品管理</a>
 					<a class="dropdown-item" href="<c:url value="/shoppingPage"/>">商城頁面</a>
-<<<<<<< HEAD
+
 					<a class="dropdown-item" href="<c:url value="/test"/>">圖片上傳</a> <a
 						class="dropdown-item" href="#"></a>
-=======
+
 					<a class="dropdown-item" href="#"></a>
->>>>>>> 49c56960ad652d02e703947416b35f18f7b3a793
+
 				</div></li>
 			<!-- Dropdown -->
 			<li class="nav-item dropdown"><a
