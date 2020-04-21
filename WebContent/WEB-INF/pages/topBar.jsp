@@ -27,6 +27,11 @@
 	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 	crossorigin="anonymous"></script>
 
+<!-- JQuery and JQueryUI -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 <link href="<c:url value="/css/topBar.css"/>" rel="stylesheet">
 
 </head>
@@ -50,7 +55,7 @@
 					<option value="forProduct">找商品</option>
 					<option value="foForumr">找論壇</option>
 				</select> <input class="form-control mr-sm-2 " type="search" placeholder="搜尋"
-					aria-label="Search" name="keyword" value="${keyword}">
+					aria-label="Search" name="keyword" value="${keyword}" id="searchInput">
 				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 			</form>
 		</div>
@@ -103,6 +108,18 @@
 		</div>
 
 	</nav>
+
+ 	<script>
+    $.ajax({
+		url: '<c:url value="/autoComplete"/>',
+		type: "GET",
+		success: function(data) {
+			$("#searchInput").autocomplete({
+				source: data
+			});
+		}
+    });    
+  </script> 
 
 </body>
 </html>
