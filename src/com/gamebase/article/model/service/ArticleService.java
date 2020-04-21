@@ -7,12 +7,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gamebase.article.model.ArticleContent;
+import com.gamebase.article.model.ArticleListView;
 import com.gamebase.article.model.ArticleRecord;
 import com.gamebase.article.model.ArticleTitle;
+import com.gamebase.article.model.ContentListView;
 import com.gamebase.article.model.dao.ArticleContentDAO;
 import com.gamebase.article.model.dao.ArticleRecordDAO;
 import com.gamebase.article.model.dao.ArticleTitleDAO;
-import com.gamebase.member.model.UserProfile;
+import com.gamebase.article.model.dao.vArticleListViewDAO;
+import com.gamebase.article.model.dao.vContentListViewDAO;
 
 @Service
 @Transactional
@@ -24,6 +27,10 @@ public class ArticleService {
 	private ArticleContentDAO contentDao;
 	@Autowired
 	private ArticleRecordDAO recordDao;
+	@Autowired
+	private vArticleListViewDAO alvDao;
+	@Autowired
+	private vContentListViewDAO clvDao; 
 
 	public List<ArticleTitle> queryTitleByForumId(Integer forumId) {
 		return titleDao.querySomeArticleTitleByForumId(forumId);
@@ -65,8 +72,12 @@ public class ArticleService {
 		return recordDao.updateByUserIdAndTitleId(record);
 	}
 	
-//	public List<UserProfile> queryUserProfile() {
-//		return contentDao.queryUserImgByUserId();
-//	}
+	public List<ArticleListView> queryArticleListByContentRN(Integer contentRN, Integer forumId) {
+		return alvDao.queryArticleListByContentRN(contentRN, forumId);
+	}
+	
+	public List<ContentListView> queryContentListByTitleId(Integer titleId) {
+		return clvDao.queryContentListByContentRN(titleId);
+	}
 
 }

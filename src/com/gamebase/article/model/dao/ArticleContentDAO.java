@@ -67,14 +67,6 @@ public class ArticleContentDAO implements IArticleContentDAO {
 			return true;
 		}
 		return false;
-	}
-	
-	/*need to use view*/
-//	public List<UserProfile> queryUserImgByUserId() {
-//		Query<UserProfile> query = sessionFactory.getCurrentSession()
-//				.createQuery("Select img From UserProfile",UserProfile.class);
-//		List<UserProfile> list = query.list();
-//		return list;		
-//	}
+	}	
 
 }
