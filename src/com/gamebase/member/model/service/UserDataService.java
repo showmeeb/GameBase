@@ -4,7 +4,9 @@ import java.io.IOException;
 
 
 import java.security.GeneralSecurityException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,6 +109,8 @@ public class UserDataService {
 				bean.setEmail(email);
 				bean.setPassword(pwd);
 				bean.setRankId(2);
+				Date regTime = new Date();
+				bean.setRegiestdate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(regTime.getTime()));
 				udDao.saveUserData(bean);
 				UserProfile up=new UserProfile();
 				up.setUserId(bean.getUserId());
