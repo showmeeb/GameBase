@@ -34,11 +34,14 @@ public class UploadImgDAO {
 			Response<ImageResponse> res = call.execute();
 
 			returnURL = res.body().data.link;
+			System.out.print(returnURL);
+			return "true";
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "false";
 		}
 
-		return returnURL;
+		
 	}
 
 	private ImgurAPI createImgurAPI() {

@@ -65,4 +65,5 @@ public class UserProfileDAO {
 		}
 		return myBean;
 	}
+	
 }

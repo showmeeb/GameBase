@@ -43,10 +43,10 @@ $(document).ready(function(){
      			'<img alt="圖片提示字串" src='+response.newForum.forumFigure+' height="100" width="100">'+
      			'</div>'+
      			'<div class="forum_articles">'+
-     				'<span>熱門文章:</span><br/>'+
-     				'<a>article1: 這是測試</a><br/>'+
-     				'<a>article2: 這是測試</a><br/>'+
-     				'<a>article3: 這是測試</a><br/>'+
+     				'<span>熱門熱門點閱文章::</span><br/>'+
+//      				'<a>article1: 這是測試</a><br/>'+
+//      				'<a>article2: 這是測試</a><br/>'+
+//      				'<a>article3: 這是測試</a><br/>'+
      			'</div>'+
      			'</div>';
 				$("#forumList").append(txt);
@@ -77,6 +77,7 @@ $(document).ready(function(){
 	<hr>
 	
 	<!-- forum list -->
+<div class="forumListAndEditor">
 <div id="forumList">
 	
 	<c:forEach items="${forumList}" var="item" varStatus="itemStatus">
@@ -92,13 +93,12 @@ $(document).ready(function(){
 			</h2>
 			<hr />
 			<div class="forum_img">
-				<img alt="圖片提示字串" src="https://i.imgur.com/8g2jFuM.png" height="100"
-					width="100">
+				<img alt="圖片提示字串" src=${item.forumFigure} height="100" width="100">
 				<!-- 柴犬圖 -->
 			</div>
 			<div class="forum_articles">
-				<span>熱門文章:</span><br /> <a>article1: 這是測試</a><br /> <a>article2:
-					這是測試</a><br /> <a>article3: 這是測試</a><br />
+				<span>熱門點閱文章:</span><br /> 
+				<a href="<c:url value="/forum_test/${item.forumId}/${item.titleId}"/>">${item.titleName}</a><br /> 
 			</div>
 		</div>
 	</c:forEach>
@@ -119,6 +119,6 @@ $(document).ready(function(){
 	<button id="submit">Post New Forum</button>
 
 	<hr />
-
+</div>
 </body>
 </html>

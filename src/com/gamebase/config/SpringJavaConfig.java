@@ -1,5 +1,7 @@
 package com.gamebase.config;
 
+import java.util.Arrays;
+
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
@@ -12,6 +14,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.convert.RedisCustomConversions;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
@@ -22,8 +25,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.gamebase.config.websocket.MessagePublisher;
-import com.gamebase.config.websocket.RedisMessagePublisher;
+import com.gamebase.general.model.BytesToDateConverter;
 
 
 @Configuration
@@ -73,6 +75,10 @@ public class SpringJavaConfig {
 		template.setConnectionFactory(connectionFactory());
 		return template;
 	}
+	@Bean
+    public RedisCustomConversions redisCustomConversions(BytesToDateConverter bytesToDate) {
+        return new RedisCustomConversions(Arrays.asList(bytesToDate));
+    }
 
 	@Bean
 	public SessionFactory sessionFactory() {
@@ -84,27 +90,5 @@ public class SpringJavaConfig {
 		return new HibernateTransactionManager(sessionFactory());
 
 	}
-//	@Bean
-//	public MessagePublisher messagePublisher() { 
-//	    return new RedisMessagePublisher(redisTemplate(), topic(), onlineUserListTopic());
-//	}
-//	@Bean
-//	public RedisMessageListenerContainer redisContainer(@Autowired RedisMessageSubscriber redisMessageSubscriber,
-//														@Autowired RedisUserListSubscriber redisUserListSubscriber) {
-//	    RedisMessageListenerContainer container = new RedisMessageListenerContainer(); 
-//	    container.setConnectionFactory(connectionFactory()); 
-//	    container.addMessageListener(new MessageListenerAdapter(redisMessageSubscriber), topic()); 
-//	    container.addMessageListener(new MessageListenerAdapter(redisUserListSubscriber), onlineUserListTopic()); 
-//	    
-//	    return container; 
-//	}
-//	@Bean
-//	public ChannelTopic topic() {
-//	    return new ChannelTopic("messageQueue");
-//	}
-//	
-//	@Bean
-//	public ChannelTopic onlineUserListTopic() {
-//	    return new ChannelTopic("userList");
-//	}
+
 }

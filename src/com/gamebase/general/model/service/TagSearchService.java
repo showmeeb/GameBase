@@ -27,8 +27,8 @@ public class TagSearchService {
 
 	}
 
-	public Set<String> autoComple() {
-		return tagSearchDAO.autoComple();
+	public Set<String> autoComplete() {
+		return tagSearchDAO.autoComplete();
 
 	}
 }

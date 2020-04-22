@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gamebase.article.model.Forum;
+import com.gamebase.article.model.ForumListView;
 import com.gamebase.article.model.dao.ArticleTitleDAO;
 import com.gamebase.article.model.dao.ForumDAO;
+import com.gamebase.article.model.dao.vForumListViewDAO;
 
 @Service
 public class ForumService implements IForumService {
@@ -16,6 +18,8 @@ public class ForumService implements IForumService {
 	private ForumDAO forumDao;
 	@Autowired
 	private ArticleTitleDAO titleDao;
+	@Autowired
+	private vForumListViewDAO flvDao;
 
 	@Override
 	public Forum insertForum(Forum forum) {
@@ -43,31 +47,12 @@ public class ForumService implements IForumService {
 		return forumDao.deleteOneForum(forum);
 	}
 
-	public List<Forum> queryForumAndTitle() {
-
-		List<Forum> fList = forumDao.queryAllForum();
-
-//		for (int i = 0; i <= fList.size(); i++) {
-//			System.out.println("i = " + i);
-//			int forumId = fList.get(i).getId();
-//			System.out.println("forumid = " + forumId);
-//			title.setForumId(forumId);
-//			List<ArticleTitle> tList = titleDao.querySomeArticleTitleByForumId(title);
-//			fList.get(i).setTitleList(tList);
-//		}
-
-//		Iterator it = fList.iterator();
-//		while(it.hasNext()) {
-//			ArticleTitle title = new ArticleTitle();
-//			Forum forum = (Forum)it.next();
-//			int forumId = forum.getId();
-//			System.out.println("forumid = " + forumId);
-//			title.setForumId(forumId);
-//			List<ArticleTitle> tList = titleDao.querySomeArticleTitleByForumId(title);
-//			forum.setTitleList(tList);
-//		}
-
-		return fList;
+	public List<ForumListView> queryForumListByClickNum(Integer clickRN){
+		return flvDao.queryForumListByClickNum(clickRN);
+	}
+	
+	public List<ForumListView> queryForumListByLikeNum(Integer likeRN){
+		return flvDao.queryForumListByLikeNum(likeRN);
 	}
 
 }
