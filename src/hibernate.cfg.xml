@@ -42,7 +42,6 @@
 		<mapping class="com.gamebase.article.model.ArticleRecord" />	<!-- 紀錄  -->
 		<mapping class="com.gamebase.article.model.ForumImg" />
 		<mapping class="com.gamebase.article.model.News" />
-		<mapping class="com.gamebase.article.model.MsgBoard" /><!-- for test -->
 		<mapping class="com.gamebase.article.model.Forum" />			<!-- 論壇 -->
 		<mapping class="com.gamebase.article.model.ForumListView" />	<!-- Forum List View -->
 		<mapping class="com.gamebase.article.model.ArticleListView" />	<!-- Article List View -->
