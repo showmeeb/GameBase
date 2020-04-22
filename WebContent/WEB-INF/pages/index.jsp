@@ -39,6 +39,8 @@
 <!-- mustache Template Engine library -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+<!-- google login -->
+<script src="https://apis.google.com/js/api:client.js"></script>
 <!-- chatRoom js -->
 <script src="<c:url value="/js/chatRoom.js"/>"></script>
 <!-- main style -->
