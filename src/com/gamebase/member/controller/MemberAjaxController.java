@@ -1,6 +1,7 @@
 package com.gamebase.member.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,8 @@ public class MemberAjaxController {
 	@Autowired
 	private UserDataService uService;
 
+	
+	
 	@RequestMapping(path = "/loginAjax", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> loginAction(@RequestBody UserData logindata) {
@@ -78,5 +81,20 @@ public class MemberAjaxController {
 	@RequestMapping(value = "/registerAjax", method = RequestMethod.GET)
 	public String showRegisterPage() {
 		return "RegisterViewPageAjax";
+	}
+	
+	@RequestMapping(path = "/getAllMembers", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> getAllMembers() {
+		// System.out.println("got chekcAcc "+account.getAccount());
+		List<UserData> list=uService.getAllUserData();
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("members", list);
+		return map;
+	}
+	
+	@RequestMapping(value = "/allMembers", method = RequestMethod.GET)
+	public String allMembers() {
+		return "allMembers";
 	}
 }
