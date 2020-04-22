@@ -1,6 +1,7 @@
 package com.gamebase.general.controller;
 
 import java.util.HashMap;
+
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,5 +69,5 @@ public class LoginController {
 //		System.out.println("logout");
 		return "logout";
 	}
-
+	
 }

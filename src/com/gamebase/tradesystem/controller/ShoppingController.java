@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gamebase.tradesystem.model.OrderDetail;
+import com.gamebase.tradesystem.model.UserOrder;
 import com.gamebase.tradesystem.model.service.ShoppingService;
+import com.google.gson.Gson;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -36,28 +39,42 @@ public class ShoppingController {
 	public JSONObject addProducts(@RequestParam(value = "b") String b,@RequestParam(value = "userId") String userId) {
 		System.out.println(b);
 		System.out.println(userId);
-		return shoppingService.adds(b,Integer.valueOf(userId));
+		return shoppingService.shoppingCartAdds(b,Integer.valueOf(userId));
 	}
 	
 	@RequestMapping(path = "/shopping/showCartProduct", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONArray showCartProduct(@RequestParam(value = "id") String id) {
 		System.out.println(id);
-		return shoppingService.querys(Integer.valueOf(id));
+		return shoppingService.shoppingCartQuerys(Integer.valueOf(id));
 	}
 	
 	@RequestMapping(path = "/shopping/deleteCartProduct", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject deleteCartProduct(@RequestParam(value = "d") String d) {
 		System.out.println("d:"+d);
-		return shoppingService.deletes(Integer.valueOf(d));
+		return shoppingService.shoppingCartDeletes(Integer.valueOf(d));
 	}
 	
 	@RequestMapping(path = "/shoppingCart/payBill", method = RequestMethod.POST)
 	@ResponseBody
-	public String payBill(@RequestParam(value = "form") String form) {
+	public String payBill(@RequestParam(value = "form") String form,@RequestParam(value = "items1") String items1) {
 		System.out.println("payBill");
-		return shoppingService.processOrder(form);
+		return shoppingService.processOrder(form,items1);
+	}
+	@RequestMapping(path = "/shoppingCart/test", method = RequestMethod.POST)
+	@ResponseBody
+	public String test(@RequestParam(value ="form") String form,@RequestParam(value = "items1") String items1) {
+		System.out.println("form:"+form);
+		System.out.println("items1:"+items1);
+		JSONArray items = JSONArray.fromObject(items1);
+		System.out.println("items:"+items);
+		System.out.println("items:"+items.getString(0));
+//		System.out.println("items:"+items.getProductId());
+//		System.out.println("items:"+items.getProductName());
+//		System.out.println("items:"+items.getProductPrice());
+//		System.out.println("items:"+items.getAmount());
+		return "yes";
 	}
 	
 	@RequestMapping(path = "/shoppingCart/orderStatus", method = RequestMethod.POST)
@@ -84,7 +101,12 @@ public class ShoppingController {
 		shoppingService.orderStatus(Integer.parseInt(rtnCode),Integer.parseInt(userId),uuId,orderDate,orderName,orderPhone,orderAddress,Integer.parseInt(orderPrice));
 	}
 	
-	
+	@RequestMapping(path = "/orderPage/showOrder", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONArray showOrder(@RequestParam(value = "id") String id) {
+		System.out.println(id);
+		return shoppingService.orderQuery(Integer.valueOf(id));
+	}
 	
 	@RequestMapping(path = "/shoppingPage", method = RequestMethod.GET)
 	public String shoppingPage() {

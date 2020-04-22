@@ -58,5 +58,10 @@ public class MemberViewJavaConfig {
 		return view;
 	}
 
-
+	@Bean
+	public View allMembers() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/allMembers.jsp");
+		return view;
+	}
 }

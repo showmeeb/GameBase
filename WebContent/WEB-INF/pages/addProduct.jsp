@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <jsp:include page="include/backEndHomePage.jsp"></jsp:include>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,10 +9,16 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <style type="text/css">
 #dh{display: none}
-
+#main_back {
+	position: relative;
+	top: 57px;
+	left: 230px;
+	width:75%;
+}
 </style>
 </head>
 <body>
+<main id="main_back">
 切換註冊商品<button id="gameMode" value="game">遊戲</button>
 <div id ="dg">
 	<form id="form1">
@@ -83,6 +90,7 @@
 		</div>
 	</form>
 </div>
+</main>
 	<script type="text/javascript">
 	$(document).on('click','#gameMode',function(){
 		$('#gameMode').attr({id:"hostMode",value:"host"}).html("主機");
@@ -137,6 +145,9 @@
 			});
 			return o;
 		};
+		$(document).ready(function(){
+			$("#admin-product").removeClass("d-none").addClass("d-block");
+			})
 	</script>
 </body>
 </html>
