@@ -15,41 +15,46 @@
 </head>
 <body>
 	<%
-		
-		
-		String account="";
-		String password="";
-		
-		String sessionId=session.getId();
+		String account = "";
+		String password = "";
+
+		String sessionId = session.getId();
 		System.out.println("sID: " + sessionId);
-		Cookie[] cookies=request.getCookies();
+		Cookie[] cookies = request.getCookies();
 		System.out.println("我的cookie:" + cookies);
-		if(cookies!=null){
+		if (cookies != null) {
 			System.out.println("我的cookie2:" + cookies);
-			for(Cookie cookie:cookies){
+			for (Cookie cookie : cookies) {
 				String name = cookie.getName();
-				
-				if("account".equals(name)){
-					account=cookie.getValue();
-				}else if("password".equals(name)){
-					password=cookie.getValue();
+
+				if ("account".equals(name)) {
+					account = cookie.getValue();
+				} else if ("password".equals(name)) {
+					password = cookie.getValue();
 				}
 			}
 		}
 	%>
 
 
-	
+
 	<form action="<c:url value="/loginact"/>" method="POST">
-		Account:<input type="text" name="account" value="<%=account%>"/>${requestScope.accerr}
-		<br> Password:<input type="password" name="password" value="<%=password%>"/>${requestScope.pwderr}
-		<br> <input type="submit" value="Login">${requestScope.loginerr}<input type="checkbox" name="save">Remember Me
-		
+		Account:<input type="text" name="account" value="<%=account%>" />${requestScope.accerr}
+		<br> Password:<input type="password" name="password"
+			value="<%=password%>" />${requestScope.pwderr} <br> <input
+			type="submit" value="Login">${requestScope.loginerr}<input
+			type="checkbox" name="save">Remember Me
+
 	</form>
-	<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+	<div class="g-signin2" data-onsuccess="onSignIn" onclick="ClickLogin()"
+		data-theme="dark"></div>
 	<a href="#" οnclick="signOut();">Sign out</a>
 
 	<script>
+		var clicked = false;//Global Variable
+		function ClickLogin() {
+			clicked = true;
+		}
 		function onSignIn(googleUser) {
 			// 客户端如果有需要的话可以通过profile来获取用户信息
 			var profile = googleUser.getBasicProfile();
@@ -61,9 +66,7 @@
 			xhr.setRequestHeader('Content-Type',
 					'application/x-www-form-urlencoded');
 			xhr.onload = function(data) {
-				if(eval(data)){
-					$(location).attr('href','<c:url value="/index"/>');
-				}
+				console.log('Signed in as: ' + xhr.responseText);
 			};
 			xhr.send('idtokenstr=' + id_token);
 		};
