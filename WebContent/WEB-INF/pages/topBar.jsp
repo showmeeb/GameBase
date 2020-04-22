@@ -98,20 +98,11 @@
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 					<a class="dropdown-item" href="<c:url value="/gotologin"/>">登入</a>
-<<<<<<< HEAD
-					<a class="dropdown-item" href="#">個人資訊</a> 
-					<a class="dropdown-item" href="#">購物車</a> 
-					<a class="dropdown-item" href="#">文章管理</a> 
-					<a class="dropdown-item" href="<c:url value="/logout"/>">登出</a> 
-					<a class="dropdown-item" href="<c:url value="/gotoregister"/>">註冊</a>
-
-=======
 					<a class="dropdown-item" href="<c:url value="/這邊輸入路徑"/>">個人資訊</a> 
 					<a class="dropdown-item" href="<c:url value="/這邊輸入路徑"/>">購物車</a> 
 					<a class="dropdown-item" href="<c:url value="/這邊輸入路徑"/>">文章管理</a> 
 					<a class="dropdown-item" href="<c:url value="/logout"/>">登出</a> 
 					<a class="dropdown-item" href="<c:url value="/gotoregister"/>">註冊</a>
->>>>>>> 49c56960ad652d02e703947416b35f18f7b3a793
 				</div>
 			</div>
 		</div>

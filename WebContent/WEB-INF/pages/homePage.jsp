@@ -8,13 +8,12 @@
 <head>
 <meta charset="UTF-8">
 
-
+<style>
+</style>
 
 </head>
 <body>
 	<jsp:include page="topBar.jsp" />
-
-
 
 	<div class="container-fluid text-center">
 		
