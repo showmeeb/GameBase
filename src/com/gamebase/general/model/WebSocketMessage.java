@@ -10,7 +10,10 @@ public class WebSocketMessage {
 	private String message;
 	private String[] to;
 	private Timestamp time = new Timestamp(System.currentTimeMillis());
-	private String serverName;
+	private String type;
+	private String URL;
+	
+	
 
 	public WebSocketMessage() {
 
@@ -60,11 +63,20 @@ public class WebSocketMessage {
 		this.time = time;
 	}
 
-	public String getServerName() {
-		return serverName;
+	public String getType() {
+		return type;
 	}
 
-	public void setServerName(String serverName) {
-		this.serverName = serverName;
+	public void setType(String type) {
+		this.type = type;
 	}
+
+	public String getURL() {
+		return URL;
+	}
+
+	public void setURL(String uRL) {
+		URL = uRL;
+	}
+
 }

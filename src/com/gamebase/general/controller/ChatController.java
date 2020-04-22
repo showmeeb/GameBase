@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+import javax.servlet.annotation.MultipartConfig;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,12 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.user.SimpUser;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
@@ -27,8 +33,10 @@ import com.gamebase.general.model.ChatRoom;
 import com.gamebase.general.model.WebSocketMessage;
 import com.gamebase.general.model.dao.ChatRoomCrudRepository;
 import com.gamebase.general.model.service.ChatRoomService;
+import com.gamebase.general.model.service.UploadImgService;
 
 @Controller
+@MultipartConfig
 public class ChatController {
 	@Autowired
 	private SimpMessagingTemplate simpMessagingTemplate;
@@ -38,6 +46,8 @@ public class ChatController {
 	private ChatRoomService cService;
 	@Autowired
 	private ChatRoomCrudRepository chatroom;
+	@Autowired
+	private UploadImgService uploadImgService;
 
 	@MessageMapping("/chat")
 	public void sendBySimpSingle(@RequestBody WebSocketMessage message) {
@@ -83,13 +93,35 @@ public class ChatController {
 					
 				} else {
 					simpMessagingTemplate.convertAndSendToUser(to, "/queue/messages", message);
-//					history.save(message.getFrom(),message.getTo()[0],message.getMessage());
-//					System.out.println("message.getMessage(): " + message.getMessage());
 					cService.saveToRedis(message);
 
 				}
 			}
 		}
+	}
+	@PostMapping(path = "/Imgur", produces = "application/json")
+	@ResponseBody
+	public Map<String, String> imgurUpload(@RequestParam(name = "sender") String sender,
+			@RequestParam(name = "receiver") String receiver, @RequestPart(name = "file") MultipartFile image) {
+
+		String fileName = image.getOriginalFilename();
+		String imgURL = uploadImgService.uploadImg(image);
+		String type = fileName.substring(fileName.lastIndexOf("."))+1;
+		System.out.println("imgURL: " + imgURL);
+		System.out.println(fileName);
+		System.out.println(type);
+		WebSocketMessage message = new WebSocketMessage();
+		message.setURL(imgURL);
+		Map<String, String> result = new HashMap<>();
+		if (imgURL != null) {
+			result.put("uploaded", "true");
+			result.put("url", imgURL);
+		} else {
+			result.put("uploaded", "false");
+			result.put("url", null);
+		}
+		return result;
+
 	}
 
 	@EventListener
