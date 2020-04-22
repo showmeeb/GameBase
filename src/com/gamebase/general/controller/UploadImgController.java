@@ -8,11 +8,11 @@ import javax.servlet.annotation.MultipartConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-<<<<<<< HEAD
+
 import org.springframework.web.bind.annotation.PostMapping;
-=======
+
 import org.springframework.web.bind.annotation.ResponseBody;
->>>>>>> 1cfac1aa6718b7b989e0ded261918d67dd06b179
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
