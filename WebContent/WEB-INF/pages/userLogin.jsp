@@ -39,12 +39,11 @@
 
 
 	<form action="<c:url value="/loginact"/>" method="POST">
-		Account:<input type="text" name="account" value="<%=account%>" />${requestScope.accerr}
-		<br> Password:<input type="password" name="password"
-			value="<%=password%>" />${requestScope.pwderr} <br> <input
-			type="submit" value="Login">${requestScope.loginerr}<input
-			type="checkbox" name="save">Remember Me
-
+		Account:<input type="text" name="account" value="<%=account%>"/>${requestScope.accerr}
+		<br> Password:<input type="password" name="password" value="<%=password%>"/>${requestScope.pwderr}
+		<br> <input type="submit" value="Login">${requestScope.loginerr}
+		<input type="checkbox" name="save" checked>Remember Me
+		
 	</form>
 	<div class="g-signin2" data-onsuccess="onSignIn" onclick="ClickLogin()"
 		data-theme="dark"></div>
@@ -77,6 +76,7 @@
 				console.log('User signed out.');
 			});
 		}
+		
 	</script>
 </body>
 </html>

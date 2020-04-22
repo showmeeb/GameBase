@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -21,12 +22,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
-import com.gamebase.config.websocket.MessagePublisher;
-import com.gamebase.general.model.ChatRoomHistory;
-import com.gamebase.general.model.OnlineUser;
+import com.gamebase.general.model.ChatRoom;
+
 import com.gamebase.general.model.WebSocketMessage;
-import com.gamebase.general.model.dao.ChatRoomHistoryDAO;
-import com.gamebase.general.model.dao.OnlineUserRepo;
+import com.gamebase.general.model.dao.ChatRoomCrudRepository;
+import com.gamebase.general.model.service.ChatRoomService;
 
 @Controller
 public class ChatController {
@@ -34,72 +34,10 @@ public class ChatController {
 	private SimpMessagingTemplate simpMessagingTemplate;
 	@Autowired
 	private SimpUserRegistry simpUserRegistry;
-//	@Autowired
-//	private MessagePublisher messagePublisher;
-
 	@Autowired
-	private OnlineUserRepo onlineUserRepo;
+	private ChatRoomService cService;
 	@Autowired
-	private ChatRoomHistoryDAO history;
-
-//	private Logger logger = Logger.getLogger(ChatController.class);
-//
-//	private String serverName;
-
-//	@MessageMapping("/chat")
-//	public void messagingToRedis(@RequestBody WebSocketMessage message) {
-//		message.setServerName(serverName);
-//		message.setTime(new Timestamp(System.currentTimeMillis()));
-//
-//		if ("regist".equals(message.getTo()[0]) || "logout".equals(message.getTo()[0]))
-//			updateUserList();
-//		else
-//			messagePublisher.publish(message); // publish to Redis
-//	}
-	// called by Redis message subscriber
-//		public void messaging(WebSocketMessage message) {
-//			Map<String, String> userMap = new HashMap<>();
-//			for (SimpUser user : simpUserRegistry.getUsers()) {
-//				String userName = user.getName();
-//				userMap.put(userName, "online");
-//			}
-//			String toMessage = message.getTo()[0];
-//			if ("All".equals(toMessage)) {
-//				message.setFrom(message.getFrom() + " (Broadcast) ");
-//				simpMessagingTemplate.convertAndSend("/topic/messages", message);
-//			} else {
-//				for(String to:message.getTo()) {
-//					if (!userMap.containsKey(to)) {
-//						String replyMsg = "使用者目前離線中";
-//
-//						WebSocketMessage msg = new WebSocketMessage(to, replyMsg, new String[] { message.getFrom() });
-//
-//						simpMessagingTemplate.convertAndSendToUser(message.getFrom(), "/queue/messages", msg);
-////						System.out.println("message.getFrom(): " + message.getFrom());
-//					} else {
-//						simpMessagingTemplate.convertAndSendToUser(to, "/queue/messages", message);
-////						System.out.println("message.getMessage(): " + message.getMessage());
-//					}
-//			}
-//			}
-//		}
-
-//	public void updateUserList() {
-//		List<String> onlineUserList = new ArrayList<String>();
-//		onlineUserList.add("All");
-//
-//		onlineUserRepo.findAll().forEach((user) -> {
-//			if (user != null)
-//				onlineUserList.add(user.getName());
-//		});
-//
-//		messagePublisher.publish(onlineUserList); // publish to Redis
-//	}
-
-	// called by Redis userSet subscriber
-//	public void sendUserList(List<String> onlineUserList) {
-//		simpMessagingTemplate.convertAndSend("/topic/userList", onlineUserList);
-//	}
+	private ChatRoomCrudRepository chatroom;
 
 	@MessageMapping("/chat")
 	public void sendBySimpSingle(@RequestBody WebSocketMessage message) {
@@ -110,24 +48,25 @@ public class ChatController {
 		for (SimpUser user : simpUserRegistry.getUsers()) {
 			String userName = user.getName();
 			userList.add(userName);
-			System.out.println("ChatController_user.getName: " + user.getName());
+//			System.out.println("ChatController_user.getName: " + user.getName());
 			userMap.put(userName, "online");
 		}
-		
-		System.out.println("ChatController_message.getTo[0]: " + message.getTo()[0]);
+
+//		System.out.println("ChatController_message.getTo[0]: " + message.getTo()[0]);
 		String toMessage = message.getTo()[0];
 		if ("regist".equals(toMessage)) {
 			// convertAndSend = send a message to the given user.
 			simpMessagingTemplate.convertAndSend("/regist/messages", userList);
-		} else if ("logout".equals(toMessage)) {
-//			System.out.println("logout.equals(toMessage)");
-//			System.out.println("message.getFrom" + message.getFrom());
+		} else if ("logout".equals(toMessage)) {	
 			simpMessagingTemplate.convertAndSend("/topic/messages", message.getFrom());
+			cService.redisToSql(message);
+//			cService.findAll();
+//			System.out.println(chatroom.findById(0).get().toString());
+			
 		} else if ("broadcast".equals(toMessage)) {
-			System.out.println("broadcast.equals(toMessage)");
 			simpMessagingTemplate.convertAndSend("/topic/messages", message);
 		} else {
-			System.out.println("message.getTo: " + message.getTo());
+
 			for (String to : message.getTo()) {
 				// offline routine message
 				if (!userMap.containsKey(to)) {
@@ -138,32 +77,30 @@ public class ChatController {
 					WebSocketMessage msg = new WebSocketMessage(to, replyMsg, new String[] { message.getFrom() });
 					// Convert the given Object to serialized form, possibly using a
 					// MessageConverter, wrap it as a message and send it to the given destination.
-					
 					simpMessagingTemplate.convertAndSendToUser(message.getFrom(), "/queue/messages", msg);
 //					System.out.println("message.getFrom(): " + message.getFrom());
-					ChatRoomHistory bean = new ChatRoomHistory();
-					bean.setSender(message.getFrom());
-					bean.setReceiver(message.getTo()[0]);
-					bean.setHistory(message.getMessage());
-					history.save(bean);
+					cService.saveToRedis(message);
+					
 				} else {
 					simpMessagingTemplate.convertAndSendToUser(to, "/queue/messages", message);
 //					history.save(message.getFrom(),message.getTo()[0],message.getMessage());
 //					System.out.println("message.getMessage(): " + message.getMessage());
+					cService.saveToRedis(message);
+
 				}
 			}
 		}
 	}
-//	@EventListener
-//	public void onConnectEvent(SessionConnectEvent event) { // subscription might not finished yet
-//		logger.info("Client with username " + event.getUser().getName() +" connectedChatRoom");
-//	    onlineUserRepo.save(new OnlineUser(event.getUser().getName()));
-//	}
-//	
-//	@EventListener
-//	public void onDisconnectEvent(SessionDisconnectEvent event) {
-//		logger.info("Client with username " + event.getUser().getName() +" disconnectedChatRoom");
-//	    onlineUserRepo.deleteById(event.getUser().getName());
-//	    updateUserList();
-//	}
+
+	@EventListener
+	public void onConnectEvent(SessionConnectEvent event) {
+		System.out.println("Client with username " + event.getUser().getName() + " connected");
+
+	}
+
+	@EventListener
+	public void onDisconnectEvent(SessionDisconnectEvent event) {
+		System.out.println("Client with username " + event.getUser().getName() + " disconnected");
+		
+	}
 }

@@ -131,7 +131,7 @@ public class TagSearchDAO {
 		return jsonArray;
 	}
 	
-	public Set<String> autoComple()  {
+	public Set<String> autoComplete()  {
 		List<Object[]> resultList =sessionFactory.getCurrentSession().createQuery("Select productName,productTag from Product").list();
 		Set<String> returnSet = new LinkedHashSet<String>();
 
@@ -143,10 +143,6 @@ public class TagSearchDAO {
 				returnSet.add(tagItem);
 			}
 		}
-		
-		
-
-
 		return returnSet;
 	}
 }
