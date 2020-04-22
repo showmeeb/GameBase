@@ -24,7 +24,7 @@ public class ShoppingCartDao {
 	}
 
 	
-	public JSONObject adds(String form,int id) {
+	public JSONObject shoppingCartAdds(String form,int id) {
 		Session session = sessionFactory.getCurrentSession();
 		JSONObject result= new JSONObject();
 		ShoppingCart sc = new Gson().fromJson(form, ShoppingCart.class);
@@ -45,7 +45,7 @@ public class ShoppingCartDao {
 		
 	}
 
-	public JSONArray querys(int id) {
+	public JSONArray shoppingCartQuerys(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		try {
 		Query<ShoppingCart> query = session.createQuery("from ShoppingCart where userId=?1",ShoppingCart.class);
@@ -75,7 +75,7 @@ public class ShoppingCartDao {
 		}
 	}
 	
-	public JSONObject deletes(int id) {
+	public JSONObject shoppingCartDeletes(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		JSONObject result= new JSONObject();
 		try {

@@ -68,8 +68,6 @@ img{width: 50px }
 			<form class="form-inline my-2 my-lg-0">
 				<input id="se1" class="form-control mr-sm-2" type="search"
 					placeholder="Search" aria-label="Search">
-					<select id="se1">
-					</select>
 				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 			</form>
 			<span id="order" role="button" tabindex="0"
@@ -92,40 +90,58 @@ img{width: 50px }
 <h1>訂單紀錄</h1>
 
 
-	<table class="table">
+	<table class="table table-hover">
   <thead class="thead-dark">
     <tr>
-      <th scope="col">uuId</th>
+      <th scope="col">No.</th>
       <th scope="col">orderId</th>
-	  <th scope="col">name</th>
-	  <th scope="col">Handle</th>
-	  <th scope="col">Last</th>
-	  <th scope="col">Handle</th>
-	  <th scope="col">Last</th>
-	  <th scope="col">Handle</th>
+      <th scope="col">uuId</th>
+	  <th scope="col">orderName</th>
+	  <th scope="col">orderPhone</th>
+	  <th scope="col">orderAddress</th>
+	  <th scope="col">orderPrice</th>
+	  <th scope="col">orderDate</th>
+	  <th scope="col">payStatus</th>
     </tr>
   </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
+  <tbody id="tb1">
+
   </tbody>
 </table>
+<script type="text/javascript">
+
+function showOrder(response){
+	for(let i=0;i < response.length; i++){
+	var txt = "<tr>";
+	txt += "<th scope='row'>"+i+1+"</th>";
+	txt += "<td>"+response[i].orderId;
+	txt += "<td>"+response[i].uuId;
+	txt += "<td>"+response[i].orderName;
+	txt += "<td>"+response[i].orderPhone;
+	txt += "<td>"+response[i].orderAddress;
+	txt += "<td>"+response[i].orderPrice;
+	txt += "<td>"+response[i].orderDate;
+	txt += "<td>"+response[i].payStatus;
+	
+	}
+	$('#tb1').append(txt);
+}
+	$(document).ready(function(){
+		var id = 0;
+		$.ajax({
+			url:"orderPage/showOrder",
+			dataType:"json",
+			data:{id:id},
+			type:"POST",
+			success:function(response){
+				console.log(response);
+				showOrder(response);
+			}
+			});
+		})
+
+
+</script>
 
 </body>
 </html>
