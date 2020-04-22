@@ -57,11 +57,16 @@ public class ForumDAO implements IForumDAO {
 
 	@Override
 	public boolean deleteOneForum(Forum forum) {
-		Forum rs = sessionFactory.getCurrentSession().get(Forum.class, forum.getForumId());
-		if (rs != null) {
-			sessionFactory.getCurrentSession().delete(rs);
-			return true;
+		try {
+			Forum rs = sessionFactory.getCurrentSession().get(Forum.class, forum.getForumId());
+			if (rs != null) {
+				sessionFactory.getCurrentSession().delete(rs);
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
 		return false;
 	}
 
