@@ -1,12 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GameBase遊戲基地</title>
+<meta http-equiv="Expires" CONTENT="0">
+<meta http-equiv="Cache-Control" CONTENT="no-cache">
+<meta http-equiv="Pragma" CONTENT="no-cache">
+<title>GameBase</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<!-- Font Awesome -->
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
 	integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
@@ -32,6 +39,7 @@
 <script src="https://d1fxtkz8shb9d2.cloudfront.net/sockjs-0.3.4.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
 <!-- mustache Template Engine library -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
@@ -40,9 +48,8 @@
 <!-- chatRoom js -->
 <script src="<c:url value="/js/chatRoom.js"/>"></script>
 <!-- main style -->
+
 <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
-
-
 <link href="<c:url value="/css/topBar.css"/>" rel="stylesheet">
 
 
@@ -53,7 +60,7 @@
 
 		<!--LOGO-->
 		<div class="col-md-4 column ">
-			<a class="navbar-brand" href="<c:url value="/homePage"/>"> <img
+			<a class="navbar-brand" href="<c:url value="/"/>"> <img
 				src="https://i.imgur.com/7oJSy01.png" width="400"
 				class="d-inline-block align-top">
 			</a>
@@ -130,6 +137,13 @@
 		</div>
 
 	</nav>
+
+
+	<!-- login and regist pop up windows (with shadow) -->
+	<%@ include file="include/loginArea.jsp"%>
+	<!-- Start Chat Room Area -->
+	<%@ include file="include/chatRoom.jsp"%>
+	<!-- End Chat Room Area -->
 
 	<script>
 		$.ajax({
