@@ -9,7 +9,23 @@
 <title>UserProfileCreate</title>
 <!--  <link href="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.css" rel="stylesheet">
 <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">-->
-<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+<style type="text/css">
+#main_back {
+	position: relative;
+	top: 57px;
+	right:6%;
+	width: 75%;
+	border:1px black solid;
+}
+</style>
 <!--  <style type="text/css">
     body{
         text-align: center;
@@ -50,6 +66,8 @@
 -->
 </head>
 <body>
+<jsp:include page="include/backEndHomePage.jsp"></jsp:include>
+<main id="main_back">
 <h4>您的資料</h4>
 <!--<c:if test="${!empty ProfileId}">
 <form id="profileForm">
@@ -130,8 +148,8 @@
 <br>
 	
 
-	
-
+</div>	
+</main>
 <script>
 //function re(){
 	

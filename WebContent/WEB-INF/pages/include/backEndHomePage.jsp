@@ -1,17 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-
-<meta charset="UTF-8">
-<title>這是後台</title>
 <style>
 * {
 	font-family: 微軟正黑體;
@@ -45,8 +33,15 @@ ul {
 }
 
 #back {
-	width: 200px;
+	width: 12%;
 	margin-left: 10px;
+}
+#main_back {
+	position: relative;
+	top: 57px;
+	left:20%;
+	width: 75%;
+	border:1px black solid;
 }
 </style>
 </head>
@@ -54,7 +49,7 @@ ul {
 	<header>
 		<div class="container-fluid">
 			<nav class="navbar fixed-top border-bottom navbar-light bg-white ">
-				<a class="navbar-brand border-right px-2 " href="tradesystem"> <img
+				<a class="navbar-brand border-right px-2 " href="http://localhost:8080/GameBase/"> <img
 					src="https://i.imgur.com/QnN4T0v.png" class="d-inline align-top"
 					alt="">
 				</a>
@@ -123,12 +118,7 @@ ul {
 			<tr>
 				<td><a class="tag" href="tradesystem">新增商品</a></td> <!-- tradesystem -->
 			</tr>
-			<tr>
-				<td><a class="tag" href="#">修改商品?</a></td>
-			</tr>
-			<tr>
-				<td><a class="tag" href="#">刪除商品?</a></td>
-			</tr>
+	
 		</table>
 		<table id="admin-content" class="d-none" cellpadding="10">
 			<tr>
@@ -164,9 +154,6 @@ ul {
 				<table id="member-profile" class="d-none" cellpadding="10">
 			<tr>
 				<td><a class="tag" href="#">個人資料</a></td>
-			</tr>
-			<tr>
-				<td><a class="tag" href="#">修改會員</a></td>
 			</tr>
 			<tr>
 				<td><a class="tag" href="#">升級</a></td>
