@@ -20,19 +20,20 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.gamebase.general.model.service.UploadImgService;
+import com.gamebase.general.model.service.GeneralService;
+
 
 @Controller
 @MultipartConfig
 public class UploadImgController {
 
 	@Autowired
-	private UploadImgService uploadImgService;
+	private GeneralService generalService;
 
 	@RequestMapping(value = "/uploadImg", method = RequestMethod.POST)
 	public String tagSearch(@RequestParam("theFile") MultipartFile theFile, Model model) throws Exception {
 		System.out.println("123");
-		String imgURL = uploadImgService.uploadImg(theFile);
+		String imgURL = generalService.uploadToImgur(theFile);
 		System.out.println(imgURL);
 
 		model.addAttribute("imgURL", imgURL);

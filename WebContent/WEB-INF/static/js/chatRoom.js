@@ -781,24 +781,32 @@ function showChatContentArea(element) {
         }
     }
 
-    // check chat history exist
+ // check chat history exist
     if (chatContent != undefined) {
         for (let content of chatContent) {
-            if (content.from == loginUserObj.userId) { // from me
-                $("#chat-message-area").append(Mustache.render(ownMsgTemplate, content));
+            if (content.from == loginUserObj.userId) {
+                if (content.URL != null) {// from me
+                    $("#chat-message-area").append(Mustache.render(ownFileTemplate, content));
+                }
+                else {
+                    $("#chat-message-area").append(Mustache.render(ownMsgTemplate, content));
+                }
             } else { // from others
-                $("#chat-message-area").append(Mustache.render(replyMsgTemplate, content));
+                if (content.URL != null) {
+                    $("#chat-message-area").append(Mustache.render(replyFileTemplate, content));
+                }
+                else {
+                    $("#chat-message-area").append(Mustache.render(replyMsgTemplate, content));
+                }
             }
+            // move the scroll bar to the end
+            $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
         }
-
-        // move the scroll bar to the end
-        $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
-    } else {
+    }
+    else {
         // console.log("No history");
     }
-
 }
-
 // chat room content area close button control
 function emptyChatContentArea() {
     // clean chat room content area
@@ -1278,13 +1286,22 @@ var chatRoomContentTemplate = '<div id="chat-header-area">'
 var replyMsgTemplate = '<div class="chat-messages">'
     + '<img class="chat-message-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}"/>'
     + '<div class="chat-message">{{&message}}</div>'
-    + '<div class="chat-message-file">{{&URL}}</div>'
     + '<div class="chat-time">{{time}}</div>'
     + '</div>';
 
 var ownMsgTemplate = '<div class="chat-messages own-messages">'
     + '<div class="chat-message">{{&message}}</div>'
-    + '<div class="chat-message-file">{{&URL}}</div>'
+    + '<div class="chat-time">{{time}}</div>'
+    + '</div>';
+
+var replyFileTemplate = '<div class="chat-messages">'
+    + '<img class="chat-message-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}"/>'
+    + '<img class="chat-message-user-file" src="{{&url}}"/>'
+    + '<div class="chat-time">{{time}}</div>'
+    + '</div>';
+
+var ownFileTemplate = '<div class="chat-messages own-messages">'
+    + '<img class="chat-message-user-file" src="{{&url}}"/>'
     + '<div class="chat-time">{{time}}</div>'
     + '</div>';
 
