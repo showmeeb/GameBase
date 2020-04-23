@@ -1,23 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <jsp:include page="include/backEndHomePage.jsp"></jsp:include>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<!-- Bootstrap JavaScript CDN-->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
 <style type="text/css">
 #dh{display: none}
-#main_back {
-	position: relative;
-	top: 57px;
-	left: 230px;
-	width:75%;
-}
+
 </style>
 </head>
 <body>
+    <jsp:include page="../include/backEndHomePage.jsp"></jsp:include>
 <main id="main_back">
 切換註冊商品<button id="gameMode" value="game">遊戲</button>
 <div id ="dg">

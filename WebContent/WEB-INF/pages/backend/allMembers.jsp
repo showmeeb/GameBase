@@ -17,7 +17,7 @@
 </head>
 
 <body>
-<jsp:include page="include/backEndHomePage.jsp"></jsp:include>
+<jsp:include page="../include/backEndHomePage.jsp"></jsp:include>
 	<main id="main_back">
 		<div id="bar">
 			<input type="text" id="sBar" placeholder="搜尋">
@@ -43,11 +43,10 @@
 					type : "POST",
 					success : function(response) {
 						console.log(response.members.length);
-						console.log("sWWs");
 						console.log(response);
-var a=response.members
+                        var a=response.members
 						
-						var txt = "<tr><th>會員ID<th>帳號<th>email<th>會員等級";
+						var txt = "<tr><th>會員ID<th>帳號<th>email<th>會員等級<th colspan='2'>";
 
 
 						for (let i = 0; i < response.members.length; i++) {

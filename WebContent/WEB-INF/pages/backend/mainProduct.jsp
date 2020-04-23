@@ -24,7 +24,7 @@
 </head>
 
 <body>
-<jsp:include page="include/backEndHomePage.jsp"></jsp:include>
+<jsp:include page="../include/backEndHomePage.jsp"></jsp:include>
 	<main id="main_back">
 		<div id="bar">
 			<input type="text" id="se1" placeholder="請輸入想搜尋的商品">

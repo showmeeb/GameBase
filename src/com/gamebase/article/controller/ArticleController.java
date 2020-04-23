@@ -329,5 +329,25 @@ public class ArticleController {
 		System.out.println(result);
 		return result;
 	}
+	
 
+	//後臺全部文章列表
+	@RequestMapping(path = "/getAllArticles", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject getAllArticleTitle() {
+		System.out.println("query All Article Title");
+		JSONObject result = new JSONObject();
+		try {
+			 List<ArticleTitle> a = aService.queryAllArticleTitle();
+			result.put("articles",a);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	//後臺全部文章列表
+	@RequestMapping(value = "/allArticles", method = RequestMethod.GET)
+	public String showAllArticles() {
+		return "allArticles";
+	}
 }

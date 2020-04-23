@@ -93,7 +93,7 @@ ul {
 		<table id="analytic-tag" class="border-bottom py-3 d-block"
 			cellpadding="10">
 			<tr>
-				<td><a class="tag" href="analytic.jsp">分析</a></td>
+				<td><a class="tag" href="analytic">分析</a></td>
 			</tr>
 			<tr>
 				<td>數據</td>
@@ -122,12 +122,11 @@ ul {
 		</table>
 		<table id="admin-content" class="d-none" cellpadding="10">
 			<tr>
-				<td><a class="tag" href="#">所有文章</a></td>
+				<td><a class="tag" href="allArticles">所有文章</a></td>
 			</tr>
 			<tr>
-				<td><a class="tag" href="#">刪除文章</a></td>
+				<td><a id="allArticles-del" class="tag" href="#">刪除文章</a></td>
 			</tr>
-
 		</table>
 		<table id="admin-news" class="d-none" cellpadding="10">
 			<tr>
@@ -293,6 +292,8 @@ ul {
 			}
 			;
 		})
+		
+		
 	</script>
 </body>
 </html>
