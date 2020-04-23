@@ -52,7 +52,7 @@ $(document).ready(function () {
         $("#login-str").removeClass("hidden-window", 700);
         $("#regiest-str").removeClass("hidden-window", 700);
         // google logout
-        // googleSignOut();
+        googleSignOut();
 
         // get userNo for offline message use
         var userNo = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
@@ -534,14 +534,14 @@ if (!!window.performance && window.performance.navigation.type === 2) {
  */
 var googleUser = {};
 var startApp = function() {
-  gapi.load('auth2', function(){
-    // Retrieve the singleton for the GoogleAuth library and set up the client.
-    auth2 = gapi.auth2.init({
+	gapi.load('auth2', function(){
+//		Retrieve the singleton for the GoogleAuth library and set up the client.
+	    auth2 = gapi.auth2.init({
 //      client_id: '703647999598-mtjqtb9jrnp6banoqnialqlhbppjc64h.apps.googleusercontent.com',
-      client_id: '982957556355-9h99fuvvivi52g599iucre1v04ktheh0.apps.googleusercontent.com',
-   cookiepolicy: 'single_host_origin',	  
-          scope: 'profile email'
-    });
+	    client_id: '982957556355-9h99fuvvivi52g599iucre1v04ktheh0.apps.googleusercontent.com',
+	    cookiepolicy: 'single_host_origin',	  
+	    scope: 'profile email'
+	    });
     attachSignin(document.getElementById('google-login-btn'));
   });
 };
@@ -557,9 +557,9 @@ function attachSignin(element) {
           // connect motozone server
 	      $.ajax({
 	    	url:"/GameBase/Users/GoogleLogin",
-	       type:"POST",
-	       data:{idTokenStr:id_token},
-	    success:function(data){
+	    	type:"POST",
+	    	data:{idTokenStr:id_token},
+	    	success:function(data){
 			    	if(data){
 						
 						// if user has snapshot , then use it
@@ -575,6 +575,11 @@ function attachSignin(element) {
 						// close login window
 						$("#login-submit-btn").parent().addClass("hidden-window", 700);
 				        $("#shadow").fadeOut(700);
+				        
+				        // hide login-str & regist-str
+	                    $("#login-str").addClass("hidden-window", 700);
+	                    $("#regiest-str").addClass("hidden-window", 700);
+	                    $("#logout-str").removeClass("hidden-window", 700);
 				        
 				        // clear the form
 				        $(".input-group input").each(function(){
@@ -601,26 +606,26 @@ function attachSignin(element) {
     		    		$("#chat-room-friends").html(friendsList);
     		    		
     		    		// if user at product post page then update form's action attribute
-        				var productPostUrlTest = /^.*ProductPost.*$/;
-        				
-        				if(productPostUrlTest.test(location.href)){
-        					// update AutoBuy productPost page
-        		    		updateProductPostAttr(data.uNo,data.uName);
-        				}
+//        				var productPostUrlTest = /^.*ProductPost.*$/;
+//        				
+//        				if(productPostUrlTest.test(location.href)){
+//        					// update AutoBuy productPost page
+//        		    		updateProductPostAttr(data.uNo,data.uName);
+//        				}
         				
         				// if user at AutoBuy publish page then update form's attribute
-        				var autoBuyUrlTest = /^.*AutoBuy.*$/;
-        				
-        				if(autoBuyUrlTest.test(location.href)){
-        					// update AutoBuy publish
-        					updateAutoBuyPublishAttr(data.uNo);
-        				}
+//        				var autoBuyUrlTest = /^.*AutoBuy.*$/;
+//        				
+//        				if(autoBuyUrlTest.test(location.href)){
+//        					// update AutoBuy publish
+//        					updateAutoBuyPublishAttr(data.uNo);
+//        				}
         				
         				// show shopping cart
-        				if(autoBuyFlag){
-        					$("#shoppingCart").show(700);
-        					updateCartLink(data.uNo);
-        				}
+//        				if(autoBuyFlag){
+//        					$("#shoppingCart").show(700);
+//        					updateCartLink(data.uNo);
+//        				}
         				
 					} else {
 						alert("Google登入失敗");
