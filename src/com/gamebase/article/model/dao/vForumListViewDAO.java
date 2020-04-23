@@ -33,4 +33,11 @@ public class vForumListViewDAO {
 		List<ForumListView> list = query.list();
 		return list;
 	}
+	
+	public ForumListView queryForumListByForumId(Integer forumId) {
+		Query<ForumListView> query = sessionFactory.getCurrentSession().createQuery("from ForumListView where forumId = :forumId order by forumId", ForumListView.class)
+				.setParameter("forumId", forumId);
+		ForumListView rs = query.uniqueResult();
+		return rs;
+	}
 }

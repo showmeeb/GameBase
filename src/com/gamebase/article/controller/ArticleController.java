@@ -2,7 +2,9 @@ package com.gamebase.article.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +28,8 @@ import com.gamebase.article.model.Forum;
 import com.gamebase.article.model.ForumListView;
 import com.gamebase.article.model.service.ArticleService;
 import com.gamebase.article.model.service.ForumService;
+import com.gamebase.general.model.service.GeneralService;
+
 import net.sf.json.JSONObject;
 
 @Controller
@@ -35,6 +40,8 @@ public class ArticleController {
 	private ForumService fService;
 	@Autowired
 	private ArticleService aService;
+	@Autowired
+	private GeneralService gService;
 
 	@RequestMapping(value = "/forumHome", method = RequestMethod.GET)
 	public String forumHome() {
@@ -56,31 +63,33 @@ public class ArticleController {
 	}
 
 	/* test */
-	/* insert new forum name and figure*/
-//	@RequestMapping(value = "/forum_test/add")
-//	@ResponseBody
-//	public JSONObject insertNewForum_Test(@RequestParam("forumName") String forumName,
-//			@RequestParam("forumFigure") MultipartFile forumFigure, ModelMap model) {
-//		System.out.println("insert new Forum");
+	/* insert new forum name and figure */
+	@RequestMapping(value = "/forum_test/add")
+	@ResponseBody
+	public JSONObject insertNewForum_Test(@RequestParam("forumName") String forumName,
+			@RequestParam("forumFigure") MultipartFile forumFigure, ModelMap model) {
+		System.out.println("insert new Forum");
 		/* figure upload to imgur */
-	
-//		System.out.println(imgURL);
-//		model.addAttribute("imgURL", imgURL);
+		String imgURL = gService.uploadToImgur(forumFigure);
+		System.out.println(imgURL);
+		model.addAttribute("imgURL", imgURL);
 		/* forumName */
-//		if (forumName.length() == 0 || forumName == null) {
-//			System.out.println("forumName is null !");
-//		}
+		if (forumName.length() == 0 || forumName == null) {
+			System.out.println("forumName is null !");
+		}
 		/* forumFigure */
-//		if (imgURL.length() == 0 || imgURL == null) {
-//			System.out.println("imgURL is null !");
-//			imgURL = "https://i.imgur.com/8g2jFuM.png";
-//		}
-//		Forum newForum = fService.insertForum(new Forum(forumName, imgURL));
+		if (imgURL.length() == 0 || imgURL == null) {
+			System.out.println("imgURL is null !");
+			imgURL = "https://i.imgur.com/8g2jFuM.png";
+		}
+		Forum newForum = fService.insertForum(new Forum(forumName, imgURL));
 		JSONObject result = new JSONObject();
-//		result.put("newForum", newForum);
-//		System.out.println(result);
-//		return result;
-//	}
+		/* query forum rank */
+		ForumListView flv = fService.queryForumListByForumId(newForum.getForumId());
+		result.put("newForum", flv);
+		System.out.println(result);
+		return result;
+	}
 
 	/* final */
 	/* query article by forum ID */
@@ -326,6 +335,26 @@ public class ArticleController {
 		Boolean delStatus = aService.deleteReply(contentId);
 		result.put("delStatus", delStatus);
 		System.out.println(result);
+		return result;
+	}
+
+	/* upload figure to imgur */
+	@RequestMapping(value = "/figureupload", produces = "application/json")
+	@ResponseBody
+	public Map<String, String> deleteForum(@RequestPart("upload")MultipartFile forumFigure, ModelMap model) {
+		System.out.println("figure upload");
+		Map<String, String> result =new HashMap<>();
+		String imgurl = gService.uploadToImgur(forumFigure);
+		if(imgurl != null) {
+			result.put("uploaded", "true");
+			result.put("imgurl", imgurl);
+			System.out.println(result);
+		}else {
+			result.put("uploaded", "false");
+			result.put("imgurl", null);
+			System.out.println(result);
+		}
+
 		return result;
 	}
 
