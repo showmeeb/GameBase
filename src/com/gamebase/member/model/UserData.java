@@ -3,9 +3,17 @@ package com.gamebase.member.model;
 
 
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,8 +33,8 @@ public class UserData {
 	private String password;
 	private String email;
 	private Integer rankId;
-
-
+	private String regiestdate;
+	
 
 	public UserData() {
 	}
@@ -81,6 +89,16 @@ public class UserData {
 
 	public void setRankId(Integer rankId) {
 		this.rankId = rankId;
+	}
+
+
+	@Column(name = "REGIESTDATE")
+	public String getRegiestdate() {
+		return regiestdate;
+	}
+
+	public void setRegiestdate(String regiestdate) {
+		this.regiestdate = regiestdate;
 	}
 
 }

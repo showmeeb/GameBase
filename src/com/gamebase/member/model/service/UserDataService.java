@@ -1,5 +1,12 @@
 package com.gamebase.member.model.service;
 
+import java.io.IOException;
+
+
+import java.security.GeneralSecurityException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +32,11 @@ import com.gamebase.member.model.dao.RankDAO;
 import com.gamebase.member.model.dao.UserDataDAO;
 import com.gamebase.member.model.dao.UserProfileDAO;
 import com.gamebase.member.model.dao.UsersInfoDAO;
+import com.google.api.client.auth.openidconnect.IdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
 @Service
 @Transactional
@@ -42,6 +54,77 @@ public class UserDataService {
 	private EncryptDAO eDao;
 	@Autowired
 	private UsersInfoDAO uiDao;
+	
+	private final String GOOGLE_CLIENT_ID = "982957556355-9h99fuvvivi52g599iucre1v04ktheh0.apps.googleusercontent.com";
+	
+	public UsersInfo googleLogin(String idTokenStr) {
+		// get verifier
+		GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
+				.Builder(new NetHttpTransport(),JacksonFactory.getDefaultInstance())
+				.setAudience(Collections.singletonList(GOOGLE_CLIENT_ID))
+				.build();
+		
+		// set id token field
+		GoogleIdToken idToken = null;
+		
+		try {
+			idToken = verifier.verify(idTokenStr);
+		} catch (GeneralSecurityException e) {
+			System.out.println("驗證時出現GeneralSecurityException異常");
+			return null;
+		} catch (IOException e) {
+			System.out.println("驗證時出現IOException異常");
+			return null;
+		}
+		
+		if (idToken != null) {
+//			System.out.println("驗證成功.");
+			
+			//取得idToken內資料
+			Payload payload = idToken.getPayload();
+			String userId = payload.getSubject();
+			String email=(String) payload.get("email");
+			//String name = (String) payload.get("name");
+			String pictureUrl = (String) payload.get("picture");
+			
+			
+			// 預設密碼google
+			String pwd = "google";
+			// 密碼轉型
+			pwd=eDao.encryptString(pwd);
+			
+			// examine whether the ID already registed
+			UserData bean = udDao.getByLogin(userId, pwd);
+			
+			if(bean != null) {
+				// if already registed , send data back
+				UsersInfo usersLogin = showUserData(bean.getAccount());
+				
+				return usersLogin;
+				
+			}else {
+				
+				// if haven't exist , regist a new account
+				bean = new UserData();
+				bean.setAccount(userId);
+				bean.setEmail(email);
+				bean.setPassword(pwd);
+				bean.setRankId(2);
+				Date regTime = new Date();
+				bean.setRegiestdate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(regTime.getTime()));
+				udDao.saveUserData(bean);
+				UserProfile up=new UserProfile();
+				up.setUserId(bean.getUserId());
+				up.setImg(pictureUrl);
+				upDao.saveUserProfile(up);
+				return  showUserData(bean.getAccount());
+			}
+			
+		} else {
+			System.out.println("Invalid ID token.");
+			return null;
+		}
+	}
 
 	public UserData getByLogin(String account, String password) {
 		return udDao.getByLogin(account, password);

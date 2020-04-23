@@ -120,8 +120,16 @@
 		function showtables(response) {
 			var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品價錢<th>商品數量<th>總金額<th>編輯";
 			for (let i = 0; i < response.length; i++) {
+				var item ={
+						productId:response[i].productId,
+						productName:response[i].productName,
+						productPrice:response[i].productPrice,
+						amount:response[i].amount
+						}
+				
 				txt += "<tr><td style='display:none'>"
 						+ response[i].shoppingCartId;
+				txt += "<span id='item' style='display:none'>"+JSON.stringify(item);
 				txt += "<td>" + response[i].productId;
 				txt += "<td id='img'><img src='"+response[i].productImg+"'>";
 				txt += "<td>" + response[i].productName;
@@ -191,28 +199,36 @@
 			})
 		$(document).on('click', '#paybill', function() {
 			//var userId =${UserData.userId};
+			var items =[];
+			$(document).find('span[id="item"]').each(function(i,e){
+					items[i]=e.innerHTML;
+				})
+			
+			//var items= JSON.stringify(items1);
 			var a = $('#f1').serializeObject();
 			var totalPrice = $('#total').html();
 			a['orderPrice']=totalPrice;
 			a['userId']=0;
 			var form = JSON.stringify(a);
-			
-			console.log(a);
-			console.log(total);
-			console.log(form);
-			
+			var items1= "["+items+"]";
+			console.log("a:"+a);
+			console.log("total:"+total);
+			console.log("form:"+form);
+			console.log("items1:"+items1);
+
 			var a=total();
 			if(a>30000){
 				alert("信用卡刷卡最大金額不得超過3萬元台幣");
 				}else{
+					console.log("bbbb");
 					$.ajax({
-						url :"shoppingCart/payBill",
+						url :"shoppingCart/test",
 						dataType : "text",
-						data:{form:form},
+						data:{form:form,items1:items1},
 						type : "POST",
 						success : function(response) {
 							console.log(response);
-							document.write(response);
+							//document.write(response);
 						}
 					});
 					}

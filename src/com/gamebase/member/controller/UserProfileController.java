@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.gamebase.general.model.service.UploadImgService;
+//import com.gamebase.general.model.service.UploadImgService;
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UserProfile;
 import com.gamebase.member.model.service.UserDataService;
@@ -26,8 +26,8 @@ public class UserProfileController {
 	@Autowired
 	public UserDataService uService;
 	
-	@Autowired
-	private UploadImgService uploadImgService;
+//	@Autowired
+//	private UploadImgService uploadImgService;
 	
 	@RequestMapping(path = "/saveName", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody

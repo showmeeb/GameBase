@@ -24,9 +24,9 @@ public class GeneralViewJavaConfig {
 	}
 
 	@Bean
-	public View homePage() {
+	public View indexBackup() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/homePage.jsp");
+		view.setUrl("/WEB-INF/pages/indexBackup.jsp");
 		return view;
 	}
 

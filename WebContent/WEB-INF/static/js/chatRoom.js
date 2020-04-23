@@ -21,7 +21,7 @@ $(document).ready(function () {
     });
 
     // $(".loggedin-icon").click(function () {
-    //     $("#loggedin-list").fadeToggle(500);
+    // $("#loggedin-list").fadeToggle(500);
 
     // });
 
@@ -29,8 +29,8 @@ $(document).ready(function () {
 
     // user center button
     // $("#user-center-btn").click(function () {
-    //     $("#loggedin-list").fadeToggle(500);
-    //     location.href = userCenterUrl;
+    // $("#loggedin-list").fadeToggle(500);
+    // location.href = userCenterUrl;
     // });
 
     // regist button
@@ -43,8 +43,9 @@ $(document).ready(function () {
     $("#logout-str").click(function () {
         // $("#loggedin-list").fadeToggle(500); // close the list
 
-        // $(".loggedin-icon").addClass("disable", 700, function () { // hide loggedin icon
-            // $(".login-btn").removeClass("disable", 700);        // show login button
+        // $(".loggedin-icon").addClass("disable", 700, function () { // hide
+		// loggedin icon
+            // $(".login-btn").removeClass("disable", 700); // show login button
         // });
     	$("#logout-str").addClass("hidden-window", 700);
        
@@ -78,36 +79,38 @@ $(document).ready(function () {
                 // var userCenterUrlTest = /^.*UserCenter.*$/;
 
                 // if (userCenterUrlTest.test(location.href)) {
-                //     location.href = "/motozone/";
+                // location.href = "/motozone/";
                 // }
 
-                // if user at product post page then update form's action attribute
+                // if user at product post page then update form's action
+				// attribute
                 // var productPostUrlTest = /^.*ProductPost.*$/;
 
                 // if (productPostUrlTest.test(location.href)) {
-                //     // update AutoBuy productPost page
-                //     updateProductPostAttr('', '');
+                // // update AutoBuy productPost page
+                // updateProductPostAttr('', '');
                 // }
 
                 // if user at AutoBuy publish page then update form's attribute
                 // var autoBuyUrlTest = /^.*AutoBuy.*$/;
 
                 // if (autoBuyUrlTest.test(location.href)) {
-                //     // update AutoBuy publish
-                //     updateAutoBuyPublishAttr('');
+                // // update AutoBuy publish
+                // updateAutoBuyPublishAttr('');
                 // }
 
-                // if user at AutoBuy Cart Page then redirect to AutoBuy index page
+                // if user at AutoBuy Cart Page then redirect to AutoBuy index
+				// page
                 // var autoBuyCartUrlTest = /^.*AutoBuyCart.*$/;
 
                 // if (autoBuyCartUrlTest.test(location.href)) {
-                //     location.href = "/motozone/AutoBuy";
+                // location.href = "/motozone/AutoBuy";
                 // }
 
                 // hide shopping cart
                 // if (autoBuyFlag) {
-                //     $("#shoppingCart").hide(700);
-                //     updateCartLink('');
+                // $("#shoppingCart").hide(700);
+                // updateCartLink('');
                 // }
 
             }
@@ -120,7 +123,7 @@ $(document).ready(function () {
 function userLogin() {
     var userAcc = $("#login-form input[name='account']").val();
     var pwd = $("#login-form input[name='password']").val();
-    var save = $("#rm").prop("checked");;
+    var save = $("#rm").prop("checked");
     console.log("userAcc: "+userAcc);
     console.log("pwd: "+pwd);
     console.log("save: " + save);
@@ -142,7 +145,7 @@ function userLogin() {
     if (userAcc != "" && pwd != "") {
     	var formdata = $("#login-form").serializeObject();
 		var UserData = JSON.stringify(formdata);
-		//console.log("UserData:"+UserData);
+		// console.log("UserData:"+UserData);
         // for login AJAX operation use
         $.ajax({
         	url:"/GameBase/loginAjax",
@@ -154,14 +157,15 @@ function userLogin() {
 
                     // if user has snapshot , then use it
                     // if (data.snapshot) {
-                    //     $(".loggedin-icon img").attr("src", data.snapshot);
+                    // $(".loggedin-icon img").attr("src", data.snapshot);
                     // } else {
-                    //     $(".loggedin-icon img").attr("src", "/GameBase/img/userIcon.png");
+                    // $(".loggedin-icon img").attr("src",
+					// "/GameBase/img/userIcon.png");
                     // }
 
                     // show user icon
                     // $(".login-btn").addClass("disable", 700, function () {
-                    //     $(".loggedin-icon").removeClass("disable", 700);
+                    // $(".loggedin-icon").removeClass("disable", 700);
                     // });
 
                     // close login window
@@ -194,30 +198,32 @@ function userLogin() {
                     var friendsList = Mustache.render(chatRoomFriendsListTemplate, chatRoom);
                     $("#chat-room-friends").html(friendsList);
 
-                    //hide login-str & regist-str
+                    // hide login-str & regist-str
                     $("#login-str").addClass("hidden-window", 700);
                     $("#regiest-str").addClass("hidden-window", 700);
                     $("#logout-str").removeClass("hidden-window", 700);
-                    // if user at product post page then update form's action attribute
+                    // if user at product post page then update form's action
+					// attribute
                     // var productPostUrlTest = /^.*ProductPost.*$/;
 
                     // if (productPostUrlTest.test(location.href)) {
                         // update AutoBuy productPost page
-                    //     updateProductPostAttr(data.uNo, data.uName);
+                    // updateProductPostAttr(data.uNo, data.uName);
                     // }
 
-                    // if user at AutoBuy publish page then update form's attribute
+                    // if user at AutoBuy publish page then update form's
+					// attribute
                     // var autoBuyUrlTest = /^.*AutoBuy.*$/;
 
                     // if (autoBuyUrlTest.test(location.href)) {
-                    //     // update AutoBuy publish
-                    //     updateAutoBuyPublishAttr(data.uNo);
+                    // // update AutoBuy publish
+                    // updateAutoBuyPublishAttr(data.uNo);
                     // }
 
                     // show shopping cart
                     // if (autoBuyFlag) {
-                    //     $("#shoppingCart").show(700);
-                    //     updateCartLink(data.uNo);
+                    // $("#shoppingCart").show(700);
+                    // updateCartLink(data.uNo);
                     // }
 
                 } else {
@@ -233,8 +239,10 @@ function userLogin() {
 }
 
 /* ----------------------------------------------------------- */
-/*  5. LOGIN & REGIST WINDOWS CONTROL
-/* ----------------------------------------------------------- */
+/*
+ * 5. LOGIN & REGIST WINDOWS CONTROL /*
+ * -----------------------------------------------------------
+ */
 if (window.sessionStorage.getItem("loginUser") == undefined) {
     window.sessionStorage.setItem("loginUser", "");
 } else if (window.sessionStorage.getItem("loginUser") != "") {
@@ -271,7 +279,7 @@ $(document).ready(function(){
     
     $("#regist-form .input-group input").keydown(function(e){
     	if(e.key == "F2"){
-//    		console.log("F2!!!");
+// console.log("F2!!!");
     		var account = "Yixuan168589";
     		var email = "xuans8589@gmail.com";
     		
@@ -367,28 +375,26 @@ $(document).ready(function(){
         };
     });
     /*
-    $("#regist-form .input-group input[name='name']").change(function(){
-        var reC = /^[\u4E00-\u9FA5]{2,7}$/;
-        var reE = /^[A-Z]+\s{1}[A-Z]+(\s{0,1}[A-Z]+)*$/;
-
-        if(reC.test($(this).val()) || reE.test($(this).val())){ // accepted format
-            $(this).parent().removeClass("error-format");
-            $(this).parent().addClass("accepted-format");
-        } else if($(this).val() == ""){
-            $(this).parent().removeClass("error-format accepted-format");
-        } else { // not-accepted format
-            $(this).parent().removeClass("accepted-format");
-            $(this).parent().addClass("error-format");
-            alert("名稱格式需求：\n1.中文名字需2個字以上\n2.英文名字需比照護照格式全部大寫\n3.英文名字需兩個字節或三個字節");
-        };
-    });
-    */
+	 * $("#regist-form .input-group input[name='name']").change(function(){ var
+	 * reC = /^[\u4E00-\u9FA5]{2,7}$/; var reE =
+	 * /^[A-Z]+\s{1}[A-Z]+(\s{0,1}[A-Z]+)*$/;
+	 * 
+	 * if(reC.test($(this).val()) || reE.test($(this).val())){ // accepted
+	 * format $(this).parent().removeClass("error-format");
+	 * $(this).parent().addClass("accepted-format"); } else if($(this).val() ==
+	 * ""){ $(this).parent().removeClass("error-format accepted-format"); } else { //
+	 * not-accepted format $(this).parent().removeClass("accepted-format");
+	 * $(this).parent().addClass("error-format");
+	 * alert("名稱格式需求：\n1.中文名字需2個字以上\n2.英文名字需比照護照格式全部大寫\n3.英文名字需兩個字節或三個字節"); };
+	 * });
+	 */
 
     $("#regist-form .input-group input[name='email']").change(function(){
         var reShort = /^[a-zA-Z]{1}[\w-]+@[a-z0-9]+\.[a-z]+$/;
         var reLong = /^[a-zA-Z]{1}[\w-]+@[a-z0-9]+\.[a-z]+\.[a-z]+$/;
 
-        if(reShort.test($(this).val()) || reLong.test($(this).val())){ // accepted format
+        if(reShort.test($(this).val()) || reLong.test($(this).val())){ // accepted
+																		// format
             $(this).parent().removeClass("error-format");
             $(this).parent().addClass("accepted-format");
         } else if($(this).val() == ""){
@@ -431,9 +437,9 @@ function userRegist(){
 			$("#regist-submit-btn img").css({"opacity":"1"});
 			
 			var formdata = $("#regist-form").serializeObject();
-			//console.log("formdata="+formdata);
+			// console.log("formdata="+formdata);
 			var UserData = JSON.stringify(formdata);
-			//console.log("UserData="+UserData);
+			// console.log("UserData="+UserData);
 			$.ajax({
 				url:"/GameBase/registerAjax",
 				type:"POST",
@@ -507,8 +513,10 @@ function userRegist(){
  }
 
 /* ----------------------------------------------------------- */
-/*  6. BROWSER HISTORY CONTROL
-/* ----------------------------------------------------------- */
+/*
+ * 6. BROWSER HISTORY CONTROL /*
+ * -----------------------------------------------------------
+ */
 
 var currentUrl = location.href;
 
@@ -520,128 +528,129 @@ if (!!window.performance && window.performance.navigation.type === 2) {
 
 
 /* ----------------------------------------------------------- */
-/*  7. GOOGLE LOGIN CONTROL
-/* ----------------------------------------------------------- */
+/*
+ * 7. GOOGLE LOGIN CONTROL /*
+ * -----------------------------------------------------------
+ */
+var googleUser = {};
+var startApp = function() {
+  gapi.load('auth2', function(){
+    // Retrieve the singleton for the GoogleAuth library and set up the client.
+    auth2 = gapi.auth2.init({
+//      client_id: '703647999598-mtjqtb9jrnp6banoqnialqlhbppjc64h.apps.googleusercontent.com',
+      client_id: '982957556355-9h99fuvvivi52g599iucre1v04ktheh0.apps.googleusercontent.com',
+   cookiepolicy: 'single_host_origin',	  
+          scope: 'profile email'
+    });
+    attachSignin(document.getElementById('google-login-btn'));
+  });
+};
 
-// var googleUser = {};
-// var startApp = function () {
-//     gapi.load('auth2', function () {
-//         // Retrieve the singleton for the GoogleAuth library and set up the client.
-//         auth2 = gapi.auth2.init({
-//             //      client_id: '703647999598-mtjqtb9jrnp6banoqnialqlhbppjc64h.apps.googleusercontent.com',
-//             client_id: '671760878609-sfs632t6ndmgfk1qlb0htft9tvk67cf1.apps.googleusercontent.com',
-//             cookiepolicy: 'single_host_origin',
-//             scope: 'profile email'
-//         });
-//         attachSignin(document.getElementById('google-login-btn'));
-//     });
-// };
-
-// function attachSignin(element) {
-
-//     // bind click event to specific id button
-//     auth2.attachClickHandler(element, {},
-//         function (googleUser) {
-//             // get id token after login
-//             var id_token = googleUser.getAuthResponse().id_token;
-
-//             // connect motozone server
-//             $.ajax({
-//                 url: "/motozone/Users/GoogleLogin",
-//                 type: "POST",
-//                 data: { idTokenStr: id_token },
-//                 success: function (data) {
-//                     if (data) {
-
-//                         // if user has snapshot , then use it
-//                         if (data.snapshot) {
-//                             $(".loggedin-icon img").attr("src", data.snapshot);
-//                         }
-
-//                         // show user icon
-//                         $(".login-btn").addClass("disable", 700, function () {
-//                             $(".loggedin-icon").removeClass("disable", 700);
-//                         });
-
-//                         // close login window
-//                         $("#login-submit-btn").parent().addClass("hidden-window", 700);
-//                         $("#shadow").fadeOut(700);
-
-//                         // clear the form
-//                         $(".input-group input").each(function () {
-//                             $(this).val("");
-//                         });
-
-//                         $(".input-group").each(function () {
-//                             $(this).removeClass("error-format accepted-format");
-//                         });
-
-//                         // get user information
-//                         window.sessionStorage.setItem("loginUser", JSON.stringify(data));
-
-//                         // connect and show chat room
-//                         connectChatRoom();
-//                         $(".chat-room-area").show();
-
-//                         // set chat room object
-//                         chatRoom.friendsList = JSON.parse(window.sessionStorage.getItem("loginUser")).friendsList;
-//                         window.sessionStorage.setItem("chatRoom", JSON.stringify(chatRoom));
-
-//                         // set friend list to chat room
-//                         var friendsList = Mustache.render(chatRoomFriendsListTemplate, chatRoom);
-//                         $("#chat-room-friends").html(friendsList);
-
-//                         // if user at product post page then update form's action attribute
-//                         var productPostUrlTest = /^.*ProductPost.*$/;
-
-//                         if (productPostUrlTest.test(location.href)) {
-//                             // update AutoBuy productPost page
-//                             updateProductPostAttr(data.uNo, data.uName);
-//                         }
-
-//                         // if user at AutoBuy publish page then update form's attribute
-//                         var autoBuyUrlTest = /^.*AutoBuy.*$/;
-
-//                         if (autoBuyUrlTest.test(location.href)) {
-//                             // update AutoBuy publish
-//                             updateAutoBuyPublishAttr(data.uNo);
-//                         }
-
-//                         // show shopping cart
-//                         if (autoBuyFlag) {
-//                             $("#shoppingCart").show(700);
-//                             updateCartLink(data.uNo);
-//                         }
-
-//                     } else {
-//                         alert("Google登入失敗");
-//                     }
-//                 }
-//             });
-//         }, function (error) {
-//             alert(JSON.stringify(error, undefined, 2));
-//         });
-// }
+function attachSignin(element) {
+	console.log("qqq");
+  // bind click event to specific id button
+  auth2.attachClickHandler(element, {},
+      function(googleUser) {
+	  	  // get id token after login
+          var id_token = googleUser.getAuthResponse().id_token;
+          
+          // connect motozone server
+	      $.ajax({
+	    	url:"/GameBase/Users/GoogleLogin",
+	       type:"POST",
+	       data:{idTokenStr:id_token},
+	    success:function(data){
+			    	if(data){
+						
+						// if user has snapshot , then use it
+						if(data.snapshot){
+							$(".loggedin-icon img").attr("src",data.snapshot);
+						}
+						
+						// show user icon
+						$(".login-btn").addClass("disable",700,function(){
+				            $(".loggedin-icon").removeClass("disable",700);
+				        });
+						
+						// close login window
+						$("#login-submit-btn").parent().addClass("hidden-window", 700);
+				        $("#shadow").fadeOut(700);
+				        
+				        // clear the form
+				        $(".input-group input").each(function(){
+				        	$(this).val("");
+				        });
+				        
+				        $(".input-group").each(function(){
+				        	$(this).removeClass("error-format accepted-format");
+				        });
+		
+				        // get user information
+				        window.sessionStorage.setItem("loginUser",JSON.stringify(data));
+				        
+				        // connect and show chat room
+        		        connectChatRoom();
+    		    		$(".chat-room-area").show();
+    		    		
+    		    		// set chat room object
+    		    		chatRoom.friendsList = JSON.parse(window.sessionStorage.getItem("loginUser")).friendsList;
+    		    		window.sessionStorage.setItem("chatRoom",JSON.stringify(chatRoom));
+    		    		
+    		    		// set friend list to chat room
+    		    		var friendsList = Mustache.render(chatRoomFriendsListTemplate,chatRoom);
+    		    		$("#chat-room-friends").html(friendsList);
+    		    		
+    		    		// if user at product post page then update form's action attribute
+        				var productPostUrlTest = /^.*ProductPost.*$/;
+        				
+        				if(productPostUrlTest.test(location.href)){
+        					// update AutoBuy productPost page
+        		    		updateProductPostAttr(data.uNo,data.uName);
+        				}
+        				
+        				// if user at AutoBuy publish page then update form's attribute
+        				var autoBuyUrlTest = /^.*AutoBuy.*$/;
+        				
+        				if(autoBuyUrlTest.test(location.href)){
+        					// update AutoBuy publish
+        					updateAutoBuyPublishAttr(data.uNo);
+        				}
+        				
+        				// show shopping cart
+        				if(autoBuyFlag){
+        					$("#shoppingCart").show(700);
+        					updateCartLink(data.uNo);
+        				}
+        				
+					} else {
+						alert("Google登入失敗");
+					}
+	    		}
+	    });
+      }, function(error) {
+        alert(JSON.stringify(error, undefined, 2));
+      });
+}
 
 // google sign out function
-// function googleSignOut() {
-//     var auth2 = gapi.auth2.getAuthInstance();
-
-//     auth2.signOut().then(function () {
-//         console.log('User signed out.');
-//     });
-// }
+function googleSignOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+}
 
 // execute login button binding
-// $(document).ready(function () {
-//     startApp();
-// });
-
-
+$(document).ready(function(){
+	startApp();
+});
 
 /* ----------------------------------------------------------- */
-/*  8. CHAT ROOM CONTROL
-/* ----------------------------------------------------------- */
+/*
+ * 8. CHAT ROOM CONTROL /*
+ * -----------------------------------------------------------
+ */
 var chatRoom = {
     friendsList: [],
     usersList: [],
@@ -789,24 +798,32 @@ function showChatContentArea(element) {
         }
     }
 
-    // check chat history exist
+ // check chat history exist
     if (chatContent != undefined) {
         for (let content of chatContent) {
-            if (content.from == loginUserObj.userId) { // from me
-                $("#chat-message-area").append(Mustache.render(ownMsgTemplate, content));
+            if (content.from == loginUserObj.userId) {
+                if (content.URL != null) {// from me
+                    $("#chat-message-area").append(Mustache.render(ownFileTemplate, content));
+                }
+                else {
+                    $("#chat-message-area").append(Mustache.render(ownMsgTemplate, content));
+                }
             } else { // from others
-                $("#chat-message-area").append(Mustache.render(replyMsgTemplate, content));
+                if (content.URL != null) {
+                    $("#chat-message-area").append(Mustache.render(replyFileTemplate, content));
+                }
+                else {
+                    $("#chat-message-area").append(Mustache.render(replyMsgTemplate, content));
+                }
             }
+            // move the scroll bar to the end
+            $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
         }
-
-        // move the scroll bar to the end
-        $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
-    } else {
-        //    	console.log("No history");
     }
-
+    else {
+        // console.log("No history");
+    }
 }
-
 // chat room content area close button control
 function emptyChatContentArea() {
     // clean chat room content area
@@ -983,7 +1000,7 @@ function sendMessage(event) {
             if (chatRoomObj.usersList[i].userId == msgObj.to[0]) {
                 chatRoomObj.usersList[i].message = msgObj.message;
                 chatRoomObj.usersList[i].time = msgObj.time;
-                //				console.log("Should update here");
+                // console.log("Should update here");
             }
         }
 
@@ -1024,7 +1041,7 @@ function connectChatRoom() {
         var url = stompClient.ws._transport.url;
                 console.log('Connected: ' + frame);
         stompClient.subscribe('/regist/messages', function (msgOutput) {
-            //顯示上線清單
+            // 顯示上線清單
         	console.log('regist/messages');
         	showOnlineUsers(JSON.parse(msgOutput.body));
         });
@@ -1040,7 +1057,7 @@ function connectChatRoom() {
         stompClient.subscribe('/user/queue/messages', function (msgOutput) {
             showMessageOutput(JSON.parse(msgOutput.body));
         });
-//        stompClient.send("/app/chat", {}, JSON.stringify({'msg':'userLogin'}));
+// stompClient.send("/app/chat", {}, JSON.stringify({'msg':'userLogin'}));
         // get online list
         var data = JSON.parse(window.sessionStorage.getItem("loginUser"));
         sendWebSocketMessage({ from: data.userId, to: ['regist'], message: '', time: Date.now() });
@@ -1058,7 +1075,7 @@ function disconnectChatRoom() {
 
 function sendWebSocketMessage(msg) {
     stompClient.send("/app/chat", {}, JSON.stringify(msg));
-//    stompClient.send("/app/chat", {}, JSON.stringify({'msg':'userLogin'}));
+// stompClient.send("/app/chat", {}, JSON.stringify({'msg':'userLogin'}));
 }
 
 function showMessageOutput(msgOutput) {
@@ -1105,7 +1122,7 @@ function showMessageOutput(msgOutput) {
     }
 
     // show data from message input area
-    //msgOutput.from<---userId
+    // msgOutput.from<---userId
     if ($("#chat-message-area").hasClass("id-" + msgOutput.from)) {
         $("#chat-message-area").append(Mustache.render(replyMsgTemplate, msgOutput));
 
@@ -1125,8 +1142,8 @@ function showOnlineUsers(userList) {
     // show specific online mark
     $(".chat-room-friend").each(function () {
         var userNo = $(this).children(".chat-room-user-id").text();
-//console.log(userNo);
-//console.log(userList);
+// console.log(userNo);
+// console.log(userList);
         for (var user of userList) {
             if (userNo == user) {
                 $(this).children(".chat-room-friend-online-light").show(500);
@@ -1151,13 +1168,40 @@ function hideOfflineUser(user) {
     });
 }
 
-//chat room friend list template
-//<div class="chat-room-friend">
-//	<img class="chat-room-friend-icon" src="img/userIcon.png" />
-//	<div class="chat-room-friend-name">我GM</div>
-//	<div class="chat-room-user-id">100</div>
-//	<div class="chat-room-friend-online-light"></div>
-//</div>
+// upload
+function upload(){
+document.getElementById("btn-file").click();
+
+// upload the image
+$("#btn-file").change(function(){
+	var sender = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
+	var className = $("#chat-message-area").attr("class");
+    var receiver = className.substring(className.indexOf("-") + 1);
+	let formData = new FormData();
+	formData.append('file',$("#btn-file")[0].files[0]);
+	formData.append('sender', sender);
+	formData.append('receiver', receiver);
+	
+	$.ajax({
+		url:"/GameBase/Imgur",
+	   type:"POST",
+	   data:formData,
+contentType: false, 
+processData: false,
+	success:function(data){
+		$("#imgText").val(data.url);
+	}
+		
+	});
+});
+}
+// chat room friend list template
+// <div class="chat-room-friend">
+// <img class="chat-room-friend-icon" src="img/userIcon.png" />
+// <div class="chat-room-friend-name">我GM</div>
+// <div class="chat-room-user-id">100</div>
+// <div class="chat-room-friend-online-light"></div>
+// </div>
 
 var chatRoomFriendsListTemplate = '{{#friendsList}}'
     + '<div class="chat-room-friend" onclick="showUsersDiaglog(this)">'
@@ -1169,17 +1213,17 @@ var chatRoomFriendsListTemplate = '{{#friendsList}}'
     + '{{/friendsList}}';
 
 // chat room users template
-//<div class="chat-room-user" onclick="showChatContentArea(this)" >
-//    <img class="chat-user-icon" src="img/userIcon.png" />
-//    <div class="chat-user-name">名字名字名字名字名字名字名字</div>
-//    <div class="chat-room-user-id">0</div>
-//    <div class="chat-user-brief-message">
-//        訊息訊息訊息訊息訊息訊息訊息訊息
-//    </div>
-//    <div class="chat-user-message-time">
-//        下午13:03
-//    </div>
-//</div>
+// <div class="chat-room-user" onclick="showChatContentArea(this)" >
+// <img class="chat-user-icon" src="img/userIcon.png" />
+// <div class="chat-user-name">名字名字名字名字名字名字名字</div>
+// <div class="chat-room-user-id">0</div>
+// <div class="chat-user-brief-message">
+// 訊息訊息訊息訊息訊息訊息訊息訊息
+// </div>
+// <div class="chat-user-message-time">
+// 下午13:03
+// </div>
+// </div>
 
 var chatRoomUsersTemplate = '<div class="chat-room-user" onclick="showChatContentArea(this)" >'
     + '<img class="chat-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}" />'
@@ -1190,67 +1234,71 @@ var chatRoomUsersTemplate = '<div class="chat-room-user" onclick="showChatConten
     + '</div>';
 
 // char room content area template
-//<div id="chat-header-area">
-//    <div id="chat-header-name">
-//        名字在這名字在這名字在這名字在這名字在這名字在這
-//    </div>
-//    <i class="fas fa-times" onclick="emptyChatContentArea()"></i>
-//</div>
-//<div id="chat-message-area">
-//    <div class="chat-messages">
-//        <img class="chat-message-user-icon" src="img/userIcon.png"/>
-//        <div class="chat-message">
-//            安安安安安安安
-//        </div>
-//        <div class="chat-time">
-//            下午 13:03
-//        </div>
-//    </div>
-//    <div class="chat-messages own-messages">
-//        <img class="chat-message-user-icon" src="img/userIcon.png"/>
-//        <div class="chat-message">
-//            安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安
-//        </div>
-//        <div class="chat-time">
-//            下午 13:03
-//        </div>
-//    </div>
-//</div>
-//<div id="chat-room-input-area">
-//    <input type="text" id="chat-room-input"/>
-//</div>
+// <div id="chat-header-area">
+// <div id="chat-header-name">
+// 名字在這名字在這名字在這名字在這名字在這名字在這
+// </div>
+// <i class="fas fa-times" onclick="emptyChatContentArea()"></i>
+// </div>
+// <div id="chat-message-area">
+// <div class="chat-messages">
+// <img class="chat-message-user-icon" src="img/userIcon.png"/>
+// <div class="chat-message">
+// 安安安安安安安
+// </div>
+// <div class="chat-time">
+// 下午 13:03
+// </div>
+// </div>
+// <div class="chat-messages own-messages">
+// <img class="chat-message-user-icon" src="img/userIcon.png"/>
+// <div class="chat-message">
+// 安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安
+// </div>
+// <div class="chat-time">
+// 下午 13:03
+// </div>
+// </div>
+// </div>
+// <div id="chat-room-input-area">
+// <input type="text" id="chat-room-input"/>
+// </div>
 
 var chatRoomContentTemplate = '<div id="chat-header-area">'
     + '<div id="chat-header-name">{{account}}</div>'
     + '<i class="fas fa-times" onclick="emptyChatContentArea()"></i>'
     + '</div>'
     + '<div id="chat-message-area" class="id-{{userId}}"></div>'
+    + '<div id="chat-tool-area">'
+    + '<input type="file" id="btn-file" style="display:none">'
+    + '<i class="fas fa-upload upload-btn" onclick="upload()"></i>'
+    + '</div>'
     + '<div id="chat-room-input-area">'
     + '<input type="text" id="chat-room-input" autocomplete="off" onkeypress="sendMessage(event)"/>'
     + '</div>';
 
 
-//chat message template
-//<div id="chat-message-area">
-//<div class="chat-messages">
-//    <img class="chat-message-user-icon" src="img/userIcon.png"/>
-//    <div class="chat-message">
-//       	 安安安安安安安
-//    </div>
-//    <div class="chat-time">
-//        	下午 13:03
-//    </div>
-//</div>
-//<div class="chat-messages own-messages">
-//    <img class="chat-message-user-icon" src="img/userIcon.png"/>
-//    <div class="chat-message">
-//       	 安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安
-//    </div>
-//    <div class="chat-time">
-//        	下午 13:03
-//    </div>
-//</div>
-//</div>
+// chat message template
+// <div id="chat-message-area">
+// <div class="chat-messages">
+// <img class="chat-message-user-icon" src="img/userIcon.png"/>
+// <div class="chat-message">
+// 安安安安安安安
+// </div>
+// <div class="chat-time">
+// 下午 13:03
+// </div>
+// </div>
+// <div class="chat-messages own-messages">
+// <img class="chat-message-user-icon" src="img/userIcon.png"/>
+// <div class="chat-message">
+// 安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安
+// </div>
+// <div class="chat-time">
+// 下午 13:03
+// </div>
+// </div>
+// </div>
 
 var replyMsgTemplate = '<div class="chat-messages">'
     + '<img class="chat-message-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}"/>'
@@ -1263,7 +1311,19 @@ var ownMsgTemplate = '<div class="chat-messages own-messages">'
     + '<div class="chat-time">{{time}}</div>'
     + '</div>';
 
-//******serializeObject*********************
+var replyFileTemplate = '<div class="chat-messages">'
+    + '<img class="chat-message-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}"/>'
+    + '<img class="chat-message-user-file" src="{{&url}}"/>'
+    + '<div class="chat-time">{{time}}</div>'
+    + '</div>';
+
+var ownFileTemplate = '<div class="chat-messages own-messages">'
+    + '<img class="chat-message-user-file" src="{{&url}}"/>'
+    + '<div class="chat-time">{{time}}</div>'
+    + '</div>';
+
+
+// ******serializeObject*********************
 $.fn.serializeObject = function () {
 		var formData = {};
 		var formArray = this.serializeArray();
@@ -1272,7 +1332,7 @@ $.fn.serializeObject = function () {
 			}
 		return formData;
 	};
-//************checkAcc********************
+// ************checkAcc********************
 function checkAcc(){
 	if($("#regist-form .input-group input[name='account']").parent().hasClass("accepted-format")){
 		var acc = $("#regist-form .input-group input[name='account']").serializeObject();

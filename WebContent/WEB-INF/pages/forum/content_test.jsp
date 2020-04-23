@@ -15,7 +15,7 @@
 <!-- forum style -->
 <link href="<c:url value="/css/forumStyle.css"/>" rel="stylesheet">
 <!-- btn js import -->
-<script src="<c:url value="/js/content.js"/>"></script>
+<%-- <script src="<c:url value="/js/content.js"/>"></script> --%>
 <!-- editor improt -->
 <script
 	src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
@@ -98,6 +98,70 @@ $(document).ready(function(){
 });
 	
 </script>
+
+<!-- update record -->
+<script>
+$("#document").ready(function () {
+	console.log("this is content.js2");
+	
+	/*record button clicked*/
+	$(".btn_record").click(function(){
+		console.log("record btn clicked");
+		/*identify which btn been clicked */
+		var btn = $(this).attr("id");
+		console.log(btn);
+		
+		update_content(btn);
+	});
+	
+	/*update content button clicked*/
+	$(".btn_update_content").click(function(){
+		console.log("update content btn clicked");
+		/*identify which btn been clicked */
+		var btn = $(this).attr("id")
+		console.log(btn);
+		
+		update_content(btn);
+	});
+	
+});
+
+function update_content(btn){
+	
+	console.log("get btn value :"+btn);
+	console.log("/forum_test/${forum.forumId}/${title.titleId}");
+	$.ajax({
+		url:'<c:url value="/forum_test/${forum.forumId}/${title.titleId}/btn"/>',
+		dataType:"json",
+		type:"POST",
+		cache:false,
+		data:{
+			clickedBTN:btn
+		},
+		success: function(response){
+			console.log("success");
+			console.log("response : "+response.record.record)
+			$(".btn_record").removeClass("disabled");
+			if(response.record.record === "like") {
+				$("#like.btn_record").html('<i class="fas fa-thumbs-up fa-2x">'+response.title.likeNum+'</i>');
+				$("#unlike.btn_record").addClass("disabled").html('<i class="far fa-thumbs-down fa-2x">'+response.title.unlikeNum+'</i>');
+			}else if (response.record.record === "unlike"){
+				$("#like.btn_record").addClass("disabled").html('<i class="far fa-thumbs-up fa-2x">'+response.title.likeNum+'</i>');
+				$("#unlike.btn_record").html('<i class="fas fa-thumbs-down fa-2x">'+response.title.unlikeNum+'</i>');
+			}else{
+				$("#like.btn_record").html('<i class="far fa-thumbs-up fa-2x">'+response.title.likeNum+'</i>');
+				$("#unlike.btn_record").html('<i class="far fa-thumbs-down fa-2x">'+response.title.unlikeNum+'</i>');
+			}
+			
+		}
+	})
+}
+</script>
+<style type="text/css">
+a.disabled {
+    pointer-events: none;
+}
+</style>
 </head>
 
 <body>
@@ -217,11 +281,11 @@ $(document).ready(function(){
 					</div>
 					<!-- delete article button -->
 					<div class="article_icons">
-						<a id="delete" class="btn_update_content" href="#"><i class="far fa-trash-alt fa-2x"></i></a>
+						<a id="delete" class="btn_update_content" href="javascript:void(0)"><i class="far fa-trash-alt fa-2x"></i></a>
 					</div>
 					<!-- update article button -->
 					<div class="article_icons">
-						<a id="update" class="btn_update_content" href="#"><i class="far fa-edit fa-2x"></i></a>
+						<a id="update" class="btn_update_content" href="javascript:void(0)"><i class="far fa-edit fa-2x"></i></a>
 					</div>					
 					</div>
 					<hr />
@@ -234,40 +298,42 @@ $(document).ready(function(){
 					<!-- icons input and time record -->
 					<c:if test="${itemStatus.count==1 }">
 					<div class="article_part article_datas">
+					<!-- ajax link record btns -->
+					<div class="record_btns">
 					<!-- user clicked like -->
-					<c:if test="${record.record == like}">
+					<c:if test="${record.record == 'like'}">
 						<!-- like -->
 						<div class="article_icons">
-							<a id="like" class="btn_record" href="#"><i class="fas fa-thumbs-up fa-2x">${title.likeNum}</i></a>
+							<a id="like" class="btn_record" href="javascript:void(0)"><i class="fas fa-thumbs-up fa-2x">${title.likeNum}</i></a>
 						</div>
 						<!-- unlike -->
 						<div class="article_icons">
-							<a id="unlike" class="btn_record" href="#"><i class="far fa-thumbs-down fa-2x">${title.unlikeNum}</i></a> 
+							<a id="unlike" class="btn_record disabled" href="javascript:void(0)"><i class="far fa-thumbs-down fa-2x">${title.unlikeNum}</i></a>
 						</div>
 					</c:if>
 					<!-- user clicked unlike -->
 					<c:if test="${record.record == 'unlike'}">
 						<!-- like -->
 						<div class="article_icons">
-							<a id="like" class="btn_record" href="#"><i class="far fa-thumbs-up fa-2x">${title.likeNum}</i></a>
+							<a id="like" class="btn_record disabled" href="javascript:void(0)"><i class="far fa-thumbs-up fa-2x">${title.likeNum}</i></a>
 						</div>
 						<!-- unlike -->
 						<div class="article_icons">
-							<a id="unlike" class="btn_record" href="#"><i class="fas fa-thumbs-down fa-2x">${title.unlikeNum}</i></a>
+							<a id="unlike" class="btn_record" href="javascript:void(0)" disabled><i class="fas fa-thumbs-down fa-2x">${title.unlikeNum}</i></a>
 						</div>
 					</c:if>
 					<!-- user cancel clicked or nothing -->
 					<c:if test="${record.record == 'no' || empty record}">
 						<!-- like -->
 						<div class="article_icons">
-							<a id="like" class="btn_record" href="#"><i class="far fa-thumbs-up fa-2x">${title.likeNum}</i></a>
+							<a id="like" class="btn_record" href="javascript:void(0)"><i class="far fa-thumbs-up fa-2x">${title.likeNum}</i></a>
 						</div>
 						<!-- unlike -->
 						<div class="article_icons">
-							<a id="unlike" class="btn_record" href="#"><i class="far fa-thumbs-down fa-2x">${title.unlikeNum}</i> </a>
+							<a id="unlike" class="btn_record" href="javascript:void(0)"><i class="far fa-thumbs-down fa-2x">${title.unlikeNum}</i> </a>
 						</div>
 					</c:if>
-					
+					</div>
 <!-- 						like -->
 <!-- 						<div class="article_icons"> -->
 <%-- 							<i class="far fa-thumbs-up fa-2x">${title.likeNum}</i>  --%>

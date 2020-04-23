@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.gamebase.tradesystem.model.OrderDetail;
 import com.gamebase.tradesystem.model.Product;
 import com.gamebase.tradesystem.model.ShoppingCart;
 import com.gamebase.tradesystem.model.UserOrder;
@@ -37,14 +38,24 @@ public class UserOrderDao {
 		this.sessionFactory = sessionFactory;
 	}
 
-	public String processOrder(String form) {
+	public String processOrder(String form,String items1) {
 		sdFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Session session = sessionFactory.getCurrentSession();
 		date = new Date();
 		try {
 		String uuid = this.makeUUID();
 		String date1 = String.valueOf(sdFormat.format(date));
+		JSONArray items = JSONArray.fromObject(items1);
 		UserOrder uo = new Gson().fromJson(form, UserOrder.class);
+		uo.setUuId(uuid);
+		uo.setOrderDate(date1);
+		uo.setPayStatus(0);
+		session.save(uo);
+		for(int i=0;i<items.size();i++) {//  這邊還沒改完
+			OrderDetail od=(OrderDetail)items.get(i);
+			od.setOrderId(uo.getOrderId());
+			
+		}
 		AllInOne Ecpay = new AllInOne("");
 		AioCheckOutALL order = new AioCheckOutALL();
 		order.setChoosePayment("Credit");
@@ -75,6 +86,7 @@ public class UserOrderDao {
 		Session session = sessionFactory.getCurrentSession();
 		if(rtnCode==1) {
 			UserOrder uo = new UserOrder(userId,uuId,orderName,orderPhone,orderAddress,orderPrice,orderDate,rtnCode);
+			OrderDetail od = new OrderDetail();
 			session.save(uo);
 			System.out.println("訂單建立成功");
 		}else {
@@ -82,7 +94,7 @@ public class UserOrderDao {
 		}
 	}
 
-	public JSONArray query(int id) {
+	public JSONArray orderQuery(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		try {
 			Query<UserOrder> query = session.createQuery("from UserOrder where userId=?1",UserOrder.class);

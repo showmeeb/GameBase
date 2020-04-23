@@ -26,16 +26,16 @@ public class ShoppingService {
 	private UserOrderDao userOrderDao;
 	
 	
-	public JSONObject adds(String form ,int id) {
-		return shoppingCartDao.adds(form,id);
+	public JSONObject shoppingCartAdds(String form ,int id) {
+		return shoppingCartDao.shoppingCartAdds(form,id);
 	}
 	
-	public JSONArray querys(int id) {
-		return shoppingCartDao.querys(id);
+	public JSONArray shoppingCartQuerys(int id) {
+		return shoppingCartDao.shoppingCartQuerys(id);
 	}
-	public JSONObject deletes(int id) {
+	public JSONObject shoppingCartDeletes(int id) {
 		
-		return shoppingCartDao.deletes(id);
+		return shoppingCartDao.shoppingCartDeletes(id);
 	}
 
 	
@@ -45,9 +45,9 @@ public class ShoppingService {
 	
 	
 	
-	public String processOrder(String obj) {
+	public String processOrder(String obj,String items) {
 		
-		return userOrderDao.processOrder(obj);
+		return userOrderDao.processOrder(obj,items);
 		
 	}
 	
@@ -55,6 +55,11 @@ public class ShoppingService {
 		
 		 userOrderDao.orderStatus(rtnCode,userId,uuId,orderDate,orderName,orderPhone,orderAddress,orderPrice);
 		
+	}
+	
+	public JSONArray orderQuery(int id) {
+		
+		return userOrderDao.orderQuery(id);
 	}
 	
 	}

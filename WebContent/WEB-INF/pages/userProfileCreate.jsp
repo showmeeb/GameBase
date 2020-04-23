@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>UserProfileCreate</title>
+
 <link href="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.css" rel="stylesheet">
 <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
@@ -14,6 +15,28 @@
 <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
 
 <style type="text/css">
+
+<link href="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.css" rel="stylesheet">
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+<style type="text/css">
+#main_back {
+	position: relative;
+	top: 57px;
+	right:6%;
+	width: 75%;
+	border:1px black solid;
+}
+</style>
+<style type="text/css">
+
     body{
         text-align: center;
     }
@@ -53,6 +76,8 @@
 
 </head>
 <body>
+<jsp:include page="include/backEndHomePage.jsp"></jsp:include>
+<main id="main_back">
 <h4>您的資料</h4>
 
 <label>Name: ${userProfile.name}</label><button onclick='showName()'>修改</button>
@@ -118,6 +143,7 @@
 </span>
 <br>
 
+
 <script type="text/javascript"></script>
 <button class="btn btn-primary" data-target="#changeModal" data-toggle="modal">上傳圖片</button><br/>
 <div class="user-photo-box">
@@ -166,7 +192,7 @@
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<c:url value="/js/crop.js"/>"></script>
 
-
+</main>
 
 <script>
 

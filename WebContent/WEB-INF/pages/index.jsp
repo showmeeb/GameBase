@@ -10,106 +10,82 @@
 <meta http-equiv="Pragma" CONTENT="no-cache">
 <title>GameBase</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Font Awesome -->
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-	integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-	crossorigin="anonymous">
-<!-- Bootstrap css-->
-<link
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	rel="stylesheet">
-<!-- jQuery library -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<!-- jQuery UI library -->
-<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
-	integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
-	crossorigin="anonymous"></script>
-<!-- javaScript -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<!-- Bootstrap js -->
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<!-- WebSocket library -->
-<script src="https://d1fxtkz8shb9d2.cloudfront.net/sockjs-0.3.4.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-<!-- mustache Template Engine library -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
-<!-- chatRoom js -->
-<script src="<c:url value="/js/chatRoom.js"/>"></script>
-<!-- main style -->
-<link href="<c:url value="/css/style.css"/>" rel="stylesheet">
+
 </head>
+
 <body>
+	<jsp:include page="topBar.jsp" />
+
+	<div class="container-fluid text-center">
+		<!-- 首頁幻燈片 -->
+		<div class="row clearfix ">
+			<div class="col-md-12 column">
+				<div id="myCarousel" class="carousel slide">
+					<!-- 幻燈片指標 -->
+					<ul class="carousel-indicators">
+						<li data-target="#demo" data-slide-to="0" class="active"></li>
+						<li data-target="#demo" data-slide-to="1"></li>
+						<li data-target="#demo" data-slide-to="2"></li>
+					</ul>
+					<!-- 幻燈片項目 -->
+					<div class="carousel-inner">
+						<div class="carousel-item active">
+							<img src="https://i.imgur.com/gUY9Qby.jpg" class="carouselImg">
+						</div>
+						<div class="carousel-item">
+							<img src="https://i.imgur.com/aTY0qJD.jpg" class="carouselImg">
+						</div>
+						<div class="carousel-item">
+							<img src="https://i.imgur.com/L35gUJO.jpg" class="carouselImg">
+						</div>
+					</div>
+					<!-- 幻燈片導航 -->
+					<a class="carousel-control-prev" href="#demo" data-slide="prev">
+						<span class="carousel-control-prev-icon"></span>
+					</a> <a class="carousel-control-next" href="#demo" data-slide="next">
+						<span class="carousel-control-next-icon"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+		<hr>
+
+
+		<div class="row clearfix">
+			<div class="col-md-12 column">人氣商品</div>
+		</div>
+		<hr>
+
+		<div class="row clearfix">
+			<div class="col-md-12 column">新聞爬蟲</div>
+		</div>
+		<hr>
+	</div>
+
+	<jsp:include page="footer.jsp" />
 
 
 
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-		<!-- Brand -->
-		<a class="navbar-brand" href="#">GameBase</a>
+	<script type="text/javascript">
+		//改變幻燈片停留時間
+		$('.carousel').carousel({
+			interval : 3000
+		})
 
-		<!-- Links -->
-		<ul class="navbar-nav">
-			<li class="nav-item dropdown"><a
-				class="nav-link dropdown-toggle" href="#" id="navbardrop"
-				data-toggle="dropdown">商城</a>
-				<div class="dropdown-menu">
-					<a class="dropdown-item" href="<c:url value="/tradesystem"/>">登記商品</a>
-					<a class="dropdown-item" href="<c:url value="/mainProduct"/>">商品管理</a>
-					<a class="dropdown-item" href="<c:url value="/shoppingPage"/>">商城頁面</a>
+		/*
+		$(window).scroll(function(){
+		var navH = $("#topBar").offset().top;
+		var scroH = $(this).scrollTop();
+		if(scroH>=navH){
+		    $("#topBar").addClass("topBarFixed")
+		    $("#topBar").removeClass("topBar")
 
-					<a class="dropdown-item" href="<c:url value="/test"/>">圖片上傳</a> <a
-						class="dropdown-item" href="#"></a>
-
-					<a class="dropdown-item" href="#"></a>
-
-				</div></li>
-			<!-- Dropdown -->
-			<li class="nav-item dropdown"><a
-				class="nav-link dropdown-toggle" href="#" id="navbardrop"
-				data-toggle="dropdown">會員系統</a>
-				<div class="dropdown-menu">
-					<!-- Ajax -->
-					<a class="dropdown-item" id="login-str" href="#">登入</a>
-					<a class="dropdown-item" id="regiest-str" href="#">註冊</a>
-					<a class="dropdown-item hidden-window" id="logout-str" href="#">登出</a>
-					<!-- original -->
-					<a class="dropdown-item">--This line down is Original--</a>
-					<c:if test="${empty UserData.userId}">
-						<a class="dropdown-item" href="<c:url value="/gotologin"/>">登入</a>
-					</c:if>
-					<c:if test="${empty UserData.userId}">
-						<a class="dropdown-item" href="<c:url value="/gotoregister"/>">註冊</a>
-					</c:if>
-					<c:if test="${!empty UserData.userId}">
-						<c:if test="${!empty ProfileId}">
-							<a class="dropdown-item"
-								href="<c:url value="/updateProfile/${UserData.userId}"/>">修改個人資料</a>
-						</c:if>
-						<c:if test="${empty ProfileId}">
-							<a class="dropdown-item" href="<c:url value="/createProfile/${UserData.userId}"/>">新增個人資料</a>
-						</c:if>
-					</c:if>
-					<c:if test="${!empty UserData.userId}">
-
-						<a class="dropdown-item" href="<c:url value="/logout"/>">登出</a>
-					</c:if>
-				</div></li>
-			<li class="nav-item"><a class="nav-link"
-				href="<c:url value="/forum_test"/>">討論區</a></li>
-			<li class="nav-item"><a class="nav-link"
-				href="<c:url value="/topBar"/>">TopBar</a></li>
-		</ul>
-	</nav>
-	<br>
-	<!-- login and regist pop up windows (with shadow) -->
-	<%@ include file="include/loginArea.jsp"%>
-	<!-- Start Chat Room Area -->
-	<%@ include file="include/chatRoom.jsp"%>
-	<!-- End Chat Room Area -->
+		}else{
+		    $("#topBar").addClass("topBar")
+		    $("#topBar").removeClass("topBarFixed")
+		    console.log("ff");	}
+		})
+		 */
+	</script>
 </body>
 </html>
