@@ -18,10 +18,10 @@ public class TagSearchController {
 	@Autowired
 	private TagSearchService tagSearchService;
 
-	@RequestMapping(value = "/homePage", method = RequestMethod.GET)
-	public String topBar() {
+	@RequestMapping(value = "/indexBackup", method = RequestMethod.GET)
+	public String indexBackup() {
 
-		return "homePage";
+		return "indexBackup";
 	}
 
 	@RequestMapping(value = "/tagSearch", method = RequestMethod.GET)
