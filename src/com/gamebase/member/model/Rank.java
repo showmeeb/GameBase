@@ -2,12 +2,9 @@ package com.gamebase.member.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
@@ -19,14 +16,8 @@ public class Rank {
 
 	private Integer rankId;
 	private String rank;
-	private UserData userData;
 
 	public Rank() {
-	}
-
-	public Rank(UserData userData, Integer rankId) {
-		this.userData = userData;
-		this.rankId = rankId;
 	}
 
 	@Id
@@ -48,15 +39,5 @@ public class Rank {
 	public void setRank(String rank) {
 		this.rank = rank;
 	}
-
-//	@OneToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "RANKID")
-//	public UserData getUserData() {
-//		return userData;
-//	}
-//
-//	public void setUserData(UserData userData) {
-//		this.userData = userData;
-//	}
 
 }
