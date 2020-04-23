@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,13 +77,17 @@ public class MemberAjaxController {
 	
 	@RequestMapping(path = "/loginAjax", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> loginAction(@RequestBody UserData logindata,Model model) {
+	public Map<String, Object> loginAction(@RequestBody UserData logindata,Model model,HttpServletRequest request, HttpServletResponse response) {
 		String pwd = uService.encryptString(logindata.getPassword());
 		Map<String, Object> map = uService.getLogin(logindata.getAccount(), pwd);
+		uService.setCookie(logindata.getAccount(), pwd, request, response);
+		uService.GetCookie(logindata.getAccount(), pwd, request);
 		if((boolean)map.get("status")) {
 			model.addAttribute("loginUser", (UsersInfo)map.get("loginUser"));
 			model.addAttribute("UserData", (UserData)map.get("UserData"));
+
 			return map;
+			
 		}
 		return map;
 	}

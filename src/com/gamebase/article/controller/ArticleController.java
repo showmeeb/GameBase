@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gamebase.article.model.ArticleContent;
 import com.gamebase.article.model.ArticleListView;
@@ -23,7 +25,6 @@ import com.gamebase.article.model.Forum;
 import com.gamebase.article.model.ForumListView;
 import com.gamebase.article.model.service.ArticleService;
 import com.gamebase.article.model.service.ForumService;
-
 import net.sf.json.JSONObject;
 
 @Controller
@@ -55,33 +56,31 @@ public class ArticleController {
 	}
 
 	/* test */
-	/* insert new forum name */
-	@RequestMapping(value = "/forum_test/add", produces = "application/json")
-	@ResponseBody
-	public JSONObject insertNewForum_Test(@RequestParam("forumName") String forumName,
-			@RequestParam("forumFigure") String forumFigure, ModelMap model) {
-		System.out.println("insert new Forum");
-//		String imgURL = (String) model.getAttribute("imgURL");
-//		if (imgURL.length() == 0 || imgURL == null) {
-//			System.out.println("img did not upload!");
-//		} else {
-//			forumFigure = imgURL;
-//		}
+	/* insert new forum name and figure*/
+//	@RequestMapping(value = "/forum_test/add")
+//	@ResponseBody
+//	public JSONObject insertNewForum_Test(@RequestParam("forumName") String forumName,
+//			@RequestParam("forumFigure") MultipartFile forumFigure, ModelMap model) {
+//		System.out.println("insert new Forum");
+		/* figure upload to imgur */
+	
+//		System.out.println(imgURL);
+//		model.addAttribute("imgURL", imgURL);
 		/* forumName */
-		if (forumName.length() == 0 || forumName == null) {
-			System.out.println("forumName is null !");
-		}
+//		if (forumName.length() == 0 || forumName == null) {
+//			System.out.println("forumName is null !");
+//		}
 		/* forumFigure */
-		if (forumFigure.length() == 0 || forumFigure == null) {
-			System.out.println("forumFigure is null !");
-			forumFigure = "https://i.imgur.com/8g2jFuM.png";
-		}
-		Forum newForum = fService.insertForum(new Forum(forumName, forumFigure));
+//		if (imgURL.length() == 0 || imgURL == null) {
+//			System.out.println("imgURL is null !");
+//			imgURL = "https://i.imgur.com/8g2jFuM.png";
+//		}
+//		Forum newForum = fService.insertForum(new Forum(forumName, imgURL));
 		JSONObject result = new JSONObject();
-		result.put("newForum", newForum);
-		System.out.println(result);
-		return result;
-	}
+//		result.put("newForum", newForum);
+//		System.out.println(result);
+//		return result;
+//	}
 
 	/* final */
 	/* query article by forum ID */
@@ -290,7 +289,7 @@ public class ArticleController {
 	}
 
 	/* delete forum */
-	@RequestMapping(value = "/forum_test/{forumId}/del", produces = "application/json")
+	@PostMapping(value = "/forum_test/{forumId}/del", produces = "application/json")
 	@ResponseBody
 	public JSONObject deleteForum(Integer forumId, ModelMap model) {
 		System.out.println("delete forum");
@@ -316,8 +315,8 @@ public class ArticleController {
 		System.out.println(result);
 		return result;
 	}
-	
-	/* delete reply *//*or content?*/
+
+	/* delete reply *//* or content? */
 	@RequestMapping(value = "/forum_test/{forumId}/{titleId}/{contentId}/del", produces = "application/json")
 	@ResponseBody
 	public JSONObject deleteForum(@PathVariable("forumId") Integer forumId, @PathVariable("titleId") Integer titleId,

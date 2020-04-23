@@ -12,24 +12,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
-<body>
-	<%
-		String account = "";
-		String password = "";
 
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				String name = cookie.getName();
-				if ("account".equals(name)) {
-					account = cookie.getValue();
-				} else if ("password".equals(name)) {
-					password = cookie.getValue();
-				}
-			}
-		}
-%>
-</head>
 <body>
 	<jsp:include page="topBar.jsp" />
 
@@ -66,6 +49,7 @@
 			</div>
 		</div>
 		<hr>
+
 
 		<div class="row clearfix">
 			<div class="col-md-12 column">人氣商品</div>

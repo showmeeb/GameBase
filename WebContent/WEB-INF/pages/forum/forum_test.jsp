@@ -7,7 +7,8 @@
 <meta charset="UTF-8">
 <title>welcome to forum page</title>
 <!-- jQuery library -->
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <!-- Font Awesome icons -->
 <script src="https://kit.fontawesome.com/83bb506b46.js" crossorigin="anonymous"></script>
 
@@ -20,21 +21,37 @@ $(document).ready(function(){
 	console.log(articleTitle);
 	
 	console.log("document ready");
-	
+
+
+	//figure preview
+	$("#forumFigure").change(function() {
+		
+    	var fileReader = new FileReader();
+    	
+		fileReader.onload = function(e) {
+		$("#previewImage").show();
+		$("#previewImage").attr('src',e.target.result);}
+        var imageFile = this.files[0];
+        fileReader.readAsDataURL(imageFile);
+	});
 	//form submit
 	$("#submit").click(function(){
 		console.log("submit");
+		//forumData
+		var forumData = new FormData();
+		var forumFigure = $("#forumFigure")[0].files[0];
+		var forumName = $("#forumName").val();
+		forumData.append("forumName", forumName);
+		forumData.append("forumFigure",forumFigure);
 		
 		//ajax
 		$.ajax({
 			url:'<c:url value="/forum_test/add"/>',
-			dataType:"json",
+			processData: false,		
 			type:"POST",
 			cache: false,
-	        data:{
-	        	forumName: $("#forumName").val(),
-	        	forumFigure: $("#forumFigure").val()
-               	},
+			contentType : false,
+	        data:forumData,
 			success:function(response) {
 				
      			var txt = '<div class="forum" id="'+response.newForum.forumId+'">'+
@@ -70,7 +87,7 @@ $(document).ready(function(){
 		console.log("delete forum, forum ID : "+$(this).attr("id"));
 		var forumId=$(this).attr("id");
 		$.ajax({
-			url:'<c:url value="/forum_test/del"/>',
+			url:'<c:url value="/forum_test/'+forumId+'/del"/>',
 			type:"POST",
 			cache: false,
 	        data:{
@@ -145,7 +162,7 @@ $(document).ready(function(){
 	</c:forEach>
 </div>
 
-	<form>
+	<form id="forumData" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td>Forum Name:</td>
@@ -153,12 +170,12 @@ $(document).ready(function(){
 			</tr>
 			<tr>
 				<td>Forum Figure:</td>
-				<td><input type="text" id="forumFigure" name="forumFigure" /></td>
+				<td><input type="file" id="forumFigure" name="forumFigure" /></td>
 			</tr>
 		</table>
 	</form>
 	<button id="submit">Post New Forum</button>
-
+    <img id="previewImage" alt="預覽圖" width="200px" height="200px" />
 	<hr />
 </div>
 </body>

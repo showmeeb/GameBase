@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -221,7 +222,7 @@ public class UserDataService {
 	public Map<String, String> mailAction(String acc, String email) {
 		return mDao.mailAction(acc, email);
 	}
-	
+
 	public Map<String, String> authAction(String acc, String email) {
 		return mDao.authAction(acc, email);
 	}
@@ -241,33 +242,40 @@ public class UserDataService {
 	public String decryptString(String stringToDecrypt) {
 		return eDao.decryptString(stringToDecrypt);
 	}
-	
+
 	public UserProfile updateUserProfile(Map<String, String[]> upMap) {
 		return upDao.updateUserProfile(upMap);
 	}
-	
+
 	public void logout(HttpServletRequest request) {
 		udDao.logout(request);
 	}
-	
+
 	public Integer getProfileIdByUserId(Integer userId) {
 		Integer myId = upDao.getProfileIdByUserId(userId);
-		System.out.println("SPId="+myId);
-		if(myId!=null) {
+		System.out.println("SPId=" + myId);
+		if (myId != null) {
 			return myId;
 		}
 		return null;
 	}
-	
+
 	public UserProfile getProfileByUserId(Integer userId) {
 		UserProfile myBean = upDao.getProfileByUserId(userId);
-		if(myBean!=null) {
+		if (myBean != null) {
 			return myBean;
 		}
 		return myBean;
 	}
-	
-	public void GetCookie(String account, String password, HttpServletRequest request, HttpServletResponse response) {
-		udDao.GetCookie(account, password, request, response);
+
+	public void setCookie(String account, String password, HttpServletRequest request, HttpServletResponse response) {
+		udDao.setCookie(account, password, request, response);
 	}
+
+	public void GetCookie(String account, String password, HttpServletRequest request) {
+		udDao.GetCookie(account, password, request);
+	}
+//	public void Cookies(UserData userData, HttpServletRequest request, HttpServletResponse response) {
+//		udDao.Cookies(userData, request, response);
+//	}
 }

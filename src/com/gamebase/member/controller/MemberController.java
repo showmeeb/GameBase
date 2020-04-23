@@ -51,7 +51,6 @@ public class MemberController {
 
 	@RequestMapping(value = "/updateProfile/{userId}")
 	public String updateProfile(@PathVariable("userId") Integer userId, Map<String, Object> map) {
-		System.out.println("UpdateCookie");
 		
 		map.put("userProfile", uService.getProfileByUserId(userId));
 		
@@ -107,7 +106,7 @@ public class MemberController {
 		UserData userData = uService.getByLogin(acc, encryptPwd);
 
 		
-		uService.GetCookie(acc, pwd, request, response);
+		uService.setCookie(acc, pwd, request, response);
 		
 		if (userData != null) {
 			model.addAttribute("UserData", userData);
