@@ -52,4 +52,7 @@ public class ForumService {
 		return flvDao.queryForumListByLikeNum(likeRN);
 	}
 
+	public ForumListView queryForumListByForumId(Integer forumId) {
+		return flvDao.queryForumListByForumId(forumId);
+	}
 }

@@ -7,7 +7,8 @@
 <meta charset="UTF-8">
 <title>welcome to forum page</title>
 <!-- jQuery library -->
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <!-- Font Awesome icons -->
 <script src="https://kit.fontawesome.com/83bb506b46.js" crossorigin="anonymous"></script>
 
@@ -20,25 +21,42 @@ $(document).ready(function(){
 	console.log(articleTitle);
 	
 	console.log("document ready");
-	
+
+
+	//figure preview
+	$("#forumFigure").change(function() {
+		
+    	var fileReader = new FileReader();
+    	
+		fileReader.onload = function(e) {
+		$("#previewImage").show();
+		$("#previewImage").attr('src',e.target.result);
+		}
+        var imageFile = this.files[0];
+        fileReader.readAsDataURL(imageFile);
+	});
 	//form submit
 	$("#submit").click(function(){
 		console.log("submit");
+		//forumData
+		var forumData = new FormData();
+		var forumFigure = $("#forumFigure")[0].files[0];
+		var forumName = $("#forumName").val();
+		forumData.append("forumName", forumName);
+		forumData.append("forumFigure",forumFigure);
 		
 		//ajax
 		$.ajax({
 			url:'<c:url value="/forum_test/add"/>',
-			dataType:"json",
+			processData: false,		
 			type:"POST",
 			cache: false,
-	        data:{
-	        	forumName: $("#forumName").val(),
-	        	forumFigure: $("#forumFigure").val()
-               	},
+			contentType : false,
+	        data:forumData,
 			success:function(response) {
 				
      			var txt = '<div class="forum" id="'+response.newForum.forumId+'">'+
-     			'<h2>'+response.newForum.forumId+'.<a href="<c:url value="/forum_test/'+response.newForum.forumId+'"/>">'+response.newForum.forumName+'</a></h2>'+
+     			'<h2>'+response.newForum.forumRank+'.<a href="<c:url value="/forum_test/'+response.newForum.forumId+'"/>">'+response.newForum.forumName+'</a></h2>'+
     			<!-- delete article button -->
     			'<div class="article_icons">'+
     			'<a id="'+response.newForum.forumId+'" class="btn_del_forum" href="javascript:void(0)"><i class="far fa-trash-alt fa-2x"></i></a><br /> '+
@@ -49,7 +67,7 @@ $(document).ready(function(){
     			'</div>'+
      			'<hr/>'+
      			'<div class="forum_img">'+
-     			'<img alt="圖片提示字串" src='+response.newForum.forumFigure+' height="100" width="100">'+
+     			'<img alt="圖片提示字串" src='+response.newForum.forumFigure+' height="200">'+
      			'</div>'+
      			'<div class="forum_articles">'+
      				'<span>熱門熱門點閱文章::</span><br/>'+
@@ -59,7 +77,10 @@ $(document).ready(function(){
      			'</div>'+
      			'</div>';
 				$("#forumList").append(txt);
-				$("#forumList").on("click",".btn_del_forum",del);
+				$("#"+response.newForum.forumId+".forum").on("click",".btn_del_forum",del);
+				$("#forumFigure").val("");
+				$("#forumName").val("");
+				$("#previewImage").attr('src','');
 			}
 		});
 	});
@@ -70,7 +91,7 @@ $(document).ready(function(){
 		console.log("delete forum, forum ID : "+$(this).attr("id"));
 		var forumId=$(this).attr("id");
 		$.ajax({
-			url:'<c:url value="/forum_test/del"/>',
+			url:'<c:url value="/forum_test/'+forumId+'/del"/>',
 			type:"POST",
 			cache: false,
 	        data:{
@@ -93,9 +114,8 @@ $(document).ready(function(){
 	<div class="forum" id="forumtitle1">
 		<h2>forum title</h2>
 		<hr />
-		<div class="forum_img">
-			<img alt="圖片提示字串" src="https://i.imgur.com/8g2jFuM.png" height="200"
-				width="200">
+		<div class="forum_img" >
+			<img alt="圖片提示字串" src="https://i.imgur.com/8g2jFuM.png" height="200 px">
 			<!-- 柴犬圖 -->
 		</div>
 		<div class="forum_articles">
@@ -134,7 +154,7 @@ $(document).ready(function(){
 			<hr />
 			
 			<div class="forum_img">
-				<img alt="圖片提示字串" src="${item.forumFigure}" height="100" width="100">
+				<img alt="圖片提示字串" src="${item.forumFigure}" height="200">
 				<!-- 柴犬圖 -->
 			</div>
 			<div class="forum_articles">
@@ -145,7 +165,7 @@ $(document).ready(function(){
 	</c:forEach>
 </div>
 
-	<form>
+	<form id="forumData" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td>Forum Name:</td>
@@ -153,12 +173,12 @@ $(document).ready(function(){
 			</tr>
 			<tr>
 				<td>Forum Figure:</td>
-				<td><input type="text" id="forumFigure" name="forumFigure" /></td>
+				<td><input type="file" id="forumFigure" name="forumFigure" /></td>
 			</tr>
 		</table>
 	</form>
 	<button id="submit">Post New Forum</button>
-
+    <img id="previewImage" alt="預覽圖" height="200px" />
 	<hr />
 </div>
 </body>

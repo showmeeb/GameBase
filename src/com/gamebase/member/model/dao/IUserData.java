@@ -2,6 +2,7 @@ package com.gamebase.member.model.dao;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,6 +17,7 @@ public interface IUserData {
 	public void deleteUserData(UserData userData);
 	public void saveUserData(UserData userData);
 	public void logout(HttpServletRequest request);
-	public void GetCookie(String account,String password,HttpServletRequest request,HttpServletResponse response);
-
+	public void setCookie(String account,String password,HttpServletRequest request,HttpServletResponse response);
+	public void GetCookie(String account, String password, HttpServletRequest request);
+//	public void Cookies(UserData userData, HttpServletRequest request, HttpServletResponse response) ;
 }

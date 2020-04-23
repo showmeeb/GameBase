@@ -15,6 +15,8 @@
 <link href="<c:url value="/css/forumStyle.css"/>" rel="stylesheet">
 <!-- editor improt -->
 <script src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
+<!-- ckfinder import -->
+<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 <!-- create new article -->
 <script>
 let editor;
@@ -37,20 +39,27 @@ $(document).ready(function(){
 		//get img source
 		var jsonObj = {"urlList":[]};
 		var imgSrc = "";
-		
+    	// get all image source in the edit block
+        $(".publish-area img").each(function(){
+        	jsonObj.urlList[jsonObj.urlList.length] = $(this).attr("src");
+        });
+        
+        // get first image
+        if(jsonObj.urlList.length != 0){
+        	imgSrc = jsonObj.urlList[0];
+        }
+        
 		//get all img-element's source from the editor block
 		$(".publish-area img").each(function(){
 			console.log("jsonObj.urlList ="+jsonObj.urlList+", jsonObj.urlList[jsonObj.urlList.length]= "+jsonObj.urlList[jsonObj.urlList.length]);
 			console.log($(this).attr("src"));
 			jsonObj.urlList[jsonObj.urlList.length] = $(this).attr("src");
-        });
-		
+        });		
 		//get first img's src
 		if(jsonObj.urlList.length != 0){
 			console.log("first img's src: "+jsonObj.urlList[0]);
 			imgSrc = jsonObj.urlList[0];
-		}
-		
+		}	
 		//do function when editor has data and title has value
 		if(editor.getData() && $("#articleTitle").val()){
 			console.log("has data");
@@ -274,8 +283,11 @@ $(document).ready(function(){
 		editor = ClassicEditor
             	.create( document.querySelector( '#editor' ),{
             	    mediaEmbed:{
-            	    	previewsInData:true
-          	        }
+            	    	previewsInData:true	
+          	        },
+    	        	ckfinder: {
+        	        	uploadUrl: "/GameBase/figureupload"
+            	    }
          		} )
          		.then( newEditor => {
                 	editor = newEditor

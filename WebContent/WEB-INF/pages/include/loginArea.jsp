@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -20,12 +21,14 @@
             <span>帳號</span>
         </div>
         <div class="input-group">
-            <input type="password" name="password"  required/>
+            <input type="password" name="password" required/>
             <span>密碼</span>
         </div>
+         	<input type="checkbox" name="save" id="rm" value="true"/>Remember Me
     </form>
     <button id="login-submit-btn">登入</button>
     <button class="regist-btn">註冊</button>
+    
 </div>
 <!-- End login area -->
 
