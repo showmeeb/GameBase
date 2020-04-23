@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 public class ForumListView {
 
 	private Integer forumListId;
+	private Integer forumRank;
 	private Integer forumId;
 	private String forumName;
 	private String forumFigure;
@@ -46,6 +47,15 @@ public class ForumListView {
 
 	public void setForumListId(Integer forumListId) {
 		this.forumListId = forumListId;
+	}
+
+	@Column(name = "FORUMRANK")
+	public Integer getForumRank() {
+		return forumRank;
+	}
+
+	public void setForumRank(Integer forumRank) {
+		this.forumRank = forumRank;
 	}
 
 	@Column(name = "FORUMID")

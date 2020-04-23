@@ -35,11 +35,13 @@ public class ChatRoom implements Serializable{
 	private String URL;
 	private Timestamp time;
 
-	public ChatRoom(Integer id, Integer sender, Integer receiver, String history, Timestamp time) {
+	public ChatRoom(Integer id, Integer sender, Integer receiver, String history, String type, String url, Timestamp time) {
 		this.id=id;
 		this.sender = sender;
 		this.receiver = receiver;
 		this.history = history;
+		this.type=type;
+		this.URL=url;
 		this.time=time;
 	}
 
