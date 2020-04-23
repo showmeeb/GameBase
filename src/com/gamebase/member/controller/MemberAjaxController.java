@@ -1,8 +1,9 @@
 package com.gamebase.member.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -111,6 +112,8 @@ public class MemberAjaxController {
 		String encryptPwd = uService.encryptString(userdata.getPassword());
 		userdata.setPassword(encryptPwd);
 		userdata.setRankId(1);
+		Date regTime = new Date();
+		userdata.setRegiestdate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(regTime.getTime()));
 		uService.saveUserData(userdata);
 		HttpSession session = request.getSession();
 		Map<String, String> mailMap = uService.authAction(userdata.getAccount(), userdata.getEmail());

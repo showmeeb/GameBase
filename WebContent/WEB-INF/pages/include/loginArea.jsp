@@ -59,7 +59,7 @@
 
 <!-- Start auth code input area -->
 <div class="auth-code-input-area popup-window hidden-window">
-    <i class="fas fa-times close-btn"></i>
+    <i class="fas fa-times close-btn hidden-window"></i>
 
     <i class="fab fa-keycdn"></i>
     <br/>

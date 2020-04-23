@@ -63,71 +63,136 @@
 			}
 		}
 %>
+</head>
+<body>
+	<jsp:include page="topBar.jsp" />
 
+	<div class="container-fluid text-center">
+		<!-- 首頁幻燈片 -->
+		<div class="row clearfix ">
+			<div class="col-md-12 column">
+				<div id="myCarousel" class="carousel slide">
+					<!-- 幻燈片指標 -->
+					<ol class="carousel-indicators">
+						<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+						<li data-target="#myCarousel" data-slide-to="1"></li>
+						<li data-target="#myCarousel" data-slide-to="2"></li>
+					</ol>
+					<!-- 幻燈片項目 -->
+					<div class="carousel-inner">
+						<div class="item active">
+							<img src="https://i.imgur.com/gUY9Qby.jpg" alt="First slide"
+								class="carouselImg">
+						</div>
+						<div class="item">
+							<img src="https://i.imgur.com/aTY0qJD.jpg" alt="Second slide"
+								class="carouselImg">
+						</div>
+						<div class="item">
+							<img src="https://i.imgur.com/L35gUJO.jpg" alt="Third slide"
+								class="carouselImg">
+						</div>
+					</div>
+					<!-- 幻燈片導航 -->
+					<a class="left carousel-control" href="#myCarousel" role="button"
+						data-slide="prev"> <span
+						class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a> <a class="right carousel-control" href="#myCarousel" role="button"
+						data-slide="next"> <span
+						class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
+			</div>
+		</div>
+		<hr>
 
+		<div class="row clearfix">
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
+			<div class="col-md-12 column">人氣商品</div>
 
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-		<!-- Brand -->
-		<a class="navbar-brand" href="#">GameBase</a>
+		</div>
 
-		<!-- Links -->
-		<ul class="navbar-nav">
-			<li class="nav-item dropdown"><a
-				class="nav-link dropdown-toggle" href="#" id="navbardrop"
-				data-toggle="dropdown">商城</a>
-				<div class="dropdown-menu">
-					<a class="dropdown-item" href="<c:url value="/tradesystem"/>">登記商品</a>
-					<a class="dropdown-item" href="<c:url value="/mainProduct"/>">商品管理</a>
-					<a class="dropdown-item" href="<c:url value="/shoppingPage"/>">商城頁面</a>
+		<hr>
 
-					<a class="dropdown-item" href="<c:url value="/test"/>">圖片上傳</a> <a
-						class="dropdown-item" href="#"></a>
+		<div class="row clearfix">
+			<div class="col-md-12 column">新聞爬蟲</div>
+		</div>
+		<hr>
+	</div>
 
-					<a class="dropdown-item" href="#"></a>
-
-				</div></li>
-			<!-- Dropdown -->
-			<li class="nav-item dropdown"><a
-				class="nav-link dropdown-toggle" href="#" id="navbardrop"
-				data-toggle="dropdown">會員系統</a>
-				<div class="dropdown-menu">
-					<!-- Ajax -->
-					<a class="dropdown-item" id="login-str" href="#">登入</a>
-					<a class="dropdown-item" id="regiest-str" href="#">註冊</a>
-					<a class="dropdown-item hidden-window" id="logout-str" href="#">登出</a>
-					<!-- original -->
-					<a class="dropdown-item">--This line down is Original--</a>
-					<c:if test="${empty UserData.userId}">
-						<a class="dropdown-item" href="<c:url value="/gotologin"/>">登入</a>
-					</c:if>
-					<c:if test="${empty UserData.userId}">
-						<a class="dropdown-item" href="<c:url value="/gotoregister"/>">註冊</a>
-					</c:if>
-					<c:if test="${!empty UserData.userId}">
-						<c:if test="${!empty ProfileId}">
-							<a class="dropdown-item"
-								href="<c:url value="/updateProfile/${UserData.userId}"/>">修改個人資料</a>
-						</c:if>
-						<c:if test="${empty ProfileId}">
-							<a class="dropdown-item" href="<c:url value="/createProfile/${UserData.userId}"/>">新增個人資料</a>
-						</c:if>
-					</c:if>
-					<c:if test="${!empty UserData.userId}">
-
-						<a class="dropdown-item" href="<c:url value="/logout"/>">登出</a>
-					</c:if>
-				</div></li>
-			<li class="nav-item"><a class="nav-link"
-				href="<c:url value="/forum_test"/>">討論區</a></li>
-			<li class="nav-item"><a class="nav-link"
-				href="<c:url value="/topBar"/>">TopBar</a></li>
-		</ul>
-	</nav>
-	<br>
+	<jsp:include page="footer.jsp" />
 	<!-- login and regist pop up windows (with shadow) -->
 	<%@ include file="include/loginArea.jsp"%>
 	<!-- Start Chat Room Area -->
 	<%@ include file="include/chatRoom.jsp"%>
 	<!-- End Chat Room Area -->
+
+
+	<script type="text/javascript">
+		//改變幻燈片停留時間
+		$('.carousel').carousel({
+			interval : 3000
+		})
+
+		/*
+		$(window).scroll(function(){
+		var navH = $("#topBar").offset().top;
+		var scroH = $(this).scrollTop();
+		if(scroH>=navH){
+		    $("#topBar").addClass("topBarFixed")
+		    $("#topBar").removeClass("topBar")
+
+		}else{
+		    $("#topBar").addClass("topBar")
+		    $("#topBar").removeClass("topBarFixed")
+		    console.log("ff");	}
+		})
+		 */
+	</script>
 </body>
 </html>

@@ -9,7 +9,7 @@
 <!-- jQuery library -->
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <!-- Font Awesome icons -->
-<!-- <script src="https://kit.fontawesome.com/83bb506b46.js" crossorigin="anonymous"></script> -->
+<script src="https://kit.fontawesome.com/83bb506b46.js" crossorigin="anonymous"></script>
 
 <!-- forum style -->
 <link href="<c:url value="/css/forumStyle.css"/>" rel="stylesheet">
@@ -19,7 +19,7 @@ $(document).ready(function(){
 	var articleTitle = location.href.substring(location.href.lastIndexOf("GameBase/") + 9);
 	console.log(articleTitle);
 	
-	console.log("document ready2");
+	console.log("document ready");
 	
 	//form submit
 	$("#submit").click(function(){
@@ -36,8 +36,17 @@ $(document).ready(function(){
 	        	forumFigure: $("#forumFigure").val()
                	},
 			success:function(response) {
-     			var txt = '<div class="forum" id="forumtitle1">'+
+				
+     			var txt = '<div class="forum" id="'+response.newForum.forumId+'">'+
      			'<h2>'+response.newForum.forumId+'.<a href="<c:url value="/forum_test/'+response.newForum.forumId+'"/>">'+response.newForum.forumName+'</a></h2>'+
+    			<!-- delete article button -->
+    			'<div class="article_icons">'+
+    			'<a id="'+response.newForum.forumId+'" class="btn_del_forum" href="javascript:void(0)"><i class="far fa-trash-alt fa-2x"></i></a><br /> '+
+    			'</div>'+
+    			<!-- update article button -->
+    			'<div class="article_icons">'+
+    			'<a id="'+response.newForum.forumId+'" class="btn_update_forum" href="javascript:void(0)"><i class="far fa-edit fa-2x"></i></a><br />'+
+    			'</div>'+
      			'<hr/>'+
      			'<div class="forum_img">'+
      			'<img alt="圖片提示字串" src='+response.newForum.forumFigure+' height="100" width="100">'+
@@ -50,13 +59,34 @@ $(document).ready(function(){
      			'</div>'+
      			'</div>';
 				$("#forumList").append(txt);
+				$("#forumList").on("click",".btn_del_forum",del);
 			}
-		})
+		});
 	});
+	
+	<!-- delete forum -->
+	$(".btn_del_forum").click(del);
+	function del(){
+		console.log("delete forum, forum ID : "+$(this).attr("id"));
+		var forumId=$(this).attr("id");
+		$.ajax({
+			url:'<c:url value="/forum_test/del"/>',
+			type:"POST",
+			cache: false,
+	        data:{
+	        	forumId:$(this).attr("id")
+	        },
+	        success:function(response) {
+	        	console.log("delete success")
+	        	$('#'+forumId).remove();
+	        }
+		});
+	}
 });
-
-
 </script>
+
+
+
 </head>
 <body>
 	<!-- test forum display -->
@@ -87,13 +117,24 @@ $(document).ready(function(){
 		<%-- 			<td><img src="${item.forumFigure}"></td> --%>
 		<!-- 		</tr> -->
 
-		<div class="forum" id="forumtitle1">
-			<h2>${itemStatus.count}.<a
-					href="<c:url value="/forum_test/${item.forumId}"/>">${item.forumName}</a>
-			</h2>
+		<div class="forum" id="${item.forumId}">
+			<!-- forum name -->
+			<h2>${itemStatus.count}.<a href="<c:url value="/forum_test/${item.forumId}"/>">${item.forumName}</a>
+			</h2>		
+			<!-- delete article button -->
+			<div class="article_icons">
+				<a id="${item.forumId}" class="btn_del_forum" href="javascript:void(0)"><i class="far fa-trash-alt fa-2x"></i></a><br /> 
+<!-- 				<i class="fas fa-trash-alt fa-2x"></i><br /> -->
+			</div>
+			<!-- update article button -->
+			<div class="article_icons">
+<!-- 				<i class="fas fa-edit fa-2x"></i><br />  -->
+				<a id="${item.forumId}" class="btn_update_forum" href="javascript:void(0)"><i class="far fa-edit fa-2x"></i></a><br />
+			</div>
 			<hr />
+			
 			<div class="forum_img">
-				<img alt="圖片提示字串" src=${item.forumFigure} height="100" width="100">
+				<img alt="圖片提示字串" src="${item.forumFigure}" height="100" width="100">
 				<!-- 柴犬圖 -->
 			</div>
 			<div class="forum_articles">
