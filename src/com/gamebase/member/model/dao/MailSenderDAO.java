@@ -54,7 +54,7 @@ public class MailSenderDAO {
 		int i = (int) (Math.random() * (99999 - 1000 + 1) + 1000);
 		String registerId = "" + i;
 		map.put("registerId",registerId);
-		String url = "http://localhost:8080/GameBase/Authcode/" + registerId;
+		String url = "http://localhost:8080/GameBase/Users/" + registerId;
 		map.put("url",url);
 		String content = "新會員"+acc + "(" + email + "),您好<br/>感谢您註冊GameBase!<br/>" + "<b>驗證您的註冊信箱</b><br/>請輸入下面的驗證碼來確認您的註冊<br/>"
 				+"<h3><a href='" + url + "'>"+registerId+"</a></h3>"+"<br/>如果您認為這是垃圾郵件，請忽略此郵件。";

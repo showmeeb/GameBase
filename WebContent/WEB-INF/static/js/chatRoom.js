@@ -5,6 +5,22 @@ var userCenterUrl = "/GameBase/UserCenter";
 
 $(document).ready(function () {
 	
+	if(window.sessionStorage.getItem("loginUser") != ""){
+		var login=JSON.parse(window.sessionStorage.getItem("loginUser"));
+		if (login.img) {
+	       	 $(".shot").removeClass("disable");
+	       	 $(".shot").attr("src", login.img);
+	        } else {
+	       	 $(".shot").removeClass("disable");
+	       	 $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg");
+	        }
+		$("#login-str").addClass("hidden-window", 700);
+        $("#regiest-str").addClass("hidden-window", 700);
+        $("#logout-str").removeClass("hidden-window", 700);
+        
+        
+	}
+	
 	$("#login-str").click(function(){
     	$(".login-area").removeClass("hidden-window", 700);
         $("#shadow").fadeIn(700);
@@ -42,12 +58,8 @@ $(document).ready(function () {
 
     $("#logout-str").click(function () {
     	$("#login-submit-btn").removeClass("disable");
-        // $("#loggedin-list").fadeToggle(500); // close the list
-
-        // $(".loggedin-icon").addClass("disable", 700, function () { // hide
-		// loggedin icon
-            // $(".login-btn").removeClass("disable", 700); // show login button
-        // });
+    	$(".shot").addClass("disable",700);
+        $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg");
     	$("#logout-str").addClass("hidden-window", 700);
        
         $("#login-str").removeClass("hidden-window", 700);
@@ -139,14 +151,15 @@ function userLogin() {
             contentType : "application/json",
             success: function (data) {
                 if (data.status==true) {
-
+                	console.log("google photo:"+data.loginUser.img);
                     // if user has snapshot , then use it
-                    // if (data.snapshot) {
-                    // $(".loggedin-icon img").attr("src", data.snapshot);
-                    // } else {
-                    // $(".loggedin-icon img").attr("src",
-					// "/GameBase/img/userIcon.png");
-                    // }
+                     if (data.loginUser.img) {
+                    	 $(".shot").removeClass("disable");
+                    	 $(".shot").attr("src", data.loginUser.img);
+                     } else {
+                    	 $(".shot").removeClass("disable");
+                    	 $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg");
+                     }
 
                     // show user icon
                     // $(".login-btn").addClass("disable", 700, function () {
@@ -219,6 +232,7 @@ function userLogin() {
         });
     } else {
         alert("欄位不得為空");
+        $("#login-submit-btn").removeClass("disable");
     }
 
 }
@@ -548,10 +562,11 @@ function attachSignin(element) {
 			    	if(data){
 						
 						// if user has snapshot , then use it
-						if(data.snapshot){
-							$(".loggedin-icon img").attr("src",data.snapshot);
+						if(data.img){
+							$(".shot").removeClass("disable",700);
+		                    $(".shot").attr("src", data.img);
 						}
-						
+
 						// show user icon
 						$(".login-btn").addClass("disable",700,function(){
 				            $(".loggedin-icon").removeClass("disable",700);
@@ -1335,6 +1350,7 @@ function checkAcc(){
 				if(status.result){
 					$("#regist-form .input-group input[name='account']").parent().removeClass("accepted-format");
 					$("#regist-form .input-group input[name='account']").parent().addClass("error-format");
+					alert("此帳號已被使用");
 				}else{
 					$("#regist-form .input-group input[name='account']").parent().removeClass("error-format");
 					$("#regist-form .input-group input[name='account']").parent().addClass("accepted-format");

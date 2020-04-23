@@ -17,6 +17,8 @@ public class UsersInfo {
 	private Integer userId;
 	private String account;
 	private List<UsersInfo> friendsList;
+	private String img;
+	private Integer rankId;
 
 	@Id
 	public Integer getUserId() {
@@ -43,4 +45,21 @@ public class UsersInfo {
 	public void setFriendsList(List<UsersInfo> friendsList) {
 		this.friendsList = friendsList;
 	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
+
+	public Integer getRankId() {
+		return rankId;
+	}
+
+	public void setRankId(Integer rankId) {
+		this.rankId = rankId;
+	}
+
 }

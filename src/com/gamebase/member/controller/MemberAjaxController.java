@@ -31,63 +31,71 @@ import com.gamebase.member.model.UsersInfo;
 import com.gamebase.member.model.service.UserDataService;
 
 @Controller
-@SessionAttributes(names = {"loginUser","ProfileId","UserData"})
+@SessionAttributes(names = { "loginUser", "ProfileId", "UserData" })
 public class MemberAjaxController {
 
 	@Autowired
 	private UserDataService uService;
 
-
 	@PostMapping(value = "/Users/GoogleLogin", produces = "application/json")
 	@ResponseBody
-	public UsersInfo googleLogin(String idTokenStr,Model model) {
+	public UsersInfo googleLogin(String idTokenStr, Model model) {
 		UsersInfo usersLoginBean = uService.googleLogin(idTokenStr);
-		
-		if(usersLoginBean != null) {
+		if (usersLoginBean != null) {
 			model.addAttribute("loginUser", usersLoginBean);
-			
 			return usersLoginBean;
 		} else {
 			return null;
 		}
-		
 	}
-	
+
 	@DeleteMapping(value = "/logout")
 	@ResponseBody
-	public String logoutAction(HttpServletRequest request,SessionStatus sessionStatus) {
+	public String logoutAction(HttpServletRequest request, SessionStatus sessionStatus) {
 		sessionStatus.setComplete();
 		HttpSession session = request.getSession();
 		session.removeAttribute("UserData");
 		session.removeAttribute("loginUser");
 		return "logout";
 	}
-	@GetMapping(path =  {"/Authcode/{authCode}"})
-	@ResponseBody
-	public String checkAuth(@PathVariable String authCode,HttpServletRequest request){
+
+	@GetMapping(path = { "/Users/{authCode}" })
+	public String authCodeCheck(@PathVariable String authCode, HttpServletRequest request) {
 		String registerName = (String) request.getSession().getAttribute(authCode);
 		UserData cUserData = uService.getByAccount(registerName);
-		if(cUserData!=null) {
+		if (cUserData != null) {
+			cUserData.setRankId(2);
+			uService.saveUserData(cUserData);
+			return "indexPage";
+		}
+		return "indexPage";
+	}
+
+	@GetMapping(path = { "/Authcode/{authCode}" })
+	@ResponseBody
+	public String checkAuth(@PathVariable String authCode, HttpServletRequest request) {
+		String registerName = (String) request.getSession().getAttribute(authCode);
+		UserData cUserData = uService.getByAccount(registerName);
+		if (cUserData != null) {
 			cUserData.setRankId(2);
 			uService.saveUserData(cUserData);
 			return "success";
 		}
 		return "failure";
 	}
-	
+
 	@RequestMapping(path = "/loginAjax", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> loginAction(@RequestBody UserData logindata,Model model,HttpServletRequest request, HttpServletResponse response) {
+	public Map<String, Object> loginAction(@RequestBody UserData logindata, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
 		String pwd = uService.encryptString(logindata.getPassword());
 		Map<String, Object> map = uService.getLogin(logindata.getAccount(), pwd);
-		uService.setCookie(logindata.getAccount(), pwd, request, response);
-		uService.GetCookie(logindata.getAccount(), pwd, request);
-		if((boolean)map.get("status")) {
-			model.addAttribute("loginUser", (UsersInfo)map.get("loginUser"));
-			model.addAttribute("UserData", (UserData)map.get("UserData"));
-
+//		uService.setCookie(logindata.getAccount(), pwd, request, response);
+//		uService.GetCookie(logindata.getAccount(), pwd, request);
+		if ((boolean) map.get("status")) {
+			model.addAttribute("loginUser", (UsersInfo) map.get("loginUser"));
+//			model.addAttribute("UserData", (UserData) map.get("UserData"));
 			return map;
-			
 		}
 		return map;
 	}
@@ -134,23 +142,22 @@ public class MemberAjaxController {
 	public String showLoginPage() {
 		return "LoginViewPageAjax";
 	}
-	
+
 	@RequestMapping(value = "/registerAjax", method = RequestMethod.GET)
 	public String showRegisterPage() {
 		return "RegisterViewPageAjax";
 	}
-	
 
 	@RequestMapping(path = "/getAllMembers", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> getAllMembers() {
+	public Map<String, Object> getAllMembers() {
 		// System.out.println("got chekcAcc "+account.getAccount());
-		List<UserData> list=uService.getAllUserData();
-		Map<String,Object> map=new HashMap<String,Object>();
+		List<UserData> list = uService.getAllUserData();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("members", list);
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/allMembers", method = RequestMethod.GET)
 	public String allMembers() {
 		return "allMembers";
