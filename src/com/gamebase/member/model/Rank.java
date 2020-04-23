@@ -49,14 +49,14 @@ public class Rank {
 		this.rank = rank;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "RANKID")
-	public UserData getUserData() {
-		return userData;
-	}
-
-	public void setUserData(UserData userData) {
-		this.userData = userData;
-	}
+//	@OneToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "RANKID")
+//	public UserData getUserData() {
+//		return userData;
+//	}
+//
+//	public void setUserData(UserData userData) {
+//		this.userData = userData;
+//	}
 
 }

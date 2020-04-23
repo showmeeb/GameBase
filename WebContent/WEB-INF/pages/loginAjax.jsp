@@ -13,6 +13,27 @@
 <title>Login Page</title>
 </head>
 <body>
+<%
+		String account = "";
+		String password = "";
+
+		String sessionId = session.getId();
+		System.out.println("sID: " + sessionId);
+		Cookie[] cookies = request.getCookies();
+		System.out.println("我的cookie:" + cookies);
+		if (cookies != null) {
+			System.out.println("我的cookie2:" + cookies);
+			for (Cookie cookie : cookies) {
+				String name = cookie.getName();
+
+				if ("account".equals(name)) {
+					account = cookie.getValue();
+				} else if ("password".equals(name)) {
+					password = cookie.getValue();
+				}
+			}
+		}
+	%>
 <!-- loadind -->
 <div class="loading"><img src="<c:url value="/img/ajax-loader.gif"/>" /></div>
 <!-- login -->
@@ -20,12 +41,12 @@
 	<form id="login_form">
 		<div class="f_input">
 			<span>帳號:</span>
-			<input type="text" name="account" required />
+			<input type="text" name="account" required  />
 			<span id="lae"></span>
 		</div>
 		<div class="f_input">
 			<span>密碼:</span>
-			<input type="password" name="password" required />
+			<input type="password" name="password"  required />
 			<span id="lpe"></span>
 		</div>
 	</form>

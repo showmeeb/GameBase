@@ -45,22 +45,6 @@
 <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
 </head>
 <body>
-	<%
-		String account = "";
-		String password = "";
-
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				String name = cookie.getName();
-				if ("account".equals(name)) {
-					account = cookie.getValue();
-				} else if ("password".equals(name)) {
-					password = cookie.getValue();
-				}
-			}
-		}
-%>
 
 
 

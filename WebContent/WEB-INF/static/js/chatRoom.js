@@ -120,7 +120,24 @@ $(document).ready(function () {
 function userLogin() {
     var userAcc = $("#login-form input[name='account']").val();
     var pwd = $("#login-form input[name='password']").val();
-
+    var save = $("#rm").prop("checked");;
+    console.log("userAcc: "+userAcc);
+    console.log("pwd: "+pwd);
+    console.log("save: " + save);
+   // if(save==true){
+   // 	var remember = $("#rm").serializeObject();
+   // 	var saverm = JSON.stringify(remember);
+    //	console.log("saverm: " + saverm);
+    	$.ajax({
+    		url:"/GameBase/loginAjax",
+    		type: "POST",
+            data: save,
+            contentType : "application/json",
+            success:function(data){
+            	console.log(save+'123');
+            }
+    	})
+   // }
     // empty check
     if (userAcc != "" && pwd != "") {
     	var formdata = $("#login-form").serializeObject();

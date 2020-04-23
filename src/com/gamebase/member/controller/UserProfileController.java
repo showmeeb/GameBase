@@ -4,13 +4,17 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.gamebase.general.model.service.UploadImgService;
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UserProfile;
 import com.gamebase.member.model.service.UserDataService;
@@ -18,9 +22,13 @@ import com.gamebase.member.model.service.UserDataService;
 @Controller
 @SessionAttributes(names = {"UserData","ProfileId"})
 public class UserProfileController {
+	
 	@Autowired
 	public UserDataService uService;
-
+	
+	@Autowired
+	private UploadImgService uploadImgService;
+	
 	@RequestMapping(path = "/saveName", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
 	public String addName( @RequestBody UserProfile userProfile,
@@ -116,18 +124,33 @@ public class UserProfileController {
 	}
 	
 	@RequestMapping(path = "/saveImg", produces = "application/json", method = RequestMethod.POST)
-	@ResponseBody
 	public String addImg( @RequestBody UserProfile userProfile,
-			HttpServletRequest request) {
+			HttpServletRequest request,Model model) {
+		System.out.println("I am in imgaction");
+//		String imgURL = uploadImgService.uploadImg(theFile);
 		UserData ud = (UserData)request.getSession().getAttribute("UserData");
 		UserProfile up = uService.getProfileByUserId(ud.getUserId());
+		System.out.println("amgUP: " + up.getUserId());
 		up.setImg(userProfile.getImg());
 		System.out.println("Img: " + userProfile.getImg());
 		uService.saveUserPrfile(up);
 		
+		
+//		model.addAttribute("imgURL",imgURL);
 		request.setAttribute("img", userProfile.getImg());
 		return "ProfilePage";
 
 	}
+	
+//	@RequestMapping(value ="/uploadImg", method = RequestMethod.POST)
+//	public String tagSearch(@RequestParam("theFile") MultipartFile theFile, Model model,HttpServletRequest request) throws Exception {
+//		System.out.println("123");
+//		String imgURL = uploadImgService.uploadImg(theFile);
+//		System.out.println(imgURL);
+//		
+//		model.addAttribute("imgURL",imgURL);
+//		
+//		return "ProfilePage";
+//	}
 }
 
