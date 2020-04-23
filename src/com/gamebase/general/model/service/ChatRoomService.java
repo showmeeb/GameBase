@@ -27,11 +27,14 @@ public class ChatRoomService {
 		Integer sender = Integer.parseInt(msg.getFrom());
 		Integer receiver = Integer.parseInt(msg.getTo()[0]);
 		String history = msg.getMessage();
+		String type = msg.getType();
+		String url = msg.getURL();
 		Timestamp time = msg.getTime();
 
-		ChatRoom bean = new ChatRoom(redisId, sender, receiver, history, time);
+		ChatRoom bean = new ChatRoom(redisId, sender, receiver, history, type, url, time);
 		cRud.save(bean);
 		redisId++;
+		System.out.println(receiver);
 		System.out.println("cDao.save: " + bean);
 	}
 

@@ -785,6 +785,8 @@ function showChatContentArea(element) {
     if (chatContent != undefined) {
         for (let content of chatContent) {
             if (content.from == loginUserObj.userId) {
+            	console.log('content: ' + content);
+            	console.log(content.URL);
                 if (content.URL != null) {// from me
                     $("#chat-message-area").append(Mustache.render(ownFileTemplate, content));
                 }
@@ -1166,7 +1168,7 @@ $("#btn-file").change(function(){
 	formData.append('receiver', receiver);
 	
 	$.ajax({
-		url:"/GameBase/Imgur",
+		url:"/GameBase/File",
 	   type:"POST",
 	   data:formData,
 contentType: false, 
@@ -1296,12 +1298,12 @@ var ownMsgTemplate = '<div class="chat-messages own-messages">'
 
 var replyFileTemplate = '<div class="chat-messages">'
     + '<img class="chat-message-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}"/>'
-    + '<img class="chat-message-user-file" src="{{&url}}"/>'
+    + '<img class="chat-message-user-file" src="{{&URL}}"/>'
     + '<div class="chat-time">{{time}}</div>'
     + '</div>';
 
 var ownFileTemplate = '<div class="chat-messages own-messages">'
-    + '<img class="chat-message-user-file" src="{{&url}}"/>'
+    + '<img class="chat-message-user-file" src="{{&URL}}"/>'
     + '<div class="chat-time">{{time}}</div>'
     + '</div>';
 
