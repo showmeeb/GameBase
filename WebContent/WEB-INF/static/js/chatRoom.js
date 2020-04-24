@@ -136,24 +136,22 @@ $(document).ready(function () {
 function userLogin() {
     var userAcc = $("#login-form input[name='account']").val();
     var pwd = $("#login-form input[name='password']").val();
+    var saveValue = $("input[name='save']").is(":checked");
 
-    var save = $("input[name='save']").is(":checked");
-    console.log("userAcc: "+userAcc);
-    console.log("pwd: "+pwd);
-    console.log("save: " + save);
-
-    $("#login-submit-btn").addClass("disable");
     $("#login-submit-btn").addClass("disable");
 
     // empty check
     if (userAcc != "" && pwd != "") {
-    	var UserData = $("#login-form").serializeObject();
-		// console.log("UserData:"+UserData);
+    	var formdata = $("#login-form").serializeObject();	
+    	var UserData = JSON.stringify(formdata);
+  
+//		 console.log("UserData:"+UserData);	 
         // for login AJAX operation use
         $.ajax({
-        	url:"/GameBase/loginAjax",
+        	url:"/GameBase/loginAjax/"+saveValue,
             type: "POST",
             data: UserData,
+            contentType:"application/json",
             success: function (data) {
                 if (data.status==true) {
                 	console.log("google photo:"+data.loginUser.img);

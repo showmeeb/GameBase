@@ -104,7 +104,7 @@ public class MemberController {
 		UserData userData = uService.getByLogin(acc, encryptPwd);
 		String save = request.getParameter("save");
 
-		uService.setCookie(acc, pwd, save, request, response);
+//		uService.setCookie(acc, pwd, save, request, response);
 
 		if (userData != null) {
 			model.addAttribute("UserData", userData);
