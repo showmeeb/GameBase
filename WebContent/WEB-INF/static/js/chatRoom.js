@@ -136,13 +136,13 @@ $(document).ready(function () {
 function userLogin() {
     var userAcc = $("#login-form input[name='account']").val();
     var pwd = $("#login-form input[name='password']").val();
+
     var save = $("input[name='save']").is(":checked");
     console.log("userAcc: "+userAcc);
     console.log("pwd: "+pwd);
     console.log("save: " + save);
-  
 
-    
+    $("#login-submit-btn").addClass("disable");
     $("#login-submit-btn").addClass("disable");
 
     // empty check

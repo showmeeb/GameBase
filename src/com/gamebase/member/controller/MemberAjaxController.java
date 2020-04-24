@@ -42,6 +42,7 @@ public class MemberAjaxController {
 	public UsersInfo googleLogin(String idTokenStr, Model model) {
 		UsersInfo usersLoginBean = uService.googleLogin(idTokenStr);
 
+
 		if (usersLoginBean != null) {
 			model.addAttribute("loginUser", usersLoginBean);
 
@@ -92,6 +93,7 @@ public class MemberAjaxController {
 		return "failure";
 	}
 
+
 //	@RequestMapping(path="/loginAjax",method=RequestMethod.POST)
 //	@ResponseBody
 //	public Map<String, Object> loginAction(@RequestParam("account") String looking, Model model,
@@ -112,10 +114,12 @@ public class MemberAjaxController {
 
 
 
+
 	@RequestMapping(path = "/loginAjax", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> loginAction(@RequestBody UserData logindata, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
+
 		String account = request.getParameter("account");
 		String save = request.getParameter("save");
 	
@@ -123,6 +127,7 @@ public class MemberAjaxController {
 		Map<String, Object> map = uService.getLogin(logindata.getAccount(), pwd);
 		uService.setCookie(account, request.getParameter("password"), save, request, response);
 		uService.GetCookie(account, pwd, request);
+
 		if ((boolean) map.get("status")) {
 			model.addAttribute("loginUser", (UsersInfo) map.get("loginUser"));
 //			model.addAttribute("UserData", (UserData) map.get("UserData"));
