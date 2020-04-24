@@ -41,21 +41,12 @@ public class MemberAjaxController {
 	@ResponseBody
 	public UsersInfo googleLogin(String idTokenStr, Model model) {
 		UsersInfo usersLoginBean = uService.googleLogin(idTokenStr);
-
-
-		if (usersLoginBean != null) {
+		if(usersLoginBean != null) {
 			model.addAttribute("loginUser", usersLoginBean);
-
-			if (usersLoginBean != null) {
-				model.addAttribute("loginUser", usersLoginBean);
-
-				return usersLoginBean;
-			} else {
-				return null;
-			}
-
+			return usersLoginBean;
+		}else {
+			return null;
 		}
-		return usersLoginBean;
 	}
 
 	@DeleteMapping(value = "/logout")
@@ -93,46 +84,20 @@ public class MemberAjaxController {
 		return "failure";
 	}
 
-
-//	@RequestMapping(path="/loginAjax",method=RequestMethod.POST)
-//	@ResponseBody
-//	public Map<String, Object> loginAction(@RequestParam("account") String looking, Model model,
-//			HttpServletRequest request, HttpServletResponse response) {
-//
-//		String account = request.getParameter("account");
-//		String save = request.getParameter("save");
-//		String pwd = uService.encryptString(request.getParameter("password"));
-//		Map<String, Object> map = uService.getLogin(account, pwd);
-//
-//		uService.setCookie(account, request.getParameter("password"), save, request, response);
-//		uService.GetCookie(account, pwd, request);
-//		if ((boolean) map.get("status")) {
-//			model.addAttribute("loginUser", (UsersInfo) map.get("loginUser"));
-//			model.addAttribute("UserData", (UserData) map.get("UserData"));
-//			
-//			return map;
-
-
-
-
-	@RequestMapping(path = "/loginAjax", produces = "application/json", method = RequestMethod.POST)
+	@RequestMapping(path = "/loginAjax/{save}", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> loginAction(Model model, HttpServletRequest request,
+	public Map<String, Object> loginAction(@RequestBody UserData logindata,@PathVariable("save") boolean save, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
-
-		String account = request.getParameter("account");
-		String save = request.getParameter("save");
-		String pwd = uService.encryptString(request.getParameter("password"));
-//		String pwd = uService.encryptString(logindata.getPassword());
-		Map<String, Object> map = uService.getLogin(account, pwd);
-		uService.setCookie(account, request.getParameter("password"), save, request, response);
-		uService.GetCookie(account, pwd, request);
-
+		
+		uService.setCookie(logindata.getAccount(), logindata.getPassword(), save, request, response);
+		uService.GetCookie(logindata.getAccount(), logindata.getPassword(), request);
+		
+		String pwd = uService.encryptString(logindata.getPassword());
+		Map<String, Object> map = uService.getLogin(logindata.getAccount(), pwd);
 		if ((boolean) map.get("status")) {
 			model.addAttribute("loginUser", (UsersInfo) map.get("loginUser"));
 //			model.addAttribute("UserData", (UserData) map.get("UserData"));
 			return map;
-
 		}
 		return map;
 	}
