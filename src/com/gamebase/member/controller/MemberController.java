@@ -30,7 +30,7 @@ import com.google.gson.Gson;
 import net.sf.json.JSONObject;
 
 @Controller
-@SessionAttributes(names = {"UserData","ProfileId"})
+@SessionAttributes(names = { "UserData", "ProfileId" })
 public class MemberController {
 
 	@Autowired
@@ -39,24 +39,23 @@ public class MemberController {
 	@RequestMapping(value = "/createProfile/{userId}")
 	public String createProfile(@PathVariable("userId") Integer userId, UserProfile userProfile) {
 		System.out.println("Create");
-		if(userProfile.getProfileId()==null) {
-		UserProfile up = new UserProfile();
-		up.setUserId(userId);
-		uService.saveUserPrfile(up);
+		if (userProfile.getProfileId() == null) {
+			UserProfile up = new UserProfile();
+			up.setUserId(userId);
+			uService.saveUserPrfile(up);
 		}
 		return "ProfilePage";
-		
+
 	}
-	
 
 	@RequestMapping(value = "/updateProfile/{userId}")
 	public String updateProfile(@PathVariable("userId") Integer userId, Map<String, Object> map) {
-		
+
 		map.put("userProfile", uService.getProfileByUserId(userId));
-		
+
 		return "ProfilePage";
 	}
-	
+
 //	@RequestMapping(value="/saveProfile",method=RequestMethod.POST)
 //	public String saveProfileAction(@RequestParam("userId") Integer userId, @RequestParam("name") String name,
 //			@RequestParam("nickName") String nickName, @RequestParam("address") String address,
@@ -88,7 +87,6 @@ public class MemberController {
 //		return "indexPage";
 //
 //	}
-	
 
 	@RequestMapping(value = "/loginact", method = RequestMethod.POST)
 	public String loginAction(@RequestParam("account") String acc, @RequestParam("password") String pwd,
@@ -104,10 +102,10 @@ public class MemberController {
 		}
 		String encryptPwd = uService.encryptString(pwd);
 		UserData userData = uService.getByLogin(acc, encryptPwd);
+		String save = request.getParameter("save");
 
-		
-		uService.setCookie(acc, pwd, request, response);
-		
+		uService.setCookie(acc, pwd, save, request, response);
+
 		if (userData != null) {
 			model.addAttribute("UserData", userData);
 			model.addAttribute("ProfileId", uService.getProfileIdByUserId(userData.getUserId()));
@@ -127,7 +125,6 @@ public class MemberController {
 	public String showRegisterPage() {
 		return "RegisterViewPage";
 	}
-
 
 	@RequestMapping(value = "/registact", method = RequestMethod.POST)
 	public String insertData(@RequestParam("account") String acc, @RequestParam("password") String pwd,
@@ -203,17 +200,15 @@ public class MemberController {
 		request.getSession().invalidate();
 		return "indexPage";
 	}
-	@RequestMapping(value="/logout")
-	public String logout(HttpServletRequest request,HttpServletResponse response,SessionStatus status) {
+
+	@RequestMapping(value = "/logout")
+	public String logout(HttpServletRequest request, HttpServletResponse response, SessionStatus status) {
 		HttpSession session = request.getSession();
 		session.removeAttribute("UserData");
 		session.removeAttribute("userProfile");
 		status.setComplete();
-		
-		
+
 		return "indexPage";
 	}
-
-
 
 }

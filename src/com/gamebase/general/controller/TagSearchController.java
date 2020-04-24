@@ -38,7 +38,7 @@ public class TagSearchController {
 		return "searchResults";
 	}
 
-	@RequestMapping(value = "/autoComplete", method = RequestMethod.GET)
+	@RequestMapping(value = "/autoComplete", method = RequestMethod.POST)
 	@ResponseBody
 	public Set<String> autoComplete(Model model) {
 		Set<String> returnSet = tagSearchService.autoComplete();

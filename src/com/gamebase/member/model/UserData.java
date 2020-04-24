@@ -1,17 +1,6 @@
 package com.gamebase.member.model;
 
 
-
-
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
-
 
 @Entity
 @Table(name = "userData")
@@ -34,7 +22,6 @@ public class UserData {
 	private String email;
 	private Integer rankId;
 	private String regiestdate;
-	
 
 	public UserData() {
 	}
@@ -90,7 +77,6 @@ public class UserData {
 	public void setRankId(Integer rankId) {
 		this.rankId = rankId;
 	}
-
 
 	@Column(name = "REGIESTDATE")
 	public String getRegiestdate() {

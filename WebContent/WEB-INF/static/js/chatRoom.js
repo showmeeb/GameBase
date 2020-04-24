@@ -5,6 +5,22 @@ var userCenterUrl = "/GameBase/UserCenter";
 
 $(document).ready(function () {
 	
+	if(window.sessionStorage.getItem("loginUser") != ""){
+		var login=JSON.parse(window.sessionStorage.getItem("loginUser"));
+		if (login.img) {
+	       	 $(".shot").removeClass("disable");
+	       	 $(".shot").attr("src", login.img);
+	        } else {
+	       	 $(".shot").removeClass("disable");
+	       	 $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg");
+	        }
+		$("#login-str").addClass("hidden-window", 700);
+        $("#regiest-str").addClass("hidden-window", 700);
+        $("#logout-str").removeClass("hidden-window", 700);
+        
+        
+	}
+	
 	$("#login-str").click(function(){
     	$(".login-area").removeClass("hidden-window", 700);
         $("#shadow").fadeIn(700);
@@ -41,12 +57,9 @@ $(document).ready(function () {
     });
 
     $("#logout-str").click(function () {
-        // $("#loggedin-list").fadeToggle(500); // close the list
-
-        // $(".loggedin-icon").addClass("disable", 700, function () { // hide
-		// loggedin icon
-            // $(".login-btn").removeClass("disable", 700); // show login button
-        // });
+    	$("#login-submit-btn").removeClass("disable");
+    	$(".shot").addClass("disable",700);
+        $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg");
     	$("#logout-str").addClass("hidden-window", 700);
        
         $("#login-str").removeClass("hidden-window", 700);
@@ -123,45 +136,35 @@ $(document).ready(function () {
 function userLogin() {
     var userAcc = $("#login-form input[name='account']").val();
     var pwd = $("#login-form input[name='password']").val();
-    var save = $("#rm").prop("checked");
+    var save = $("input[name='save']").is(":checked");
     console.log("userAcc: "+userAcc);
     console.log("pwd: "+pwd);
     console.log("save: " + save);
-   // if(save==true){
-   // 	var remember = $("#rm").serializeObject();
-   // 	var saverm = JSON.stringify(remember);
-    //	console.log("saverm: " + saverm);
-    	$.ajax({
-    		url:"/GameBase/loginAjax",
-    		type: "POST",
-            data: save,
-            contentType : "application/json",
-            success:function(data){
-            	console.log(save+'123');
-            }
-    	})
-   // }
+  
+
+    
+    $("#login-submit-btn").addClass("disable");
+
     // empty check
     if (userAcc != "" && pwd != "") {
-    	var formdata = $("#login-form").serializeObject();
-		var UserData = JSON.stringify(formdata);
+    	var UserData = $("#login-form").serializeObject();
 		// console.log("UserData:"+UserData);
         // for login AJAX operation use
         $.ajax({
         	url:"/GameBase/loginAjax",
             type: "POST",
             data: UserData,
-            contentType : "application/json",
             success: function (data) {
                 if (data.status==true) {
-
+                	console.log("google photo:"+data.loginUser.img);
                     // if user has snapshot , then use it
-                    // if (data.snapshot) {
-                    // $(".loggedin-icon img").attr("src", data.snapshot);
-                    // } else {
-                    // $(".loggedin-icon img").attr("src",
-					// "/GameBase/img/userIcon.png");
-                    // }
+                     if (data.loginUser.img) {
+                    	 $(".shot").removeClass("disable");
+                    	 $(".shot").attr("src", data.loginUser.img);
+                     } else {
+                    	 $(".shot").removeClass("disable");
+                    	 $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg");
+                     }
 
                     // show user icon
                     // $(".login-btn").addClass("disable", 700, function () {
@@ -234,6 +237,7 @@ function userLogin() {
         });
     } else {
         alert("欄位不得為空");
+        $("#login-submit-btn").removeClass("disable");
     }
 
 }
@@ -563,10 +567,11 @@ function attachSignin(element) {
 			    	if(data){
 						
 						// if user has snapshot , then use it
-						if(data.snapshot){
-							$(".loggedin-icon img").attr("src",data.snapshot);
+						if(data.img){
+							$(".shot").removeClass("disable",700);
+		                    $(".shot").attr("src", data.img);
 						}
-						
+
 						// show user icon
 						$(".login-btn").addClass("disable",700,function(){
 				            $(".loggedin-icon").removeClass("disable",700);
@@ -807,6 +812,8 @@ function showChatContentArea(element) {
     if (chatContent != undefined) {
         for (let content of chatContent) {
             if (content.from == loginUserObj.userId) {
+            	console.log('content: ' + content);
+            	console.log(content.URL);
                 if (content.URL != null) {// from me
                     $("#chat-message-area").append(Mustache.render(ownFileTemplate, content));
                 }
@@ -1188,7 +1195,7 @@ $("#btn-file").change(function(){
 	formData.append('receiver', receiver);
 	
 	$.ajax({
-		url:"/GameBase/Imgur",
+		url:"/GameBase/File",
 	   type:"POST",
 	   data:formData,
 contentType: false, 
@@ -1318,12 +1325,12 @@ var ownMsgTemplate = '<div class="chat-messages own-messages">'
 
 var replyFileTemplate = '<div class="chat-messages">'
     + '<img class="chat-message-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}"/>'
-    + '<img class="chat-message-user-file" src="{{&url}}"/>'
+    + '<img class="chat-message-user-file" src="{{&URL}}"/>'
     + '<div class="chat-time">{{time}}</div>'
     + '</div>';
 
 var ownFileTemplate = '<div class="chat-messages own-messages">'
-    + '<img class="chat-message-user-file" src="{{&url}}"/>'
+    + '<img class="chat-message-user-file" src="{{&URL}}"/>'
     + '<div class="chat-time">{{time}}</div>'
     + '</div>';
 
@@ -1350,6 +1357,7 @@ function checkAcc(){
 				if(status.result){
 					$("#regist-form .input-group input[name='account']").parent().removeClass("accepted-format");
 					$("#regist-form .input-group input[name='account']").parent().addClass("error-format");
+					alert("此帳號已被使用");
 				}else{
 					$("#regist-form .input-group input[name='account']").parent().removeClass("error-format");
 					$("#regist-form .input-group input[name='account']").parent().addClass("accepted-format");

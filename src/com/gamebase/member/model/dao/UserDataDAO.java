@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.gamebase.member.model.UserData;
+import com.sun.mail.iap.Response;
 
 @Repository
 public class UserDataDAO implements IUserData {
@@ -95,13 +96,12 @@ public class UserDataDAO implements IUserData {
 	}
 
 	@Override
-	public void setCookie(String account, String password, HttpServletRequest request, HttpServletResponse response) {
+	public void setCookie(String account, String password, String save, HttpServletRequest request, HttpServletResponse response) {
 
 		Cookie accCookie = new Cookie("account", account);
 		Cookie pwdCookie = new Cookie("password", password);
 		System.out.println("accCook: " + accCookie);
-		String save = request.getParameter("save");
-		System.out.println("checked: " + save);
+		System.out.println(save);
 		if (save != null) {
 
 			accCookie.setMaxAge(60 * 60 * 24 * 7);
@@ -115,7 +115,7 @@ public class UserDataDAO implements IUserData {
 		}
 		response.addCookie(accCookie);
 		response.addCookie(pwdCookie);
-
+	
 	}
 
 	@Override
@@ -124,15 +124,7 @@ public class UserDataDAO implements IUserData {
 		HttpSession session = request.getSession();
 		String sessionId = session.getId();
 		System.out.println("sID: " + sessionId);
-		
-		request.setAttribute("account", account);
-		request.setAttribute("password", password);
-		
-		String acc = (String)request.getAttribute("account");
-		String pwd = (String)request.getAttribute("password");
-		
-		System.out.println("這是acc: " + acc);
-		System.out.println("這是pwd: " + pwd);
+	
 		Cookie[] cookies = request.getCookies();
 		System.out.println("我的cookie:" + cookies);
 		if (cookies != null) {
@@ -140,52 +132,20 @@ public class UserDataDAO implements IUserData {
 			for (Cookie cookie : cookies) {
 				String name = cookie.getName();
 				System.out.println("Cookie的名字: " + name);
-				System.out.println("我是一個acc: " + acc);
-				System.out.println("我是一個pwd: " + pwd);
-				if (acc.equals(name)) {
-					acc = cookie.getValue();
+				System.out.println("我是一個acc: " + account);
+				System.out.println("我是一個pwd: " + password);
+				if ("account".equals(name)) {
+					String acc = cookie.getValue();
 					System.out.println("acc123" + acc);
-				} else if (pwd.equals(name)) {
-					pwd = cookie.getValue();
+				} else if ("password".equals(name)) {
+					String pwd = cookie.getValue();
 					System.out.println("pwd123" + pwd);
 				}
 			}
 		}
 
 	}
-//	public void Cookies(UserData userData, HttpServletRequest request, HttpServletResponse response) {
-//		response.setHeader("content-type", "text/html;charset=UTF-8");
-//		String account = request.getParameter("account");
-//		String password = request.getParameter("password");
-//		String save = request.getParameter("save");
-//		boolean success = "abc123456".equals(account) && "123456abC".equals(password);
-//		
-//		if(success) {
-//			System.out.println("success");
-//		}else {
-//			System.out.println("failed");
-//		}
-//		if(save!=null&&success==true) {
-//			Cookie acnt=new Cookie("account",account);
-//			acnt.setMaxAge(60*60*24*7);
-//			System.out.println("Account Cookie: " + acnt);
-//			response.addCookie(acnt);
-//			
-//			Cookie pwd=new Cookie("password",password);
-//			acnt.setMaxAge(60*60*24*7);
-//			System.out.println("Pwd Cookie: " + pwd);
-//			response.addCookie(pwd);
-//			
-//		}else {
-//			Cookie[] cookies = request.getCookies();
-//			if(cookies!=null) {
-//				for(Cookie cookie:cookies) {
-//					cookie.setMaxAge(0);
-//					response.addCookie(cookie);
-//				}
-//			}
-//		}
-//	}
+
 
 
 

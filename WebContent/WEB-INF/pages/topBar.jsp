@@ -52,6 +52,10 @@
 <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
 <link href="<c:url value="/css/topBar.css"/>" rel="stylesheet">
 
+<style> 
+.search-input{width: 500px;
+}
+</style>
 
 </head>
 
@@ -73,10 +77,10 @@
 				<select name="looking">
 					<option value="forProduct">找商品</option>
 					<option value="foForumr">找論壇</option>
-				</select> <input class="form-control mr-sm-2 " type="search" placeholder="搜尋"
-					aria-label="Search" name="keyword" value="${keyword}"
-					id="searchInput">
-				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+				</select> 
+				<input class="form-control search-input" type="search" placeholder="搜尋"
+					aria-label="Search" name="keyword" value="${keyword}" id="searchInput">
+				<button class="btn btn-outline-light search-submit-btn" type="submit">Search</button>
 			</form>
 		</div>
 
@@ -106,9 +110,7 @@
 			<div class="dropdown">
 
 				<!-- 這邊放使用者大頭貼-->
-				<span> <a href="#"><img
-						src="https://i.imgur.com/K0RinSw.jpg" width="40" height="40"
-						class="shot"></a>
+				<span> <a href="#"><img	src="https://i.imgur.com/ke6wdHI.jpg" width="40" height="40" class="shot disable"></a>
 				</span>
 
 
@@ -148,7 +150,7 @@
 	<script>
 		$.ajax({
 			url : '<c:url value="/autoComplete"/>',
-			type : "GET",
+			type : "POST",
 			success : function(data) {
 				$("#searchInput").autocomplete({
 					source : data

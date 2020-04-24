@@ -243,9 +243,9 @@ public class UserDataService {
 		return eDao.decryptString(stringToDecrypt);
 	}
 
-	public UserProfile updateUserProfile(Map<String, String[]> upMap) {
-		return upDao.updateUserProfile(upMap);
-	}
+//	public UserProfile updateUserProfile(Map<String, String[]> upMap) {
+//		return upDao.updateUserProfile(upMap);
+//	}
 
 	public void logout(HttpServletRequest request) {
 		udDao.logout(request);
@@ -268,14 +268,12 @@ public class UserDataService {
 		return myBean;
 	}
 
-	public void setCookie(String account, String password, HttpServletRequest request, HttpServletResponse response) {
-		udDao.setCookie(account, password, request, response);
+	public void setCookie(String account, String password, String save, HttpServletRequest request, HttpServletResponse response) {
+		udDao.setCookie(account, password, save, request, response);
 	}
 
 	public void GetCookie(String account, String password, HttpServletRequest request) {
 		udDao.GetCookie(account, password, request);
 	}
-//	public void Cookies(UserData userData, HttpServletRequest request, HttpServletResponse response) {
-//		udDao.Cookies(userData, request, response);
-//	}
+
 }

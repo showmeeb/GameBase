@@ -30,7 +30,8 @@ $(document).ready(function(){
     	
 		fileReader.onload = function(e) {
 		$("#previewImage").show();
-		$("#previewImage").attr('src',e.target.result);}
+		$("#previewImage").attr('src',e.target.result);
+		}
         var imageFile = this.files[0];
         fileReader.readAsDataURL(imageFile);
 	});
@@ -55,7 +56,7 @@ $(document).ready(function(){
 			success:function(response) {
 				
      			var txt = '<div class="forum" id="'+response.newForum.forumId+'">'+
-     			'<h2>'+response.newForum.forumId+'.<a href="<c:url value="/forum_test/'+response.newForum.forumId+'"/>">'+response.newForum.forumName+'</a></h2>'+
+     			'<h2>'+response.newForum.forumRank+'.<a href="<c:url value="/forum_test/'+response.newForum.forumId+'"/>">'+response.newForum.forumName+'</a></h2>'+
     			<!-- delete article button -->
     			'<div class="article_icons">'+
     			'<a id="'+response.newForum.forumId+'" class="btn_del_forum" href="javascript:void(0)"><i class="far fa-trash-alt fa-2x"></i></a><br /> '+
@@ -66,7 +67,7 @@ $(document).ready(function(){
     			'</div>'+
      			'<hr/>'+
      			'<div class="forum_img">'+
-     			'<img alt="圖片提示字串" src='+response.newForum.forumFigure+' height="100" width="100">'+
+     			'<img alt="圖片提示字串" src='+response.newForum.forumFigure+' height="200">'+
      			'</div>'+
      			'<div class="forum_articles">'+
      				'<span>熱門熱門點閱文章::</span><br/>'+
@@ -76,7 +77,10 @@ $(document).ready(function(){
      			'</div>'+
      			'</div>';
 				$("#forumList").append(txt);
-				$("#forumList").on("click",".btn_del_forum",del);
+				$("#"+response.newForum.forumId+".forum").on("click",".btn_del_forum",del);
+				$("#forumFigure").val("");
+				$("#forumName").val("");
+				$("#previewImage").attr('src','');
 			}
 		});
 	});
@@ -110,9 +114,8 @@ $(document).ready(function(){
 	<div class="forum" id="forumtitle1">
 		<h2>forum title</h2>
 		<hr />
-		<div class="forum_img">
-			<img alt="圖片提示字串" src="https://i.imgur.com/8g2jFuM.png" height="200"
-				width="200">
+		<div class="forum_img" >
+			<img alt="圖片提示字串" src="https://i.imgur.com/8g2jFuM.png" height="200 px">
 			<!-- 柴犬圖 -->
 		</div>
 		<div class="forum_articles">
@@ -151,7 +154,7 @@ $(document).ready(function(){
 			<hr />
 			
 			<div class="forum_img">
-				<img alt="圖片提示字串" src="${item.forumFigure}" height="100" width="100">
+				<img alt="圖片提示字串" src="${item.forumFigure}" height="200">
 				<!-- 柴犬圖 -->
 			</div>
 			<div class="forum_articles">
@@ -175,7 +178,7 @@ $(document).ready(function(){
 		</table>
 	</form>
 	<button id="submit">Post New Forum</button>
-    <img id="previewImage" alt="預覽圖" width="200px" height="200px" />
+    <img id="previewImage" alt="預覽圖" height="200px" />
 	<hr />
 </div>
 </body>

@@ -17,7 +17,7 @@ public interface IUserData {
 	public void deleteUserData(UserData userData);
 	public void saveUserData(UserData userData);
 	public void logout(HttpServletRequest request);
-	public void setCookie(String account,String password,HttpServletRequest request,HttpServletResponse response);
 	public void GetCookie(String account, String password, HttpServletRequest request);
-//	public void Cookies(UserData userData, HttpServletRequest request, HttpServletResponse response) ;
+	public void setCookie(String account, String password, String save, HttpServletRequest request,
+			HttpServletResponse response);
 }
