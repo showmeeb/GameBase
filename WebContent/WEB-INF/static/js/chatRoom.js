@@ -812,16 +812,15 @@ function showChatContentArea(element) {
     if (chatContent != undefined) {
         for (let content of chatContent) {
             if (content.from == loginUserObj.userId) {
-            	console.log('content: ' + content);
-            	console.log(content.URL);
-                if (content.URL != null) {// from me
+            	console.log('content.url: ' + content.url);
+                if (content.url != undefined) {// from me
                     $("#chat-message-area").append(Mustache.render(ownFileTemplate, content));
                 }
                 else {
                     $("#chat-message-area").append(Mustache.render(ownMsgTemplate, content));
                 }
             } else { // from others
-                if (content.URL != null) {
+                if (content.url != undefined) {
                     $("#chat-message-area").append(Mustache.render(replyFileTemplate, content));
                 }
                 else {
@@ -879,19 +878,20 @@ function showUsersDiaglog(element) {
 function showUserListFromMessage(msg) {
     // get chat room object from sessionStorage
     var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
-
     // in order to check is the user already in the user list
     var checkFlag = true;
     for (let user of chatRoomObj.usersList) {
-        if (user.userId == msg.from) {
+    	//receiver 的好友清單ID == msg.from
+    	if (user.userId == msg.from) {
             checkFlag = false;
 
-            // update brief message
+         // receiver update brief message
+            console.log('update brief message');
             user.message = msg.message;
             user.time = msg.time;
         }
     }
-
+    // 如果sender不在userlist上，就從friendlist取出，render至userlist
     // use check flag to determine render or not
     if (checkFlag) {
         // get user data from friend list
@@ -954,6 +954,7 @@ function sendMessage(event) {
         var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
 
         var className = $("#chat-message-area").attr("class");
+        //userNo is 幾號聊天室
         var userNo = className.substring(className.indexOf("-") + 1);
 
         // get data from message input area
@@ -969,9 +970,11 @@ function sendMessage(event) {
             from: JSON.parse(window.sessionStorage.getItem("loginUser")).userId,
             to: [userNo],
             message: $("#chat-room-input").val(),
+            //url: $("btn-file").val(),
             time: Date.now()
         }
-
+        console.log('msgObj.message: ' + msgObj.message);
+        //console.log('msgObj.url: ' + msgObj.url);
         // set object for sending use
         sendWebSocketMessage(msgObj);
 
@@ -986,14 +989,14 @@ function sendMessage(event) {
             }
         });
 
-        // update chat history in session
+        // update chat history in session (sender)
         var flag = true;
         for (let singleChat of chatRoomObj.chatHistory) {
             if (singleChat.userNo == userNo) {
                 singleChat.chatContent[singleChat.chatContent.length] = msgObj;
                 flag = false;
             }
-            console.log(flag);
+            console.log('sender flag: ' + flag);
         }
 
         if (flag) {
@@ -1001,7 +1004,7 @@ function sendMessage(event) {
                 userNo: userNo,
                 chatContent: [msgObj]
             }
-            console.log(flag);
+            console.log('sender flag: ' + flag);
             console.log(chatContent)
             
             chatRoomObj.chatHistory[chatRoomObj.chatHistory.length] = chatContent;
@@ -1023,13 +1026,93 @@ function sendMessage(event) {
 
         // show data from message input area
         $("#chat-message-area").append(Mustache.render(ownMsgTemplate, msgObj));
-
+        
         // move the scroll bar to the end
         $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
 
         // clean message input area
         $("#chat-room-input").val("");
     }
+}
+
+function sendFile(msgOutput) {
+    // get chat room object from sessionStorage
+    var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
+
+    var className = $("#chat-message-area").attr("class");
+    //userNo is 幾號聊天室
+    var userNo = className.substring(className.indexOf("-") + 1);
+
+    // get data from message input area
+    var dateObj = new Date();
+    var hours = '0' + dateObj.getHours();
+    hours = hours.substring(hours.length - 2);
+    var minutes = '0' + dateObj.getMinutes();
+    minutes = minutes.substring(minutes.length - 2);
+    var currentTime = hours + ':' + minutes;
+
+    // set object for render message use
+    var msgObj = {
+        from: JSON.parse(window.sessionStorage.getItem("loginUser")).userId,
+        to: [userNo],
+        url: msgOutput.url,
+        //url: $("btn-file").val(),
+        time: Date.now()
+    }
+    console.log('msgOutput.url: ' + msgOutput.url);
+
+    // set formated time for print
+    msgObj.time = currentTime;
+
+    // update brief message in users list
+    $(".chat-room-user").each(function () {
+        if ($(this).children(".chat-room-user-id").text() == userNo) {
+            $(this).children(".chat-user-brief-message").attr("src");
+            $(this).children(".chat-user-message-time").text(currentTime);
+        }
+    });
+
+    // update chat history in session (sender)
+    var flag = true;
+    for (let singleChat of chatRoomObj.chatHistory) {
+        if (singleChat.userNo == userNo) {
+            singleChat.chatContent[singleChat.chatContent.length] = msgObj;
+            flag = false;
+        }
+        console.log('sender flag: ' + flag);
+    }
+
+    if (flag) {
+        var chatContent = {
+            userNo: userNo,
+            chatContent: [msgObj]
+        }
+        console.log('sender flag: ' + flag);
+        console.log(chatContent)
+        
+        chatRoomObj.chatHistory[chatRoomObj.chatHistory.length] = chatContent;
+    }
+
+    // update user list
+    for (let i = 0, len = chatRoomObj.usersList.length; i < len; i++) {
+        if (chatRoomObj.usersList[i].userId == msgObj.to[0]) {
+            chatRoomObj.usersList[i].message = msgObj.url;
+            chatRoomObj.usersList[i].time = msgObj.time;
+            // console.log("Should update here");
+        }
+    }
+
+    window.sessionStorage.setItem("chatRoom", JSON.stringify(chatRoomObj));
+
+    // show data from message input area
+
+    $("#chat-message-area").append(Mustache.render(ownFileTemplate, msgObj));	
+    
+    // move the scroll bar to the end
+    $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
+
+    // clean message input area
+    $("#chat-room-input").val("");
 }
 
 function cleanChatRoom() {
@@ -1067,7 +1150,8 @@ function connectChatRoom() {
         });
         // /user原始碼-->/queue/message-{websocket session id}
         stompClient.subscribe('/user/queue/messages', function (msgOutput) {
-            showMessageOutput(JSON.parse(msgOutput.body));
+            console.log('msgOutput: ' + msgOutput.body);
+        	showMessageOutput(JSON.parse(msgOutput.body));
         });
 // stompClient.send("/app/chat", {}, JSON.stringify({'msg':'userLogin'}));
         // get online list
@@ -1091,9 +1175,22 @@ function sendWebSocketMessage(msg) {
 }
 
 function showMessageOutput(msgOutput) {
-    // show in user list
-    showUserListFromMessage(msgOutput);
-
+	var sender = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
+	
+	if(msgOutput.url != undefined){
+		sendFile(msgOutput);
+	}else{
+		console.log('to: ' + msgOutput.to);
+		console.log('type: ' + msgOutput.type);
+		console.log('not url');
+	}
+	// show in user list
+	if(sender==msgOutput.from){
+		console.log('My message');
+	}else{
+		showUserListFromMessage(msgOutput);
+	}
+	
     // get chat room object from sessionStorage
     var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
 
@@ -1108,18 +1205,20 @@ function showMessageOutput(msgOutput) {
     $(".chat-room-user").each(function () {
         if ($(this).children(".chat-room-user-id").text() == msgOutput.from) {
             $(this).children(".chat-user-brief-message").text(msgOutput.message);
+            //$(this).children(".chat-user-brief-file").text(msgOutput.url);
             $(this).children(".chat-user-message-time").text(msgOutput.time);
+            
         }
     });
 
-    // add message into chat history
+    // add message into chat history (receiver)
     var flag = true;
     for (let singleChat of chatRoomObj.chatHistory) {
         if (singleChat.userNo == msgOutput.from) {
             singleChat.chatContent[singleChat.chatContent.length] = msgOutput;
             flag = false;
         }
-        console.log(flag);
+        console.log('receiver flag: ' + flag);
     }
 
     if (flag) {
@@ -1127,7 +1226,7 @@ function showMessageOutput(msgOutput) {
             userNo: msgOutput.from,
             chatContent: [msgOutput]
         }
-        console.log(flag);
+        console.log('receiver flag: ' + flag);
         console.log(chatContent)
 
         chatRoomObj.chatHistory[chatRoomObj.chatHistory.length] = chatContent;
@@ -1137,6 +1236,7 @@ function showMessageOutput(msgOutput) {
     // msgOutput.from<---userId
     if ($("#chat-message-area").hasClass("id-" + msgOutput.from)) {
         $("#chat-message-area").append(Mustache.render(replyMsgTemplate, msgOutput));
+        $("#chat-message-area").append(Mustache.render(replyFileTemplate, msgOutput));
 
         // move the scroll bar to the end
         $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
@@ -1325,12 +1425,12 @@ var ownMsgTemplate = '<div class="chat-messages own-messages">'
 
 var replyFileTemplate = '<div class="chat-messages">'
     + '<img class="chat-message-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}"/>'
-    + '<img class="chat-message-user-file" src="{{&URL}}"/>'
+    + '<img class="chat-file" src="{{&url}}"/>'
     + '<div class="chat-time">{{time}}</div>'
     + '</div>';
 
 var ownFileTemplate = '<div class="chat-messages own-messages">'
-    + '<img class="chat-message-user-file" src="{{&URL}}"/>'
+    + '<img class="chat-file" src="{{&url}}"/>'
     + '<div class="chat-time">{{time}}</div>'
     + '</div>';
 

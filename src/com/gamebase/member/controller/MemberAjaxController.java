@@ -117,14 +117,14 @@ public class MemberAjaxController {
 
 	@RequestMapping(path = "/loginAjax", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> loginAction(@RequestBody UserData logindata, Model model, HttpServletRequest request,
+	public Map<String, Object> loginAction(Model model, HttpServletRequest request,
 			HttpServletResponse response) {
 
 		String account = request.getParameter("account");
 		String save = request.getParameter("save");
-	
-		String pwd = uService.encryptString(logindata.getPassword());
-		Map<String, Object> map = uService.getLogin(logindata.getAccount(), pwd);
+		String pwd = uService.encryptString(request.getParameter("password"));
+//		String pwd = uService.encryptString(logindata.getPassword());
+		Map<String, Object> map = uService.getLogin(account, pwd);
 		uService.setCookie(account, request.getParameter("password"), save, request, response);
 		uService.GetCookie(account, pwd, request);
 

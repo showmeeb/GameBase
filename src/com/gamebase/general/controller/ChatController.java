@@ -82,6 +82,7 @@ public class ChatController {
 
 				} else {
 					simpMessagingTemplate.convertAndSendToUser(to, "/queue/messages", message);
+//					simpMessagingTemplate.convertAndSendToUser(message.getFrom(), "/queue/messages", message);
 					cService.saveToRedis(message);
 				}
 			}
@@ -109,9 +110,9 @@ public class ChatController {
 		sendMulti(bean, bean.getFrom(), bean.getTo()[0]);
 		Map<String, String> result = new HashMap<>();
 		if (fileURL != null) {
-			result.put("url", fileURL);
+			result.put("URL", fileURL);
 		} else {
-			result.put("url", null);
+			result.put("URL", null);
 		}
 		return result;
 	}

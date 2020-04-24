@@ -608,6 +608,17 @@ i {
   word-break: break-all;
 }
 
+.chat-messages .chat-file {
+  display: flex;
+  margin-left: 5px;
+  font-size: 18px;
+  padding: 5px 10px;
+  line-height: 30px;
+  max-width: 50%;
+  border-radius: 5px;
+  word-break: break-all;
+}
+
 .chat-messages .chat-time {
   display: flex;
   width: 40px;
