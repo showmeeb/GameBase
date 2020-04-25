@@ -122,9 +122,9 @@ function showOrder(response){
 	txt += "<td>"+response[i].orderPrice;
 	txt += "<td>"+response[i].orderDate;
 	txt += "<td>"+response[i].payStatus;
-	
-	}
 	$('#tb1').append(txt);
+	}
+	
 }
 	$(document).ready(function(){
 		var id = 0;

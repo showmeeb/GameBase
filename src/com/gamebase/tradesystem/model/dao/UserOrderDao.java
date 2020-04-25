@@ -51,27 +51,28 @@ public class UserOrderDao {
 		uo.setOrderDate(date1);
 		uo.setPayStatus(0);
 		session.save(uo);
-		for(int i=0;i<items.size();i++) {//  這邊還沒改完
-			OrderDetail od=(OrderDetail)items.get(i);
+		for(int i=0;i<items.size();i++) {
+			OrderDetail od=(OrderDetail)JSONObject.toBean(items.getJSONObject(i), OrderDetail.class);
 			od.setOrderId(uo.getOrderId());
-			
+			System.out.println("OrderId:"+uo.getOrderId());
+			session.save(od);
 		}
 		AllInOne Ecpay = new AllInOne("");
 		AioCheckOutALL order = new AioCheckOutALL();
 		order.setChoosePayment("Credit");
 		order.setMerchantID("2000132");
 		order.setMerchantTradeNo(uuid);// 要用UUID加密產生，不可重複
-		order.setCustomField1(uo.getOrderName());
-		order.setCustomField2(uo.getOrderPhone());
-		order.setCustomField3(uo.getOrderAddress());
-		order.setCustomField4(String.valueOf(uo.getUserId()));
+//		order.setCustomField1(uo.getOrderName());
+//		order.setCustomField2(uo.getOrderPhone());
+//		order.setCustomField3(uo.getOrderAddress());
+		order.setCustomField4(String.valueOf(uo.getOrderId()));
 		order.setMerchantTradeDate(date1);
 		order.setPaymentType("aio");
 		order.setTotalAmount(String.valueOf(uo.getOrderPrice()));//前端引入
 		order.setTradeDesc("Game");//不能中文
 		order.setItemName("Game1");//不能中文前端引入
-		order.setReturnURL("http://2efa92c4.ngrok.io/GameBase/shoppingCart/orderStatus");
-		order.setClientBackURL("http://2efa92c4.ngrok.io/GameBase/shoppingPage");
+		order.setReturnURL("http://515c5e08.ngrok.io/GameBase/shoppingCart/orderStatus");
+		order.setClientBackURL("http://515c5e08.ngrok.io/GameBase/shoppingPage");
 		String str = Ecpay.aioCheckOut(order, invoice);
 		System.out.println(str);
 		return str;
@@ -82,12 +83,12 @@ public class UserOrderDao {
 	}
 	
 	
-	public void orderStatus(int rtnCode,int userId,String uuId,String orderDate,String orderName,String orderPhone,String orderAddress,int orderPrice) {
+	public void orderStatus(int rtnCode,int orderId) {
 		Session session = sessionFactory.getCurrentSession();
 		if(rtnCode==1) {
-			UserOrder uo = new UserOrder(userId,uuId,orderName,orderPhone,orderAddress,orderPrice,orderDate,rtnCode);
-			OrderDetail od = new OrderDetail();
-			session.save(uo);
+			UserOrder uo = (UserOrder)session.get("from UserOrder", orderId);
+			uo.setPayStatus(rtnCode);
+			session.update(uo);
 			System.out.println("訂單建立成功");
 		}else {
 			System.out.println("訂單建立失敗");

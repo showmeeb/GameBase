@@ -60,45 +60,33 @@ public class ShoppingController {
 	@ResponseBody
 	public String payBill(@RequestParam(value = "form") String form,@RequestParam(value = "items1") String items1) {
 		System.out.println("payBill");
-		return shoppingService.processOrder(form,items1);
-	}
-	@RequestMapping(path = "/shoppingCart/test", method = RequestMethod.POST)
-	@ResponseBody
-	public String test(@RequestParam(value ="form") String form,@RequestParam(value = "items1") String items1) {
 		System.out.println("form:"+form);
 		System.out.println("items1:"+items1);
-		JSONArray items = JSONArray.fromObject(items1);
-		System.out.println("items:"+items);
-		System.out.println("items:"+items.getString(0));
-//		System.out.println("items:"+items.getProductId());
-//		System.out.println("items:"+items.getProductName());
-//		System.out.println("items:"+items.getProductPrice());
-//		System.out.println("items:"+items.getAmount());
-		return "yes";
+		return shoppingService.processOrder(form,items1);
 	}
+//	@RequestMapping(path = "/shoppingCart/test", method = RequestMethod.POST)
+//	@ResponseBody
+//	public String test(@RequestParam(value ="form") String form,@RequestParam(value = "items1") String items1) {
+//		System.out.println("form:"+form);
+//		System.out.println("items1:"+items1);
+//		return "yes";
+//	}
 	
 	@RequestMapping(path = "/shoppingCart/orderStatus", method = RequestMethod.POST)
 	@ResponseBody
 	public void orderStatus(HttpServletRequest request) {
 		String rtnCode = request.getParameter("RtnCode");
-		String orderName = request.getParameter("CustomField1");
-		String orderPhone = request.getParameter("CustomField2");
-		String orderAddress = request.getParameter("CustomField3");
-		String userId = request.getParameter("CustomField4");
-		String uuId = request.getParameter("MerchantTradeNo");
-		String orderDate = request.getParameter("TradeDate");
-		String orderPrice = request.getParameter("TradeAmt");
-//		System.out.println("RtnCode:"+rtnCode);
-//		System.out.println("orderName:"+orderName);
+		String orderId = request.getParameter("CustomField4");
+		System.out.println("RtnCode:"+rtnCode);
+		System.out.println("orderName:"+orderId);
 //		System.out.println("orderPhone:"+orderPhone);
 //		System.out.println("orderAddress:"+orderAddress);
 //		System.out.println("userId:"+userId);
 //		System.out.println("uuId:"+uuId);
 //		System.out.println("orderDate:"+orderDate);
 //		System.out.println("orderPrice:"+orderPrice);
-		
 		System.out.println("付款成功!!");
-		shoppingService.orderStatus(Integer.parseInt(rtnCode),Integer.parseInt(userId),uuId,orderDate,orderName,orderPhone,orderAddress,Integer.parseInt(orderPrice));
+		shoppingService.orderStatus(Integer.parseInt(rtnCode),Integer.parseInt(orderId));
 	}
 	
 	@RequestMapping(path = "/orderPage/showOrder", method = RequestMethod.POST)

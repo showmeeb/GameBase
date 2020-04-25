@@ -51,6 +51,11 @@ img {
 div {
 	border: 1px solid grey ;
 }
+
+iframe {
+	width:400px;height:330px;
+	frameborder:0;allow:accelerometer autoplay encrypted-media gyroscope picture-in-picture; picture-in-picture: allowfullscreen
+};
 </style>
 </head>
 <body>
@@ -196,6 +201,11 @@ div {
 		</div>
 	</div>
 
+
+  
+  <iframe width="640" height="390" src="https://www.youtube.com/embed/jKDQ9ppuBQg?list=RDjKDQ9ppuBQg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 	<script type="text/javascript">
 
 	//var user =$(document).ready(function() {
@@ -238,13 +248,15 @@ div {
 		})
 	
 	function showprodetail(response){
+			var url="https://www.youtube.com/embed/jKDQ9ppuBQg?list=RDjKDQ9ppuBQg";
 		var txt="";
 			txt+="<div><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>X</span></button></div>"
 			//txt+="<div style='width: 750px; display: flex; justify-content: flex-start; padding: 3px'>";
 			txt+="<div style='width:350px;height:450px; float:left;margin:30px 0px 10px 0px; text-align: center;'>";
-			txt+="<img src='"+response.productImg+"'></div>";
+			txt+="<img id='youtube' src='"+response.productImg+"'></div>";
 			txt+="<div style='float: right;width:400px;height:450px;margin:6px 0px 10px 0px;' ><div class='modal-header'><h5 class='modal-title'>"+response.productName+"</h5></div>";
-			txt+="<div style='height:330px;'class='modal-body'>";
+			txt+="<div id='mbody' style='height:330px;'class='modal-body'>";
+			txt+="<div id='youtube1'><iframe src='"+url+"'></iframe></div>";
 			txt+="<p class='card-text'>"+response.productInfo+"</p>";
 			txt+="<p class='card-text'>"+response.productTag+"</p>";
 			txt+="</div>";
@@ -254,13 +266,13 @@ div {
 			txt+="<button id='plus' type='button' class='btn btn-outline-secondary btn-sm'>+</button></span>";
 			txt+="金額:<span id='oriPrice' style='display:none'>"+response.productPrice+"</span>"+"<p id='tprice' class='card-text'>"+response.productPrice+"</p></div>";
 			txt+="</div>";
-			txt+="<div style='width:760px;'class='modal-footer'><span id='itemdetail' style='display:none'>"+JSON.stringify(response)+"</span>"+"<button id='addProduct1' type='button' class='btn btn-primary'>加入購物車</button></div>";
+			txt+="<div style='width:760px;'class='modal-footer'><span id='itemdetail' style='display:none'>"+JSON.stringify(response)+"</span>"+"<button id='addProduct1' type='button' class='btn btn-primary' data-dismiss='modal'>加入購物車</button></div>";
 			return txt;
 		}
 		
 	function showtable(response) {
 		
-						var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th>購物車";
+						var txt = "<tr><th>商品照片<th>商品名稱";
 						
 						for (let i = 0; i < response.length; i++) {
 							var s = {productId:response[i].productId,
@@ -278,12 +290,7 @@ div {
 							txt += "<tr><td>" + response[i].productId;
 							txt += "<td id='img'><span id='productDetail' role='button' tabindex='0'aria-pressed='true' data-toggle='modal'data-target='#d1'> <img src='"+response[i].productImg+"' alt='"+JSON.stringify(s)+"'></span>";
 							txt += "<td>" + response[i].productName;
-							txt += "<td>" + response[i].productType;
-							txt += "<td>" + response[i].inventory;
-							txt += "<td>" + response[i].productPrice;
-							txt += "<td>" + response[i].productTag;
-							txt += "<td>" + response[i].productInfo;
-							txt += "<td><input type='button' id='addProduct' value='加入購物車'>";
+						
 						}
 						$('#t1').html(txt);	
 							
@@ -462,6 +469,7 @@ div {
 		//$('#shopcart').click(function(){
 		//	window.location.href("/shoppingCartPage");
 		//	})
+		
 	</script>
 
 </body>

@@ -129,18 +129,62 @@
 				
 				txt += "<tr><td style='display:none'>"
 						+ response[i].shoppingCartId;
-				txt += "<span id='item' style='display:none'>"+JSON.stringify(item);
+				txt += "<td style='display:none'><span id='item'>"+JSON.stringify(item);
 				txt += "<td>" + response[i].productId;
 				txt += "<td id='img'><img src='"+response[i].productImg+"'>";
 				txt += "<td>" + response[i].productName;
-				txt += "<td>" + response[i].productPrice;
-				txt += "<td>" + response[i].amount;
+				txt += "<td id='oriPrice'>" + response[i].productPrice;
+				txt += "<td>"+"<span>數量:<button id='noplus' type='button' class='btn btn-outline-secondary btn-sm'>-</button>";
+				txt += "<input style='width: 40px;' id='quantity_input' type='text' value='"+ response[i].amount+"'>";
+				txt	+= "<button id='plus' type='button' class='btn btn-outline-secondary btn-sm'>+</button></span>";
 				txt += "<td id='money'>" + (response[i].productPrice * response[i].amount)
 				txt += "<td><input type='button' id='delete' value='移除'>"
 			}
 			$('#t1').html(txt);
 		}
 
+		$(document).on('change', '#quantity_input', function() {
+			$tr=$(this).parents("tr");
+			var num=$tr.find("input[id='quantity_input']");
+			console.log(num.val());
+			if(num.val()<1){
+				num.val(1);
+				}
+			var num1=$tr.find("#quantity_input").val();
+			var price = $tr.find("td[id='oriPrice']").text();
+			console.log(price);
+			$tr.find("td[id='money']").html(price*num1);
+			total()
+			
+		})
+
+		$(document).on('click', '#plus', function() {
+			$tr=$(this).parents("tr");
+			var num=$tr.find("input[id='quantity_input']");
+			num.val(parseInt(num.val()) + 1);
+			var num1=num.val();
+			var price = $tr.find("td[id='oriPrice']").text();
+			
+			$tr.find("td[id='money']").html(price*num1);
+			total()
+			
+		})
+		
+		$(document).on('click', '#noplus', function() {
+			$tr=$(this).parents("tr");
+			var num=$tr.find("input[id='quantity_input']");
+			if (num.val() > 1) {
+				num.val(parseInt(num.val()) - 1)
+            }
+			var num1=num.val();
+			var price = $tr.find("td[id='oriPrice']").text();
+			
+			$tr.find("td[id='money']").html(price*num1);
+			total()
+			
+		})
+
+		
 		$(document).ready(function() {
 			//var user=null;
 			//	if(window.sessionStorage.getItem("loginUser")==null){
@@ -168,9 +212,11 @@
 			});		
 
 		})
+		
 		$(document).on('click', '#delete', function() {
 			var $tr = $(this).parents("tr");
 			var d = $tr.find("td").eq(0).text();
+			console.log(d);
 			$.ajax({
 				url : "shopping/deleteCartProduct",
 				dataType : "json",
@@ -222,13 +268,13 @@
 				}else{
 					console.log("bbbb");
 					$.ajax({
-						url :"shoppingCart/test",
+						url :"shoppingCart/payBill",
 						dataType : "text",
 						data:{form:form,items1:items1},
 						type : "POST",
 						success : function(response) {
 							console.log(response);
-							//document.write(response);
+							document.write(response);
 						}
 					});
 					}
