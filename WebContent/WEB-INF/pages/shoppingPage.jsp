@@ -54,8 +54,16 @@ div {
 
 iframe {
 	width:400px;height:330px;
-	frameborder:0;allow:accelerometer autoplay encrypted-media gyroscope picture-in-picture; picture-in-picture: allowfullscreen
-};
+}
+
+#youtubeX{
+			width:400px;height:330px;
+			border: 5px solid red;
+			position: absolute;
+			top: 0px;
+  			right: 0px;
+
+}
 </style>
 </head>
 <body>
@@ -191,7 +199,7 @@ iframe {
 	</div>
 	
 	
-	<div id="d1" >
+	<div id="d1" style="display:none">
 		<div id="d2">
 			<div id="d3" style="width: 800px ;height: 600px;display: flex; justify-content: flex-start; padding: 3px;margin:auto;">
 				<div id="d4" >
@@ -202,20 +210,19 @@ iframe {
 	</div>
 
 
-  
-  <iframe width="640" height="390" src="https://www.youtube.com/embed/jKDQ9ppuBQg?list=RDjKDQ9ppuBQg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 	<script type="text/javascript">
 
-	//var user =$(document).ready(function() {
-	//			if(window.sessionStorage.getItem("loginUser")==null){
-	//				alert("非會員");
-	//				return 1;
-	//			}else{
-	//				return window.sessionStorage.getItem("loginUser");
-	//			}
-	//			})
+//		$(document).ready(function() {
+//				if(window.sessionStorage.getItem("loginUser")==null){
+//					console.log(window.sessionStorage.getItem("loginUser"));
+//					alert("非會員");
+//					return 1;
+//				}else{
+//					return window.sessionStorage.getItem("loginUser");
+//				}
+//				})
 		$(document).on('change', '#quantity_input', function() {
 			if($("#quantity_input").val()<1){
 				$("#quantity_input").val(1);
@@ -250,13 +257,13 @@ iframe {
 	function showprodetail(response){
 			var url="https://www.youtube.com/embed/jKDQ9ppuBQg?list=RDjKDQ9ppuBQg";
 		var txt="";
-			txt+="<div><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>X</span></button></div>"
+			txt+="<div ><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>X</span></button></div>"
 			//txt+="<div style='width: 750px; display: flex; justify-content: flex-start; padding: 3px'>";
 			txt+="<div style='width:350px;height:450px; float:left;margin:30px 0px 10px 0px; text-align: center;'>";
-			txt+="<img id='youtube' src='"+response.productImg+"'></div>";
+			txt+="<img id='youtube'role='button' tabindex='0' aria-pressed='true' src='"+response.productImg+"'></div>";
 			txt+="<div style='float: right;width:400px;height:450px;margin:6px 0px 10px 0px;' ><div class='modal-header'><h5 class='modal-title'>"+response.productName+"</h5></div>";
 			txt+="<div id='mbody' style='height:330px;'class='modal-body'>";
-			txt+="<div id='youtube1'><iframe src='"+url+"'></iframe></div>";
+			//txt+="<div id='youtube1' ><iframe src='"+url+"'></iframe></div>";
 			txt+="<p class='card-text'>"+response.productInfo+"</p>";
 			txt+="<p class='card-text'>"+response.productTag+"</p>";
 			txt+="</div>";
@@ -303,6 +310,18 @@ iframe {
 			
 		})
 		
+		$(document).on('click', '#youtube', function() {
+					$('#youtube').attr({id:"youtube1"});
+					
+					$('#mbody').append('<div id="youtubeX"><iframe id="video" src="https://www.youtube.com/embed/jKDQ9ppuBQg?list=RDjKDQ9ppuBQg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></div>');
+
+					})
+		$(document).on('click', '#youtube1', function() {
+			$('#youtube1').attr({id:"youtube"});
+			$('#youtubeX').remove();
+
+			})
+	
 		
 		$(document).on('click', '#swp', function() {
 
@@ -314,17 +333,17 @@ iframe {
 				data : {
 					type : type
 				},
-				success : function(response) {
-					console.log(response[1]);
+				success :function(response) {
+					console.log(response);
+					var response = JSON.parse(JSON.stringify(response));
 					console.log("yes");
 					showtable(response);
 				},
 				complete:function(){
-					$('#d1').addClass("modal fade").attr({"tabindex":"-1","role":"dialog","aria-labelledby":"exampleModalCenterTitle","aria-hidden":"true"});
+					$('#d1').addClass("modal fade").attr({"id":"d1","tabindex":"-1","role":"dialog","aria-labelledby":"exampleModalCenterTitle","aria-hidden":"true"});
 					$('#d2').addClass("modal-dialog modal-xl modal-dialog-centered").attr({"role":"document"});
 					$('#d3').addClass("modal-content");
 					$('#d4').addClass("modal-body");
-					$('#f2').html(123)
 
 					}
 			});
@@ -339,12 +358,20 @@ iframe {
 					type : type
 				},
 				success : function(response) {
-					console.log(response);
-					var response = JSON.parse(JSON.stringify(response))
-					console.log(response);
-					console.log("yes");
+					
+					var response = JSON.parse(JSON.stringify(response));
+					console.log(response[0]);
 					showtable(response);
-				}
+				},
+				complete:function(){
+					$('#d1').addClass("modal fade").attr({"tabindex":"-1","role":"dialog","aria-labelledby":"exampleModalCenterTitle","aria-hidden":"true"});
+					$('#d2').addClass("modal-dialog modal-xl modal-dialog-centered").attr({"role":"document"});
+					$('#d3').addClass("modal-content");
+					$('#d4').addClass("modal-body");
+
+					
+
+					}
 			});
 		})
 		$(document).on('click', '#pcp', function() {
@@ -358,36 +385,20 @@ iframe {
 				},
 				success : function(response) {
 					console.log(response);
-					var response = JSON.parse(JSON.stringify(response))
-					console.log(response);
-					console.log("yes");
+					var response = JSON.parse(JSON.stringify(response));
 					showtable(response);
-				}
+				},
+				complete:function(){
+					$('#d1').addClass("modal fade").attr({"tabindex":"-1","role":"dialog","aria-labelledby":"exampleModalCenterTitle","aria-hidden":"true"});
+					$('#d2').addClass("modal-dialog modal-xl modal-dialog-centered").attr({"role":"document"});
+					$('#d3').addClass("modal-content");
+					$('#d4').addClass("modal-body");
+
+
+					}
 			});
 		})
 
-		//$(document).on('keyup', '#se1', function() {
-		//	var sh = $('#se1').val();
-		//	if (sh != "" && sh != null && sh != " ") {
-		//		$.ajax({
-		//			url : "tradesystem/search",
-		//			datatype : "json",
-		//			type : "GET",
-		//			data : {
-		//				sh : sh
-		//			},
-		//			success : function(response) {
-		//				console.log("yes");
-		//				console.log(response);
-		//				var txt = "";
-		//				$.map(response, function(v, index) {
-		//					txt +="<option>"+v.value;
-		//				});
-		//				$('#se1').html(txt);
-		//			}
-		//		});
-		//	}
-		//})
 
 		$(document).on('click', '#addProduct1', function(user) {
 			var a=$('#quantity_input').val();
@@ -421,43 +432,7 @@ iframe {
 			});
 		})
 		
-		$(document).on('click', '#addProduct', function() {
-			//var userId =${UserData.userId};
-			//console.log("userId:"+userId);
-			var $tr = $(this).parents("tr");
-			var c = {};
-			$tr.find("td").not($("td:has(input)")).each(function(i, e) { //获取当前行所有除了含有button的td
-				var $td = $(this);
-				if (i == 1) {
-					c[i] = $td.find("img").attr("src");
-					console.log($td.find("img").attr("src"));
-				} else {
-					c[i] = $td.text();
-				}
-				console.log($td.text());
-			});
-			c[8] = userId;
-			console.log(c);
-			var b = JSON.stringify(c);
-			console.log(b);
-			$.ajax({
-				async : false,
-				url : "shopping/addProduct",
-				dataType : "json",
-				type : "POST",
-				data : {
-					b : b
-				},
-				success : function(response) {
-					console.log(response.t);
-					if (response.t == true) {
-						alert("放入成功");
-					} else {
-						alert("放入失敗");
-					}
-				}
-			});
-		})
+
 
 		$(document).on('click', '#order', function() {
 			location.assign("orderPage");

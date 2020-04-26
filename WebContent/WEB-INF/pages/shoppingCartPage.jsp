@@ -105,6 +105,20 @@
 	
 	<script type="text/javascript">
 
+	$("#exampleModalCenter").on("show.bs.modal",function(e){
+			console.log('顯示視窗前呼叫');
+		});
+$('#exampleModalCenter').on('hidden.bs.modal fade', function (e) {
+alert("asd");
+})
+
+if($('#exampleModalCenter').hasClass('model')){
+  console.log('視窗目前是開啟的狀態..');
+}
+
+
+	
+
 		function total(){
 		var a=0;
 		$('tr').find("td[id='money']").each(function(i, e) {

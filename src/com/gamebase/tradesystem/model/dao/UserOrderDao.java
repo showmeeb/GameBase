@@ -103,10 +103,11 @@ public class UserOrderDao {
 			List<UserOrder> list = query.getResultList();
 			
 			System.out.println("size:"+list.size());
-			System.out.println("list:"+list);
+
 			JSONArray jsonArray = new JSONArray();
 			
 			for(UserOrder beans:list) {
+				int i =1;
 				JSONObject jobj = new JSONObject();
 
 				jobj.put("userId", beans.getUserId());
@@ -118,7 +119,28 @@ public class UserOrderDao {
 				jobj.put("orderPrice", beans.getOrderPrice());
 				jobj.put("orderDate", beans.getOrderDate());
 				jobj.put("payStatus", beans.getPayStatus());
+				System.out.println("orderId:"+beans.getOrderId());
+				Query<OrderDetail> query1 = session.createQuery("from OrderDetail where orderId=?1",OrderDetail.class);
+				query1.setParameter(1,(int)beans.getOrderId());
+				List<OrderDetail> list1 = query1.getResultList();
+				System.out.println("size1:"+list1.size());
+				
+				for(OrderDetail beans1:list1) {
+					if(i>list1.size()){
+						i=1;
+					};
+					JSONArray jsonArray1 = new JSONArray();
+					JSONObject jobj1 = new JSONObject();
+					jobj1.put("productId", beans1.getProductId());
+					jobj1.put("productName", beans1.getProductName());
+					jobj1.put("productPrice", beans1.getProductPrice());
+					jobj1.put("amount", beans1.getAmount());
+					jsonArray1.add(jobj1);
+					jobj.put(i,jsonArray1);
+					i++;
+				}
 				jsonArray.add(jobj);
+				
 			}
 			System.out.println(jsonArray);
 			return jsonArray;
