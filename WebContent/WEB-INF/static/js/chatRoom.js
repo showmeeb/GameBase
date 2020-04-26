@@ -1050,17 +1050,17 @@ function sendFile(msgOutput) {
     var currentTime = hours + ':' + minutes;
 
     // set object for render message use
-    var msgObj = {
-        from: JSON.parse(window.sessionStorage.getItem("loginUser")).userId,
-        to: [userNo],
-        url: msgOutput.url,
-        //url: $("btn-file").val(),
-        time: Date.now()
-    }
-    console.log('msgOutput.url: ' + msgOutput.url);
+//    var msgObj = {
+//        from: JSON.parse(window.sessionStorage.getItem("loginUser")).userId,
+//        to: [userNo],
+//        url: msgOutput.url,
+//        //url: $("btn-file").val(),
+//        time: Date.now()
+//    }
+//    console.log('msgOutput.url: ' + msgOutput.url);
 
     // set formated time for print
-    msgObj.time = currentTime;
+    msgOutput.time = currentTime;
 
     // update brief message in users list
     $(".chat-room-user").each(function () {
@@ -1074,7 +1074,7 @@ function sendFile(msgOutput) {
     var flag = true;
     for (let singleChat of chatRoomObj.chatHistory) {
         if (singleChat.userNo == userNo) {
-            singleChat.chatContent[singleChat.chatContent.length] = msgObj;
+            singleChat.chatContent[singleChat.chatContent.length] = msgOutput;
             flag = false;
         }
         console.log('sender flag: ' + flag);
@@ -1083,7 +1083,7 @@ function sendFile(msgOutput) {
     if (flag) {
         var chatContent = {
             userNo: userNo,
-            chatContent: [msgObj]
+            chatContent: [msgOutput]
         }
         console.log('sender flag: ' + flag);
         console.log(chatContent)
@@ -1093,9 +1093,9 @@ function sendFile(msgOutput) {
 
     // update user list
     for (let i = 0, len = chatRoomObj.usersList.length; i < len; i++) {
-        if (chatRoomObj.usersList[i].userId == msgObj.to[0]) {
-            chatRoomObj.usersList[i].message = msgObj.url;
-            chatRoomObj.usersList[i].time = msgObj.time;
+        if (chatRoomObj.usersList[i].userId == msgOutput.to[0]) {
+            chatRoomObj.usersList[i].message = msgOutput.url;
+            chatRoomObj.usersList[i].time = msgOutput.time;
             // console.log("Should update here");
         }
     }
@@ -1104,7 +1104,7 @@ function sendFile(msgOutput) {
 
     // show data from message input area
 
-    $("#chat-message-area").append(Mustache.render(ownFileTemplate, msgObj));	
+    $("#chat-message-area").append(Mustache.render(ownFileTemplate, msgOutput));	
     
     // move the scroll bar to the end
     $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
