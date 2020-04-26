@@ -128,6 +128,7 @@ public class TagSearchDAO {
 				jobj.put("productInfo", beans.getProductInfo());
 				jsonArray.add(jobj);
 			}	
+			System.out.println("jsonArray:"+jsonArray);
 		return jsonArray;
 	}
 	
