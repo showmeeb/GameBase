@@ -58,8 +58,10 @@ $(document).ready(function () {
 
   $("#logout-str").click(function () {
     $("#login-submit-btn").removeClass("disable");
-    $(".shot").addClass("disable", 700);
-    $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg");
+    $(".shot").addClass("disable", 700,function(){
+    	$(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg");
+    });
+    
     $("#logout-str").addClass("hidden-window", 700);
 
     $("#login-str").removeClass("hidden-window", 700);
