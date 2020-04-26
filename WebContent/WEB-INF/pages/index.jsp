@@ -11,6 +11,10 @@
 <title>GameBase</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<style type="text/css">
+
+</style>
+
 </head>
 
 <body>
@@ -18,32 +22,28 @@
 
 	<div class="container-fluid text-center">
 		<!-- 首頁幻燈片 -->
-		<div class="row clearfix ">
-			<div class="col-md-12 column">
-				<div id="myCarousel" class="carousel slide">
-					<!-- 幻燈片指標 -->
-					<ul class="carousel-indicators">
-						<li data-target="#demo" data-slide-to="0" class="active"></li>
-						<li data-target="#demo" data-slide-to="1"></li>
-						<li data-target="#demo" data-slide-to="2"></li>
-					</ul>
-					<!-- 幻燈片項目 -->
-					<div class="carousel-inner">
-						<div class="carousel-item active">
-							<img src="https://i.imgur.com/gUY9Qby.jpg" class="carouselImg">
-						</div>
-						<div class="carousel-item">
-							<img src="https://i.imgur.com/aTY0qJD.jpg" class="carouselImg">
-						</div>
-						<div class="carousel-item">
-							<img src="https://i.imgur.com/L35gUJO.jpg" class="carouselImg">
-						</div>
+		<div class="container-fluid">
+			<div class="carousel slide" data-ride="carousel" id="carousel-demo">
+				<ol class="carousel-indicators">
+					<li data-target="#carousel-demo" data-slide-to="0" class="active"></li>
+					<li data-target="#carousel-demo" data-slide-to="1"></li>
+					<li data-target="#carousel-demo" data-slide-to="2"></li>
+				</ol>
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<img class="carouselImg" src="https://i.imgur.com/gUY9Qby.jpg" alt="">
 					</div>
-					<!-- 幻燈片導航 -->
-					<a class="carousel-control-prev" href="#demo" data-slide="prev">
-						<span class="carousel-control-prev-icon"></span>
-					</a> <a class="carousel-control-next" href="#demo" data-slide="next">
-						<span class="carousel-control-next-icon"></span>
+					<div class="carousel-item">
+						<img class="carouselImg" src="https://i.imgur.com/aTY0qJD.jpg" alt="">
+					</div>
+					<div class="carousel-item">
+						<img class="carouselImg" src="https://i.imgur.com/L35gUJO.jpg" alt="">
+					</div>
+
+					<a href="#carousel-demo" class="carousel-control-prev"
+						data-slide="prev"> <span class="carousel-control-prev-icon"></span>
+					</a> <a href="#carousel-demo" class="carousel-control-next"
+						data-slide="next"> <span class="carousel-control-next-icon"></span>
 					</a>
 				</div>
 			</div>
