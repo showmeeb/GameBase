@@ -52,7 +52,7 @@ public class ChatController {
 
 		ArrayList<String> userList = new ArrayList<String>();
 		Map<String, String> userMap = new HashMap<>();
-
+		System.out.println(message.getTime());
 		for (SimpUser user : simpUserRegistry.getUsers()) {
 			String userName = user.getName();
 			userList.add(userName);
@@ -95,31 +95,40 @@ public class ChatController {
 			@RequestParam(name = "receiver") String receiver, @RequestPart(name = "file") MultipartFile file) {
 
 		String fileName = file.getOriginalFilename();
-		String fileURL = generalService.uploadToImgur(file);
 		String type = fileName.substring(fileName.lastIndexOf(".") + 1);
-		System.out.println(fileName);
-		System.out.println(fileURL);
 		System.out.println(type);
-		WebSocketMessage bean = new WebSocketMessage();
-		bean.setFrom(sender);
-		bean.setTo(new String[] { receiver });
-//		bean.setTo(new String[] {sender});
-		bean.setType(type);
-		bean.setURL(fileURL);
-		bean.setTime(new Timestamp(System.currentTimeMillis()));
-		sendMulti(bean, bean.getFrom(), bean.getTo()[0]);
-		Map<String, String> result = new HashMap<>();
-		if (fileURL != null) {
-			result.put("URL", fileURL);
+		if (type.contentEquals("pdf")) {
+			WebSocketMessage bean = new WebSocketMessage();
+			bean.setFrom(sender);
+			bean.setTo(new String[] { receiver });
+			bean.setType(type);
+			bean.setURL("img/PDF_file_icon.jpg");
+			System.out.println("123fffffffffffffff");
+			bean.setTime(new Timestamp(System.currentTimeMillis()));
+			sendMulti(bean, bean.getFrom(), bean.getTo()[0]);
 		} else {
-			result.put("URL", null);
+			String fileURL = generalService.uploadToImgur(file);
+			System.out.println(fileURL);
+			WebSocketMessage bean = new WebSocketMessage();
+			bean.setFrom(sender);
+			bean.setTo(new String[] { receiver });
+			bean.setType(type);
+			bean.setURL(fileURL);
+			bean.setTime(new Timestamp(System.currentTimeMillis()));
+			sendMulti(bean, bean.getFrom(), bean.getTo()[0]);
+		}
+		Map<String, String> result = new HashMap<>();
+		if (type != null) {
+			result.put("type", type);
+		} else {
+			result.put("type", null);
 		}
 		return result;
 	}
 
 	public void sendMulti(WebSocketMessage msg, String... receivers) {
 		for (String receiver : receivers) {
-				simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages", msg);
+			simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages", msg);
 		}
 		cService.saveToRedis(msg);
 	}

@@ -102,7 +102,7 @@ public class ChatRoom implements Serializable{
 		URL = uRL;
 	}
 	@Column(name = "TIME")
-	@JsonFormat(pattern = "HH:mm", timezone = "GTM+8")
+	@JsonFormat(pattern = "HH:mm", timezone = "GMT+8")
 	public Timestamp getTime() {
 		return time;
 	}
