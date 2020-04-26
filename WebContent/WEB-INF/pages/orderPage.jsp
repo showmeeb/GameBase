@@ -222,19 +222,28 @@ function showOrderDetaile(response){
 	$('#total').html(total);
 }
 	$(document).ready(function(){
-		var id = 0;
-		$.ajax({
-			url:"orderPage/showOrder",
-			dataType:"json",
-			data:{id:id},
-			type:"POST",
-			success:function(response){
-				console.log(response);
-				console.log(response[0][1]);
-				console.log(response[0][2]);
-				showOrder(response);
-			}
-			});
+		if(window.sessionStorage.getItem("loginUser")==""){
+			alert("訪客請到信箱確認訂單");
+			location.assign("shoppingPage");
+		}else{
+			var user=JSON.parse(window.sessionStorage.getItem("loginUser"));
+			var id = user.userId;
+			$.ajax({
+				url:"orderPage/showOrder",
+				dataType:"json",
+				data:{id:id},
+				type:"POST",
+				success:function(response){
+					console.log(response);
+					console.log(response[0][1]);
+					console.log(response[0][2]);
+					showOrder(response);
+				}
+				});
+		}
+
+		
+		
 		})
 		
 	$(document).on('click','#orderDetail',function(){

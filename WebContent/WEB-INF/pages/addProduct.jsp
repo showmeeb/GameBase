@@ -23,7 +23,10 @@
 <div id ="dg">
 	<form id="form1">
 		<div>
-			圖片<input type="file" id="pImg" name="img">
+			圖片<input type="text" id="pImg" name="img">
+		</div>
+		<div>
+			影片網址<input type="text" id="pVideo" name="productVideo">
 		</div>
 		<div>
 			商品名稱<input type="text" id="pName" name="productName">

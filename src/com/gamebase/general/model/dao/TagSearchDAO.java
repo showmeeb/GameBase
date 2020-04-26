@@ -119,6 +119,7 @@ public class TagSearchDAO {
 			for (Product beans:list) {
 				JSONObject jobj = new JSONObject();
 				jobj.put("productId", beans.getProductId());
+				jobj.put("productVideo", beans.getProductVideo());
 				jobj.put("productImg", beans.getProductImg());
 				jobj.put("productName", beans.getProductName());
 				jobj.put("productType", beans.getProductType());

@@ -38,7 +38,7 @@ public class ShoppingController {
 	@ResponseBody
 	public JSONObject addProducts(@RequestParam(value = "b") String b,@RequestParam(value = "userId") String userId) {
 		System.out.println(b);
-		System.out.println(userId);
+		System.out.println("userId:"+userId);
 		return shoppingService.shoppingCartAdds(b,Integer.valueOf(userId));
 	}
 	

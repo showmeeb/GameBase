@@ -42,9 +42,7 @@ img {
 	margin: 0px 20px 0px 20px;
 }
 
-#st1 img {
-	width: 300px; float:left;
-}
+
 
 #d4 img {width:300px;height:450px;}
 
@@ -58,10 +56,27 @@ iframe {
 
 #youtubeX{
 			width:400px;height:330px;
-			border: 5px solid red;
+
 			position: absolute;
 			top: 0px;
   			right: 0px;
+
+}
+#t1{
+	border:1px solid green;
+    width:600px;
+}
+#dt1{
+		width:600px;
+		margin:auto;
+		right:250px;
+		border:1px solid red;
+
+}
+
+#dt1 img{
+		width:150px;
+		
 
 }
 </style>
@@ -191,7 +206,7 @@ iframe {
 	
 						
 	
-	<div >
+	<div id="dt1">
 		<form >
 			<table id="t1">
 			</table>		
@@ -199,7 +214,7 @@ iframe {
 	</div>
 	
 	
-	<div id="d1" style="display:none">
+	<div id="d1" >
 		<div id="d2">
 			<div id="d3" style="width: 800px ;height: 600px;display: flex; justify-content: flex-start; padding: 3px;margin:auto;">
 				<div id="d4" >
@@ -213,16 +228,45 @@ iframe {
 
 
 	<script type="text/javascript">
+	var u = window.sessionStorage.getItem("loginUser");
 
-//		$(document).ready(function() {
-//				if(window.sessionStorage.getItem("loginUser")==null){
-//					console.log(window.sessionStorage.getItem("loginUser"));
-//					alert("非會員");
-//					return 1;
-//				}else{
-//					return window.sessionStorage.getItem("loginUser");
-//				}
-//				})
+
+	window.onload = function(){
+		console.log(window.sessionStorage.getItem("loginUser"));
+		user.checkUser();
+		user.getRankId();
+		user.getUserId();
+		console.log(user.userId);
+		console.log(user.rankId);
+		
+		}
+
+		var user ={
+				userId:999,
+				rankId:999,
+				checkUser: function (){
+					if(u==""){
+						alert("尚未登入會員");
+					}
+					},
+
+				getUserId:function () {
+							if(u==""){
+								user.userId = 888;
+							}
+							user.userId = JSON.parse(u).userId;
+							return user.userId;
+							},
+
+				getRankId:function () {
+					if(u==""){
+						user.rankId = 888;
+					}
+					user.rankId = JSON.parse(u).rankId;
+					return user.rankId;
+					}
+		}
+				
 		$(document).on('change', '#quantity_input', function() {
 			if($("#quantity_input").val()<1){
 				$("#quantity_input").val(1);
@@ -255,12 +299,11 @@ iframe {
 		})
 	
 	function showprodetail(response){
-			var url="https://www.youtube.com/embed/jKDQ9ppuBQg?list=RDjKDQ9ppuBQg";
 		var txt="";
 			txt+="<div ><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>X</span></button></div>"
 			//txt+="<div style='width: 750px; display: flex; justify-content: flex-start; padding: 3px'>";
 			txt+="<div style='width:350px;height:450px; float:left;margin:30px 0px 10px 0px; text-align: center;'>";
-			txt+="<img id='youtube'role='button' tabindex='0' aria-pressed='true' src='"+response.productImg+"'></div>";
+			txt+="<img id='youtube'role='button' tabindex='0' aria-pressed='true' alt='"+JSON.stringify(response.productVideo)+"' src='"+response.productImg+"'></div>";
 			txt+="<div style='float: right;width:400px;height:450px;margin:6px 0px 10px 0px;' ><div class='modal-header'><h5 class='modal-title'>"+response.productName+"</h5></div>";
 			txt+="<div id='mbody' style='height:330px;'class='modal-body'>";
 			//txt+="<div id='youtube1' ><iframe src='"+url+"'></iframe></div>";
@@ -279,10 +322,11 @@ iframe {
 		
 	function showtable(response) {
 		
-						var txt = "<tr><th>商品照片<th>商品名稱";
+						var txt = "<tr><th>#<th>商品照片<th>商品名稱";
 						
 						for (let i = 0; i < response.length; i++) {
 							var s = {productId:response[i].productId,
+									productVideo:response[i].productVideo,
 									 productName:response[i].productName,
 									 	productImg:response[i].productImg,
 										 productType:response[i].productType,
@@ -309,11 +353,13 @@ iframe {
 			$('#d4').html(showprodetail(a));
 			
 		})
-		
 		$(document).on('click', '#youtube', function() {
+					var a=$('#youtube').attr("alt");
+					var video =JSON.parse(a);
+					//console.log(a);
 					$('#youtube').attr({id:"youtube1"});
 					
-					$('#mbody').append('<div id="youtubeX"><iframe id="video" src="https://www.youtube.com/embed/jKDQ9ppuBQg?list=RDjKDQ9ppuBQg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></div>');
+					$('#mbody').append("<div id='youtubeX'>"+"<iframe id='video' src='"+video+"' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></div>");
 
 					})
 		$(document).on('click', '#youtube1', function() {
@@ -328,15 +374,13 @@ iframe {
 			var type = "switch";
 			$.ajax({
 				url : "shopping/switchProduct",
-				datatype : "text",
+				datatype :"json",
 				type : "POST",
 				data : {
 					type : type
 				},
 				success :function(response) {
 					console.log(response);
-					var response = JSON.parse(JSON.stringify(response));
-					console.log("yes");
 					showtable(response);
 				},
 				complete:function(){
@@ -360,7 +404,7 @@ iframe {
 				success : function(response) {
 					
 					var response = JSON.parse(JSON.stringify(response));
-					console.log(response[0]);
+					console.log(response);
 					showtable(response);
 				},
 				complete:function(){
@@ -400,36 +444,51 @@ iframe {
 		})
 
 
-		$(document).on('click', '#addProduct1', function(user) {
+		$(document).on('click', '#addProduct1',function() {
+
 			var a=$('#quantity_input').val();
-			console.log("數量:"+a);
 			var b = $('#itemdetail').text();
 			var b1=JSON.parse(b)
 			b1.amount=a;
-			console.log("b1.amount:"+b1.amount);
 			b=JSON.stringify(b1);
 			console.log(b);
-			//console.log(user);
-			//console.log("user:"+user.userId);
-			var user =0;
-			$.ajax({
-				async : false,
-				url : "shopping/addProduct",
-				dataType : "json",
-				type : "POST",
-				data : {
-					userId:user,
-					b : b
-				},
-				success : function(response) {
-					console.log(response.t);
-					if (response.t == true) {
-						alert("放入成功");
-					} else {
-						alert("放入失敗");
-					}
+			var user ;
+			if(u==""){
+			console.log("localStorage.length");
+			console.log(localStorage.length);
+			let i=localStorage.length+1;
+			b1['lsId']=i;
+			b=JSON.stringify(b1);
+			console.log(b);
+			localStorage.setItem(i,b);
+			alert("放入成功");
 				}
-			});
+			else{
+						user =JSON.parse(u);
+						var userId=user.userId;
+						console.log("userId");
+						console.log(userId);
+						$.ajax({
+							async : false,
+							url : "shopping/addProduct",
+							dataType : "json",
+							type : "POST",
+							data : {
+								userId:userId,
+								b : b
+							},
+							success : function(response) {
+								console.log(response.t);
+								if (response.t == true) {
+									alert("放入成功");
+								} else {
+									alert("放入失敗");
+								}
+							}
+						});
+				}
+			
+			
 		})
 		
 
