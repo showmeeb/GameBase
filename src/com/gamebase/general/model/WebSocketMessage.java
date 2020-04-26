@@ -54,7 +54,7 @@ public class WebSocketMessage {
 		this.to = to;
 	}
 
-	@JsonFormat(pattern = "HH:mm", timezone = "GTM+8")
+	@JsonFormat(pattern = "HH:mm", timezone = "GMT+8")
 	public Timestamp getTime() {
 		return time;
 	}
