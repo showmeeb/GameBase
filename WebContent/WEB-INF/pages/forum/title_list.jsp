@@ -29,6 +29,24 @@
 </head>
 
 <body>
+	<!-- top bar -->
+	<%@ include file="../topBar.jsp"%>
+	
+	<c:if test="${loginUser.rankId==2}">
+	<!-- forum title bar -->
+	<nav class="navbar navbar-expand-sm bg-light forum_topbar">
+		<ul class="nav justify-content-end">
+			<!-- update article button -->
+			<li class="nav-item">
+				<a id="publish-btn" class="btn_update_forum" href="javascript:void(0)">
+					<i class="far fa-edit fa-2x"></i>
+				</a>
+			</li>
+			<li class="nav-item"> hello manager<br/></li>
+		</ul>
+	</nav>
+	</c:if>
+	
 	<h1>主題：${forum.forumName}</h1>
 	<br />
 	<div id="titleList">
@@ -83,11 +101,11 @@
 		</c:if>
 	</div>	
 	<!-- update article button -->
-	<div class="article_icons">
-		<!-- 				<i class="fas fa-edit fa-2x"></i><br />  -->
-		<a id="publish-btn" class="btn_update_forum" href="javascript:void(0)"><i
-			class="far fa-edit fa-2x"></i></a><br />
-	</div>
+<!-- 	<div class="article_icons"> -->
+<!-- 						<i class="fas fa-edit fa-2x"></i><br />  -->
+<!-- 		<a id="publish-btn" class="btn_update_forum" href="javascript:void(0)"><i -->
+<!-- 			class="far fa-edit fa-2x"></i></a><br /> -->
+<!-- 	</div> -->
 	<!-- create article window -->
 	<%@ include file="article_editor.jsp"%>
 <script type="text/javascript">

@@ -20,6 +20,7 @@ public class ArticleListView {
 	private String firstFigure;
 	private String content;
 	private Integer contentId;
+	private Integer userId;
 	private String createTime;
 	private String lastReplyTime;
 	private Integer clickNum;
@@ -88,6 +89,15 @@ public class ArticleListView {
 
 	public void setContentId(Integer contentId) {
 		this.contentId = contentId;
+	}
+
+	@Column(name = "USERID")
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	@Column(name = "CREATETIME")
