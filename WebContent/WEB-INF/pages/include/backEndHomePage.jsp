@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
 <style>
 * {
 	font-family: 微軟正黑體;
@@ -22,7 +23,7 @@ body {
 
 #sidebar {
 	position: fixed;
-	top:57px;
+	top: 57px;
 	width: 15%;
 	height: 100%;
 	background-color: #465362;
@@ -36,24 +37,26 @@ ul {
 	width: 12%;
 	margin-left: 10px;
 }
+
 #main_back {
 	position: relative;
 	top: 57px;
-	left:20%;
+	left: 20%;
 	width: 75%;
-	border:1px black solid;
+	border: 1px black solid;
 }
 </style>
-</head>
+
 <body>
 	<header>
 		<div class="container-fluid">
 			<nav class="navbar fixed-top border-bottom navbar-light bg-white ">
-				<a class="navbar-brand border-right px-2 " href="http://localhost:8080/GameBase/"> <img
+				<a class="navbar-brand border-right px-2 "
+					href="http://localhost:8080/GameBase/"> <img
 					src="https://i.imgur.com/QnN4T0v.png" class="d-inline align-top"
 					alt="">
 				</a>
-				<h4>${sessionScope.UserData.account}</h4>
+				<h4>你好,${sessionScope.loginUser.account}</h4>
 				<div class="btn-group fixed-sm-left" role="group"
 					aria-label="Basic example">
 					<button type="button" id="change-admin" class="btn btn-secondary">管理者</button>
@@ -69,7 +72,7 @@ ul {
 				</ul>
 				<ul id="admin-bar" class="nav float-left ">
 					<li class="nav-item px-0 text-muted"><a id="21"
-						class="nav-link" href="#">會員管理</a></li>
+						class="nav-link" href="allMembers">會員管理</a></li>
 					<li class="nav-item px-0 text-muted"><a id="22"
 						class="nav-link" href="#">商品管理</a></li>
 					<li class="nav-item px-0 text-muted"><a id="23"
@@ -82,7 +85,7 @@ ul {
 			</nav>
 		</div>
 	</header>
-	
+
 	<!-- Sidebar -->
 	<nav id="sidebar" class="container py-3 fixed-left">
 		<div id="sidebar-header" class="sidebar-header border-bottom ">
@@ -93,16 +96,15 @@ ul {
 		<table id="analytic-tag" class="border-bottom py-3 d-block"
 			cellpadding="10">
 			<tr>
-				<td><a class="tag" href="analytic.jsp">分析</a></td>
+				<td><a class="tag" href="analytic">分析</a></td>
 			</tr>
-			<tr>
-				<td>數據</td>
-			</tr>
-
 		</table>
 		<table id="admin-mamber" class="d-none" cellpadding="10">
 			<tr>
-				<td><a class="tag" href="allMembers">所有會員</a></td>
+				<td><a id="allmembers" class="tag" href="#">所有會員</a></td>
+			</tr>
+			<tr>
+				<td><a id="delmember" class="tag" href="#">刪除</a></td>
 			</tr>
 			<tr>
 				<td><a class="tag" href="#">修改權限</a></td>
@@ -110,24 +112,25 @@ ul {
 		</table>
 		<table id="admin-product" class="d-none" cellpadding="10">
 			<tr>
-				<td><a class="tag" href="mainProduct">所有商品</a></td> <!-- mainProduct -->
+				<td><a class="tag" href="mainProduct">所有商品</a></td>
+				<!-- mainProduct -->
 			</tr>
 			<tr>
 				<td><a class="tag" href="#">所有交易</a></td>
 			</tr>
 			<tr>
-				<td><a class="tag" href="tradesystem">新增商品</a></td> <!-- tradesystem -->
+				<td><a class="tag" href="tradesystem">新增商品</a></td>
+				<!-- tradesystem -->
 			</tr>
-	
+
 		</table>
 		<table id="admin-content" class="d-none" cellpadding="10">
 			<tr>
-				<td><a class="tag" href="#">所有文章</a></td>
+				<td><a class="tag" href="allArticles">所有文章</a></td>
 			</tr>
 			<tr>
-				<td><a class="tag" href="#">刪除文章</a></td>
+				<td><a id="allArticles-del" class="tag" href="#">刪除文章</a></td>
 			</tr>
-
 		</table>
 		<table id="admin-news" class="d-none" cellpadding="10">
 			<tr>
@@ -151,22 +154,28 @@ ul {
 				<td><a class="tag" href="#">修改廣告</a></td>
 			</tr>
 		</table>
-				<table id="member-profile" class="d-none" cellpadding="10">
+		<table id="member-profile" class="d-none" cellpadding="10">
 			<tr>
-				<td><a class="tag" href="#">個人資料</a></td>
+				<td><a id="myProfile" class="tag" href="#">個人資料</a></td>
 			</tr>
 			<tr>
 				<td><a class="tag" href="#">升級</a></td>
 			</tr>
+			<tr>
+				<td><a id="myFriend" class="tag" href="#">好友</a></td>
+			</tr>
 		</table>
 		<table id="member-trade" class="d-none" cellpadding="10">
 			<tr>
-				<td><a class="tag" href="#">交易紀錄</a></td>
+				<td><a id="myOrders" class="tag" href="#">交易紀錄</a></td>
 			</tr>
 		</table>
 		<table id="member-content" class="d-none" cellpadding="10">
 			<tr>
-				<td><a class="tag" href="#">我的文章</a></td>
+				<td><a id="myArticles" class="tag" href="#">我的文章</a></td>
+			</tr>
+			<tr>
+				<td><a id="myContext" class="tag" href="myContexts">我的回應</a></td>
 			</tr>
 			<tr>
 				<td><a class="tag" href="#">刪除文章</a></td>
@@ -182,6 +191,11 @@ ul {
 
 
 	<script>
+	$(document).ready(function(){
+		console.log("a");	
+		
+		})
+		
 		$(".nav-link").click(function() {
 			if ($(this).attr("id") == "21") {
 				console.log("!");
@@ -293,6 +307,17 @@ ul {
 			}
 			;
 		})
+
+		
+		
+//      $("#admin-bar").removeClass("d-none");
+//			$("#member-bar").addClass("d-none");
+//		}else{
+//			$("#member-bar").removeClass("d-none");
+//			$("#admin-bar").addClass("d-none");
+//			}
+
+		
 	</script>
 </body>
 </html>

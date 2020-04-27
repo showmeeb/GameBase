@@ -27,8 +27,7 @@ public class Product {
 	private int productPrice;
 	private String productTag;
 	private String productInfo;
-
-
+	private int searchFreq;
 
 	public Product() {
 	};
@@ -55,8 +54,8 @@ public class Product {
 	public void setProductId(int productId) {
 		this.productId = productId;
 	}
-	
-	@Column(name= "PRODUCTVIDEO")
+
+	@Column(name = "PRODUCTVIDEO")
 	public String getProductVideo() {
 		return productVideo;
 	}
@@ -127,6 +126,16 @@ public class Product {
 	public void setProductInfo(String productInfo) {
 		this.productInfo = productInfo;
 	}
+
+	@Column(name = "SEARCHFREQ")
+	public int getSearchFreq() {
+		return searchFreq;
+	}
+
+	public void setSearchFreq(int searchFreq) {
+		this.searchFreq = searchFreq;
+	}
+
 //	@OneToOne(fetch = FetchType.LAZY,mappedBy = "Product",cascade = CascadeType.ALL)
 //	public Game getGame() {
 //		return game;
@@ -141,7 +150,5 @@ public class Product {
 //	public void setHost(Host host) {
 //		this.host = host;
 //	}
-
-
 
 }

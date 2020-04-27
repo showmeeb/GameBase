@@ -3,6 +3,7 @@ package com.gamebase.article.model.service;
 import java.util.Iterator;
 import java.util.List;
 
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import com.gamebase.article.model.ArticleListView;
 import com.gamebase.article.model.ArticleRecord;
 import com.gamebase.article.model.ArticleTitle;
 import com.gamebase.article.model.ContentListView;
+import com.gamebase.article.model.ForumListView;
 import com.gamebase.article.model.dao.ArticleContentDAO;
 import com.gamebase.article.model.dao.ArticleRecordDAO;
 import com.gamebase.article.model.dao.ArticleTitleDAO;
@@ -51,6 +53,12 @@ public class ArticleService {
 
 	public ArticleRecord queryRecordByUserIdAndTitleId(ArticleRecord record) {
 		return recordDao.queryByUserIdAndTitleId(record);
+	}
+	
+	//後臺全部文章列表
+	public List<ArticleTitle> queryAllArticleTitle(){
+		return titleDao.queryAllArticleTitle();
+		
 	}
 	
 	public List<ArticleRecord> queryRecordsByTitleId(Integer titleId) {
@@ -153,5 +161,9 @@ public class ArticleService {
 		title.setTitleId(titleId);
 		Boolean tStatus = titleDao.deleteOneArticleTitle(title);
 		return tStatus;
+	}
+	//後台
+	public List<ArticleContent> queryMemberContentByUserId(int id) {
+		return contentDao.queryMemberContentByUserId(id);
 	}
 }

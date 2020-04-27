@@ -271,5 +271,15 @@ public class UserDataService {
 	public void GetCookie(String account, String password, HttpServletRequest request) {
 		udDao.GetCookie(account, password, request);
 	}
+	
+	public List<UserData> getUserByAcInAllRank(String ac) {
+		List<UserData> list = udDao.getuserbyacinallrank(ac);
+		return list;
+	}
+	
+	public List<UserData> getUserByAcInOneRank(String ac ,Integer rank) {
+		List<UserData> list = udDao.getuserbyacinonerank(rank, ac);
+		return list;
+	}
 
 }

@@ -21,6 +21,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import com.gamebase.member.model.Rank;
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UserProfile;
+import com.gamebase.member.model.UsersInfo;
 import com.gamebase.member.model.service.UserDataService;
 
 @Controller
@@ -42,22 +43,21 @@ public class MemberController {
 //
 //	}
 
-	@RequestMapping(value = "/userProfileCreate",method = RequestMethod.GET)
+	@RequestMapping(value = "/userProfileCreate", method = RequestMethod.GET)
 	public String goProfile() {
 		return "ProfilePage";
 	}
 
-	@RequestMapping(value = "/updateProfile/{userId}", produces = "application/json", method = RequestMethod.POST)
+	@RequestMapping(value = "/updateProfile", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> updateProfile(@PathVariable("userId") Integer userId, ModelMap model) {
-		System.out.println("Update123" + userId);
-		UserProfile myUp = uService.getProfileByUserId(userId);
+	public Map<String, Object> updateProfile(ModelMap model) {
+		// System.out.println("Update123" + userId);
+		UsersInfo myUser = (UsersInfo) model.getAttribute("loginUser");
+		UserProfile myUp = uService.getProfileByUserId(myUser.getUserId());
 		String url = "/GameBase/userProfileCreate";
-		if(myUp==null) {
-			myUp=new UserProfile();
-			myUp.setUserId(userId);
-			uService.saveUserPrfile(myUp);
-			model.addAttribute("userProfile", myUp);
+		if (myUp == null) {
+			myUp = new UserProfile();
+			myUp.setUserId(myUser.getUserId());
 		}
 		model.addAttribute("userProfile", myUp);
 		Map<String, Object> map = new HashMap<String, Object>();

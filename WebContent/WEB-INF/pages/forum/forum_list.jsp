@@ -32,8 +32,14 @@ $(document).ready(function(){
 	//open forum editor
     $("#publish-btn").click(function(){
     	console.log("pulish btn");
-		$(".forum_editor").removeClass("hidden-window",700);
-        $("#shadow").fadeIn(700);       
+        if(window.sessionStorage.getItem("loginUser") != ""){
+       	 $("#publish-area").removeClass("hidden-window",700);
+       	 $("#shadow").fadeIn(700);
+       	 } else {
+       	 alert("請先登入 !");       	    		
+       	 $(".login-area").removeClass("hidden-window", 700);
+       	 $("#shadow").fadeIn(700);
+       	 }       
     });
     //forum editor close btn
     $(".forum_close_btn").click(close_window);
@@ -210,15 +216,21 @@ $(document).ready(function(){
 <body>
 	<!-- top bar -->
 	<%@ include file="../topBar.jsp"%>
+	
+	<c:if test="${loginUser.rankId==2}">
 	<!-- forum title bar -->
 	<nav class="navbar navbar-expand-sm bg-light forum_topbar">
 		<ul class="nav justify-content-end">
 			<!-- update article button -->
-			<li class="nav-item"><a id="publish-btn"
-				class="nav-link" href="javascript:void(0)"><i
-					class="far fa-edit fa-2x"></i></a></li>
+			<li class="nav-item">
+				<a id="publish-btn" class="nav-link" href="javascript:void(0)">
+					<i class="far fa-edit fa-2x"></i>
+				</a>
+			</li>
+			<li class="nav-item"> hello manager<br/></li>
 		</ul>
 	</nav>
+	</c:if>
 	<!-- forum list -->
 	<div class="forumListAndEditor">
 		<div id="forum_list">

@@ -18,18 +18,23 @@
 #d1 {
 	
 }
-
-
 </style>
 </head>
 
 <body>
-<jsp:include page="include/backEndHomePage.jsp"></jsp:include>
+	<jsp:include page="../include/backEndHomePage.jsp"></jsp:include>
 	<main id="main_back">
-		<div id="bar">
-			<input type="text" id="se1" placeholder="請輸入想搜尋的商品">
-			<button id="search">查詢</button>
-			<input type="button" id="query" value="所有商品">
+		<div id="bar">	
+			<form>
+				<input type="text" id="se1" placeholder="請輸入關鍵字">
+					<select name="forum">
+						<option value="0">依主題搜尋</option>
+						<option value="LOL">英雄聯盟</option>
+						<option value="WOW">魔獸世界</option>
+						<option value="MH">魔物獵人</option>				
+					</select>
+				<button id="search">查詢</button>
+			</form>
 		</div>
 		<div>
 			<span id="sp1"></span>
@@ -46,36 +51,31 @@
 		</div>
 	</main>
 	<script type="text/javascript">
-		function showtable(response) {
-			$
-					.ajax({
-						async : false,
-						type : "POST",
-						url : "tradesystem/query",
-						dataType : "json",
-						beforesend : function() {
-							$('#t1').html("");
-						},
-						success : function(response) {
-							var txt = "<tr><th>商品ID<th>商品影片<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th colspan='2'>設定";
-							for (let i = 0; i < response.length; i++) {
-								txt += "<tr><td>" + response[i].productId;
-								txt += "<td>" + response[i].productVideo;
-								txt += "<td id='img'>"+ response[i].productImg;
-								txt += "<td>" + response[i].productName;
-								txt += "<td>" + response[i].productType;
-								txt += "<td>" + response[i].inventory;
-								txt += "<td>" + response[i].productPrice;
-								txt += "<td>" + response[i].productTag;
-								txt += "<td>" + response[i].productInfo;
-								txt += '<td><input type="button" id="update" value="修改">';
-								txt += '<td><input type="button" id="delete" value="刪除">';
-							}
-							$('#t1').html(txt);
-						},
-					});
+		$(document).ready(function(){
+			$.ajax({
+				type : "POST",
+				url : "/GameBase/getAllArticles",
+				dataType : "json",
+				beforesend : function() {
+					$('#t1').html("");
+				},
+				success : function(response) {
 
-		}
+					var txt = "<tr><th>文章ID<th>文章標題<th>發文時間<th colspan='2'>";
+					for (let i = 0; i < response.articles.length; i++) {
+
+						txt += "<tr><td>" + response.articles[i].titleId;
+						txt += "<td>" + response.articles[i].titleName;
+						txt += "<td>" + response.articles[i].createTime;
+						txt += '<td><input type="button" id="delete" class="d-none" value="刪除">';
+					}
+					$('#t1').html(txt);
+				},
+			});
+			})
+			
+
+		
 
 		$(document)
 				.on(
@@ -90,12 +90,11 @@
 										type : "POST",
 										success : function(response) {
 											console.log(response);
-											var txt = "<tr><th>商品ID<th>商品影片<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th colspan='2'>設定";
+											var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th colspan='2'>設定";
 											for (let i = 0; i < response.length; i++) {
 												txt += "<tr><td>"
 														+ response[i].productId;
-												txt += "<td>" + response[i].productVideo;
-												txt += "<td id='img'>"+ response[i].productImg;
+												txt += "<td id='img'>";
 												txt += "<td>"
 														+ response[i].productName;
 												txt += "<td>"
@@ -199,45 +198,6 @@
 			});
 		});
 
-		$(document).on('click', '#add', function() {
-
-			var txt = "<tr><td><input type='text'>";
-			txt += "<td id='img'><input type='file'>";
-			txt += "<td><input type='text'>";
-			txt += "<td><input type='text'>";
-			txt += "<td><input type='text'>";
-			txt += "<td><input type='text'>";
-			txt += "<td><input type='text'>";
-			txt += "<td><input type='text'>";
-			txt += '<td><input type="button" id="add1" value="送出">';
-			txt += '<td><input type="button" id="delete" value="刪除">';
-			$('#t1').append(txt);
-		});
-		$(document).on('click', '#add1', function() {
-			$(this).attr({
-				id : "update",
-				value : "修改"
-			});
-			var $tr = $(this).parents("tr");
-			var a = {};
-			$tr.find("td input:text").each(function(i, e) {
-				a[i] = e.value;
-			})
-
-			$.ajax({
-				url : "add",
-				dataType : "json",
-				type : "POST",
-				data : {
-					a : a
-				},
-				success : function(response) {
-					console.log(response);
-					alert("新增成功");
-				}
-
-			});
-		});
 
 		$(document).on('keyup', '#se1', function() {
 			var sh = $('#se1').val();
@@ -323,9 +283,9 @@
 			}
 			return formData;
 		};
-		$(document).ready(function(){
-			$("#admin-product").removeClass("d-none").addClass("d-block");
-			})
+		$(document).ready(function() {
+			$("#admin-content").removeClass("d-none").addClass("d-block");
+		})
 	</script>
 </body>
 </html>

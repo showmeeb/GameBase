@@ -68,7 +68,7 @@
 
 </head>
 <body>
-<jsp:include page="include/backEndHomePage.jsp"></jsp:include>
+<jsp:include page="../include/backEndHomePage.jsp"></jsp:include>
 <main id="main_back">
 <h4>您的資料</h4>
 

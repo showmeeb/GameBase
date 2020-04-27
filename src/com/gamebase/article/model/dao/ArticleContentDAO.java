@@ -67,6 +67,15 @@ public class ArticleContentDAO implements IArticleContentDAO {
 			return true;
 		}
 		return false;
+	}
+
+	//後台
+	@Override
+	public List<ArticleContent> queryMemberContentByUserId(int id) {
+		Query<ArticleContent> query = sessionFactory.getCurrentSession()
+				.createQuery("from ArticleContent where userId=?1", ArticleContent.class).setParameter(1, id);
+		List<ArticleContent> list = query.list();
+		return list;
 	}	
 
 }
