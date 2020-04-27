@@ -29,6 +29,7 @@ public class ArticleContent {
 
 	public ArticleContent(Integer titleId) {
 		this.titleId = titleId;
+		this.updateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 	}
 
 	/* be used when insert new content */
