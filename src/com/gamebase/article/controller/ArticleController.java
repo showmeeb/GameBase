@@ -2,17 +2,22 @@ package com.gamebase.article.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gamebase.article.model.ArticleContent;
 import com.gamebase.article.model.ArticleListView;
@@ -23,6 +28,7 @@ import com.gamebase.article.model.Forum;
 import com.gamebase.article.model.ForumListView;
 import com.gamebase.article.model.service.ArticleService;
 import com.gamebase.article.model.service.ForumService;
+import com.gamebase.general.model.service.GeneralService;
 
 import net.sf.json.JSONObject;
 
@@ -34,6 +40,8 @@ public class ArticleController {
 	private ForumService fService;
 	@Autowired
 	private ArticleService aService;
+	@Autowired
+	private GeneralService gService;
 
 	@RequestMapping(value = "/forumHome", method = RequestMethod.GET)
 	public String forumHome() {
@@ -55,30 +63,30 @@ public class ArticleController {
 	}
 
 	/* test */
-	/* insert new forum name */
-	@RequestMapping(value = "/forum_test/add", produces = "application/json")
+	/* insert new forum name and figure */
+	@RequestMapping(value = "/forum_test/add")
 	@ResponseBody
 	public JSONObject insertNewForum_Test(@RequestParam("forumName") String forumName,
-			@RequestParam("forumFigure") String forumFigure, ModelMap model) {
+			@RequestParam("forumFigure") MultipartFile forumFigure, ModelMap model) {
 		System.out.println("insert new Forum");
-//		String imgURL = (String) model.getAttribute("imgURL");
-//		if (imgURL.length() == 0 || imgURL == null) {
-//			System.out.println("img did not upload!");
-//		} else {
-//			forumFigure = imgURL;
-//		}
+		/* figure upload to imgur */
+		String imgURL = gService.uploadToImgur(forumFigure);
+		System.out.println(imgURL);
+		model.addAttribute("imgURL", imgURL);
 		/* forumName */
 		if (forumName.length() == 0 || forumName == null) {
 			System.out.println("forumName is null !");
 		}
 		/* forumFigure */
-		if (forumFigure.length() == 0 || forumFigure == null) {
-			System.out.println("forumFigure is null !");
-			forumFigure = "https://i.imgur.com/8g2jFuM.png";
+		if (imgURL.length() == 0 || imgURL == null) {
+			System.out.println("imgURL is null !");
+			imgURL = "https://i.imgur.com/8g2jFuM.png";
 		}
-		Forum newForum = fService.insertForum(new Forum(forumName, forumFigure));
+		Forum newForum = fService.insertForum(new Forum(forumName, imgURL));
 		JSONObject result = new JSONObject();
-		result.put("newForum", newForum);
+		/* query forum rank */
+		ForumListView flv = fService.queryForumListByForumId(newForum.getForumId());
+		result.put("newForum", flv);
 		System.out.println(result);
 		return result;
 	}
@@ -107,19 +115,38 @@ public class ArticleController {
 		System.out.println(j);
 		return "testTitleViewPage";
 	}
+	
+	/* btn */
+	/* query article by forum ID */
+	@RequestMapping(value = "/forum_test/findforum/{forumId}", produces = "application/json")
+	@ResponseBody
+	public JSONObject getArticlesByForumId_btn(@PathVariable(name = "forumId") Integer forumId) {
+		System.out.println("get in controller");
+		/* query foum */
+		Forum forum = fService.queryOneForum(new Forum(forumId));
+		JSONObject j = new JSONObject();
+		j.put("forum", forum);
+		System.out.println(j);
+		return j;
+	}
 
-	/* test *//* img not com */
+	/* test */
 	/* insert new article title */
 	@RequestMapping(value = "/forum_test/{forumId}/add", produces = "application/json")
 	@ResponseBody
 	public JSONObject insertNewParent_test(@PathVariable("forumId") Integer forumId, String content, Integer userId,
-			String articleTitle, ModelMap model) {
+			String articleTitle, String firstFigure, ModelMap model) {
 		System.out.println("insert new Parent Article");
 		JSONObject result = new JSONObject();
 		try {
+			/*first figure*/
+			if (firstFigure.length() == 0 || firstFigure == null) {
+				System.out.println("firstFigure is null !");
+				firstFigure = "https://i.imgur.com/8g2jFuM.png";
+			}
 			/* insert title */
 			ArticleTitle newTitle = aService
-					.inertTitle(new ArticleTitle(forumId, articleTitle, "https://i.imgur.com/8g2jFuM.png"));
+					.inertTitle(new ArticleTitle(forumId, articleTitle, firstFigure));
 			/* insert content */
 			ArticleContent newContent = aService
 					.insertContent(new ArticleContent(newTitle.getTitleId(), userId, content));
@@ -164,7 +191,7 @@ public class ArticleController {
 		return "testContentViewPage";
 	}
 
-	/* test *//* img not com */
+	/* test */
 	/* insert new reply content */
 	@RequestMapping(value = "/forum_test/{forumId}/{titleId}/add", produces = "application/json")
 	@ResponseBody
@@ -191,7 +218,7 @@ public class ArticleController {
 
 	/* final */
 	/* update article data:like,unlike */
-	@RequestMapping(value = "/forum_test/{forumId}/{titleId}/btn", produces = "application/json")
+	@RequestMapping(value = "/forum_test/{forumId}/{titleId}/record", produces = "application/json")
 	@ResponseBody
 	public JSONObject updateRecord(@PathVariable("forumId") Integer forumId, @PathVariable("titleId") Integer titleId,
 			String clickedBTN, ModelMap model) {
@@ -231,15 +258,29 @@ public class ArticleController {
 	}
 
 	/* update forum title or forum's figure */
-	@RequestMapping(value = "/forum_test/update", produces = "application/json")
+	@RequestMapping(value = "/forum_test/{forumId}/update", produces = "application/json")
 	@ResponseBody
-	public JSONObject updateForum(Integer forumId, String forumName, String forumFigure, ModelMap model) {
+	public JSONObject updateForum(@PathVariable("forumId") Integer forumId,@RequestParam("forumName") String forumName,
+			@RequestParam("forumFigure") MultipartFile forumFigure) {
 		System.out.println("update forum");
 		JSONObject result = new JSONObject();
-
+		
+		/* figure upload to imgur */
+		String imgURL = gService.uploadToImgur(forumFigure);
+		System.out.println(imgURL);
+		/* forumName */
+		if (forumName.length() == 0 || forumName == null) {
+			System.out.println("forumName is null !");
+		}
+		/* forumFigure */
+		if (imgURL.length() == 0 || imgURL == null) {
+			System.out.println("imgURL is null !");
+			imgURL = "https://i.imgur.com/8g2jFuM.png";
+		}
+		
 		Forum forum = fService.queryOneForum(new Forum(forumId));
 		forum.setForumName(forumName);
-		forum.setForumFigure(forumFigure);
+		forum.setForumFigure(imgURL);
 		forum = fService.updateOneForum(forum);
 
 		result.put("forum", forum);
@@ -275,14 +316,26 @@ public class ArticleController {
 	@RequestMapping(value = "/forum_test/{forumId}/{titleId}/{contentId}/update", produces = "application/json")
 	@ResponseBody
 	public JSONObject updateForum(@PathVariable("forumId") Integer forumId, @PathVariable("titleId") Integer titleId,
-			@PathVariable("contentId") Integer contentId, String titleName, String firstFigure, ModelMap model) {
+			@PathVariable("contentId") Integer contentId, String titleName, String firstFigure, String clickedBTN, ModelMap model) {
 		System.out.println("update article title");
 		JSONObject result = new JSONObject();
-		/* update reply content */
 		ArticleContent content = new ArticleContent();
-		content.setContentId(contentId);
-		content = aService.querytOneContentByContentId(content);
-		content = aService.updateContent(content);
+		String updateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+		/*identify clicked btn*/
+		if(clickedBTN.equals("delete")) {
+			/* update reply content */		
+			content.setContentId(contentId);
+			content = aService.querytOneContentByContentId(content);
+			content.setContent("<p>文章已刪除!!</p>");
+			content.setUpdateTime(updateTime);
+			content = aService.updateContent(content);
+		}else {
+			/* update reply content */
+			content.setContentId(contentId);
+			content = aService.querytOneContentByContentId(content);
+			content = aService.updateContent(content);
+		}
+
 
 		result.put("content", content);
 		System.out.println(result);
@@ -290,7 +343,7 @@ public class ArticleController {
 	}
 
 	/* delete forum */
-	@RequestMapping(value = "/forum_test/{forumId}/del", produces = "application/json")
+	@PostMapping(value = "/forum_test/{forumId}/del", produces = "application/json")
 	@ResponseBody
 	public JSONObject deleteForum(Integer forumId, ModelMap model) {
 		System.out.println("delete forum");
@@ -316,8 +369,8 @@ public class ArticleController {
 		System.out.println(result);
 		return result;
 	}
-	
-	/* delete reply *//*or content?*/
+
+	/* delete reply *//* or content? */
 	@RequestMapping(value = "/forum_test/{forumId}/{titleId}/{contentId}/del", produces = "application/json")
 	@ResponseBody
 	public JSONObject deleteForum(@PathVariable("forumId") Integer forumId, @PathVariable("titleId") Integer titleId,
@@ -330,6 +383,7 @@ public class ArticleController {
 		return result;
 	}
 	
+
 
 	//後臺全部文章列表
 	@RequestMapping(path = "/getAllArticles", produces = "application/json", method = RequestMethod.POST)
@@ -350,4 +404,26 @@ public class ArticleController {
 	public String showAllArticles() {
 		return "allArticles";
 	}
+
+	/* upload figure to imgur */
+	@RequestMapping(value = "/figureupload", produces = "application/json")
+	@ResponseBody
+	public Map<String, String> deleteForum(@RequestPart("upload")MultipartFile forumFigure, ModelMap model) {
+		System.out.println("figure upload");
+		Map<String, String> result =new HashMap<>();
+		String imgurl = gService.uploadToImgur(forumFigure);
+		if(imgurl != null) {
+			result.put("uploaded", "true");
+			result.put("url", imgurl);
+			System.out.println(result);
+		}else {
+			result.put("uploaded", "false");
+			result.put("url", null);
+			System.out.println(result);
+		}
+
+		return result;
+	}
+
+
 }

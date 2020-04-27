@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.gamebase.member.model.UserData;
+import com.sun.mail.iap.Response;
 
 @Repository
 public class UserDataDAO implements IUserData {
@@ -95,25 +96,57 @@ public class UserDataDAO implements IUserData {
 	}
 
 	@Override
-	public void GetCookie(String account, String password, HttpServletRequest request, HttpServletResponse response) {
-		
+	public void setCookie(String account, String password, boolean save, HttpServletRequest request, HttpServletResponse response) {
+
 		Cookie accCookie = new Cookie("account", account);
 		Cookie pwdCookie = new Cookie("password", password);
-		
-		String save = request.getParameter("save");
-		
-		if (save != null) {
-		
+		System.out.println("save: " + save);
+		if (save) {
+
 			accCookie.setMaxAge(60 * 60 * 24 * 7);
 			pwdCookie.setMaxAge(60 * 60 * 24 * 7);
+			System.out.println("setMaxAge");
 		} else {
-			
+
 			accCookie.setMaxAge(0);
 			pwdCookie.setMaxAge(0);
+			System.out.println("Not setMaxAge");
 		}
 		response.addCookie(accCookie);
 		response.addCookie(pwdCookie);
-		
+	
 	}
+
+	@Override
+	public void GetCookie(String account, String password, HttpServletRequest request) {
+
+		HttpSession session = request.getSession();
+		String sessionId = session.getId();
+		System.out.println("sID: " + sessionId);
+	
+		Cookie[] cookies = request.getCookies();
+		System.out.println("我的cookie:" + cookies);
+		if (cookies != null) {
+			System.out.println("Cookie在哪裏?" + cookies);
+			for (Cookie cookie : cookies) {
+				String name = cookie.getName();
+				System.out.println("Cookie的名字: " + name);
+				System.out.println("我是一個acc: " + account);
+				System.out.println("我是一個pwd: " + password);
+				if ("account".equals(name)) {
+					String acc = cookie.getValue();
+					System.out.println("acc123" + acc);
+				} else if ("password".equals(name)) {
+					String pwd = cookie.getValue();
+//					System.out.println("pwd123" + pwd);
+				}
+			}
+		}
+
+	}
+
+
+
+
 
 }

@@ -30,6 +30,7 @@ public class ShoppingCartDao {
 		ShoppingCart sc = new Gson().fromJson(form, ShoppingCart.class);
 		try {
 			if(this.checkCartLimit(id)) {
+				sc.setUserId(id);
 				session.save(sc);
 				result.put("t", true);
 			}else {

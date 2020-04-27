@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -16,16 +17,18 @@
     <i id="google-login-btn" class="fab fa-google"></i>
     <form id="login-form">
         <div class="input-group">
-            <input type="text" name="account" required/>
+            <input type="text" name="account" id="account" value='${cookie.account.value}' required/>
             <span>帳號</span>
         </div>
         <div class="input-group">
-            <input type="password" name="password"  required/>
+            <input type="password" name="password" id="password" value='${cookie.password.value}' required/>
             <span>密碼</span>
         </div>
+         	<input type="checkbox" name="save" id="rm" />Remember Me
     </form>
     <button id="login-submit-btn">登入</button>
     <button class="regist-btn">註冊</button>
+    
 </div>
 <!-- End login area -->
 

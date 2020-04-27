@@ -70,6 +70,7 @@ public class ProductDao implements IProductDao {
 		for (Product beans : listP) {
 			JSONObject jobj = new JSONObject();
 			jobj.put("productId", beans.getProductId());
+			jobj.put("productVideo", beans.getProductVideo());
 			jobj.put("productImg", beans.getProductImg());
 			jobj.put("productName", beans.getProductName());
 			jobj.put("productType", beans.getProductType());
@@ -158,6 +159,7 @@ public class ProductDao implements IProductDao {
 				for (Product beans1 : list1) {
 					JSONObject jobj = new JSONObject();
 					jobj.put("productId", beans1.getProductId());
+					jobj.put("productVideo", beans1.getProductVideo());
 					jobj.put("productImg", beans1.getProductImg());
 					jobj.put("productName", beans1.getProductName());
 					jobj.put("productType", beans1.getProductType());
@@ -179,13 +181,15 @@ public class ProductDao implements IProductDao {
 		System.out.println(jobj);
 		Product p1 = new Product();
 		p1.setProductId(Integer.valueOf((String) jobj.get("0")));
-		p1.setProductImg("IMG");// (String) jobj.get("1")
-		p1.setProductName((String) jobj.get("2"));
-		p1.setProductType((String) jobj.get("3"));
-		p1.setInventory((Integer.valueOf((String) jobj.get("4"))));
-		p1.setProductPrice((Integer.valueOf((String) jobj.get("5"))));
-		p1.setProductTag((String) jobj.get("6"));
-		p1.setProductInfo((String) jobj.get("7"));
+		p1.setProductVideo((String) jobj.get("1"));
+		p1.setProductImg((String) jobj.get("2"));// (String) jobj.get("1")
+		p1.setProductName((String) jobj.get("3"));
+		p1.setProductType((String) jobj.get("4"));
+		p1.setInventory((Integer.valueOf((String) jobj.get("5"))));
+		p1.setProductPrice((Integer.valueOf((String) jobj.get("6"))));
+		p1.setProductTag((String) jobj.get("7"));
+		p1.setProductInfo((String) jobj.get("8"));
+		
 		return p1;
 	}
 

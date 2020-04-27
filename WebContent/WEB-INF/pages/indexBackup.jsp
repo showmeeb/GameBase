@@ -96,7 +96,7 @@
 						class="dropdown-item" id="regiest-str" href="#">註冊</a> <a
 						class="dropdown-item hidden-window" id="logout-str" href="#">登出</a>
 					<!-- original -->
-					<a class="dropdown-item">--This line down is Original--</a>
+					<a class="dropdown-item">${sessionScope.UserData.account}</a>
 					<c:if test="${empty UserData.userId}">
 						<a class="dropdown-item" href="<c:url value="/gotologin"/>">登入</a>
 					</c:if>

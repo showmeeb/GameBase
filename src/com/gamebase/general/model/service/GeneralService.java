@@ -52,11 +52,11 @@ public class GeneralService {
 		if(res.getStatusCodeValue() == 200) {
 			
 			String imgUrl = ((Map)res.getBody().get("data")).get("link").toString();
-			
-			return imgUrl;
+			System.out.print(imgUrl);
+			return "true";
 		} else {
 			
-			return null;
+			return "false";
 		}
 	}
 	

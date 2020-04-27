@@ -46,14 +46,13 @@ public class ChatController {
 	private ChatRoomService cService;
 	@Autowired
 	private GeneralService generalService;
-	
 
 	@MessageMapping("/chat")
 	public void sendBySimpSingle(@RequestBody WebSocketMessage message) {
 
 		ArrayList<String> userList = new ArrayList<String>();
 		Map<String, String> userMap = new HashMap<>();
-
+		System.out.println(message.getTime());
 		for (SimpUser user : simpUserRegistry.getUsers()) {
 			String userName = user.getName();
 			userList.add(userName);
@@ -66,8 +65,6 @@ public class ChatController {
 		} else if ("logout".equals(toMessage)) {
 			simpMessagingTemplate.convertAndSend("/topic/messages", message.getFrom());
 			cService.redisToSql(message);
-
-
 		} else if ("broadcast".equals(toMessage)) {
 			simpMessagingTemplate.convertAndSend("/topic/messages", message);
 		} else {
@@ -85,35 +82,55 @@ public class ChatController {
 
 				} else {
 					simpMessagingTemplate.convertAndSendToUser(to, "/queue/messages", message);
-					System.out.println("senderToreceiver");
+//					simpMessagingTemplate.convertAndSendToUser(message.getFrom(), "/queue/messages", message);
 					cService.saveToRedis(message);
 				}
 			}
 		}
 	}
 
-	@PostMapping(path = "/Imgur", produces = "application/json")
+	@PostMapping(path = "/File", produces = "application/json")
 	@ResponseBody
-	public Map<String, String> imgurUpload(@RequestParam(name = "sender") String sender,
-			@RequestParam(name = "receiver") String receiver, @RequestPart(name = "file") MultipartFile image, WebSocketMessage message) {
+	public Map<String, String> fileUpload(@RequestParam(name = "sender") String sender,
+			@RequestParam(name = "receiver") String receiver, @RequestPart(name = "file") MultipartFile file) {
 
-		String fileName = image.getOriginalFilename();
-		String imgURL = generalService.uploadToImgur(image);
+		String fileName = file.getOriginalFilename();
 		String type = fileName.substring(fileName.lastIndexOf(".") + 1);
-		System.out.println(imgURL);
-		System.out.println(fileName);
 		System.out.println(type);
-		message.setURL(imgURL);
-		message.setType(type);
-		Map<String, String> result = new HashMap<>();
-		if (imgURL != null) {
-			result.put("uploaded", "true");
-			result.put("url", imgURL);
+		if (type.contentEquals("pdf")) {
+			WebSocketMessage bean = new WebSocketMessage();
+			bean.setFrom(sender);
+			bean.setTo(new String[] { receiver });
+			bean.setType(type);
+			bean.setURL("img/PDF_file_icon.jpg");
+			System.out.println("123fffffffffffffff");
+			bean.setTime(new Timestamp(System.currentTimeMillis()));
+			sendMulti(bean, bean.getFrom(), bean.getTo()[0]);
 		} else {
-			result.put("uploaded", "false");
-			result.put("url", null);
+			String fileURL = generalService.uploadToImgur(file);
+			System.out.println(fileURL);
+			WebSocketMessage bean = new WebSocketMessage();
+			bean.setFrom(sender);
+			bean.setTo(new String[] { receiver });
+			bean.setType(type);
+			bean.setURL(fileURL);
+			bean.setTime(new Timestamp(System.currentTimeMillis()));
+			sendMulti(bean, bean.getFrom(), bean.getTo()[0]);
+		}
+		Map<String, String> result = new HashMap<>();
+		if (type != null) {
+			result.put("type", type);
+		} else {
+			result.put("type", null);
 		}
 		return result;
+	}
+
+	public void sendMulti(WebSocketMessage msg, String... receivers) {
+		for (String receiver : receivers) {
+			simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages", msg);
+		}
+		cService.saveToRedis(msg);
 	}
 
 	@EventListener

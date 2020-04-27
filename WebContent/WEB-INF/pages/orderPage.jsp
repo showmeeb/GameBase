@@ -33,6 +33,9 @@ img{width: 50px }
 #du1 img {
 	width: 70px
 }
+
+
+#total{color:red}
 </style>
 </head>
 <body>
@@ -108,12 +111,87 @@ img{width: 50px }
 
   </tbody>
 </table>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalCenterTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered"
+			role="document">
+			<div id="payform" class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalCenterTitle">訂單明細</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+					  <thead>
+					    <tr>
+					      <th scope="col">#</th>
+					      <th scope="col">商品ID</th>
+					      <th scope="col">商品名稱</th>
+					      <th scope="col">商品價錢</th>
+					      <th scope="col">商品數量</th>
+					      <th scope="col">總價</th>
+					    </tr>
+					  </thead>
+					  <tbody id="tb2">
+					   
+					  </tbody>
+					  <tfoot >
+					  	<tr>
+					  		<th scope="row"></th>
+							      <td></td>
+							      <td></td>
+							      <td></td>
+							      <td></td>
+							      <td id="total"></td>
+
+					  	</tr>
+					  </tfoot>
+					</table>
+				</div>
+				<div class="modal-footer">
+					
+				</div>
+			</div>
+		</div>
+	</div>
 <script type="text/javascript">
 
+//[{ a: 1},{ b: 2},{ c: 3}].reduce(function(result, item) {
+//	  var key = Object.keys(item)[0]; //first property: a, b, c
+//	  result[key] = item[key];
+//	  return result;
+//	}, {});
+
 function showOrder(response){
+	
 	for(let i=0;i < response.length; i++){
-	var txt = "<tr>";
+		var array =[];
+		
+		let j = 1;
+		while (Array.isArray(response[i][j])) {
+			
+		var b=response[i][j].reduce(function(result, item) {
+			  var key = Object.keys(item)[0]; //first property: a, b, c
+			  result[key] = item[key];
+			  return result;
+			});
+		console.log("123");
+		console.log(b);
+		array.push(b);
+		  j++;
+		}
+		console.log(array);
+	var arrayS =JSON.stringify(array);
+		console.log(arrayS);
+		
+	var txt = "<tr id='orderDetail' data-toggle='modal' data-target='#exampleModalCenter'>";
 	txt += "<th scope='row'>"+i+1+"</th>";
+	txt += "<td><span id='orderDetail1' style='display:none'>"+arrayS;
 	txt += "<td>"+response[i].orderId;
 	txt += "<td>"+response[i].uuId;
 	txt += "<td>"+response[i].orderName;
@@ -122,22 +200,62 @@ function showOrder(response){
 	txt += "<td>"+response[i].orderPrice;
 	txt += "<td>"+response[i].orderDate;
 	txt += "<td>"+response[i].payStatus;
-	
-	}
 	$('#tb1').append(txt);
+	}
+	
+}
+
+function showOrderDetaile(response){
+	var txt="";
+	var total=0;
+	for (let i=0;i<response.length; i++){
+	txt += "<tr>";
+	txt += "<th scope='row'>"+(i+1)+"</th>";
+	txt += "<td>"+response[i].productId;
+	txt += "<td>"+response[i].productName;
+	txt += "<td>"+response[i].productPrice;
+	txt += "<td>"+response[i].amount;
+	txt += "<td id='money'>"+(response[i].amount*response[i].productPrice);
+	total += response[i].amount*response[i].productPrice
+	}
+	$('#tb2').html(txt);
+	$('#total').html(total);
 }
 	$(document).ready(function(){
-		var id = 0;
-		$.ajax({
-			url:"orderPage/showOrder",
-			dataType:"json",
-			data:{id:id},
-			type:"POST",
-			success:function(response){
-				console.log(response);
-				showOrder(response);
-			}
-			});
+		if(window.sessionStorage.getItem("loginUser")==""){
+			alert("訪客請到信箱確認訂單");
+			location.assign("shoppingPage");
+		}else{
+			var user=JSON.parse(window.sessionStorage.getItem("loginUser"));
+			var id = user.userId;
+			$.ajax({
+				url:"orderPage/showOrder",
+				dataType:"json",
+				data:{id:id},
+				type:"POST",
+				success:function(response){
+					console.log(response);
+					console.log(response[0][1]);
+					console.log(response[0][2]);
+					showOrder(response);
+				}
+				});
+		}
+
+		
+		
+		})
+		
+	$(document).on('click','#orderDetail',function(){
+			console.log("asd");
+			var a=$(this).find("span").text();
+			var b=JSON.parse(a);
+			//var a=$tr.find("span").text();
+			console.log(b);
+			showOrderDetaile(b);
+
+
+		
 		})
 
 

@@ -57,10 +57,11 @@
 							$('#t1').html("");
 						},
 						success : function(response) {
-							var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th colspan='2'>設定";
+							var txt = "<tr><th>商品ID<th>商品影片<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th colspan='2'>設定";
 							for (let i = 0; i < response.length; i++) {
 								txt += "<tr><td>" + response[i].productId;
-								txt += "<td id='img'>";
+								txt += "<td>" + response[i].productVideo;
+								txt += "<td id='img'>"+ response[i].productImg;
 								txt += "<td>" + response[i].productName;
 								txt += "<td>" + response[i].productType;
 								txt += "<td>" + response[i].inventory;
@@ -89,11 +90,12 @@
 										type : "POST",
 										success : function(response) {
 											console.log(response);
-											var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th colspan='2'>設定";
+											var txt = "<tr><th>商品ID<th>商品影片<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th colspan='2'>設定";
 											for (let i = 0; i < response.length; i++) {
 												txt += "<tr><td>"
 														+ response[i].productId;
-												txt += "<td id='img'>";
+												txt += "<td>" + response[i].productVideo;
+												txt += "<td id='img'>"+ response[i].productImg;
 												txt += "<td>"
 														+ response[i].productName;
 												txt += "<td>"

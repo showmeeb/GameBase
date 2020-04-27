@@ -15,6 +15,8 @@ import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @RedisHash("History")
 @Component
 @Entity
@@ -35,11 +37,13 @@ public class ChatRoom implements Serializable{
 	private String URL;
 	private Timestamp time;
 
-	public ChatRoom(Integer id, Integer sender, Integer receiver, String history, Timestamp time) {
+	public ChatRoom(Integer id, Integer sender, Integer receiver, String history, String type, String url, Timestamp time) {
 		this.id=id;
 		this.sender = sender;
 		this.receiver = receiver;
 		this.history = history;
+		this.type=type;
+		this.URL=url;
 		this.time=time;
 	}
 
@@ -98,6 +102,7 @@ public class ChatRoom implements Serializable{
 		URL = uRL;
 	}
 	@Column(name = "TIME")
+	@JsonFormat(pattern = "HH:mm", timezone = "GMT+8")
 	public Timestamp getTime() {
 		return time;
 	}

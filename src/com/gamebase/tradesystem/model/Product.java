@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 public class Product {
 
 	private int productId;
+	private String productVideo;
 	private String productImg;
 	private String productName;
 	private String productType;
@@ -53,6 +54,15 @@ public class Product {
 
 	public void setProductId(int productId) {
 		this.productId = productId;
+	}
+	
+	@Column(name= "PRODUCTVIDEO")
+	public String getProductVideo() {
+		return productVideo;
+	}
+
+	public void setProductVideo(String productVideo) {
+		this.productVideo = productVideo;
 	}
 
 	@Column(name = "PRODUCTIMG")
@@ -131,5 +141,7 @@ public class Product {
 //	public void setHost(Host host) {
 //		this.host = host;
 //	}
+
+
 
 }
