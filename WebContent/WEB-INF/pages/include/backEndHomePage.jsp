@@ -175,9 +175,6 @@ ul {
 				<td><a id="myArticles" class="tag" href="myArticles">我的文章</a></td>
 			</tr>
 			<tr>
-				<td><a id="myContext" class="tag" href="myContexts">我的回應</a></td>
-			</tr>
-			<tr>
 				<td><a class="tag" href="#">刪除文章</a></td>
 			</tr>
 			<tr>

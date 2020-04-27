@@ -442,7 +442,7 @@ public class ArticleController {
 	
 	//myArticles
 	@RequestMapping(value = "/myArticles", method = RequestMethod.GET)
-	public String myArticles() {
+	public String showmyArticles() {
 		return "myArticles";
 	}
 	

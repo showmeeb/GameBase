@@ -17,7 +17,7 @@
 
 <body>
 	<jsp:include page="../include/backEndHomePage.jsp"></jsp:include>
-	<main id="main_back">我的文章</main>
+	<main id="main_back">我的文章
 
 	<div id="bar" class="w-50">
 		<form>
@@ -44,7 +44,7 @@
 		<!-- <input type="button" id="add" value="新增"> -->
 
 	</div>
-
+</main>
 	<script type="text/javascript">
 		//    sideBar選項
 		$(document).ready(function() {
