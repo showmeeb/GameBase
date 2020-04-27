@@ -17,11 +17,11 @@
     <i id="google-login-btn" class="fab fa-google"></i>
     <form id="login-form">
         <div class="input-group">
-            <input type="text" name="account" value='${cookie.account.value}' required/>
+            <input type="text" name="account" id="account" value='${cookie.account.value}' required/>
             <span>帳號</span>
         </div>
         <div class="input-group">
-            <input type="password" name="password" value='${cookie.password.value}' required/>
+            <input type="password" name="password" id="password" value='${cookie.password.value}' required/>
             <span>密碼</span>
         </div>
          	<input type="checkbox" name="save" id="rm" />Remember Me

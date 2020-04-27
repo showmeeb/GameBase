@@ -71,8 +71,8 @@ public class UserOrderDao {
 		order.setTotalAmount(String.valueOf(uo.getOrderPrice()));//前端引入
 		order.setTradeDesc("Game");//不能中文
 		order.setItemName("Game1");//不能中文前端引入
-		order.setReturnURL("http://515c5e08.ngrok.io/GameBase/shoppingCart/orderStatus");
-		order.setClientBackURL("http://515c5e08.ngrok.io/GameBase/shoppingPage");
+		order.setReturnURL("http://d7c0cc70.ngrok.io/GameBase/shoppingCart/orderStatus");
+		order.setClientBackURL("http://d7c0cc70.ngrok.io/GameBase/shoppingPage");
 		String str = Ecpay.aioCheckOut(order, invoice);
 		System.out.println(str);
 		return str;
@@ -85,9 +85,13 @@ public class UserOrderDao {
 	
 	public void orderStatus(int rtnCode,int orderId) {
 		Session session = sessionFactory.getCurrentSession();
+		System.out.println("orderId:"+orderId);
 		if(rtnCode==1) {
-			UserOrder uo = (UserOrder)session.get("from UserOrder", orderId);
-			uo.setPayStatus(rtnCode);
+			System.out.println("999");
+			UserOrder uo = (UserOrder)session.get(UserOrder.class,orderId);
+			System.out.println("99");
+			uo.setPayStatus(1);
+			System.out.println("9");
 			session.update(uo);
 			System.out.println("訂單建立成功");
 		}else {
@@ -103,10 +107,11 @@ public class UserOrderDao {
 			List<UserOrder> list = query.getResultList();
 			
 			System.out.println("size:"+list.size());
-			System.out.println("list:"+list);
+
 			JSONArray jsonArray = new JSONArray();
 			
 			for(UserOrder beans:list) {
+				int i =1;
 				JSONObject jobj = new JSONObject();
 
 				jobj.put("userId", beans.getUserId());
@@ -118,7 +123,28 @@ public class UserOrderDao {
 				jobj.put("orderPrice", beans.getOrderPrice());
 				jobj.put("orderDate", beans.getOrderDate());
 				jobj.put("payStatus", beans.getPayStatus());
+				System.out.println("orderId:"+beans.getOrderId());
+				Query<OrderDetail> query1 = session.createQuery("from OrderDetail where orderId=?1",OrderDetail.class);
+				query1.setParameter(1,(int)beans.getOrderId());
+				List<OrderDetail> list1 = query1.getResultList();
+				System.out.println("size1:"+list1.size());
+				
+				for(OrderDetail beans1:list1) {
+					if(i>list1.size()){
+						i=1;
+					};
+					JSONArray jsonArray1 = new JSONArray();
+					JSONObject jobj1 = new JSONObject();
+					jobj1.put("productId", beans1.getProductId());
+					jobj1.put("productName", beans1.getProductName());
+					jobj1.put("productPrice", beans1.getProductPrice());
+					jobj1.put("amount", beans1.getAmount());
+					jsonArray1.add(jobj1);
+					jobj.put(i,jsonArray1);
+					i++;
+				}
 				jsonArray.add(jobj);
+				
 			}
 			System.out.println(jsonArray);
 			return jsonArray;

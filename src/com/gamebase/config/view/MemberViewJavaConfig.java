@@ -47,7 +47,7 @@ public class MemberViewJavaConfig {
 	@Bean
 	public View ProfilePage() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/userProfileCreate.jsp");
+		view.setUrl("/WEB-INF/pages/backend/userProfileCreate.jsp");
 		return view;
 	}
 
@@ -61,7 +61,7 @@ public class MemberViewJavaConfig {
 	@Bean
 	public View allMembers() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/backEnd/allMembers.jsp");
+		view.setUrl("/WEB-INF/pages/backend/allMembers.jsp");
 		return view;
 	}
 }

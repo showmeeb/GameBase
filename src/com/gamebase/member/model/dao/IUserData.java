@@ -22,4 +22,5 @@ public interface IUserData {
 			HttpServletResponse response);
 	public List<UserData> getuserbyacinallrank(String ac);
 	public List<UserData> getuserbyacinonerank(Integer rank,String ac);
+
 }

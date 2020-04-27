@@ -26,9 +26,9 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- jQuery UI library -->
-<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
-	integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
-	crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	
 <!-- javaScript -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -36,7 +36,8 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <!-- WebSocket library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
@@ -52,9 +53,8 @@
 <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
 <link href="<c:url value="/css/topBar.css"/>" rel="stylesheet">
 
-<style> 
-.search-input{width: 500px;
-}
+<style>
+
 </style>
 
 </head>
@@ -77,16 +77,17 @@
 				<select name="looking">
 					<option value="forProduct">找商品</option>
 					<option value="foForumr">找論壇</option>
-				</select> 
-				<input class="form-control search-input" type="search" placeholder="搜尋"
-					aria-label="Search" name="keyword" value="${keyword}" id="searchInput">
-				<button class="btn btn-outline-light search-submit-btn" type="submit">Search</button>
+				</select> <input class="form-control search-input" type="search"
+					placeholder="搜尋" aria-label="Search" name="keyword"
+					value="${keyword}" id="searchInput">
+				<button class="btn btn-outline-light search-submit-btn topBarBtn"
+					type="submit">Search</button>
 			</form>
 		</div>
 
 		<!--商城下拉選單-->
 		<div class="col-md-1 column">
-			<button class="btn btn-primary dropdown-toggle" type="button"
+			<button class="btn btn-primary dropdown-toggle topBarBtn" type="button"
 				id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
 				aria-expanded="true">商城</button>
 			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -94,7 +95,7 @@
 				<a class="dropdown-item" href="<c:url value="/tradesystem"/>">登記商品</a>
 				<a class="dropdown-item" href="<c:url value="/mainProduct"/>">商品管理</a>
 				<a class="dropdown-item" href="<c:url value="/shoppingPage"/>">商城頁面</a>
-				<a class="dropdown-item" href="<c:url value="/test"/>">圖片上傳</a> 
+				<a class="dropdown-item" href="<c:url value="/test"/>">圖片上傳</a>
 
 			</div>
 		</div>
@@ -102,7 +103,7 @@
 		<!--討論區連結-->
 		<div class="col-md-1 column">
 			<a href="<c:url value="/forum_test"/>">
-				<button class="btn btn-primary" type="submit">討論區</button>
+				<button class="btn btn-primary topBarBtn" type="submit">討論區</button>
 			</a>
 		</div>
 
@@ -110,30 +111,32 @@
 			<div class="dropdown">
 
 				<!-- 這邊放使用者大頭貼-->
-				<span> <a href="#"><img	src="https://i.imgur.com/ke6wdHI.jpg" width="40" height="40" class="shot disable"></a>
+				<span> <a href="#"><img
+						src="https://i.imgur.com/ke6wdHI.jpg" width="40" height="40"
+						class="shot disable"></a>
 				</span>
 
 
-				<button class="btn btn-warning dropdown-toggle" type="button"
-					id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="true">
+				<button class="btn btn-warning dropdown-toggle userNameBtn"
+					type="button" id="dropdownMenuButton" data-toggle="dropdown"
+					aria-haspopup="true" aria-expanded="true">
 					使用者名稱
 					<!--使用動態產生-->
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 					<!-- Ajax -->
-					<a class="dropdown-item" id="login-str" href="#">登入</a> 
-					<a class="dropdown-item" id="regiest-str" href="#">註冊</a> 
-					<a class="dropdown-item hidden-window" id="logout-str" href="#">登出</a>
-						
+					<a class="dropdown-item" id="login-str" href="#">登入</a> <a
+						class="dropdown-item" id="regiest-str" href="#">註冊</a> <a
+						class="dropdown-item hidden-window" id="logout-str" href="#">登出</a>
+
 					<!-- original -->
-					<a class="dropdown-item">--This line down is Original--</a>
-					<a class="dropdown-item" href="<c:url value="/gotologin"/>">登入</a>
-					<a class="dropdown-item" href="<c:url value="/gotoregister"/>">註冊</a>
-					<a class="dropdown-item" href="<c:url value="/logout"/>">登出</a> 
-					<a class="dropdown-item" href="<c:url value="/updateProfile/${UserData.userId}"/>">修改個人資料</a>
-					<a class="dropdown-item" href="<c:url value="/createProfile/${UserData.userId}"/>">新增個人資料</a>
+
+					<a class="dropdown-item">--This line down is Original--${UserData.account}</a>
+				
+					<a class="dropdown-item" href="#" id="update-up">管理個人資料</a>
+					
 			
+
 				</div>
 			</div>
 		</div>
@@ -153,10 +156,29 @@
 			type : "POST",
 			success : function(data) {
 				$("#searchInput").autocomplete({
-					source : data
+					source : data,
+					item:0
 				});
 			}
 		});
+
+
+		$("#update-up").click(function(){
+			var loginUser = JSON.parse(window.sessionStorage.getItem("loginUser"));
+			console.log("loginUserID: " + loginUser.userId);
+			var userId = loginUser.userId;
+				
+			$.ajax({
+				url:'/GameBase/updateProfile/'+userId,
+				type:'POST',
+				success:function(data){
+					window.location.href=data.url;
+				}
+			})
+		})
+		
+	
+
 	</script>
 
 </body>

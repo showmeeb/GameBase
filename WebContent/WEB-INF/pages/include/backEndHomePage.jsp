@@ -126,12 +126,11 @@ ul {
 		</table>
 		<table id="admin-content" class="d-none" cellpadding="10">
 			<tr>
-				<td><a class="tag" href="#">所有文章</a></td>
+				<td><a class="tag" href="allArticles">所有文章</a></td>
 			</tr>
 			<tr>
-				<td><a class="tag" href="#">刪除文章</a></td>
+				<td><a id="allArticles-del" class="tag" href="#">刪除文章</a></td>
 			</tr>
-
 		</table>
 		<table id="admin-news" class="d-none" cellpadding="10">
 			<tr>
@@ -309,9 +308,9 @@ ul {
 			;
 		})
 
-
-//判斷進入後台的腳色 
-//$("#admin-bar").removeClass("d-none");
+		
+		
+//      $("#admin-bar").removeClass("d-none");
 //			$("#member-bar").addClass("d-none");
 //		}else{
 //			$("#member-bar").removeClass("d-none");
@@ -319,7 +318,6 @@ ul {
 //			}
 
 		
-
 	</script>
 </body>
 </html>

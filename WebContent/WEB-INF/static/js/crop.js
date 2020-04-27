@@ -64,15 +64,16 @@ var initCropperInModal = function(img, input, modal){
             width:300,
             height:300
         }).toBlob(function(blob){
-        	var formData = new FormData();
+        	var formData = $('#imgForm').serializeObject();
         	formData.append('theFile', blob);
+        	var UserProfile = JSON.stringify(formData);
             $('#user-photo').attr('src',URL.createObjectURL(blob));
             $('#changeModal').modal('hide');
-            $.ajax('http://localhost:8080/GameBase/saveImg', {
+            $.ajax('http://localhost:8080/GameBase/uploadImg', {
                 method: "POST",
-                data: formData,
+                data: UserProfile,
+                contentType:false,
                 processData: false,
-                contentType: false,
                 success: function(data) {
                 	console.log(data)
                 	if(data=="true"){

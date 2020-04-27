@@ -55,6 +55,12 @@ public class ArticleService {
 		return recordDao.queryByUserIdAndTitleId(record);
 	}
 	
+	//後臺全部文章列表
+	public List<ArticleTitle> queryAllArticleTitle(){
+		return titleDao.queryAllArticleTitle();
+		
+	}
+	
 	public List<ArticleRecord> queryRecordsByTitleId(Integer titleId) {
 		return recordDao.queryByTitleId(titleId);
 	}

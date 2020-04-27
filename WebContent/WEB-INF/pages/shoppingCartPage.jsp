@@ -105,6 +105,20 @@
 	
 	<script type="text/javascript">
 
+	$("#exampleModalCenter").on("show.bs.modal",function(e){
+			console.log('顯示視窗前呼叫');
+		});
+$('#exampleModalCenter').on('hidden.bs.modal fade', function (e) {
+alert("asd");
+})
+
+if($('#exampleModalCenter').hasClass('model')){
+  console.log('視窗目前是開啟的狀態..');
+}
+
+
+	
+
 		function total(){
 		var a=0;
 		$('tr').find("td[id='money']").each(function(i, e) {
@@ -126,7 +140,7 @@
 						productPrice:response[i].productPrice,
 						amount:response[i].amount
 						}
-				
+				console.log(response[i].lsId);
 				txt += "<tr><td style='display:none'>"
 						+ response[i].shoppingCartId;
 				txt += "<td style='display:none'><span id='item'>"+JSON.stringify(item);
@@ -138,6 +152,7 @@
 				txt += "<input style='width: 40px;' id='quantity_input' type='text' value='"+ response[i].amount+"'>";
 				txt	+= "<button id='plus' type='button' class='btn btn-outline-secondary btn-sm'>+</button></span>";
 				txt += "<td id='money'>" + (response[i].productPrice * response[i].amount)
+				txt += "<td id='lsId' style='display:none'>"+response[i].lsId;
 				txt += "<td><input type='button' id='delete' value='移除'>"
 			}
 			$('#t1').html(txt);
@@ -186,55 +201,72 @@
 
 		
 		$(document).ready(function() {
-			//var user=null;
-			//	if(window.sessionStorage.getItem("loginUser")==null){
-			//		user=1;
-			//	}else{
-			//		user=window.sessionStorage.getItem("loginUser");
-			//	}
-			//console.log(user);
-			var id =0;
-			$.ajax({
-				url : "shopping/showCartProduct",
-				dataType : "json",
-				type : "POST",
-				data : {
-					id : id
-				},
-				success : function(response) {
-					console.log("資料回應:"+response);
+				var user;
+				if(window.sessionStorage.getItem("loginUser")==""){
+					var response = [];
+					for(var i=0; i<localStorage.length;i++){
+						  response.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
+						}
+					console.log("response");
+					console.log(response);
 					showtables(response);
-				},
-				complete : function() {
-					total();
+				}else{
+					user=JSON.parse(window.sessionStorage.getItem("loginUser"));
+
+					var id =user.userId;
+					$.ajax({
+						url : "shopping/showCartProduct",
+						dataType : "json",
+						type : "POST",
+						data : {
+							id : id
+						},
+						success : function(response) {
+							console.log("資料回應:"+response);
+							showtables(response);
+						},
+						complete : function() {
+							total();
+							
+						}
+					});
 					
 				}
-			});		
+			console.log(user);
+					
 
 		})
 		
 		$(document).on('click', '#delete', function() {
 			var $tr = $(this).parents("tr");
-			var d = $tr.find("td").eq(0).text();
-			console.log(d);
-			$.ajax({
-				url : "shopping/deleteCartProduct",
-				dataType : "json",
-				type : "POST",
-				data : {
-					d : d
-				},
-				success : function(response) {
-					console.log(response);
-					if (response.t == true) {
-						alert("刪除成功");
-						$tr.remove();
-						total();
-					} else {
-						alert("刪除失敗");
+			if(window.sessionStorage.getItem("loginUser")==""){
+				var d = $tr.find("td").eq(8).text();
+				console.log(d);
+				localStorage.removeItem(d);
+				$tr.remove();
+			}
+			else{
+				var d = $tr.find("td").eq(0).text();
+				console.log(d);
+				$.ajax({
+					url : "shopping/deleteCartProduct",
+					dataType : "json",
+					type : "POST",
+					data : {
+						d : d
+					},
+					success : function(response) {
+						console.log(response);
+						if (response.t == true) {
+							alert("刪除成功");
+							$tr.remove();
+							total();
+						} else {
+							alert("刪除失敗");
+						}
 					}
-				}
-				})
+					})
+			}
 			});
 		
 		$(document).on('click', '#paybillF', function() {
@@ -244,24 +276,28 @@
 				}
 			})
 		$(document).on('click', '#paybill', function() {
-			//var userId =${UserData.userId};
+			
 			var items =[];
 			$(document).find('span[id="item"]').each(function(i,e){
 					items[i]=e.innerHTML;
 				})
-			
-			//var items= JSON.stringify(items1);
+
 			var a = $('#f1').serializeObject();
 			var totalPrice = $('#total').html();
+
+			if(window.sessionStorage.getItem("loginUser")==""){
+					a['userId']=999999;
+				}else{
+					user=JSON.parse(window.sessionStorage.getItem("loginUser"));
+					a['userId']=user.userId;
+				}
 			a['orderPrice']=totalPrice;
-			a['userId']=0;
 			var form = JSON.stringify(a);
 			var items1= "["+items+"]";
 			console.log("a:"+a);
 			console.log("total:"+total);
 			console.log("form:"+form);
 			console.log("items1:"+items1);
-
 			var a=total();
 			if(a>30000){
 				alert("信用卡刷卡最大金額不得超過3萬元台幣");

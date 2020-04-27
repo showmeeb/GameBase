@@ -22,72 +22,67 @@ public class GeneralService {
 
 	private final String IMGUR_UPLOAD_URL = "https://api.imgur.com/3/upload";
 	private final String IMGUR_CLIENT_ID = "e1d6333cdc6b9dd";
-	
+
 	public String uploadToImgur(MultipartFile image) {
 		// use REST Template to throw request and response
 		RestTemplate template = new RestTemplate();
-		
+
 		// prepare for body content
 		LinkedMultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 		try {
-			body.add("image", new MultipartInputStreamFileResource(image.getInputStream(),image.getOriginalFilename()));
+			body.add("image",
+					new MultipartInputStreamFileResource(image.getInputStream(), image.getOriginalFilename()));
 		} catch (IOException e) {
 //			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
-		
+
 		// get request entity
 		URI uri = URI.create(IMGUR_UPLOAD_URL);
-		RequestEntity<LinkedMultiValueMap<String, Object>> req = RequestEntity
-							.post(uri)
-							.header("Authorization", "Client-ID " + IMGUR_CLIENT_ID)
-							.contentType(MediaType.MULTIPART_FORM_DATA)
-							.body(body);
-		
+		RequestEntity<LinkedMultiValueMap<String, Object>> req = RequestEntity.post(uri)
+				.header("Authorization", "Client-ID " + IMGUR_CLIENT_ID).contentType(MediaType.MULTIPART_FORM_DATA)
+				.body(body);
+
 		// get response entity
-		ResponseEntity<Map> res = template.exchange(req,Map.class);
-		
-		
+		ResponseEntity<Map> res = template.exchange(req, Map.class);
+
 		// check http status is 200 OK
-		if(res.getStatusCodeValue() == 200) {
-			
-			String imgUrl = ((Map)res.getBody().get("data")).get("link").toString();
+		if (res.getStatusCodeValue() == 200) {
+
+			String imgUrl = ((Map) res.getBody().get("data")).get("link").toString();
 			
 			return imgUrl;
 		} else {
-			
+
 			return null;
 		}
 	}
-	
-	public String uploadToImgur(InputStream subImage,String imageName) {
+
+	public String uploadToImgur(InputStream subImage, String imageName) {
 		// use REST Template to throw request and response
 		RestTemplate template = new RestTemplate();
-		
+
 		// prepare for body content
 		LinkedMultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-		body.add("image", new MultipartInputStreamFileResource(subImage,imageName));
-		
+		body.add("image", new MultipartInputStreamFileResource(subImage, imageName));
+
 		// get request entity
 		URI uri = URI.create(IMGUR_UPLOAD_URL);
-		RequestEntity<LinkedMultiValueMap<String, Object>> req = RequestEntity
-							.post(uri)
-							.header("Authorization", "Client-ID " + IMGUR_CLIENT_ID)
-							.contentType(MediaType.MULTIPART_FORM_DATA)
-							.body(body);
-		
+		RequestEntity<LinkedMultiValueMap<String, Object>> req = RequestEntity.post(uri)
+				.header("Authorization", "Client-ID " + IMGUR_CLIENT_ID).contentType(MediaType.MULTIPART_FORM_DATA)
+				.body(body);
+
 		// get response entity
-		ResponseEntity<Map> res = template.exchange(req,Map.class);
-		
-		
+		ResponseEntity<Map> res = template.exchange(req, Map.class);
+
 		// check http status is 200 OK
-		if(res.getStatusCodeValue() == 200) {
-			
-			String imgUrl = ((Map)res.getBody().get("data")).get("link").toString();
-			
+		if (res.getStatusCodeValue() == 200) {
+
+			String imgUrl = ((Map) res.getBody().get("data")).get("link").toString();
+
 			return imgUrl;
 		} else {
-			
+
 			return null;
 		}
 	}
