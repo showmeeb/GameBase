@@ -36,19 +36,6 @@ $(document).ready(function () {
     }
   });
 
-  // $(".loggedin-icon").click(function () {
-  // $("#loggedin-list").fadeToggle(500);
-
-  // });
-
-  // in the list
-
-  // user center button
-  // $("#user-center-btn").click(function () {
-  // $("#loggedin-list").fadeToggle(500);
-  // location.href = userCenterUrl;
-  // });
-
   // regist button
   $("#regiest-str").click(function () {
     $("#loggedin-list").fadeToggle(500);
@@ -61,6 +48,8 @@ $(document).ready(function () {
     $(".shot").addClass("disable", 700,function(){
     	$(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg");
     });
+    
+    $(".dropdown button[name='dmb-u']").html("會員系統");
     
     $("#logout-str").addClass("hidden-window", 700);
 
@@ -90,44 +79,6 @@ $(document).ready(function () {
         cleanChatRoom();
         disconnectChatRoom();
 
-        // if user at User Center then redirect to index page
-        // var userCenterUrlTest = /^.*UserCenter.*$/;
-
-        // if (userCenterUrlTest.test(location.href)) {
-        // location.href = "/motozone/";
-        // }
-
-        // if user at product post page then update form's action
-        // attribute
-        // var productPostUrlTest = /^.*ProductPost.*$/;
-
-        // if (productPostUrlTest.test(location.href)) {
-        // // update AutoBuy productPost page
-        // updateProductPostAttr('', '');
-        // }
-
-        // if user at AutoBuy publish page then update form's attribute
-        // var autoBuyUrlTest = /^.*AutoBuy.*$/;
-
-        // if (autoBuyUrlTest.test(location.href)) {
-        // // update AutoBuy publish
-        // updateAutoBuyPublishAttr('');
-        // }
-
-        // if user at AutoBuy Cart Page then redirect to AutoBuy index
-        // page
-        // var autoBuyCartUrlTest = /^.*AutoBuyCart.*$/;
-
-        // if (autoBuyCartUrlTest.test(location.href)) {
-        // location.href = "/motozone/AutoBuy";
-        // }
-
-        // hide shopping cart
-        // if (autoBuyFlag) {
-        // $("#shoppingCart").hide(700);
-        // updateCartLink('');
-        // }
-
       }
     });
   });
@@ -142,7 +93,6 @@ function userLogin() {
   var saveValue = $("input[name='save']").is(":checked");
 
   $("#login-submit-btn").addClass("disable");
-
   // empty check
   if (userAcc != "" && pwd != "") {
     var formdata = $("#login-form").serializeObject();
@@ -167,11 +117,9 @@ function userLogin() {
             $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg");
           }
 
-          // show user icon
-          // $(".login-btn").addClass("disable", 700, function () {
-          // $(".loggedin-icon").removeClass("disable", 700);
-          // });
-
+          //show userAccount
+          $(".dropdown button[name='dmb-u']").html(data.loginUser.account);
+          
           // close login window
           $("#login-submit-btn").parent().addClass("hidden-window", 700);
           $("#shadow").fadeOut(700);
@@ -206,33 +154,10 @@ function userLogin() {
           $("#login-str").addClass("hidden-window", 700);
           $("#regiest-str").addClass("hidden-window", 700);
           $("#logout-str").removeClass("hidden-window", 700);
-          // if user at product post page then update form's action
-          // attribute
-          // var productPostUrlTest = /^.*ProductPost.*$/;
 
-          // if (productPostUrlTest.test(location.href)) {
-          // update AutoBuy productPost page
-          // updateProductPostAttr(data.uNo, data.uName);
-          // }
-
-          // if user at AutoBuy publish page then update form's
-          // attribute
-          // var autoBuyUrlTest = /^.*AutoBuy.*$/;
-
-          // if (autoBuyUrlTest.test(location.href)) {
-          // // update AutoBuy publish
-          // updateAutoBuyPublishAttr(data.uNo);
-          // }
-
-          // show shopping cart
-          // if (autoBuyFlag) {
-          // $("#shoppingCart").show(700);
-          // updateCartLink(data.uNo);
-          // }
-
-        
         } else {
           alert("帳號或密碼不符合");
+          $("#login-submit-btn").removeClass("disable");
         }
 
       },
