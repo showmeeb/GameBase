@@ -1,15 +1,12 @@
 package com.gamebase.member.controller;
 
-import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -24,36 +22,47 @@ import com.gamebase.member.model.Rank;
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UserProfile;
 import com.gamebase.member.model.service.UserDataService;
-import com.gamebase.tradesystem.model.ShoppingCart;
-import com.google.gson.Gson;
-
-import net.sf.json.JSONObject;
 
 @Controller
-@SessionAttributes(names = { "UserData", "ProfileId" })
+@SessionAttributes(names = { "loginUser", "ProfileId", "userProfile" })
 public class MemberController {
 
 	@Autowired
 	private UserDataService uService;
 
-	@RequestMapping(value = "/createProfile/{userId}")
-	public String createProfile(@PathVariable("userId") Integer userId, UserProfile userProfile) {
-		System.out.println("Create");
-		if (userProfile.getProfileId() == null) {
-			UserProfile up = new UserProfile();
-			up.setUserId(userId);
-			uService.saveUserPrfile(up);
-		}
-		return "ProfilePage";
+//	@RequestMapping(value = "/createProfile/{userId}")
+//	public String createProfile(@PathVariable("userId") Integer userId, UserProfile userProfile) {
+//		System.out.println("Create");
+//		if (userProfile.getProfileId() == null) {
+//			UserProfile up = new UserProfile();
+//			up.setUserId(userId);
+//			uService.saveUserPrfile(up);
+//		}
+//		return "ProfilePage";
+//
+//	}
 
+	@RequestMapping(value = "/userProfileCreate",method = RequestMethod.GET)
+	public String goProfile() {
+		return "ProfilePage";
 	}
 
-	@RequestMapping(value = "/updateProfile/{userId}")
-	public String updateProfile(@PathVariable("userId") Integer userId, Map<String, Object> map) {
-
-		map.put("userProfile", uService.getProfileByUserId(userId));
-
-		return "ProfilePage";
+	@RequestMapping(value = "/updateProfile/{userId}", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> updateProfile(@PathVariable("userId") Integer userId, ModelMap model) {
+		System.out.println("Update123" + userId);
+		UserProfile myUp = uService.getProfileByUserId(userId);
+		String url = "/GameBase/userProfileCreate";
+		if(myUp==null) {
+			myUp=new UserProfile();
+			myUp.setUserId(userId);
+			uService.saveUserPrfile(myUp);
+			model.addAttribute("userProfile", myUp);
+		}
+		model.addAttribute("userProfile", myUp);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("url", url);
+		return map;
 	}
 
 //	@RequestMapping(value="/saveProfile",method=RequestMethod.POST)

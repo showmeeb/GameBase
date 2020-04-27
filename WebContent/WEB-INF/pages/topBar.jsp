@@ -127,12 +127,10 @@
 					<a class="dropdown-item hidden-window" id="logout-str" href="#">登出</a>
 						
 					<!-- original -->
-					<a class="dropdown-item">--This line down is Original--</a>
-					<a class="dropdown-item" href="<c:url value="/gotologin"/>">登入</a>
-					<a class="dropdown-item" href="<c:url value="/gotoregister"/>">註冊</a>
-					<a class="dropdown-item" href="<c:url value="/logout"/>">登出</a> 
-					<a class="dropdown-item" href="<c:url value="/updateProfile/${UserData.userId}"/>">修改個人資料</a>
-					<a class="dropdown-item" href="<c:url value="/createProfile/${UserData.userId}"/>">新增個人資料</a>
+					<a class="dropdown-item">--This line down is Original--${UserData.account}</a>
+				
+					<a class="dropdown-item" href="#" id="update-up">管理個人資料</a>
+					
 			
 				</div>
 			</div>
@@ -157,6 +155,22 @@
 				});
 			}
 		});
+
+		$("#update-up").click(function(){
+			var loginUser = JSON.parse(window.sessionStorage.getItem("loginUser"));
+			console.log("loginUserID: " + loginUser.userId);
+			var userId = loginUser.userId;
+				
+			$.ajax({
+				url:'/GameBase/updateProfile/'+userId,
+				type:'POST',
+				success:function(data){
+					window.location.href=data.url;
+				}
+			})
+		})
+		
+	
 	</script>
 
 </body>

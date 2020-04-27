@@ -10,23 +10,15 @@
 
 <link href="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.css" rel="stylesheet">
 <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
-
-<style type="text/css">
-
-<link href="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.css" rel="stylesheet">
-<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 <style type="text/css">
+
 #main_back {
 	position: relative;
 	top: 57px;
@@ -80,7 +72,7 @@
 <main id="main_back">
 <h4>您的資料</h4>
 
-<label>Name: ${userProfile.name}</label><button onclick='showName()'>修改</button>
+<label id="nameShow">Name: ${userProfile.name}</label><button onclick='showName()'>修改</button>
 <span id="nameSpan">
 <form id="nameForm">
 	Name:<input type="text" name="name" id="name" >
@@ -89,7 +81,7 @@
 </span>
 <br>
 
-<label>Nickname: ${userProfile.nickName}</label><button onclick='showNickName()'>修改</button>
+<label id="nickNameShow">Nickname: ${userProfile.nickName}</label><button onclick='showNickName()'>修改</button>
 <span id="nicknameSpan">
 <form id="nickNameForm">
 	Nickname:<input type="text" name="nickName" id="nickName">
@@ -98,7 +90,7 @@
 </span>
 <br>
 
-<label>Gender: ${userProfile.gender}</label><button onclick='showGender()'>修改</button>
+<label id="genderShow">Gender: ${userProfile.gender}</label><button onclick='showGender()'>修改</button>
 <span id="genderSpan">
 <form id="genderForm">
 	Gender:<input type="radio" name="gender" value="m" id="gender" >男 <input type="radio" name="gender" value="f" id="gender">女
@@ -107,7 +99,7 @@
 </span>
 <br>
 
-<label>Address: ${userProfile.address}</label><button onclick='showAddress()'>修改</button>
+<label id="addressShow">Address: ${userProfile.address}</label><button onclick='showAddress()'>修改</button>
 <span id="addressSpan">
 <form id="addressForm">
 	Address:<input type="text" name="address" id="address">
@@ -116,7 +108,7 @@
 </span>
 <br>
 
-<label>Phone: ${userProfile.phone}</label><button onclick='showPhone()'>修改</button>
+<label id="phoneShow">Phone: ${userProfile.phone}</label><button onclick='showPhone()'>修改</button>
 <span id="phoneSpan">
 <form id="phoneForm">
 	Phone:<input type="text" name="phone" id="phone">
@@ -125,7 +117,7 @@
 </span>
 <br>
 
-<label>Age: ${userProfile.age}</label><button onclick='showAge()'>修改</button>
+<label id="ageShow">Age: ${userProfile.age}</label><button onclick='showAge()'>修改</button>
 <span id="ageSpan">
 <form id="ageForm">
 	Age:<input type="text" name="age" id="age">
@@ -134,7 +126,7 @@
 </span>
 <br>
 
-<label>Image: ${userProfile.img}</label><button onclick='showImg()'>修改</button>
+<label id="imgShow">Image:<img src="${userProfile.img}"></label><button onclick='showImg()'>修改</button>
 <span id="imgSpan">
 <form id="imgForm">
 	Image:<input type="text" name="img" id="img">
@@ -145,9 +137,10 @@
 
 
 <script type="text/javascript"></script>
+
 <button class="btn btn-primary" data-target="#changeModal" data-toggle="modal">上傳圖片</button><br/>
 <div class="user-photo-box">
-    <img id="user-photo" src="<c:url value="/img/001.png"/>">  
+    <img id="user-photo" src="<c:url value="${userProfile.img}"/>">  
 </div>
 <div class="modal fade" id="changeModal" tabindex="-1" role="dialog" aria-hidden="true">
 <div class="modal-dialog">
@@ -179,14 +172,15 @@
             <input type="file" class="sr-only" id="photoInput" accept="image/*">
             <span>打開圖片</span>
             </label>
-            <button class="btn btn-primary disabled" disabled="true" onclick="sendPhoto();">提交</button>
+            <form id="imgForm">
+            <button class="btn btn-primary disabled" disabled="true" onclick="sendPhoto()">提交</button>
             <button class="btn btn-close" aria-hidden="true" data-dismiss="modal">取消</button>
+            
         </div>
     </div>
+ 
 </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.all.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -240,40 +234,39 @@ $.fn.serializeObject= function(){
 function editName(){
 	
 	var formdata=$('#nameForm').serializeObject();
-	console.log(formdata);
+	//console.log(formdata);
 	var UserProfile=JSON.stringify(formdata);
-	console.log(UserProfile);
+	//console.log(UserProfile);
 $.ajax({
 	url:"/GameBase/saveName",
 	data:UserProfile,
 	type : "POST",
 	contentType:"application/json",
 	success:function(data){
-	var name=$('#name').val(data);
-	console.log(data);
-	},
+	
+	$('#nameShow').html('Name: '+data.name);
+	}
 });
 $('#nameSpan').css("display","none");
-window.location.reload();
+
 }
 function editNickName(){
 	
 	var formdata=$('#nickNameForm').serializeObject();
-	console.log(formdata);
+	//console.log(formdata);
 	var UserProfile=JSON.stringify(formdata);
-	console.log(UserProfile);
+	//console.log(UserProfile);
 $.ajax({
 	url:"/GameBase/savenickName",
 	data:UserProfile,
 	type : "POST",
 	contentType:"application/json",
 	success:function(data){
-	var nickname=$('#nickName').val(data);
-	console.log(data);
+	$('#nickNameShow').html('Nickname: ' + data.nickName);
 	}
 });
 $('#nicknameSpan').css("display","none");
-window.location.reload();
+
 }
 function editGender(){
 	
@@ -287,12 +280,11 @@ $.ajax({
 	type : "POST",
 	contentType:"application/json",
 	success:function(data){
-	var gender=$('#gender').val(data);
-	console.log(data);
+	$('#genderShow').html("Gender: " + data.gender);
 	}
 });
 $('#genderSpan').css("display","none");
-window.location.reload();
+
 }
 function editAddress(){
 	
@@ -306,12 +298,11 @@ $.ajax({
 	type : "POST",
 	contentType:"application/json",
 	success:function(data){
-	var address=$('#address').val(data);
-	console.log(data);
+	$('#addressShow').html("Address: " + data.address);
 	}
 });
 $('#addressSpan').css("display","none");
-window.location.reload();
+//window.location.reload();
 }
 
 function editPhone(){
@@ -326,12 +317,11 @@ $.ajax({
 	type : "POST",
 	contentType:"application/json",
 	success:function(data){
-	var phone=$('#phone').val(data);
-	console.log(data);
+	$('#phoneShow').html("Phone: " + data.phone);
 	}
 });
 $('#phoneSpan').css("display","none");
-window.location.reload();
+//window.location.reload();
 }
 
 function editAge(){
@@ -346,12 +336,11 @@ $.ajax({
 	type : "POST",
 	contentType:"application/json",
 	success:function(data){
-	var age=$('#age').val(data);
-	console.log(data);
+	$('#ageShow').html("Age: " + data.age);
 	}
 });
 $('#ageSpan').css("display","none");
-window.location.reload();
+//window.location.reload();
 }
 
 function editImg(){
@@ -366,12 +355,11 @@ $.ajax({
 	type : "POST",
 	contentType:"application/json",
 	success:function(data){
-	var img=$('#img').val(data);
-	console.log(data);
+	//$('#imgShow').html("Image: " + data.img);
 	}
 });
 $('#imgSpan').css("display","none");
-window.location.reload();
+//window.location.reload();
 }
 </script>
 </body>

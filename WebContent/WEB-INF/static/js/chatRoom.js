@@ -137,7 +137,7 @@ function userLogin() {
     var userAcc = $("#login-form input[name='account']").val();
     var pwd = $("#login-form input[name='password']").val();
     var saveValue = $("input[name='save']").is(":checked");
-
+      console.log("sValue: " + saveValue);
     $("#login-submit-btn").addClass("disable");
 
     // empty check

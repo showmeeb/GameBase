@@ -243,10 +243,6 @@ public class UserDataService {
 		return eDao.decryptString(stringToDecrypt);
 	}
 
-//	public UserProfile updateUserProfile(Map<String, String[]> upMap) {
-//		return upDao.updateUserProfile(upMap);
-//	}
-
 	public void logout(HttpServletRequest request) {
 		udDao.logout(request);
 	}

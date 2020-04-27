@@ -97,7 +97,7 @@ public class MemberAjaxController {
 		
 		if ((boolean) map.get("status")) {
 			model.addAttribute("loginUser", (UsersInfo) map.get("loginUser"));
-//			model.addAttribute("UserData", (UserData) map.get("UserData"));
+			model.addAttribute("UserData", (UserData) map.get("UserData"));
 			return map;
 		}
 		return map;

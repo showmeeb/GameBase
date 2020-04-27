@@ -100,18 +100,17 @@ public class UserDataDAO implements IUserData {
 
 		Cookie accCookie = new Cookie("account", account);
 		Cookie pwdCookie = new Cookie("password", password);
-//		System.out.println("accCook: " + accCookie);
-//		System.out.println(save);
+		System.out.println("save: " + save);
 		if (save) {
 
 			accCookie.setMaxAge(60 * 60 * 24 * 7);
 			pwdCookie.setMaxAge(60 * 60 * 24 * 7);
-//			System.out.println("setMaxAge");
+			System.out.println("setMaxAge");
 		} else {
 
 			accCookie.setMaxAge(0);
 			pwdCookie.setMaxAge(0);
-//			System.out.println("Not setMaxAge");
+			System.out.println("Not setMaxAge");
 		}
 		response.addCookie(accCookie);
 		response.addCookie(pwdCookie);
@@ -126,17 +125,17 @@ public class UserDataDAO implements IUserData {
 		System.out.println("sID: " + sessionId);
 	
 		Cookie[] cookies = request.getCookies();
-//		System.out.println("我的cookie:" + cookies);
+		System.out.println("我的cookie:" + cookies);
 		if (cookies != null) {
 			System.out.println("Cookie在哪裏?" + cookies);
 			for (Cookie cookie : cookies) {
 				String name = cookie.getName();
-//				System.out.println("Cookie的名字: " + name);
-//				System.out.println("我是一個acc: " + account);
-//				System.out.println("我是一個pwd: " + password);
+				System.out.println("Cookie的名字: " + name);
+				System.out.println("我是一個acc: " + account);
+				System.out.println("我是一個pwd: " + password);
 				if ("account".equals(name)) {
 					String acc = cookie.getValue();
-//					System.out.println("acc123" + acc);
+					System.out.println("acc123" + acc);
 				} else if ("password".equals(name)) {
 					String pwd = cookie.getValue();
 //					System.out.println("pwd123" + pwd);
