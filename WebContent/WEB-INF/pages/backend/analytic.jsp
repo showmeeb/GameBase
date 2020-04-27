@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<jsp:include page="../include/backEndHomePage.jsp"></jsp:include>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,13 +16,6 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 
 <style>
-* {
-	font-family: 微軟正黑體;
-}
-
-#main {
-	width: 80%;
-	
 
 
 body {
@@ -48,7 +41,6 @@ body {
 
 </head>
 <body>
-<jsp:include page="../include/backEndHomePage.jsp"></jsp:include>
 	<div id="main_back">
 		<div id="main" class="container">
 			<div id="Analytics mt-2">
@@ -63,10 +55,9 @@ body {
 					total
 				</section>
 				<section id="bounce-rate" class="Analytic mt-3">
-					<h5>銷售額</h5>
+					<h5>跳出率</h5>
 					<h1 id="bounce-rate-num" class="num">-</h1>
-					
-Sales
+					bounce_rate
 				</section>
 				<section id="new-member" class="Analytic mt-3">
 					<h5>新會員</h5>
