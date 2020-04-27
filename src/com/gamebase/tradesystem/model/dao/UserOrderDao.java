@@ -47,6 +47,7 @@ public class UserOrderDao {
 		String date1 = String.valueOf(sdFormat.format(date));
 		JSONArray items = JSONArray.fromObject(items1);
 		UserOrder uo = new Gson().fromJson(form, UserOrder.class);
+		System.out.println("userId:"+uo.getUserId());
 		uo.setUuId(uuid);
 		uo.setOrderDate(date1);
 		uo.setPayStatus(0);
@@ -62,7 +63,7 @@ public class UserOrderDao {
 		order.setChoosePayment("Credit");
 		order.setMerchantID("2000132");
 		order.setMerchantTradeNo(uuid);// 要用UUID加密產生，不可重複
-//		order.setCustomField1(uo.getOrderName());
+		order.setCustomField1(uo.getOrderName());
 //		order.setCustomField2(uo.getOrderPhone());
 //		order.setCustomField3(uo.getOrderAddress());
 		order.setCustomField4(String.valueOf(uo.getOrderId()));
@@ -71,8 +72,8 @@ public class UserOrderDao {
 		order.setTotalAmount(String.valueOf(uo.getOrderPrice()));//前端引入
 		order.setTradeDesc("Game");//不能中文
 		order.setItemName("Game1");//不能中文前端引入
-		order.setReturnURL("http://d7c0cc70.ngrok.io/GameBase/shoppingCart/orderStatus");
-		order.setClientBackURL("http://d7c0cc70.ngrok.io/GameBase/shoppingPage");
+		order.setReturnURL("http://3772d506.ngrok.io/GameBase/shoppingCart/orderStatus");
+		order.setClientBackURL("http://3772d506.ngrok.io/GameBase/shoppingPage");
 		String str = Ecpay.aioCheckOut(order, invoice);
 		System.out.println(str);
 		return str;
@@ -87,11 +88,8 @@ public class UserOrderDao {
 		Session session = sessionFactory.getCurrentSession();
 		System.out.println("orderId:"+orderId);
 		if(rtnCode==1) {
-			System.out.println("999");
 			UserOrder uo = (UserOrder)session.get(UserOrder.class,orderId);
-			System.out.println("99");
 			uo.setPayStatus(1);
-			System.out.println("9");
 			session.update(uo);
 			System.out.println("訂單建立成功");
 		}else {
