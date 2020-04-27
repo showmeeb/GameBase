@@ -37,6 +37,17 @@ public class MemberAjaxController {
 
 	@Autowired
 	private UserDataService uService;
+	
+	@GetMapping(value = "/userInfo/{ID}",produces = "application/json")
+	@ResponseBody
+	public Map<String,Object> gotInfoByUserId(@PathVariable("ID") Integer userId){
+//		System.out.println(userId);
+		Map<String,Object> map = new HashMap<String,Object>();
+		UsersInfo fUserInfo = uService.showUserData(userId);
+		System.out.println(fUserInfo.getAccount());
+		map.put("fUserInfo",fUserInfo);
+		return map;
+	}
 
 	@PostMapping(value = "/Users/GoogleLogin", produces = "application/json")
 	@ResponseBody

@@ -111,9 +111,10 @@
 			<div class="dropdown">
 
 				<!-- 這邊放使用者大頭貼-->
-				<span> <a href="#"><img
-						src="https://i.imgur.com/ke6wdHI.jpg" width="40" height="40"
-						class="shot disable"></a>
+				<span>
+					<a href="#" data-toggle="popover" class="disable" >
+						<img src="https://i.imgur.com/ke6wdHI.jpg" width="40" height="40" class="shot disable">
+					</a>
 				</span>
 
 

@@ -4,20 +4,65 @@
 var userCenterUrl = "/GameBase/UserCenter";
 
 $(document).ready(function () {
+	//**************popover**************
+	$("[data-toggle='popover']").mouseover(function(){
+		
+		var userId = $(this).children("img").attr("id");
 
+		//防止一直存取
+		if(window.sessionStorage.getItem("uid="+userId) != null){
+//			console.log(window.sessionStorage.getItem("uid="+userId));
+			var oldUser = JSON.parse(window.sessionStorage.getItem("uid="+userId));
+//			console.log("oldUser uid = "+oldUser.userId);
+			var ocontent = "Account:"+oldUser.account+"<br>";
+			ocontent += "userId:"+ oldUser.userId+"<br>";
+			if (oldUser.img) {
+				ocontent +="img:<img src='"+oldUser.img+"'><br>";
+			}else{
+				ocontent +="img:<img src='https://i.imgur.com/ke6wdHI.jpg'><br>";
+			}
+			//popover 沒有refresh 所以必須每次都dispose( Hides and destroys the popover )
+			$("[data-toggle='popover']").popover('dispose').popover({title: "會員資料",trigger: "hover",placement: "bottom",html:true, content: ocontent, delay: {show: 200, hide: 1000}});
+			
+		}else{
+			
+			$.ajax({
+				contentType: "application/json",
+				url: "/GameBase/userInfo/"+userId,
+				type:"GET",
+				success:function(data){
+					var fUInfo = data.fUserInfo;
+					window.sessionStorage.setItem("uid="+userId,JSON.stringify(fUInfo));
+					var ucontent = "Account:"+fUInfo.account+"<br>";
+					ucontent += "userId:"+fUInfo.userId+"<br>";
+					if (fUInfo.img) {
+						ucontent +="img:<img src='"+fUInfo.img+"'><br>";
+					}else{
+						ucontent +="img:<img src='https://i.imgur.com/ke6wdHI.jpg'><br>";
+					}
+					$("[data-toggle='popover']").popover('dispose').popover({title: "會員資料",trigger: "hover",placement: "bottom" ,html:true, content: ucontent, delay: {show: 200, hide: 1000}});
+				}
+			});
+			
+		}
+
+	});
+	
+
+	
   if (window.sessionStorage.getItem("loginUser") != "") {
     var login = JSON.parse(window.sessionStorage.getItem("loginUser"));
     if (login.img) {
       $(".shot").removeClass("disable");
-      $(".shot").attr("src", login.img);
+      $(".shot").attr("src", login.img).attr("id",login.userId);;
     } else {
       $(".shot").removeClass("disable");
-      $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg");
+      $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg").attr("id",login.userId);;
     }
     $("#login-str").addClass("hidden-window", 700);
     $("#regiest-str").addClass("hidden-window", 700);
     $("#logout-str").removeClass("hidden-window", 700);
-
+    $("[data-toggle='popover']").removeClass("disable");
 
   }
 
@@ -55,6 +100,7 @@ $(document).ready(function () {
 
     $("#login-str").removeClass("hidden-window", 700);
     $("#regiest-str").removeClass("hidden-window", 700);
+    $("[data-toggle='popover']").addClass("disable");
     // google logout
     googleSignOut();
 
@@ -107,18 +153,19 @@ function userLogin() {
       contentType: "application/json",
       success: function (data) {
         if (data.status == true) {
-          console.log("google photo:" + data.loginUser.img);
+          console.log("img url:" + data.loginUser.img);
           // if user has snapshot , then use it
           if (data.loginUser.img) {
             $(".shot").removeClass("disable");
-            $(".shot").attr("src", data.loginUser.img);
+            $(".shot").attr("src", data.loginUser.img).attr("id",data.loginUser.userId);
           } else {
             $(".shot").removeClass("disable");
-            $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg");
+            $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg").attr("id",data.loginUser.userId);;
           }
 
           //show userAccount
           $(".dropdown button[name='dmb-u']").html(data.loginUser.account);
+          $("[data-toggle='popover']").removeClass("disable");
           
           // close login window
           $("#login-submit-btn").parent().addClass("hidden-window", 700);
@@ -478,7 +525,7 @@ var startApp = function () {
 };
 
 function attachSignin(element) {
-  console.log("qqq");
+ // console.log("qqq");
   // bind click event to specific id button
   auth2.attachClickHandler(element, {},
     function (googleUser) {
@@ -492,11 +539,11 @@ function attachSignin(element) {
         data: { idTokenStr: id_token },
         success: function (data) {
           if (data) {
-
+        	//console.log("goo userid:"+data.userId);
             // if user has snapshot , then use it
             if (data.img) {
               $(".shot").removeClass("disable", 700);
-              $(".shot").attr("src", data.img);
+              $(".shot").attr("src", data.img).attr("id",data.userId);
             }
 
             // show user icon
@@ -504,6 +551,8 @@ function attachSignin(element) {
               $(".loggedin-icon").removeClass("disable", 700);
             });
 
+            $("[data-toggle='popover']").removeClass("disable");
+            
             // close login window
             $("#login-submit-btn").parent().addClass("hidden-window", 700);
             $("#shadow").fadeOut(700);
@@ -1493,3 +1542,4 @@ function checkAcc() {
     });
   }
 }
+
