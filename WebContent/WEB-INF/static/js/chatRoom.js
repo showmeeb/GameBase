@@ -233,6 +233,7 @@ function userLogin() {
         
         } else {
           alert("帳號或密碼不符合");
+          $("#login-submit-btn").removeClass("disable");
         }
 
       },

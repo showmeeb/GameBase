@@ -3,17 +3,17 @@ let editor;
 $(document).ready(function(){
     $("#publish-btn").click(function(){
     	console.log("pulish btn");
-		$(".publish-area").removeClass("hidden-window",700);
-        $("#shadow").fadeIn(700);
-// if(window.sessionStorage.getItem("loginUser") != ""){
-// $(".publish-area").removeClass("hidden-window",700);
-// $("#shadow").fadeIn(700);
-// } else {
-// alert("請先登入 !");
-    		
-// $(".login-area").removeClass("hidden-window", 700);
-// $("#shadow").fadeIn(700);
-// }
+//		$(".publish-area").removeClass("hidden-window",700);
+//        $("#shadow").fadeIn(700);
+        //login status identify
+        if(window.sessionStorage.getItem("loginUser") != ""){
+        	 $(".publish-area").removeClass("hidden-window",700);
+        	 $("#shadow").fadeIn(700);
+        	 } else {
+        	 alert("請先登入 !");       	    		
+        	 $(".login-area").removeClass("hidden-window", 700);
+        	 $("#shadow").fadeIn(700);
+        	 }
         $(".close-btn").click(function(){  
         	console.log("close btn clicked");
             // empty input area
