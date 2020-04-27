@@ -167,9 +167,8 @@
 				})
 			}
 
-<<<<<<< HEAD
 		});
-=======
+	
 		$("#update-up").click(function(){
 			var loginUser = JSON.parse(window.sessionStorage.getItem("loginUser"));
 			console.log("loginUserID: " + loginUser.userId);
@@ -185,23 +184,6 @@
 		})
 		
 	
->>>>>>> 022cf333dc3f722424611791a3db3c79bbb28cbe
-
-		$("#update-up").click(
-				function() {
-					var loginUser = JSON.parse(window.sessionStorage
-							.getItem("loginUser"));
-					console.log("loginUserID: " + loginUser.userId);
-					var userId = loginUser.userId;
-
-					$.ajax({
-						url : '/GameBase/updateProfile/' + userId,
-						type : 'POST',
-						success : function(data) {
-							window.location.href = data.url;
-						}
-					})
-				})
 	</script>
 
 </body>
