@@ -117,10 +117,10 @@
 				</span>
 
 
-				<button class="btn btn-warning dropdown-toggle userNameBtn"
+				<button class="btn btn-warning dropdown-toggle userNameBtn" name="dmb-u"
 					type="button" id="dropdownMenuButton" data-toggle="dropdown"
 					aria-haspopup="true" aria-expanded="true">
-					使用者名稱
+					會員系統
 					<!--使用動態產生-->
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -128,15 +128,7 @@
 					<a class="dropdown-item" id="login-str" href="#">登入</a> <a
 						class="dropdown-item" id="regiest-str" href="#">註冊</a> <a
 						class="dropdown-item hidden-window" id="logout-str" href="#">登出</a>
-
-					<!-- original -->
-
-					<a class="dropdown-item">--This line down is Original--${UserData.account}</a>
-				
 					<a class="dropdown-item" href="#" id="update-up">管理個人資料</a>
-					
-			
-
 				</div>
 			</div>
 		</div>
@@ -169,7 +161,7 @@
 			var userId = loginUser.userId;
 				
 			$.ajax({
-				url:'/GameBase/updateProfile/'+userId,
+				url:'/GameBase/updateProfile/',
 				type:'POST',
 				success:function(data){
 					window.location.href=data.url;
