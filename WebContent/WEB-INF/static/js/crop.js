@@ -76,17 +76,15 @@ var initCropperInModal = function(img, input, modal){
                 processData: false,
                 success: function(data) {
                 	console.log(data)
-                	if(data=="true"){
+                	if(data){
                 		Swal.fire({
                   		  title: '上傳成功!',
                   		  icon: 'success',
-                  		  timer: 1500,
                   		})
                 	}else{
                 		Swal.fire({
                   		  title: '上傳失敗...',
                   		  icon: 'error',
-                  		  timer: 1500
                   		})
                 		
                 	}
