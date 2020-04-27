@@ -57,7 +57,11 @@ public class ArticleService {
 	// 後臺全部文章列表
 	public List<ArticleTitle> queryAllArticleTitle() {
 		return titleDao.queryAllArticleTitle();
+	}
 
+	// 後臺個人文章列表
+	public List<ArticleListView> queryMyArticle(Integer id) {
+		return alvDao.queryArticleListByUserId(id);
 	}
 
 	public List<ArticleRecord> queryRecordsByTitleId(Integer titleId) {

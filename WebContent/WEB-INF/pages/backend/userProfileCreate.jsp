@@ -19,13 +19,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 <style type="text/css">
 
-#main_back {
-	position: relative;
-	top: 57px;
-	right:6%;
-	width: 75%;
-	border:1px black solid;
-}
+
 </style>
 <style type="text/css">
 
@@ -140,7 +134,7 @@
 
 <button class="btn btn-primary" data-target="#changeModal" data-toggle="modal">上傳圖片</button><br/>
 <div class="user-photo-box">
-    <img id="user-photo" src="<c:url value="${userProfile.img}"/>">  
+    <img id="user-photo" src="${userProfile.img}">  
 </div>
 <div class="modal fade" id="changeModal" tabindex="-1" role="dialog" aria-hidden="true">
 <div class="modal-dialog">

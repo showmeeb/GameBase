@@ -41,13 +41,13 @@
 		</div>
 
 		<div id="d1">
-			<form id="f1">
-				<table id="t1">
+		
+				<table id="t1" class="table">
 
 
 				</table>
 				<!-- <input type="button" id="add" value="新增"> -->
-			</form>
+		
 		</div>
 	</main>
 	<script type="text/javascript">

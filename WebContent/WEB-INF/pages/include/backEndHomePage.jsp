@@ -156,7 +156,7 @@ ul {
 		</table>
 		<table id="member-profile" class="d-none" cellpadding="10">
 			<tr>
-				<td><a id="myProfile" class="tag" href="#">個人資料</a></td>
+				<td><a id="myProfile" class="tag" href="userProfileCreate">個人資料</a></td>
 			</tr>
 			<tr>
 				<td><a class="tag" href="#">升級</a></td>
@@ -172,7 +172,7 @@ ul {
 		</table>
 		<table id="member-content" class="d-none" cellpadding="10">
 			<tr>
-				<td><a id="myArticles" class="tag" href="#">我的文章</a></td>
+				<td><a id="myArticles" class="tag" href="myArticles">我的文章</a></td>
 			</tr>
 			<tr>
 				<td><a id="myContext" class="tag" href="myContexts">我的回應</a></td>
@@ -192,8 +192,7 @@ ul {
 
 	<script>
 	$(document).ready(function(){
-		console.log("a");	
-		
+		console.log("a");			
 		})
 		
 		$(".nav-link").click(function() {

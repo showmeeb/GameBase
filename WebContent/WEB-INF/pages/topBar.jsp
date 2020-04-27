@@ -26,9 +26,10 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- jQuery UI library -->
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 <!-- javaScript -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -54,7 +55,6 @@
 <link href="<c:url value="/css/topBar.css"/>" rel="stylesheet">
 
 <style>
-
 </style>
 
 </head>
@@ -74,9 +74,9 @@
 		<div class="col-md-4 column ">
 			<form action="<c:url value="/tagSearch"/>" method="get"
 				class="form-inline">
-				<select name="looking">
+				<select id="lookingFor" name="looking">
 					<option value="forProduct">找商品</option>
-					<option value="foForumr">找論壇</option>
+					<option value="foForumr">找文章</option>
 				</select> <input class="form-control search-input" type="search"
 					placeholder="搜尋" aria-label="Search" name="keyword"
 					value="${keyword}" id="searchInput">
@@ -87,9 +87,9 @@
 
 		<!--商城下拉選單-->
 		<div class="col-md-1 column">
-			<button class="btn btn-primary dropdown-toggle topBarBtn" type="button"
-				id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-				aria-expanded="true">商城</button>
+			<button class="btn btn-primary dropdown-toggle topBarBtn"
+				type="button" id="dropdownMenuButton" data-toggle="dropdown"
+				aria-haspopup="true" aria-expanded="true">商城</button>
 			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 				<a class="dropdown-item" href="<c:url value="/mallHome"/>">商城首頁(子敬)</a>
 				<a class="dropdown-item" href="<c:url value="/tradesystem"/>">登記商品</a>
@@ -117,10 +117,10 @@
 				</span>
 
 
-				<button class="btn btn-warning dropdown-toggle userNameBtn"
+				<button class="btn btn-warning dropdown-toggle userNameBtn" name="dmb-u"
 					type="button" id="dropdownMenuButton" data-toggle="dropdown"
 					aria-haspopup="true" aria-expanded="true">
-					使用者名稱
+					會員系統
 					<!--使用動態產生-->
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -128,15 +128,7 @@
 					<a class="dropdown-item" id="login-str" href="#">登入</a> <a
 						class="dropdown-item" id="regiest-str" href="#">註冊</a> <a
 						class="dropdown-item hidden-window" id="logout-str" href="#">登出</a>
-
-					<!-- original -->
-
-					<a class="dropdown-item">--This line down is Original--${UserData.account}</a>
-				
 					<a class="dropdown-item" href="#" id="update-up">管理個人資料</a>
-					
-			
-
 				</div>
 			</div>
 		</div>
@@ -151,25 +143,39 @@
 	<!-- End Chat Room Area -->
 
 	<script>
+		//關鍵字自動完成
 		$.ajax({
 			url : '<c:url value="/autoComplete"/>',
 			type : "POST",
 			success : function(data) {
-				$("#searchInput").autocomplete({
-					source : data,
-					item:0
+				window.sessionStorage.setItem("myData", JSON.stringify(data));
+				$(".search-input").autocomplete({
+					source : data
 				});
 			}
 		});
 
+		$("select#lookingFor").change(function() {
+			var autoCompleteData = JSON.parse(window.sessionStorage.getItem("myData"));
+			if ($(this).val() != "forProduct") {
+				$(".search-input").autocomplete({
+					source : ""
+				});
+			} else {
+				$(".search-input").autocomplete({
+					source : autoCompleteData
+				})
+			}
 
+		});
+	
 		$("#update-up").click(function(){
 			var loginUser = JSON.parse(window.sessionStorage.getItem("loginUser"));
 			console.log("loginUserID: " + loginUser.userId);
 			var userId = loginUser.userId;
 				
 			$.ajax({
-				url:'/GameBase/updateProfile/'+userId,
+				url:'/GameBase/updateProfile/',
 				type:'POST',
 				success:function(data){
 					window.location.href=data.url;
@@ -178,7 +184,6 @@
 		})
 		
 	
-
 	</script>
 
 </body>

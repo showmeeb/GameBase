@@ -31,4 +31,9 @@ public class TagSearchService {
 		return tagSearchDAO.autoComplete();
 
 	}
+	
+	public String searchFreq() {
+		return tagSearchDAO.searchFreq();
+
+	}
 }

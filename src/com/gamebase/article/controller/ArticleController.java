@@ -437,22 +437,22 @@ public class ArticleController {
 	}
 
 	// 後台
-	@RequestMapping(path = "/GameBase/getMyContent", produces = "application/json", method = RequestMethod.POST)
+	@RequestMapping(path = "/GameBase/getMyArticles", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> getMyContent(@RequestParam("id") String id) {
+	public Map<String, Object> getMyArticles(@RequestParam("id") String id) {
 		// System.out.println("got chekcAcc "+account.getAccount());
 		System.out.println("getMyArticles");
-		List<ArticleContent> articles = aService.queryMemberContentByUserId(Integer.valueOf(id));
+		List<ArticleListView> articles = aService.queryMyArticle(Integer.valueOf(id));
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("articles", articles);
 		System.out.println(map);
 		return map;
 	}
 
-	// myContexts
-	@RequestMapping(value = "/myContexts", method = RequestMethod.GET)
-	public String myContexts() {
-		return "myContexts";
+	// myArticles
+	@RequestMapping(value = "/myArticles", method = RequestMethod.GET)
+	public String myArticles() {
+		return "myArticles";
 	}
 
 }
