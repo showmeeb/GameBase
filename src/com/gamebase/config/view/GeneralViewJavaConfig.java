@@ -36,5 +36,11 @@ public class GeneralViewJavaConfig {
 		view.setUrl("/WEB-INF/pages/searchResults.jsp");
 		return view;
 	}
-
+	
+	@Bean
+	public View analytic() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/backEnd/analytic.jsp");
+		return view;
+	}
 }

@@ -64,4 +64,12 @@ public class ArticleViewJavaConfig {
 		view.setUrl("/WEB-INF/pages/forumHome.jsp");
 		return view;
 	}
+	
+	//後台
+	@Bean
+	public View myContexts() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/backEnd/myContexts.jsp");
+		return view;
+	}
 }

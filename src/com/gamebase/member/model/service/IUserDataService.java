@@ -12,4 +12,6 @@ public interface IUserDataService {
 	public void deleteUserData(UserData userData);
 	public void saveUserData(UserData userData);
 	public List<UserData> getFriendList(Integer userId);
+	public List<UserData> getuserbyacinallrank(String ac);
+	public List<UserData> getuserbyacinonerank(Integer rank,String ac);
 }

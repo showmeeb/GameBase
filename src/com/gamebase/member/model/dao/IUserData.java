@@ -20,4 +20,6 @@ public interface IUserData {
 	public void GetCookie(String account, String password, HttpServletRequest request);
 	public void setCookie(String account, String password, boolean save, HttpServletRequest request,
 			HttpServletResponse response);
+	public List<UserData> getuserbyacinallrank(String ac);
+	public List<UserData> getuserbyacinonerank(Integer rank,String ac);
 }

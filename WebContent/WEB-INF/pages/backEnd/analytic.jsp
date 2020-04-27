@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<jsp:include page="include/backEndHomePage.jsp"></jsp:include>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,15 +18,6 @@
 <style>
 * {
 	font-family: 微軟正黑體;
-	border: 1px black solid;
-}
-
-body {
-	background-color: #EDF7F7;
-}
-
-#main_back {
-	margin: 57px 0 0 250px;
 }
 
 #main {
@@ -52,6 +43,7 @@ body {
 
 </head>
 <body>
+<jsp:include page="../include/backEndHomePage.jsp"></jsp:include>
 	<div id="main_back">
 		<div id="main" class="container">
 			<div id="Analytics mt-2">
@@ -66,9 +58,10 @@ body {
 					total
 				</section>
 				<section id="bounce-rate" class="Analytic mt-3">
-					<h5>跳出率</h5>
+					<h5>銷售額</h5>
 					<h1 id="bounce-rate-num" class="num">-</h1>
-					bounce_rate
+					
+Sales
 				</section>
 				<section id="new-member" class="Analytic mt-3">
 					<h5>新會員</h5>

@@ -16,6 +16,8 @@ import org.springframework.stereotype.Repository;
 import com.gamebase.member.model.UserData;
 import com.sun.mail.iap.Response;
 
+import redis.clients.jedis.params.SetParams;
+
 @Repository
 public class UserDataDAO implements IUserData {
 
@@ -144,6 +146,21 @@ public class UserDataDAO implements IUserData {
 			}
 		}
 
+	}
+
+	@Override
+	public List<UserData> getuserbyacinallrank(String ac) {
+		Query<UserData> allQuery = sessionFactory.getCurrentSession().createQuery("From UserData Where account like'%" + ac + "%'", UserData.class);
+		List<UserData> list = allQuery.list();
+		return list;
+	}
+
+	@Override
+	public List<UserData> getuserbyacinonerank(Integer rank, String ac) {
+		Query<UserData> allQuery = sessionFactory.getCurrentSession().createQuery("From UserData Where RankId=:rank and account like '%"+ac+"%'", UserData.class);
+		allQuery.setParameter("rank", rank);
+		List<UserData> list = allQuery.list();
+		return list;
 	}
 
 

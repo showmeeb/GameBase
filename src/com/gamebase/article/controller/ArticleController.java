@@ -29,6 +29,7 @@ import com.gamebase.article.model.ForumListView;
 import com.gamebase.article.model.service.ArticleService;
 import com.gamebase.article.model.service.ForumService;
 import com.gamebase.general.model.service.GeneralService;
+import com.gamebase.member.model.UserProfile;
 
 import net.sf.json.JSONObject;
 
@@ -358,4 +359,22 @@ public class ArticleController {
 		return result;
 	}
 
+	//後台
+	@RequestMapping(path = "/GameBase/getMyContent", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getMyContent(@RequestParam("id") String id) {
+		// System.out.println("got chekcAcc "+account.getAccount());
+		System.out.println("getMyArticles");
+		List<ArticleContent> articles = aService.queryMemberContentByUserId(Integer.valueOf(id));
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("articles", articles);
+		System.out.println(map);
+		return map;
+	}
+	
+	//myContexts
+	@RequestMapping(value = "/myContexts", method = RequestMethod.GET)
+	public String myContexts() {
+		return "myContexts";
+	}
 }
