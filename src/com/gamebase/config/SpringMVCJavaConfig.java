@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -59,7 +60,6 @@ public class SpringMVCJavaConfig implements WebMvcConfigurer {
 	    resolver.setDefaultEncoding("utf-8");
 	    return resolver;
 	}
-	
 	
 	// 傳統作法Internal 仍然要呼叫路徑，且不易集中管理
 //	@Bean

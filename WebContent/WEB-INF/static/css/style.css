@@ -84,55 +84,6 @@ i {
 }
 
 
-.main-nav {
-	background-color: #181818;
-	position: fixed;
-	padding-top: 50px;
-	width: 260px;
-	height: 100%;
-	top: 0;
-	right: -260px;
-	z-index: 1000;
-}
-
-
-.main-nav ul li a {
-  width: 100%;
-/*   color: #5b7182; */
-  color: white;
-  display: block;
-	font-size: 20px;
-	font-weight: 300;
-  padding: 10px 0;
-  padding-left: 40px;
-	text-decoration: none;
-	-webkit-transition: all 0.5s;
-	-o-transition: all 0.5s;
-	transition: all 0.5s;
-}
-
-
-.main-nav ul li > a > i {
-  	padding-right: 10px;
-}
-
-
-.main-nav a:hover,
-.main-nav a:focus {
-  color: rgb(0, 183, 255);
-	background: #273442;
-}
-
-
-.main-nav a:active {
-	background: #273442;	
-}
-
-
-.main-nav.menu-open {
-	right: 0px;
-}
-
 
 .cbp-spmenu-push {
 	overflow-x: hidden;
@@ -606,6 +557,13 @@ i {
   max-width: 65%;
   border-radius: 5px;
   word-break: break-all;
+}
+
+.chat-messages .chat-file {
+  display: flex;
+  margin-left: 5px;
+  padding: 5px 10px;
+  max-width: 40%;
 }
 
 .chat-messages .chat-time {

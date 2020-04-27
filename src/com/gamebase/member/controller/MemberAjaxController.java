@@ -94,7 +94,6 @@ public class MemberAjaxController {
 		
 		String pwd = uService.encryptString(logindata.getPassword());
 		Map<String, Object> map = uService.getLogin(logindata.getAccount(), pwd);
-		
 		if ((boolean) map.get("status")) {
 			model.addAttribute("loginUser", (UsersInfo) map.get("loginUser"));
 			model.addAttribute("UserData", (UserData) map.get("UserData"));

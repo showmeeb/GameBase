@@ -30,15 +30,16 @@ public class UploadImgController {
 	@Autowired
 	private GeneralService generalService;
 
-	@RequestMapping(value = "/uploadImg", method = RequestMethod.POST)
+	@RequestMapping(path = "/uploadImg", method = RequestMethod.POST)
+	@ResponseBody
 	public String tagSearch(@RequestParam("theFile") MultipartFile theFile, Model model) throws Exception {
 		System.out.println("123");
-		String imgURL = generalService.uploadToImgur(theFile);
-		System.out.println(imgURL);
-
-		model.addAttribute("imgURL", imgURL);
-
-		return "topBar";
+//		String imgURL = generalService.uploadToImgur(theFile);
+//		System.out.println(imgURL);
+//
+//		model.addAttribute("imgURL", imgURL);
+//
+		return generalService.uploadToImgur(theFile);
 	}
 
 	@RequestMapping(path = "/test", method = RequestMethod.GET)
