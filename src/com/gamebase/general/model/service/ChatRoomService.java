@@ -3,6 +3,8 @@ package com.gamebase.general.model.service;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
@@ -55,15 +57,18 @@ public class ChatRoomService {
 		}
 	}
 
-	public void deleteAll(WebSocketMessage msg) {
+	public List<ChatRoom> queryHistory(String sender, String receiver) {
+		List<ChatRoom> result = null;
 		try {
-			Integer username = Integer.parseInt(msg.getFrom());
-			List<ChatRoom> history = cRud.findBySenderOrReceiver(username, username);
-			cRud.deleteAll(history);
+			Integer senderId = Integer.parseInt(sender);
+			Integer receiverId = Integer.parseInt(receiver);
+			result = cDao.queryTenData(senderId, receiverId);
 			System.out.println("===================");
-			System.out.println("Data Delete");
-		} catch (Exception e) {
+			System.out.println("Query History finished");
+		} catch (NoResultException e) {
 			e.printStackTrace();
+			return null;
 		}
+		return result;
 	}
 }

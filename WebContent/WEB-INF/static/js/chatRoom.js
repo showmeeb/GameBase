@@ -845,6 +845,24 @@ function emptyChatContentArea() {
 }
 
 function showUsersDiaglog(element) {
+    var sender = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
+    var receiver = $(element).children(".chat-room-user-id").text();
+    let formData = new FormData();
+    formData.append('sender', sender);
+    formData.append('receiver', receiver);
+    $.ajax({
+        url: "/GameBase/Query",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            console.log(data);
+        }
+    });
+	
+	
+	
   // get chat room object from sessionStorage
   var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
 
@@ -879,6 +897,7 @@ function showUsersDiaglog(element) {
 }
 
 function showUserListFromMessage(msg) {
+		
   // get chat room object from sessionStorage
   var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
   // in order to check is the user already in the user list
