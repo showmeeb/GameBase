@@ -17,23 +17,9 @@ public class ArticleViewJavaConfig {
 //	}
 
 	@Bean
-	public View parentArticleViewPage() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/forum/parentArticle.jsp");
-		return view;
-	}
-
-	@Bean
 	public View forumViewPage() {
 		InternalResourceView view = new InternalResourceView();
 		view.setUrl("/WEB-INF/pages/forum/forum.jsp");
-		return view;
-	}
-
-	@Bean
-	public View childArticleViewPage() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/forum/childArticle.jsp");
 		return view;
 	}
 
@@ -65,14 +51,14 @@ public class ArticleViewJavaConfig {
 		return view;
 	}
 
-	
-	//後台
+	// 後台
 	@Bean
 	public View myContexts() {
 		InternalResourceView view = new InternalResourceView();
 		view.setUrl("/WEB-INF/pages/backend/myContexts.jsp");
 		return view;
 	}
+
 	@Bean
 	public View allArticles() {
 		InternalResourceView view = new InternalResourceView();
