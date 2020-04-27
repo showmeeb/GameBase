@@ -64,22 +64,18 @@
 				<div class="modal-body">
 					<form id="f1">
 						<div class="form-group">
-							<label for="orderName">姓名:</label> <input type="text"
+							<label for="userName">姓名:</label> <input type="text"
 								class="form-control" name="orderName" aria-describedby="emailHelp">
 						</div>
 						<div class="form-group">
-							<label for="orderPhone">電話:</label> <input type="text"
+							<label for="userPhone">電話:</label> <input type="text"
 								class="form-control" name="orderPhone" aria-describedby="emailHelp">
 						</div>
 						<div class="form-group">
-							<label for="orderAddress">住址:</label> <input type="text"
+							<label for="userPhone">住址:</label> <input type="text"
 								class="form-control" name="orderAddress" aria-describedby="emailHelp">
 						</div>
-						<div class="form-group">
-						    <label for="orderAddress">信箱:</label>
-						    <input type="email" class="form-control" name="orderEmail" placeholder="name@example.com">
-						</div>
-												
+						
 					</form>
 				</div>
 				<div class="modal-footer">
@@ -112,13 +108,13 @@
 	$("#exampleModalCenter").on("show.bs.modal",function(e){
 			console.log('顯示視窗前呼叫');
 		});
-	$('#exampleModalCenter').on('hidden.bs.modal fade', function (e) {
-	alert("asd");
-	})
+$('#exampleModalCenter').on('hidden.bs.modal fade', function (e) {
+alert("asd");
+})
 
-	if($('#exampleModalCenter').hasClass('model')){
-	  console.log('視窗目前是開啟的狀態..');
-	}
+if($('#exampleModalCenter').hasClass('model')){
+  console.log('視窗目前是開啟的狀態..');
+}
 
 
 	
@@ -290,7 +286,7 @@
 			var totalPrice = $('#total').html();
 
 			if(window.sessionStorage.getItem("loginUser")==""){
-					//a['userId']=999999;
+					a['userId']=999999;
 				}else{
 					user=JSON.parse(window.sessionStorage.getItem("loginUser"));
 					a['userId']=user.userId;

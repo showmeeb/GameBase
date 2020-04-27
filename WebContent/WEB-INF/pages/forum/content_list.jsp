@@ -118,6 +118,7 @@ a.disabled {
 	<!-- top bar -->
 	<%@ include file="../topBar.jsp"%>
 	
+	<c:if test="${loginUser.rankId==2}">
 	<!-- forum title bar -->
 	<nav class="navbar navbar-expand-sm bg-light forum_topbar">
 		<ul class="nav justify-content-end">
@@ -130,7 +131,7 @@ a.disabled {
 			<li class="nav-item"> hello manager<br/></li>
 		</ul>
 	</nav>
-
+	</c:if>
 	
 	<div id="contentList" class="article">
 	<h1>主題：${forum.forumName}</h1>

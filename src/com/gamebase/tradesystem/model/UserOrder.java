@@ -26,12 +26,11 @@ public class UserOrder {
 	private int orderPrice;
 	private String orderDate;
 	private int payStatus;
-	private String orderEmail;
 
 	public UserOrder() {
 	}
 
-	public UserOrder(int userId,String uuId,String orderName,String orderPhone, String orderAddress, int orderPrice, String orderDate,int payStatus,String orderEmail) {
+	public UserOrder(int userId,String uuId,String orderName,String orderPhone, String orderAddress, int orderPrice, String orderDate,int payStatus) {
 		this.userId = userId;
 		this.uuId=uuId;
 		this.orderName=orderName;
@@ -40,7 +39,6 @@ public class UserOrder {
 		this.orderPrice = orderPrice;
 		this.orderDate = orderDate;
 		this.payStatus=payStatus;
-		this.orderEmail=orderEmail;
 	}
 
 	@Column(name = "USERID")
@@ -121,14 +119,6 @@ public class UserOrder {
 
 	public void setPayStatus(int payStatus) {
 		this.payStatus = payStatus;
-	}
-	@Column(name = "ORDEREMAIL")
-	public String getOrderEmail() {
-		return orderEmail;
-	}
-
-	public void setOrderEmail(String orderEmail) {
-		this.orderEmail = orderEmail;
 	}
 
 	
