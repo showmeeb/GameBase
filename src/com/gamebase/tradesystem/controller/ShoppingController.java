@@ -64,28 +64,17 @@ public class ShoppingController {
 		System.out.println("items1:"+items1);
 		return shoppingService.processOrder(form,items1);
 	}
-//	@RequestMapping(path = "/shoppingCart/test", method = RequestMethod.POST)
-//	@ResponseBody
-//	public String test(@RequestParam(value ="form") String form,@RequestParam(value = "items1") String items1) {
-//		System.out.println("form:"+form);
-//		System.out.println("items1:"+items1);
-//		return "yes";
-//	}
-	
+
 	@RequestMapping(path = "/shoppingCart/orderStatus", method = RequestMethod.POST)
 	@ResponseBody
 	public void orderStatus(HttpServletRequest request) {
 		String rtnCode = request.getParameter("RtnCode");
 		String orderId = request.getParameter("CustomField4");
+//		String uuid = request.getParameter("MerchantTradeNo");
 		System.out.println("RtnCode:"+rtnCode);
 		System.out.println("orderName:"+orderId);
-//		System.out.println("orderPhone:"+orderPhone);
-//		System.out.println("orderAddress:"+orderAddress);
-//		System.out.println("userId:"+userId);
-//		System.out.println("uuId:"+uuId);
-//		System.out.println("orderDate:"+orderDate);
-//		System.out.println("orderPrice:"+orderPrice);
 		System.out.println("付款成功!!");
+		shoppingService.sendOrderDetail(Integer.parseInt(orderId));
 		shoppingService.orderStatus(Integer.parseInt(rtnCode),Integer.parseInt(orderId));
 	}
 	
