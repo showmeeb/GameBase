@@ -70,7 +70,7 @@ body {
 				<canvas id="chart"></canvas>
 				charts
 			</div>
-			main<br>s mainmaimain<br> main<br> main<br> main<br>
+			main<br>smaimain<br> main<br> main<br> main<br>
 			main<br> main<br>main<br> main<br> main<br>
 			main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>
 			n main

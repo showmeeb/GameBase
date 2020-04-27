@@ -19,13 +19,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 <style type="text/css">
 
-#main_back {
-	position: relative;
-	top: 57px;
-	right:6%;
-	width: 75%;
-	border:1px black solid;
-}
+
 </style>
 <style type="text/css">
 

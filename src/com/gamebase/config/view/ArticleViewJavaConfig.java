@@ -68,9 +68,9 @@ public class ArticleViewJavaConfig {
 	
 	//後台
 	@Bean
-	public View myContexts() {
+	public View myArticles() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/backend/myContexts.jsp");
+		view.setUrl("/WEB-INF/pages/backend/myArticles.jsp");
 		return view;
 	}
 	@Bean
