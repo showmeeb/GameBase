@@ -1508,16 +1508,12 @@ var ownMsgTemplate = '<div class="chat-messages own-messages">'
 
 var replyFileTemplate = '<div class="chat-messages">'
   + '<img class="chat-message-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}"/>'
-  + '<div class="chat-file">'
-  + '<img src="{{&url}}"/>'
-  + '</div>'
+  + '<img class="chat-file" src="{{&url}}"/>'
   + '<div class="chat-time">{{time}}</div>'
   + '</div>';
 
 var ownFileTemplate = '<div class="chat-messages own-messages">'
-  + '<div class="chat-file">'
-  + '<img src="{{&url}}"/>'
-  + '</div>'
+  + '<img class="chat-file" src="{{&url}}"/>'
   + '<div class="chat-time">{{time}}</div>'
   + '</div>';
 

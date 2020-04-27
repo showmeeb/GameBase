@@ -44,12 +44,12 @@ public class ChatRoomService {
 			Integer username = Integer.parseInt(msg.getFrom());
 			List<ChatRoom> history = cRud.findBySenderOrReceiver(username, username);
 			cRud.deleteAll(history);
-			System.out.println("Data Delete");
+			System.out.println("Delete redis data");
 			for (ChatRoom record : history) {
 				record.setId(null);
 				cDao.insert(record);
 			}
-			System.out.println("Data to Redis finished");
+			System.out.println("Data to SQL finished");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
