@@ -19,8 +19,8 @@
 	<jsp:include page="topBar.jsp" />
 
 	<div class="barSpace"></div>
-	<div id=resultsDiv>
-		<table id=resultsTable></table>
+	<div class="resultCenter">
+		<table id="resultsTable"></table>
 	</div>
 
 	<jsp:include page="footer.jsp" />
@@ -39,7 +39,7 @@
             txt += "<div>" + jsonResults[i].productName + "</div>";
             txt += "<div>" + jsonResults[i].productPrice + "</div></a>";
         }
-        $(resultsTable).append(txt);
+        $("#resultsTable").append(txt);
 
     </script>
 

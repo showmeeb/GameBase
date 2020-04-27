@@ -44,4 +44,14 @@ public class TagSearchController {
 		Set<String> returnSet = tagSearchService.autoComplete();
 		return returnSet;
 	}
+	
+	
+	@RequestMapping(value = "/searchFreq", method = RequestMethod.GET)
+	@ResponseBody
+	public String searchFreq() {
+		String returnString = tagSearchService.searchFreq();
+
+		System.out.println(returnString);
+		return returnString;
+	}
 }

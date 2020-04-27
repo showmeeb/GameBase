@@ -20,6 +20,7 @@
 <body>
 	<jsp:include page="topBar.jsp" />
 
+<hr>
 	<div class="container-fluid text-center">
 		<!-- 首頁幻燈片 -->
 		<div class="container-fluid">
@@ -31,13 +32,16 @@
 				</ol>
 				<div class="carousel-inner">
 					<div class="carousel-item active">
-						<img class="carouselImg" src="https://i.imgur.com/gUY9Qby.jpg" alt="">
+						<img class="carouselImg" src="https://i.imgur.com/gUY9Qby.jpg"
+							alt="">
 					</div>
 					<div class="carousel-item">
-						<img class="carouselImg" src="https://i.imgur.com/aTY0qJD.jpg" alt="">
+						<img class="carouselImg" src="https://i.imgur.com/aTY0qJD.jpg"
+							alt="">
 					</div>
 					<div class="carousel-item">
-						<img class="carouselImg" src="https://i.imgur.com/L35gUJO.jpg" alt="">
+						<img class="carouselImg" src="https://i.imgur.com/L35gUJO.jpg"
+							alt="">
 					</div>
 
 					<a href="#carousel-demo" class="carousel-control-prev"
@@ -51,8 +55,11 @@
 		<hr>
 
 
-		<div class="row clearfix">
-			<div class="col-md-12 column">人氣商品</div>
+		<div class="row column">
+			<div class="col-md-12 column">
+			<h3>熱門商品</h3>
+					<table class="resultCenter" id="resultsTable"></table>
+			</div>
 		</div>
 		<hr>
 
@@ -72,6 +79,24 @@
 			interval : 3000
 		})
 
+		$.ajax({
+			url : '<c:url value="/searchFreq"/>',
+			type : "GET",
+	        dataType:'json',
+			success : function(jsonResults) {
+
+		        var txt = "";
+		        for (i = 0; i < 5; i++) {
+		            if (i % 5 == 0) { txt += "<tr>" }
+		            txt += "<td><a href='/GameBase/productDetail?prodId="+jsonResults[i].productId+"'><img class='resultImg' src='" + jsonResults[i].productImg + "'>";  
+		            txt += "<div>" + jsonResults[i].productName + "</div>";
+		            txt += "<div>" + jsonResults[i].productPrice + "</div></a>";
+		        }
+		        $("#resultsTable").append(txt);
+			}
+		});
+
+		
 		/*
 		$(window).scroll(function(){
 		var navH = $("#topBar").offset().top;
