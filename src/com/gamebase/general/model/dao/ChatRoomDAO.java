@@ -1,5 +1,9 @@
 package com.gamebase.general.model.dao;
 
+import java.util.List;
+
+import javax.persistence.NoResultException;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,6 +16,8 @@ public class ChatRoomDAO implements IChatRoom {
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	private final String SELECT_BY_SENDER_RECEIVER = "From com.gamebase.general.model.ChatRoom ChatRoom where ChatRoom.sender = :sender and ChatRoom.receiver = :receiver Order by ChatRoom.id Desc";
+
 	@Override
 	public void insert(ChatRoom chatroom) {
 		try {
@@ -23,9 +29,16 @@ public class ChatRoomDAO implements IChatRoom {
 	}
 
 	@Override
-	public void select(Integer id) {
-		// TODO Auto-generated method stub
-
+	public List<ChatRoom> queryTenData(Integer sender, Integer receiver) {
+		List<ChatRoom> result = null;
+		try {
+			result = (List<ChatRoom>) sessionFactory.getCurrentSession().createQuery(SELECT_BY_SENDER_RECEIVER)
+					.setParameter("sender", sender).setParameter("receiver", receiver).setFirstResult(0).setMaxResults(10).getResultList();
+		} catch (NoResultException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return result;
 	}
 
 }

@@ -147,4 +147,21 @@ public class TagSearchDAO {
 		}
 		return returnSet;
 	}
+	
+	public String searchFreq() {
+		Session session = sessionFactory.getCurrentSession();
+		Query<Product> query = session.createQuery("From Product order by searchFreq DESC");
+		//query.setMaxResults(5);
+		List<Product> list =query.list();
+		
+		String jsonString = null;
+		try {
+			jsonString = new ObjectMapper().writeValueAsString(list);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+
+		
+		return jsonString;
+	}
 }

@@ -17,6 +17,7 @@ import com.gamebase.article.model.dao.ArticleRecordDAO;
 import com.gamebase.article.model.dao.ArticleTitleDAO;
 import com.gamebase.article.model.dao.vArticleListViewDAO;
 import com.gamebase.article.model.dao.vContentListViewDAO;
+import com.gamebase.member.model.Friends;
 
 @Service
 @Transactional
@@ -52,7 +53,17 @@ public class ArticleService {
 	public ArticleRecord queryRecordByUserIdAndTitleId(ArticleRecord record) {
 		return recordDao.queryByUserIdAndTitleId(record);
 	}
-	
+
+	// 後臺全部文章列表
+	public List<ArticleTitle> queryAllArticleTitle() {
+		return titleDao.queryAllArticleTitle();
+	}
+
+	// 後臺個人文章列表
+	public List<ArticleListView> queryMyArticle(Integer id) {
+		return alvDao.queryArticleListByUserId(id);
+	}
+
 	public List<ArticleRecord> queryRecordsByTitleId(Integer titleId) {
 		return recordDao.queryByTitleId(titleId);
 	}
@@ -109,29 +120,29 @@ public class ArticleService {
 	public Boolean deleteArticleAndReply(Integer titleId) {
 		Iterator<?> it;
 		try {
-			/*drop record*/		
+			/* drop record */
 			List<ArticleRecord> recordList = queryRecordsByTitleId(titleId);
 			it = recordList.iterator();
-			while(it.hasNext()) {
-				ArticleRecord record = (ArticleRecord)it.next();
-				Integer recordId = record.getRecordId();	
-				deleteRcord(recordId);			
+			while (it.hasNext()) {
+				ArticleRecord record = (ArticleRecord) it.next();
+				Integer recordId = record.getRecordId();
+				deleteRcord(recordId);
 			}
-			/*drop content and reply*/
+			/* drop content and reply */
 			List<ContentListView> contentList = queryContentListByTitleId(titleId);
-			it = contentList.iterator();		
-			while(it.hasNext()) {
-				ContentListView contentView = (ContentListView)it.next();
-				Integer contentId = contentView.getContentId();			
-				deleteReply(contentId);			
+			it = contentList.iterator();
+			while (it.hasNext()) {
+				ContentListView contentView = (ContentListView) it.next();
+				Integer contentId = contentView.getContentId();
+				deleteReply(contentId);
 			}
-			/*drop title*/
+			/* drop title */
 			deletetitle(titleId);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-		}		
+		}
 	}
 
 	public Boolean deleteReply(Integer contentId) {
@@ -153,5 +164,14 @@ public class ArticleService {
 		title.setTitleId(titleId);
 		Boolean tStatus = titleDao.deleteOneArticleTitle(title);
 		return tStatus;
+	}
+
+	public List<Friends> queryFriendsByUserId(Integer userId) {
+		return clvDao.queryFriendsByUserId(userId);
+	}
+
+	// 後台
+	public List<ArticleContent> queryMemberContentByUserId(int id) {
+		return contentDao.queryMemberContentByUserId(id);
 	}
 }

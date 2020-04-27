@@ -17,13 +17,6 @@ public class ArticleViewJavaConfig {
 //	}
 
 	@Bean
-	public View parentArticleViewPage() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/forum/parentArticle.jsp");
-		return view;
-	}
-
-	@Bean
 	public View forumViewPage() {
 		InternalResourceView view = new InternalResourceView();
 		view.setUrl("/WEB-INF/pages/forum/forum.jsp");
@@ -31,30 +24,23 @@ public class ArticleViewJavaConfig {
 	}
 
 	@Bean
-	public View childArticleViewPage() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/forum/childArticle.jsp");
-		return view;
-	}
-
-	@Bean
 	public View testForumViewPage() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/forum/forum_test.jsp");
+		view.setUrl("/WEB-INF/pages/forum/forum_list.jsp");
 		return view;
 	}
 
 	@Bean
 	public View testTitleViewPage() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/forum/title_test.jsp");
+		view.setUrl("/WEB-INF/pages/forum/title_list.jsp");
 		return view;
 	}
 
 	@Bean
 	public View testContentViewPage() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/forum/content_test.jsp");
+		view.setUrl("/WEB-INF/pages/forum/content_list.jsp");
 		return view;
 	}
 
@@ -62,6 +48,21 @@ public class ArticleViewJavaConfig {
 	public View forumHome() {
 		InternalResourceView view = new InternalResourceView();
 		view.setUrl("/WEB-INF/pages/forumHome.jsp");
+		return view;
+	}
+
+	// 後台
+	@Bean
+	public View myArticles() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/backend/myArticles.jsp");
+		return view;
+	}
+
+	@Bean
+	public View allArticles() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/backend/allArticles.jsp");
 		return view;
 	}
 }

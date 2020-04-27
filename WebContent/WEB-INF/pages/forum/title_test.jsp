@@ -10,13 +10,21 @@
 <!-- jQuery library -->
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <!-- Font Awesome icons -->
-<script src="https://kit.fontawesome.com/83bb506b46.js" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/83bb506b46.js"
+	crossorigin="anonymous"></script>
 <!-- forum style -->
 <link href="<c:url value="/css/forumStyle.css"/>" rel="stylesheet">
+<!-- Bootstrap -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 <!-- editor improt -->
-<script src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
+<script
+	src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
 <!-- ckfinder import -->
 <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+<!-- main style -->
+<link href="<c:url value="/css/style.css"/>" rel="stylesheet">
+<!-- create_article.js import -->
+<script src="<c:url value="/js/create_article.js"/>"></script>
 <!-- create new article -->
 <script>
 let editor;
@@ -115,6 +123,18 @@ $(document).ready(function(){
 });
 	
 </script>
+<style type="text/css">
+.publish-area {
+	width: 80vw;
+	height: 85vh;
+	margin-top: -40vh;
+	margin-left: calc(-40vw - 50px);
+}
+.ck-content{
+    height: calc(85vh - 320px);
+    text-align: left;
+}
+</style>
 </head>
 
 <body>
@@ -205,100 +225,104 @@ $(document).ready(function(){
 	<h1>主題：${forum.forumName}</h1>
 	<br />
 	<div id="titleList">
-	<c:if test="${articleList==null}">
-		<p>there is no article</p>
-	</c:if>
+		<c:if test="${articleList==null}">
+			<p>there is no article</p>
+		</c:if>
 
-	<c:if test="${articleList!=null}">
-	
-		<p>there is articles</p>
-		<c:forEach items="${articleList}" var="item" varStatus="itemStatus">
-			<div class="article">
-				<div class="article_part">
-					<h2>
-						<a href="<c:url value="/forum_test/${forumId}/${item.titleId}"/>">${item.titleName}</a>
-					</h2>
-					<hr />
-					<div class="article_img">
-						<img alt="圖片提示字串" src="https://i.imgur.com/8g2jFuM.png"
-							height="100" width="100">
-						<!-- 柴犬圖 -->
+		<c:if test="${articleList!=null}">
+
+			<p>there is articles</p>
+			<c:forEach items="${articleList}" var="item" varStatus="itemStatus">
+				<div class="article">
+					<div class="article_part">
+						<h2>
+							<a href="<c:url value="/forum_test/${forumId}/${item.titleId}"/>">${item.titleName}</a>
+						</h2>
+						<hr />
+						<div class="article_img">
+							<img alt="圖片提示字串" src="https://i.imgur.com/8g2jFuM.png"
+								height="100" width="100">
+							<!-- 柴犬圖 -->
+						</div>
+						<div class="article_content">
+							<span>${item.content}</span><br />
+						</div>
 					</div>
-					<div class="article_content">
-						<span>${item.content}</span><br />
+					<!-- icons input and time record -->
+					<div class="article_part article_datas">
+						<!-- like -->
+						<div class="article_icons">
+							<i class="far fa-thumbs-up fa-2x">${item.likeNum}</i> <i
+								class="fas fa-thumbs-up fa-2x">${item.likeNum}</i>
+						</div>
+						<!-- unlike -->
+						<div class="article_icons">
+							<i class="far fa-thumbs-down fa-2x">${item.unlikeNum}</i> <i
+								class="fas fa-thumbs-down fa-2x">${item.unlikeNum}</i>
+						</div>
+						<!-- click -->
+						<div class="article_icons">
+							<i class="far fa-eye fa-2x">${item.clickNum}</i> <i
+								class="fas fa-eye fa-2x">${item.clickNum}</i><br />
+						</div>
+						<!-- create time -->
+						<div class="article_time_record">
+							<i class="fas fa-pen-alt fa-2x">Post Time :
+								${item.createTime}</i><br />
+						</div>
+						<!-- last reply time -->
+						<div class="article_time_record">
+							<i class="far fa-comment-dots fa-2x">Last Reply :
+								${item.lastReplyTime}</i><br /> <i
+								class="fas fa-comment-dots fa-2x">Last Reply :
+								${item.lastReplyTime}</i><br />
+						</div>
 					</div>
 				</div>
-				<!-- icons input and time record -->
-				<div class="article_part article_datas">
-					<!-- like -->
-					<div class="article_icons">
-						<i class="far fa-thumbs-up fa-2x">${item.likeNum}</i> <i
-							class="fas fa-thumbs-up fa-2x">${item.likeNum}</i>
-					</div>
-					<!-- unlike -->
-					<div class="article_icons">
-						<i class="far fa-thumbs-down fa-2x">${item.unlikeNum}</i> <i
-							class="fas fa-thumbs-down fa-2x">${item.unlikeNum}</i>
-					</div>
-					<!-- click -->
-					<div class="article_icons">
-						<i class="far fa-eye fa-2x">${item.clickNum}</i> 
-						<i class="fas fa-eye fa-2x">${item.clickNum}</i><br />
-					</div>
-					<!-- create time -->
-					<div class="article_time_record">
-						<i class="fas fa-pen-alt fa-2x">Post Time : ${item.createTime}</i><br />
-					</div>
-					<!-- last reply time -->
-					<div class="article_time_record">
-						<i class="far fa-comment-dots fa-2x">Last Reply : ${item.lastReplyTime}</i><br /> 
-						<i class="fas fa-comment-dots fa-2x">Last Reply : ${item.lastReplyTime}</i><br />
-					</div>
-				</div>
-			</div>
-		</c:forEach>
-	
-	</c:if>
+			</c:forEach>
+
+		</c:if>
 	</div>
 	<!-- ================================================================================ -->
 	<!--輸入區 -->
-	<hr />
-	<div class="publish-area article">
-		<form>
-			<!-- User ID and Article Title -->
-			<table>
-				<tr>
-					<td><p>your account id:</p></td>
-					<td><input type="text" id="accountId" name="accountId"></td>
-				</tr>
-				<tr>
-					<td><p>article title:</p></td>
-					<td><input type="text" id="articleTitle" name="articleTitle"></td>
-				</tr>
-			</table>
-			<!-- CKeditor -->
-			<textarea name="content" id="editor"></textarea>
+	<!-- 	<hr /> -->
+	<!-- 	<div class="publish-area article popup-window hidden-window"> -->
+	<!-- 		<form> -->
+	<!-- 			<!-- User ID and Article Title -->
+	-->
+	<!-- 			<table> -->
+	<!-- 				<tr> -->
+	<!-- 					<td><p>your account id:</p></td> -->
+	<!-- 					<td><input type="text" id="accountId" name="accountId"></td> -->
+	<!-- 				</tr> -->
+	<!-- 				<tr> -->
+	<!-- 					<td><p>article title:</p></td> -->
+	<!-- 					<td><input type="text" id="articleTitle" name="articleTitle"></td> -->
+	<!-- 				</tr> -->
+	<!-- 			</table> -->
+	<!-- 			<!-- CKeditor -->
+	-->
+	<!-- 			<textarea name="content" id="editor"></textarea> -->
 
-			<script>
-		editor = ClassicEditor
-            	.create( document.querySelector( '#editor' ),{
-            	    mediaEmbed:{
-            	    	previewsInData:true	
-          	        },
-    	        	ckfinder: {
-        	        	uploadUrl: "/GameBase/figureupload"
-            	    }
-         		} )
-         		.then( newEditor => {
-                	editor = newEditor
-                } )
-            	.catch( error => {
-                	console.error( error );
-            	} );
+	<!-- 			<script> -->
+<!-- 	 editor = ClassicEditor // .create( document.querySelector( '#editor' -->
+<!-- 	),{ // mediaEmbed:{ // previewsInData:true // }, // ckfinder: { // -->
+<!-- 	uploadUrl: "/GameBase/figureupload" // } // } ) // .then( newEditor => -->
+<!-- 	{ // editor = newEditor // } ) // .catch( error => { // console.error( -->
+<!-- 	error ); // } ); -->
 
-   		</script>
-		</form>
-		<button id="submit">Post Your Article</button>
+	<!--    		</script> -->
+	<!-- 		</form> -->
+	<!-- 		<button id="submit">Post Your Article</button> -->
+	<!-- 	</div> -->
+
+	<!-- update article button -->
+	<div class="article_icons">
+		<!-- 				<i class="fas fa-edit fa-2x"></i><br />  -->
+		<a id="publish-btn" class="btn_update_forum" href="javascript:void(0)"><i
+			class="far fa-edit fa-2x"></i></a><br />
 	</div>
+	<!-- create article window -->
+	<%@ include file="article_editor.jsp"%>
 </body>
 </html>

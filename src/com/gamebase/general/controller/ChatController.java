@@ -19,6 +19,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.user.SimpUser;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -124,6 +126,20 @@ public class ChatController {
 			result.put("type", null);
 		}
 		return result;
+	}
+
+	@PostMapping(path = "/Query", produces = "application/json")
+	@ResponseBody
+	public List<ChatRoom> query(@RequestParam(name = "sender") String sender,
+			@RequestParam(name = "receiver") String receiver, Model model) {
+		List<ChatRoom> chatHistory = null;
+		chatHistory = cService.queryHistory(sender, receiver);
+		if (chatHistory != null) {
+			return chatHistory;
+		} else {
+			return null;
+		}
+
 	}
 
 	public void sendMulti(WebSocketMessage msg, String... receivers) {
