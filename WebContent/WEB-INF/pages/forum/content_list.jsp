@@ -19,8 +19,6 @@
 	src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
 <!-- ckfinder import -->
 <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
-<!-- main style -->
-<link href="<c:url value="/css/style.css"/>" rel="stylesheet">
 <!-- forum style -->
 <link href="<c:url value="/css/forumStyle.css"/>" rel="stylesheet">
 <!-- create_article.js import -->
@@ -49,6 +47,17 @@ $("#document").ready(function () {
 		var contentId = $(this).parents(".content_id").attr("id");
 		console.log("content ID : "+contentId);
 		update_content(btn,contentId);
+	});
+	
+	/*author img clicked*/
+	$(".userId").click(function(){
+		console.log("author img clicked");
+		var userId = $(this).attr("id");
+		console.log("userId :"+userId);
+		$("#addfriend_"+userId).removeClass("hidden-window");
+		$(".close-btn").click(function(){
+			$("#addfriend_"+userId).addClass("hidden-window");
+		});
 	});
 	
 });
@@ -151,12 +160,12 @@ a.disabled {
 
 				<hr />
 				<c:forEach items="${contentList}" var="item" varStatus="itemStatus">
-					
+					<%@ include file="../include/friendForm.jsp"%>
 					<div id="${item.contentId}" class="content_id">
 					<!-- user data and update/post time -->	
 					<div>				
 					<!-- user img -->
-					<div>
+					<div id="${item.userId}" class="userId">
 					<c:if test="${empty item.img}"><img src="<c:url value="/img/userIcon.png"/>" width="60" height="60"/></c:if>
 					<c:if test="${not empty item.img}"><img src=${item.img} alt="" width="40" height="40"/></c:if>
 					</div>
