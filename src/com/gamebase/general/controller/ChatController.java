@@ -105,7 +105,7 @@ public class ChatController {
 			bean.setTo(new String[] { receiver });
 			bean.setType(type);
 			bean.setURL("img/PDF_file_icon.jpg");
-			System.out.println("123fffffffffffffff");
+//			System.out.println("123fffffffffffffff");
 			bean.setTime(new Timestamp(System.currentTimeMillis()));
 			sendMulti(bean, bean.getFrom(), bean.getTo()[0]);
 		} else {
@@ -134,6 +134,25 @@ public class ChatController {
 			@RequestParam(name = "receiver") String receiver, Model model) {
 		List<ChatRoom> chatHistory = null;
 		chatHistory = cService.queryHistory(sender, receiver);
+		for (ChatRoom result : chatHistory) {
+			WebSocketMessage bean = new WebSocketMessage();
+			bean.setFrom(result.getSender().toString());
+			bean.setTo(new String[] { result.getReceiver().toString() });
+			bean.setMessage(result.getHistory());
+			bean.setType(result.getType());
+			bean.setURL(result.getURL());
+			bean.setTime(result.getTime());
+			sendMultiMessage(bean, bean.getFrom(), bean.getTo()[0]);
+			System.out.println("-------------------------");
+			System.out.println(bean.getFrom());
+			System.out.println(bean.getTo());
+			System.out.println(bean.getMessage());
+			System.out.println(bean.getType());
+			System.out.println(bean.getURL());
+			System.out.println(bean.getTime());
+			System.out.println("-------------------------");
+		}
+
 		if (chatHistory != null) {
 			return chatHistory;
 		} else {
@@ -147,6 +166,11 @@ public class ChatController {
 			simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages", msg);
 		}
 		cService.saveToRedis(msg);
+	}
+	public void sendMultiMessage(WebSocketMessage msg, String... receivers) {
+		for (String receiver : receivers) {
+			simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages", msg);
+		}
 	}
 
 	@EventListener

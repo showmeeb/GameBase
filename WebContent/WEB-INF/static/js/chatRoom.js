@@ -782,11 +782,11 @@ function showUsersDiaglog(element) {
         contentType: false,
         processData: false,
         success: function (data) {
-            console.log(data);
+           if(data){
+               console.log(data);
+           }
         }
     });
-	
-	
 	
   // get chat room object from sessionStorage
   var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
@@ -986,9 +986,10 @@ function sendMyFile(msgOutput) {
   // get chat room object from sessionStorage
   var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
 
-  var className = $("#chat-message-area").attr("class");
+//  var className = $("#chat-message-area").attr("class");
   //userNo is 幾號聊天室
-  var userNo = className.substring(className.indexOf("-") + 1);
+//  var userNo = className.substring(className.indexOf("-") + 1);
+  var userNo = msgOutput.to
 
   // get data from message input area
   var dateObj = new Date();
@@ -997,16 +998,6 @@ function sendMyFile(msgOutput) {
   var minutes = '0' + dateObj.getMinutes();
   minutes = minutes.substring(minutes.length - 2);
   var currentTime = hours + ':' + minutes;
-
-  // set object for render message use
-  //    var msgObj = {
-  //        from: JSON.parse(window.sessionStorage.getItem("loginUser")).userId,
-  //        to: [userNo],
-  //        url: msgOutput.url,
-  //        //url: $("btn-file").val(),
-  //        time: Date.now()
-  //    }
-  //    console.log('msgOutput.url: ' + msgOutput.url);
 
   // set formated time for print
   msgOutput.time = currentTime;
@@ -1064,9 +1055,10 @@ function sendMyMessage(msgOutput) {
   // get chat room object from sessionStorage
   var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
 
-  var className = $("#chat-message-area").attr("class");
+//  var className = $("#chat-message-area").attr("class");
   //userNo is 幾號聊天室
-  var userNo = className.substring(className.indexOf("-") + 1);
+//  var userNo = className.substring(className.indexOf("-") + 1);
+  var userNo = msgOutput.to;
 
   // get data from message input area
   var dateObj = new Date();
@@ -1075,19 +1067,6 @@ function sendMyMessage(msgOutput) {
   var minutes = '0' + dateObj.getMinutes();
   minutes = minutes.substring(minutes.length - 2);
   var currentTime = hours + ':' + minutes;
-
-  // set object for render message use
-  // var msgObj = {
-  //   from: JSON.parse(window.sessionStorage.getItem("loginUser")).userId,
-  //   to: [userNo],
-  //   message: $("#chat-room-input").val(),
-  //   //url: $("btn-file").val(),
-  //   time: Date.now()
-  // }
-  // console.log('msgObj.message: ' + msgObj.message);
-  //console.log('msgObj.url: ' + msgObj.url);
-  // set object for sending use
-  // sendWebSocketMessage(msgObj);
 
   // set formated time for print
   msgOutput.time = currentTime;

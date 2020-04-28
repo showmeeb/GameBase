@@ -16,7 +16,7 @@ public class ChatRoomDAO implements IChatRoom {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	private final String SELECT_BY_SENDER_RECEIVER = "From com.gamebase.general.model.ChatRoom ChatRoom where ChatRoom.sender = :sender and ChatRoom.receiver = :receiver Order by ChatRoom.id Desc";
+	private final String SELECT_BY_SENDER_RECEIVER = "From com.gamebase.general.model.ChatRoom ChatRoom where (ChatRoom.sender = :sender and ChatRoom.receiver = :receiver) OR (ChatRoom.sender = :sender1 and ChatRoom.receiver = :receiver1) Order by ChatRoom.id Desc";
 
 	@Override
 	public void insert(ChatRoom chatroom) {
@@ -33,7 +33,8 @@ public class ChatRoomDAO implements IChatRoom {
 		List<ChatRoom> result = null;
 		try {
 			result = (List<ChatRoom>) sessionFactory.getCurrentSession().createQuery(SELECT_BY_SENDER_RECEIVER)
-					.setParameter("sender", sender).setParameter("receiver", receiver).setFirstResult(0).setMaxResults(10).getResultList();
+					.setParameter("sender", sender).setParameter("receiver", receiver).setParameter("sender1", receiver)
+					.setParameter("receiver1", sender).setFirstResult(0).setMaxResults(10).getResultList();
 		} catch (NoResultException e) {
 			e.printStackTrace();
 			return null;
