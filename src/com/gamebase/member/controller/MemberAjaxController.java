@@ -178,6 +178,11 @@ public class MemberAjaxController {
 		return "allMembers";
 	}
 	
+	@RequestMapping(value = "/goOp", method = RequestMethod.GET)
+	public String goop() {
+		return "opPage";
+	}
+	
 	@RequestMapping(path = "/GameBase/getuserbyacinallrank", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getuserbyacinallrank(@RequestParam("ac") String ac) {
