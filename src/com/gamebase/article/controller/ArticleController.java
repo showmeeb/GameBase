@@ -132,6 +132,34 @@ public class ArticleController {
 		return j;
 	}
 
+	/* btn */
+	/* query content author friends */
+	@RequestMapping(value = "/queryfriends", produces = "application/json")
+	@ResponseBody
+	public JSONObject queryAuthorFriends(@RequestParam("userId") Integer userId, @RequestParam("authorId") Integer authorId) {
+		System.out.println("get in controller");
+		/* query friends */
+		Friends friend = aService.queryFriendsByUserIdAndAuthorId(userId, authorId);
+		JSONObject j = new JSONObject();
+		Boolean friendStatus = false ;
+		if(friend.getFriendId().equals(userId)) {
+			friendStatus = true;
+		}
+		j.put("friendStatus", friendStatus);
+		System.out.println(j);
+		return j;
+	}
+	/*update friend*/
+	@RequestMapping(value = "/addfriend", produces = "application/json")
+	@ResponseBody
+	public JSONObject updateFriends(Integer userId, Integer authorId) {
+		System.out.println("update or insert friends");
+		JSONObject result = new JSONObject();
+		Friends friend = aService.updateFriendsByUserIdAndAuthorId(userId, authorId);
+		result.put("updatefriend", friend);
+		return result;		
+	} 
+	
 	/* test */
 	/* insert new article title */
 	@RequestMapping(value = "/forum_test/{forumId}/add", produces = "application/json")
@@ -171,6 +199,7 @@ public class ArticleController {
 		/* query title */
 		ArticleTitle title = aService.queryTitleByTitleId(titleId);
 		model.addAttribute("title", title);
+
 		/* get user data */
 		UserData userData = (UserData) model.getAttribute("UserData");
 		if (userData != null) {
@@ -184,6 +213,21 @@ public class ArticleController {
 				model.addAttribute("friends", "");
 			}
 		}
+
+//		/* get user data */
+//		UserData userData = (UserData) model.getAttribute("UserData");
+//		if (userData != null) {
+//			/* query user friends */
+//			List<Friends> friends = aService.queryFriendsByUserId((Integer) userData.getUserId());
+//			if (friends != null && friends.size() != 0) {
+//				model.addAttribute("friends", friends);
+//				System.out.println("friends list found!!");
+//			} else {
+//				System.out.println("friends list not found!!");
+//				model.addAttribute("friends", "");
+//			}
+//		}
+
 		/* click num +1 */
 		Integer clickNum = title.getClickNum() + 1;
 		title.setClickNum(clickNum);
@@ -355,7 +399,7 @@ public class ArticleController {
 		System.out.println(result);
 		return result;
 	}
-
+	
 	/* delete forum */
 	@PostMapping(value = "/forum_test/{forumId}/del", produces = "application/json")
 	@ResponseBody
@@ -369,7 +413,7 @@ public class ArticleController {
 		System.out.println(result);
 		return result;
 	}
-
+	
 	/* delete title , content , user's record */
 	@RequestMapping(value = "/forum_test/{forumId}/{titleId}/del", produces = "application/json")
 	@ResponseBody
@@ -467,7 +511,8 @@ public class ArticleController {
 	}
 
 	// 後台
-	@RequestMapping(path = "/getMyArticles", produces = "application/json", method = RequestMethod.POST)
+
+	@RequestMapping(path = "/GameBase/getMyArticles", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> queryMyArticle(@RequestParam("id") String id) {
 		// System.out.println("got chekcAcc "+account.getAccount());

@@ -157,7 +157,7 @@ ul {
 		</table>
 		<table id="member-profile" class="d-none" cellpadding="10">
 			<tr>
-				<td><a id="myProfile" class="tag" href="userProfileCreate">個人資料</a></td>
+				<td><a id="update-up" href="#">個人資料</a></td>
 			</tr>
 			<tr>
 				<td><a class="tag" href="<c:url value="/goOp"/>">升級</a></td>
@@ -305,7 +305,19 @@ ul {
 			;
 		})
 
-		
+		$("#update-up").click(function(){
+			var loginUser = JSON.parse(window.sessionStorage.getItem("loginUser"));
+			console.log("loginUserID: " + loginUser.userId);
+			var userId = loginUser.userId;
+				
+			$.ajax({
+				url:'/GameBase/updateProfile/',
+				type:'POST',
+				success:function(data){
+					window.location.href=data.url;
+				}
+			})
+		})
 		
 //      $("#admin-bar").removeClass("d-none");
 //			$("#member-bar").addClass("d-none");
