@@ -173,4 +173,12 @@ public class ArticleService {
 	public List<ArticleContent> queryMemberContentByUserId(int id) {
 		return contentDao.queryMemberContentByUserId(id);
 	}
+	//後台
+	public List<ArticleTitle> querySomeArticleTitleByKeyInOneForum(Integer forumId, String title) {
+		return titleDao.querySomeArticleTitleByKeyInOneForum(forumId,title);
+	}
+	//後台
+	public List<ArticleTitle> querySomeArticleTitleByKeyInallForum(String title) {
+		return titleDao.querySomeArticleTitleByKeyInallForum(title);
+	}
 }
