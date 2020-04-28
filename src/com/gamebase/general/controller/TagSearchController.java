@@ -28,13 +28,16 @@ public class TagSearchController {
 	public String tagSearch(@RequestParam("looking") String looking, @RequestParam("keyword") String keyword,
 			Model model) {
 
-//		String jsonStr = tagSearchService.tagSearch(looking, keyword);
+		//String jsonStr = tagSearchService.tagSearch(looking, keyword);
+		
+		if(!keyword.equals(null) && keyword!="") {
 		String jsonStr = tagSearchService.tagSearchByFuzzy("Product", "productName productTag productInfo", keyword);
 
 		model.addAttribute("results", jsonStr);
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("looking", looking);
-
+		}
+		
 		return "searchResults";
 	}
 

@@ -24,6 +24,8 @@ public class ChatRoomService {
 	private ChatRoomCrudRepository cRud;
 	@Autowired
 	private ChatRoomDAO cDao;
+	
+	private Integer chatListPageSize = 10;
 
 	public void saveToRedis(WebSocketMessage msg) {
 		Integer sender = Integer.parseInt(msg.getFrom());
@@ -63,6 +65,20 @@ public class ChatRoomService {
 			Integer senderId = Integer.parseInt(sender);
 			Integer receiverId = Integer.parseInt(receiver);
 			result = cDao.queryTenData(senderId, receiverId);
+			System.out.println("===================");
+			System.out.println("Query History finished");
+		} catch (NoResultException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return result;
+	}
+	public List<ChatRoom> queryHistoryNext(String sender, String receiver, Integer page) {
+		List<ChatRoom> result = null;
+		try {
+			Integer senderId = Integer.parseInt(sender);
+			Integer receiverId = Integer.parseInt(receiver);
+			result = cDao.queryTenDataNext(senderId, receiverId, chatListPageSize, page);
 			System.out.println("===================");
 			System.out.println("Query History finished");
 		} catch (NoResultException e) {

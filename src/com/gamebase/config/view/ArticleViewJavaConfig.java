@@ -73,6 +73,8 @@ public class ArticleViewJavaConfig {
 		view.setUrl("/WEB-INF/pages/backend/myArticles.jsp");
 		return view;
 	}
+	
+	//後台
 	@Bean
 	public View allArticles() {
 		InternalResourceView view = new InternalResourceView();

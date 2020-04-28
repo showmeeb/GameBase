@@ -11,8 +11,6 @@
 <title>GameBase</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-
 <!-- Font Awesome -->
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
@@ -29,7 +27,6 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
 <!-- javaScript -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -41,7 +38,6 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-
 <!-- mustache Template Engine library -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
@@ -129,7 +125,7 @@
 					<a class="dropdown-item" id="login-str" href="#">登入</a> <a
 						class="dropdown-item" id="regiest-str" href="#">註冊</a> <a
 						class="dropdown-item hidden-window" id="logout-str" href="#">登出</a>
-					<a class="dropdown-item" href="#" id="update-up">管理個人資料</a>
+	
 				</div>
 			</div>
 		</div>
@@ -170,21 +166,11 @@
 
 		});
 	
-		$("#update-up").click(function(){
-			var loginUser = JSON.parse(window.sessionStorage.getItem("loginUser"));
-			console.log("loginUserID: " + loginUser.userId);
-			var userId = loginUser.userId;
-				
-			$.ajax({
-				url:'/GameBase/updateProfile/',
-				type:'POST',
-				success:function(data){
-					window.location.href=data.url;
-				}
-			})
-		})
 		
-	
+		
+		
+		
+		if("${looking}"=="foForumr"){$("#lookingFor").val("foForumr")}
 	</script>
 
 </body>

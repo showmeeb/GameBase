@@ -12,8 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gamebase.general.model.service.GeneralService;
 import com.gamebase.member.model.UserProfile;
@@ -133,27 +135,27 @@ public class UserProfileController {
 
 	}
 
-	@RequestMapping(path = "/saveImg", produces = "application/json", method = RequestMethod.POST)
-	public Map<String, Object> addImg(@RequestBody UserProfile userProfile,
-			HttpServletRequest request, Model model) throws IOException {
-		System.out.println("I am in imgaction");
-
+//	@RequestMapping(path = "/saveImg", method = RequestMethod.POST)
+//	public Map<String, Object> addImg(@RequestBody UserProfile userProfile,@RequestParam("theFile") MultipartFile theFile,
+//			HttpServletRequest request, Model model) throws IOException {
+//		System.out.println("I am in imgaction");
+//
 //		String imgURL = gService.uploadToImgur(theFile);
-//		System.out.println("myImg: " + imgURL);
-
-		UserProfile up = (UserProfile)request.getSession().getAttribute("userProfile");
-		String img = userProfile.getImg();
-		up.setImg(userProfile.getImg());
-		System.out.println("Img: " + userProfile.getImg());
-		uService.saveUserPrfile(up);
-
-//		model.addAttribute("imgURL", imgURL);
-		request.setAttribute("img", userProfile.getImg());
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("img", img);
-		return map;
-
-	}
+////		System.out.println("myImg: " + imgURL);
+//
+//		UserProfile up = (UserProfile)request.getSession().getAttribute("userProfile");
+//		
+//		up.setImg(imgURL);
+//		System.out.println("Img: " + userProfile.getImg());
+//		uService.saveUserPrfile(up);
+//
+////		model.addAttribute("imgURL", imgURL);
+//		request.setAttribute("img", userProfile.getImg());
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("img", imgURL);
+//		return map;
+//
+//	}
 
 //	@RequestMapping(value = "/saveImg", method = RequestMethod.POST)
 //	public String addImg(@RequestParam("theFile") MultipartFile theFile, Model model) throws Exception {

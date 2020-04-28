@@ -2,7 +2,7 @@ package com.gamebase.general.controller;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -134,6 +134,8 @@ public class ChatController {
 			@RequestParam(name = "receiver") String receiver, Model model) {
 		List<ChatRoom> chatHistory = null;
 		chatHistory = cService.queryHistory(sender, receiver);
+		// reverse list
+//		Collections.reverse(chatHistory);
 		for (ChatRoom result : chatHistory) {
 			WebSocketMessage bean = new WebSocketMessage();
 			bean.setFrom(result.getSender().toString());
@@ -143,14 +145,63 @@ public class ChatController {
 			bean.setURL(result.getURL());
 			bean.setTime(result.getTime());
 			sendMultiMessage(bean, bean.getFrom(), bean.getTo()[0]);
-			System.out.println("-------------------------");
+			System.out.println("---------query-----------");
 			System.out.println(bean.getFrom());
 			System.out.println(bean.getTo());
 			System.out.println(bean.getMessage());
-			System.out.println(bean.getType());
-			System.out.println(bean.getURL());
 			System.out.println(bean.getTime());
-			System.out.println("-------------------------");
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		if (chatHistory != null) {
+			return chatHistory;
+		} else {
+			return null;
+		}
+
+	}
+
+	@PostMapping(path = "/Query/{chatHistoryPage}", produces = "application/json")
+	@ResponseBody
+	public List<ChatRoom> queryNext(@RequestParam(name = "sender") String sender,
+			@RequestParam(name = "receiver") String receiver, @PathVariable Integer chatHistoryPage, Model model) {
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		List<ChatRoom> chatHistory = null;
+		chatHistory = cService.queryHistoryNext(sender, receiver, chatHistoryPage);
+		// reverse list
+//		Collections.reverse(chatHistory);
+		for (ChatRoom result : chatHistory) {
+			WebSocketMessage bean = new WebSocketMessage();
+			bean.setFrom(result.getSender().toString());
+			bean.setTo(new String[] { result.getReceiver().toString() });
+			bean.setMessage(result.getHistory());
+			bean.setType(result.getType());
+			bean.setURL(result.getURL());
+			bean.setTime(result.getTime());
+			sendMultiMessage(bean, bean.getFrom(), bean.getTo()[0]);
+			System.out.println("---------queryNext----------");
+			System.out.println(bean.getFrom());
+			System.out.println(bean.getTo());
+			System.out.println(bean.getMessage());
+			System.out.println(bean.getTime());
+			
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		if (chatHistory != null) {
@@ -167,9 +218,10 @@ public class ChatController {
 		}
 		cService.saveToRedis(msg);
 	}
+
 	public void sendMultiMessage(WebSocketMessage msg, String... receivers) {
 		for (String receiver : receivers) {
-			simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages", msg);
+			simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages/history", msg);
 		}
 	}
 
