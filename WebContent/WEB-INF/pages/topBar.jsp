@@ -170,19 +170,7 @@
 
 		});
 	
-		$("#update-up").click(function(){
-			var loginUser = JSON.parse(window.sessionStorage.getItem("loginUser"));
-			console.log("loginUserID: " + loginUser.userId);
-			var userId = loginUser.userId;
-				
-			$.ajax({
-				url:'/GameBase/updateProfile/',
-				type:'POST',
-				success:function(data){
-					window.location.href=data.url;
-				}
-			})
-		})
+		
 		
 		
 		

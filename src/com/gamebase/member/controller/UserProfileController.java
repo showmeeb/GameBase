@@ -135,27 +135,27 @@ public class UserProfileController {
 
 	}
 
-	@RequestMapping(path = "/saveImg", method = RequestMethod.POST)
-	public Map<String, Object> addImg(@RequestBody UserProfile userProfile,@RequestParam("theFile") MultipartFile theFile,
-			HttpServletRequest request, Model model) throws IOException {
-		System.out.println("I am in imgaction");
-
-		String imgURL = gService.uploadToImgur(theFile);
-//		System.out.println("myImg: " + imgURL);
-
-		UserProfile up = (UserProfile)request.getSession().getAttribute("userProfile");
-		
-		up.setImg(imgURL);
-		System.out.println("Img: " + userProfile.getImg());
-		uService.saveUserPrfile(up);
-
-//		model.addAttribute("imgURL", imgURL);
-		request.setAttribute("img", userProfile.getImg());
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("img", imgURL);
-		return map;
-
-	}
+//	@RequestMapping(path = "/saveImg", method = RequestMethod.POST)
+//	public Map<String, Object> addImg(@RequestBody UserProfile userProfile,@RequestParam("theFile") MultipartFile theFile,
+//			HttpServletRequest request, Model model) throws IOException {
+//		System.out.println("I am in imgaction");
+//
+//		String imgURL = gService.uploadToImgur(theFile);
+////		System.out.println("myImg: " + imgURL);
+//
+//		UserProfile up = (UserProfile)request.getSession().getAttribute("userProfile");
+//		
+//		up.setImg(imgURL);
+//		System.out.println("Img: " + userProfile.getImg());
+//		uService.saveUserPrfile(up);
+//
+////		model.addAttribute("imgURL", imgURL);
+//		request.setAttribute("img", userProfile.getImg());
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("img", imgURL);
+//		return map;
+//
+//	}
 
 //	@RequestMapping(value = "/saveImg", method = RequestMethod.POST)
 //	public String addImg(@RequestParam("theFile") MultipartFile theFile, Model model) throws Exception {
