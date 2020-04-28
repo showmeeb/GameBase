@@ -29,7 +29,8 @@ import com.gamebase.article.model.ForumListView;
 import com.gamebase.article.model.service.ArticleService;
 import com.gamebase.article.model.service.ForumService;
 import com.gamebase.general.model.service.GeneralService;
-import com.gamebase.member.model.UserProfile;
+import com.gamebase.member.model.Friends;
+import com.gamebase.member.model.UserData;
 
 import net.sf.json.JSONObject;
 
@@ -171,6 +172,19 @@ public class ArticleController {
 		/* query title */
 		ArticleTitle title = aService.queryTitleByTitleId(titleId);
 		model.addAttribute("title", title);
+		/* get user data */
+		UserData userData = (UserData) model.getAttribute("UserData");
+		if(userData != null) {
+			/* query user friends */
+			List<Friends> friends = aService.queryFriendsByUserId((Integer)userData.getUserId());
+			if (friends != null && friends.size() != 0) {
+				model.addAttribute("friends", friends);
+				System.out.println("friends list found!!");
+			} else {
+				System.out.println("friends list not found!!");
+				model.addAttribute("friends", "");
+			}	
+		}
 		/* click num +1 */
 		Integer clickNum = title.getClickNum() + 1;
 		title.setClickNum(clickNum);

@@ -35,9 +35,9 @@ i {
 }
 /*=====================================================*/
 /*forum style*/
-img {
-	margin: auto;
-}
+/* img { */
+/* 	margin: auto; */
+/* } */
 
 .forum_editor {
 	width: 40vw;
@@ -184,6 +184,13 @@ div.content_datas {
 	padding: 10px;
 	border: 3px solid DodgerBlue;
 	overflow: hidden; /*避免float跑框*/
+}
+.firends_area {
+	width: 20vw;
+	height: 45vh;
+	margin-top: -35vh;
+	margin-left: -10vw;
+	overflow: auto;
 }
 /*=====================================================*/
 /*editor stytle*/
