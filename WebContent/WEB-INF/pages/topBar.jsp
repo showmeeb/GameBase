@@ -169,7 +169,7 @@
 			var userId = loginUser.userId;
 				
 			$.ajax({
-				url:'/GameBase/updateProfile/'+userId,
+				url:'/GameBase/updateProfile',
 				type:'POST',
 				success:function(data){
 					window.location.href=data.url;

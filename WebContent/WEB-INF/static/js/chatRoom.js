@@ -2,7 +2,9 @@
 /*  4. LOGIN BUTTON & ICON CONTROL
 /* ----------------------------------------------------------- */
 var userCenterUrl = "/GameBase/UserCenter";
-
+function myFunction(a) {
+	  console.log(a)    
+	}
 $(document).ready(function () {
 
   if (window.sessionStorage.getItem("loginUser") != "") {
@@ -257,6 +259,7 @@ if (window.sessionStorage.getItem("loginUser") == undefined) {
   });
 }
 $(document).ready(function () {
+
   $(".login-btn").click(function () {
 
     $(".login-area").removeClass("hidden-window", 700);

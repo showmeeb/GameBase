@@ -59,44 +59,52 @@ var initCropperInModal = function(img, input, modal){
         }
     }
 
-    var sendPhoto = function(){
-    	$('#photo').cropper('getCroppedCanvas',{
-            width:300,
-            height:300
-        }).toBlob(function(blob){
-        	var formData = $('#imgForm').serializeObject();
-        	formData.append('theFile', blob);
-        	var UserProfile = JSON.stringify(formData);
-            $('#user-photo').attr('src',URL.createObjectURL(blob));
-            $('#changeModal').modal('hide');
-            $.ajax('http://localhost:8080/GameBase/uploadImg', {
-                method: "POST",
-                data: UserProfile,
-                contentType:false,
-                processData: false,
-                success: function(data) {
-                	console.log(data)
-                	if(data=="true"){
-                		Swal.fire({
-                  		  title: '上傳成功!',
-                  		  icon: 'success',
-                  		  timer: 1500,
-                  		})
-                	}else{
-                		Swal.fire({
-                  		  title: '上傳失敗...',
-                  		  icon: 'error',
-                  		  timer: 1500
-                  		})
-                		
-                	}
-                	
-                },
-                error: function() {
-                	
-                }
-            });
+var sendPhoto = function(){
+	console.log('start to sendPhoto');
+	$('#photo').cropper('getCroppedCanvas',{
+        width:300,
+        height:300
+    }).toBlob(function(blob){
+    	console.log('blobblobblob');
+    	var formData = new FormData();
+    	console.log('formData: ' + formData);
+    	formData.append('theFile', blob);
+        $('#user-photo').attr('src',URL.createObjectURL(blob));
+        $('#changeModal').modal('hide');
+        $.ajax({
+        	url:'http://localhost:8080/GameBase/uploadImg', 
+            method: "POST",
+            data: formData,
+            contentType:false,
+            processData: false,
+            success: function(data) {
+            	console.log(data)
+            
+            	if(data.status==true){
+            		Swal.fire({
+              		  title: '上傳成功!',
+              		  icon: 'success',
+              		  timer:1500
+              		})
+            	}else{
+            		Swal.fire({
+              		  title: '上傳失敗...',
+              		  icon: 'error',
+              		  timer:1500  
+              		})
+            		
+            	}
+            	$('#imgShow img').attr("src",data.img);
+            	$('#imgSpan').css("display","none");
+            	$(".modal-backdrop").addClass("hidden");
+            },
+            error: function() {
+            	
+            }
+            
         });
+        
+    });
     	
     }
 

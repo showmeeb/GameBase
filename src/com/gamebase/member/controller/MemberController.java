@@ -21,10 +21,11 @@ import org.springframework.web.bind.support.SessionStatus;
 import com.gamebase.member.model.Rank;
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UserProfile;
+import com.gamebase.member.model.UsersInfo;
 import com.gamebase.member.model.service.UserDataService;
 
 @Controller
-@SessionAttributes(names = { "loginUser", "ProfileId", "userProfile" })
+@SessionAttributes(names = { "loginUser", "userProfile" })
 public class MemberController {
 
 	@Autowired
@@ -42,23 +43,26 @@ public class MemberController {
 //
 //	}
 
-	@RequestMapping(value = "/userProfileCreate",method = RequestMethod.GET)
+	@RequestMapping(value = "/userProfileCreate", method = RequestMethod.GET)
 	public String goProfile() {
 		return "ProfilePage";
 	}
 
-	@RequestMapping(value = "/updateProfile/{userId}", produces = "application/json", method = RequestMethod.POST)
+	@RequestMapping(value = "/updateProfile", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> updateProfile(@PathVariable("userId") Integer userId, ModelMap model) {
-		System.out.println("Update123" + userId);
-		UserProfile myUp = uService.getProfileByUserId(userId);
+	public Map<String, Object> updateProfile(ModelMap model,HttpServletRequest request) {
+//		System.out.println("Update123" + userId);
+		UsersInfo myUser = (UsersInfo) model.getAttribute("loginUser");
+		UserProfile myUp = uService.getProfileByUserId(myUser.getUserId());
 		String url = "/GameBase/userProfileCreate";
-		if(myUp==null) {
-			myUp=new UserProfile();
-			myUp.setUserId(userId);
+		if (myUp == null) {
+			myUp = new UserProfile();
+			myUp.setUserId(myUser.getUserId());
 			uService.saveUserPrfile(myUp);
+			request.getSession().setAttribute("userProfile", myUp);
 			model.addAttribute("userProfile", myUp);
 		}
+		request.getSession().setAttribute("userProfile", myUp);
 		model.addAttribute("userProfile", myUp);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("url", url);
@@ -117,7 +121,6 @@ public class MemberController {
 
 		if (userData != null) {
 			model.addAttribute("UserData", userData);
-			model.addAttribute("ProfileId", uService.getProfileIdByUserId(userData.getUserId()));
 			request.getSession().setAttribute("UserData", userData);
 			return "indexPage";
 		}
