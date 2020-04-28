@@ -64,4 +64,11 @@ public class MemberViewJavaConfig {
 		view.setUrl("/WEB-INF/pages/backend/allMembers.jsp");
 		return view;
 	}
+	
+	@Bean
+	public View opPage() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/backend/opArea.jsp");
+		return view;
+	}
 }

@@ -169,6 +169,14 @@ public class ArticleService {
 		return clvDao.queryFriendsByUserId(userId);
 	}
 	
+	public Friends queryFriendsByUserIdAndAuthorId(Integer userId, Integer authorId) {
+		return clvDao.queryFriendByUserIdAndAuthorId(userId, authorId);
+	}
+	
+	public Friends updateFriendsByUserIdAndAuthorId(Integer userId, Integer authorId) {
+		return clvDao.updateFriendByUserIdAndAuthorId(userId, authorId);
+	}
+	
 	//後台
 	public List<ArticleContent> queryMemberContentByUserId(int id) {
 		return contentDao.queryMemberContentByUserId(id);

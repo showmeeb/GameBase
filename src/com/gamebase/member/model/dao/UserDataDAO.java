@@ -103,6 +103,8 @@ public class UserDataDAO implements IUserData {
 		Cookie accCookie = new Cookie("account", account);
 		Cookie pwdCookie = new Cookie("password", password);
 		System.out.println("save: " + save);
+		request.setAttribute("account", account);
+		request.setAttribute("password", password);
 		if (save) {
 
 			accCookie.setMaxAge(60 * 60 * 24 * 7);
@@ -129,7 +131,6 @@ public class UserDataDAO implements IUserData {
 		Cookie[] cookies = request.getCookies();
 		System.out.println("我的cookie:" + cookies);
 		if (cookies != null) {
-			System.out.println("Cookie在哪裏?" + cookies);
 			for (Cookie cookie : cookies) {
 				String name = cookie.getName();
 				System.out.println("Cookie的名字: " + name);
@@ -137,10 +138,11 @@ public class UserDataDAO implements IUserData {
 				System.out.println("我是一個pwd: " + password);
 				if ("account".equals(name)) {
 					String acc = cookie.getValue();
+					
 					System.out.println("acc123" + acc);
 				} else if ("password".equals(name)) {
 					String pwd = cookie.getValue();
-//					System.out.println("pwd123" + pwd);
+					System.out.println("pwd123" + pwd);
 				}
 			}
 		}

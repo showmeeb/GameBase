@@ -121,21 +121,15 @@
 <br>
 
 <label id="imgShow">Image:<img src="${userProfile.img}"></label><button onclick='showImg()'>修改</button>
-<span id="imgSpan">
-<form id="imgForm">
-	Image:<input type="text" name="img" id="img">
-</form>
-<button onclick='editImg()'>更新</button>
-</span>
+
 <br>
 
 
 <script type="text/javascript"></script>
-
+<span id="imgSpan">
 <button class="btn btn-primary" data-target="#changeModal" data-toggle="modal">上傳圖片</button><br/>
-<div class="user-photo-box">
-    <img id="user-photo" src="${userProfile.img}">  
-</div>
+</span>
+
 <div class="modal fade" id="changeModal" tabindex="-1" role="dialog" aria-hidden="true">
 <div class="modal-dialog">
     <div class="modal-content">
@@ -166,8 +160,7 @@
             <input type="file" class="sr-only" id="photoInput" accept="image/*">
             <span>打開圖片</span>
             </label>
-            <form id="imgForm">
-            <button class="btn btn-primary disabled" disabled="true" onclick="sendPhoto()">提交</button>
+            <button class="btn btn-primary disabled" disabled="true" onclick="sendPhoto();">提交</button>
             <button class="btn btn-close" aria-hidden="true" data-dismiss="modal">取消</button>
             
         </div>
@@ -296,7 +289,7 @@ $.ajax({
 	}
 });
 $('#addressSpan').css("display","none");
-//window.location.reload();
+
 }
 
 function editPhone(){
@@ -315,7 +308,7 @@ $.ajax({
 	}
 });
 $('#phoneSpan').css("display","none");
-//window.location.reload();
+
 }
 
 function editAge(){
@@ -334,7 +327,7 @@ $.ajax({
 	}
 });
 $('#ageSpan').css("display","none");
-//window.location.reload();
+
 }
 
 function editImg(){
@@ -353,7 +346,7 @@ $.ajax({
 	}
 });
 $('#imgSpan').css("display","none");
-//window.location.reload();
+
 }
 </script>
 </body>
