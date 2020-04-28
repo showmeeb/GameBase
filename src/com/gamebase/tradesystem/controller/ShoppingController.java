@@ -56,6 +56,13 @@ public class ShoppingController {
 		return shoppingService.shoppingCartDeletes(Integer.valueOf(d));
 	}
 	
+	@RequestMapping(path = "/shopping/shoppingCartUpdate", method = RequestMethod.POST)
+	@ResponseBody
+	public String shoppingCartUpdate(@RequestParam(value = "data") String data) {
+		System.out.println("data:"+data);
+		return shoppingService.shoppingCartUpdate(data);
+	}
+	
 	@RequestMapping(path = "/shoppingCart/payBill", method = RequestMethod.POST)
 	@ResponseBody
 	public String payBill(@RequestParam(value = "form") String form,@RequestParam(value = "items1") String items1) {

@@ -61,7 +61,7 @@
 
 <body>
 	<nav class="navbar navbar-light topBarFixed " id="topBar">
-
+	
 		<!--LOGO-->
 		<div class="col-md-4 column ">
 			<a class="navbar-brand" href="<c:url value="/"/>"> <img

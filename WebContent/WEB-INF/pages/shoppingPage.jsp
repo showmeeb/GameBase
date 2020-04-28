@@ -463,14 +463,23 @@ iframe {
 			console.log(b);
 			var user ;
 			if(u==""){
-			console.log("localStorage.length");
-			console.log(localStorage.length);
-			let i=localStorage.length+1;
-			b1['lsId']=i;
-			b=JSON.stringify(b1);
-			console.log(b);
-			localStorage.setItem(i,b);
-			alert("放入成功");
+						console.log("localStorage.length");
+						console.log(localStorage.length);
+						if(localStorage.length>4){
+							alert('訪客 購物車數量不能超過5<br>登入會員可以存20個');
+							}
+						else{
+							let i=1;
+							while(localStorage.hasOwnProperty(i)){
+								i+=1;
+								}
+							b1['lsId']=i;
+							b=JSON.stringify(b1);
+							console.log(b);
+							localStorage.setItem(i,b);
+							alert("放入成功");
+							}
+
 				}
 			else{
 						user =JSON.parse(u);
