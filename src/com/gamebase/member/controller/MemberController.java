@@ -52,15 +52,18 @@ public class MemberController {
 	@ResponseBody
 	public Map<String, Object> updateProfile(ModelMap model,HttpServletRequest request) {
 //		System.out.println("Update123" + userId);
+
 		UsersInfo myUser = (UsersInfo) model.getAttribute("loginUser");
 		UserProfile myUp = uService.getProfileByUserId(myUser.getUserId());
 		String url = "/GameBase/userProfileCreate";
 		if (myUp == null) {
 			myUp = new UserProfile();
 			myUp.setUserId(myUser.getUserId());
+
 			uService.saveUserPrfile(myUp);
 			request.getSession().setAttribute("userProfile", myUp);
 			model.addAttribute("userProfile", myUp);
+
 		}
 		request.getSession().setAttribute("userProfile", myUp);
 		model.addAttribute("userProfile", myUp);

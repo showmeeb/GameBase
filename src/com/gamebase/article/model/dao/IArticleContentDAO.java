@@ -18,5 +18,6 @@ public interface IArticleContentDAO {
 
 	/*manager delete*/
 	public boolean deleteByContentId(ArticleContent content);
-	
+	//後台
+	public List<ArticleContent> queryMemberContentByUserId(int id);
 }

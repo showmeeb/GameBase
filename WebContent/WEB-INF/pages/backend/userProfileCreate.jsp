@@ -19,13 +19,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 <style type="text/css">
 
-#main_back {
-	position: relative;
-	top: 57px;
-	right:6%;
-	width: 75%;
-	border:1px black solid;
-}
+
 </style>
 <style type="text/css">
 
@@ -68,7 +62,7 @@
 
 </head>
 <body>
-<jsp:include page="include/backEndHomePage.jsp"></jsp:include>
+<jsp:include page="../include/backEndHomePage.jsp"></jsp:include>
 <main id="main_back">
 <h4>您的資料</h4>
 
@@ -135,6 +129,7 @@
 <span id="imgSpan">
 <button class="btn btn-primary" data-target="#changeModal" data-toggle="modal">上傳圖片</button><br/>
 </span>
+
 <div class="modal fade" id="changeModal" tabindex="-1" role="dialog" aria-hidden="true">
 <div class="modal-dialog">
     <div class="modal-content">

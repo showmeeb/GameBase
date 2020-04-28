@@ -21,6 +21,7 @@ $("#document").ready(function () {
 		update_content(btn);
 	});
 	
+	
 });
 
 function update_content(btn){

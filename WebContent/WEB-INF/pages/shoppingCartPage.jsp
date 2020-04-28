@@ -23,28 +23,128 @@
 	crossorigin="anonymous"></script>
 <title>Insert title here</title>
 <style type="text/css">
-#st1 img {
-	width: 100px
+body{
+padding: 0;
 }
+#st1 img {
+	width: 130px;border: 1px solid blue; margin:0;
+}
+#st1 {
+	width: 1520px;height:800px;margin-left:0; 
+	position: relative;
+	background-image:url('https://i.imgur.com/1u2eosf.jpg');
+	background-size:100%;
+	background-color:#1C1C1C;
+	}
+#st1 table{
+	
+	text-align: center;
+	width: 1000px;
+	height:450px;
+	}
+#st1 td{
+	vertical-align:middle;
+	padding: 0;
+	}
+#dt1{
+	margin:auto;
+	width: 1000px;
+	position: relative;
+	top:0;
+
+	}
+
+div,tr,td {
+
+	margin:0;
+	}
+#imgb1 {
+	background:url('');
+	display:block;
+  	width:100px;
+  	height:100px;
+	background-repeat:no-repeat;
+	position: fixed;
+	bottom: 89px;
+  	right: 80px;
+	
+	}
+#imgb3 {
+	background:url('');
+	display:block;
+  	width:100px;
+  	height:100px;
+	background-repeat:no-repeat;
+	position: fixed;
+	bottom: 89px;
+  	right: 0px;
+	
+	}
+#imgb4 {
+	background:url('');
+	display:block;
+  	width:100px;
+  	height:100px;
+	background-repeat:no-repeat;
+	position: fixed;
+	bottom: 89px;
+  	right: 130px;
+	
+	}
+#imgb2 {
+	background:url('');
+	display:block;
+  	width:300px;
+  	height:200px;
+	background-repeat:no-repeat;
+	position: fixed;
+	bottom: 0px;
+  	right: 1200px;
+	
+	}
+#imgb5 {
+	background:url('');
+	display:block;
+  	width:300px;
+  	height:300px;
+	background-repeat:no-repeat;
+	position: fixed;
+	bottom: 250px;
+  	right: 1270px;
+	
+	}
+#imgb6 {
+	background:url('');
+	display:block;
+  	width:150px;
+  	height:450px;
+	background-repeat:no-repeat;
+	position: fixed;
+	bottom: 270px;
+  	right: 20px;
+	
+	}
+#nav-div{background: rgba(10%,10%,10%,0.9)}
+
+#paybillF{}
 </style>
 </head>
-<body>
+<body >
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-	<h1>購物車</h1>
-	<div id="st1">
-		
-						<div class="form-row align-items-center">
-							<div class="col-auto my-1">
-								<label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
-								<select class="custom-select mr-sm-2"
-									id="inlineFormCustomSelect">
-									<option selected>付款方式</option>
-									<option value="1">賣器官</option>
-									<option value="2">信用卡</option>
-								</select>
-							</div>
-						</div>
-		<table id="t1"></table>
+	<jsp:include page="topBar.jsp" />
+	
+	<div id="imgb1"></div>
+	<div id="imgb3"></div>
+	<div id="imgb4"></div>
+	<div id="imgb5"></div>
+	<div id="imgb6"></div>
+
+
+	<div id="st1" class="text-white">
+	
+		<div id="dt1" >
+		<h1>購物車</h1>
+		<table id="t1" style="background:rgba(5%,5%,5%,0.7) "></table>
 	</div>
 
 	<!-- Modal -->
@@ -89,32 +189,27 @@
 		</div>
 	</div>
 	
-	<nav  class="navbar navbar-expand-lg fixed-bottom navbar-light bg-light" style="height: 90px">
-	<div class="container-fluid" style="position:absolute;height:90px">
-		<a class="navbar-brand" href="#"></a>
-	  	<div style="position:relative; margin-right:100px;">
-  		<form class="form-inline "> 
-  		<span >總金額&nbsp;&nbsp;:&nbsp;&nbsp;</span><span id="total"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+	</div>
+		<div id="nav-div" style="bottom:0; position:fixed;width:1550px;height:90px;">
+	  	<div style="position:fixed;bottom:10px;right:80px">
+  		<span style="color: red;">總金額&nbsp;&nbsp;:&nbsp;&nbsp;</span><span id="total"style="color: red;"></span>&nbsp;&nbsp;&nbsp;&nbsp;
     		<button id="paybillF" style="width:200px;" class="btn btn-outline-success btn-lg"  type="button" data-toggle="modal"
 		data-target="#exampleModalCenter">結&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;帳</button>
-	
-  		</form>
   		</div>
-  	</div>
-	</nav>
+	</div>
 	
 	<script type="text/javascript">
 
 	$("#exampleModalCenter").on("show.bs.modal",function(e){
 			console.log('顯示視窗前呼叫');
 		});
-$('#exampleModalCenter').on('hidden.bs.modal fade', function (e) {
-alert("asd");
-})
-
-if($('#exampleModalCenter').hasClass('model')){
-  console.log('視窗目前是開啟的狀態..');
-}
+	$('#exampleModalCenter').on('hidden.bs.modal fade', function (e) {
+	alert("asd");
+	})
+	
+	if($('#exampleModalCenter').hasClass('model')){
+	  console.log('視窗目前是開啟的狀態..');
+	}
 
 
 	
@@ -153,7 +248,7 @@ if($('#exampleModalCenter').hasClass('model')){
 				txt	+= "<button id='plus' type='button' class='btn btn-outline-secondary btn-sm'>+</button></span>";
 				txt += "<td id='money'>" + (response[i].productPrice * response[i].amount)
 				txt += "<td id='lsId' style='display:none'>"+response[i].lsId;
-				txt += "<td><input type='button' id='delete' value='移除'>"
+				txt += "<td><botton id='delete' class='btn btn-danger'>移除</botton>"
 			}
 			$('#t1').html(txt);
 		}
@@ -201,6 +296,7 @@ if($('#exampleModalCenter').hasClass('model')){
 
 		
 		$(document).ready(function() {
+				
 				var user;
 				if(window.sessionStorage.getItem("loginUser")==""){
 					var response = [];
@@ -232,9 +328,9 @@ if($('#exampleModalCenter').hasClass('model')){
 					});
 					
 				}
-			console.log(user);
+			
 					
-
+			total();
 		})
 		
 		$(document).on('click', '#delete', function() {

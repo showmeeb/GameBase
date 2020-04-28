@@ -27,6 +27,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 //import com.gamebase.member.model.Role;
 import com.gamebase.member.model.UserData;
+import com.gamebase.member.model.UserProfile;
 import com.gamebase.member.model.UsersInfo;
 import com.gamebase.member.model.service.UserDataService;
 
@@ -36,6 +37,17 @@ public class MemberAjaxController {
 
 	@Autowired
 	private UserDataService uService;
+	
+	@GetMapping(value = "/userInfo/{ID}",produces = "application/json")
+	@ResponseBody
+	public Map<String,Object> gotInfoByUserId(@PathVariable("ID") Integer userId){
+//		System.out.println(userId);
+		Map<String,Object> map = new HashMap<String,Object>();
+		UsersInfo fUserInfo = uService.showUserData(userId);
+		System.out.println(fUserInfo.getAccount());
+		map.put("fUserInfo",fUserInfo);
+		return map;
+	}
 
 	@PostMapping(value = "/Users/GoogleLogin", produces = "application/json")
 	@ResponseBody
@@ -164,5 +176,39 @@ public class MemberAjaxController {
 	public String allMembers() {
 		return "allMembers";
 	}
-
+	
+	@RequestMapping(path = "/GameBase/getuserbyacinallrank", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getuserbyacinallrank(@RequestParam("ac") String ac) {
+		// System.out.println("got chekcAcc "+account.getAccount());
+		System.out.println("c");
+		List<UserData> list = uService.getUserByAcInAllRank(ac);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("members", list);
+		return map;
+	}
+	@RequestMapping(path = "/GameBase/getuserbyacinonerank", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getuserbyacinonerank(@RequestParam("ac") String ac, @RequestParam("rank") String rank) {
+		// System.out.println("got chekcAcc "+account.getAccount());
+		System.out.println("b");
+		List<UserData> list = uService.getUserByAcInOneRank(ac,Integer.valueOf(rank));
+		System.out.println("list : "+list);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("members", list);
+		return map;
+	}
+	
+	@RequestMapping(path = "/GameBase/previewUserProfile", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> previewuserprofile(@RequestParam("id") String id) {
+		// System.out.println("got chekcAcc "+account.getAccount());
+		System.out.println("k");
+		UserProfile profile = uService.getProfileByUserId(Integer.valueOf(id));
+		System.out.println(profile);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("profile", profile);
+		return map;
+	}
+	
 }

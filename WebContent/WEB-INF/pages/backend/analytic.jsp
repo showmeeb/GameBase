@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<jsp:include page="include/backEndHomePage.jsp"></jsp:include>
+<jsp:include page="../include/backEndHomePage.jsp"></jsp:include>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,37 +16,26 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 
 <style>
-* {
-	font-family: 微軟正黑體;
-	border: 1px black solid;
-}
+
 
 body {
 	background-color: #EDF7F7;
 }
 
-#main_back {
-	margin: 57px 0 0 250px;
-}
-
-#main {
-	width: 80%;
-	
-}
-
 #Analytics {
-	margin: 80px 6% 10px 6%;
+	margin: 10% 10% ;
 }
 
 .Analytic {
 	width: 24%;
 	height: 280px;
 	float: left;
-	border: 1px black solid;
+	border:1px black solid;
 }
 
 .num {
 	height: 100px;
+	border:1px black solid;
 }
 </style>
 
@@ -81,7 +70,7 @@ body {
 				<canvas id="chart"></canvas>
 				charts
 			</div>
-			main<br>s mainmaimain<br> main<br> main<br> main<br>
+			main<br>smaimain<br> main<br> main<br> main<br>
 			main<br> main<br>main<br> main<br> main<br>
 			main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>
 			n main

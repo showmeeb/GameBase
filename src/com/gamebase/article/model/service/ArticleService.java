@@ -17,6 +17,7 @@ import com.gamebase.article.model.dao.ArticleRecordDAO;
 import com.gamebase.article.model.dao.ArticleTitleDAO;
 import com.gamebase.article.model.dao.vArticleListViewDAO;
 import com.gamebase.article.model.dao.vContentListViewDAO;
+import com.gamebase.member.model.Friends;
 
 @Service
 @Transactional
@@ -51,6 +52,15 @@ public class ArticleService {
 
 	public ArticleRecord queryRecordByUserIdAndTitleId(ArticleRecord record) {
 		return recordDao.queryByUserIdAndTitleId(record);
+	}
+	
+	//後臺全部文章列表
+	public List<ArticleTitle> queryAllArticleTitle(){
+		return titleDao.queryAllArticleTitle();		
+	}
+	//後臺個人文章列表
+	public List<ArticleListView> queryMyArticle(Integer id){
+		return alvDao.queryArticleListByUserId(id);		
 	}
 	
 	public List<ArticleRecord> queryRecordsByTitleId(Integer titleId) {
@@ -153,5 +163,14 @@ public class ArticleService {
 		title.setTitleId(titleId);
 		Boolean tStatus = titleDao.deleteOneArticleTitle(title);
 		return tStatus;
+	}
+	
+	public List<Friends> queryFriendsByUserId(Integer userId) {
+		return clvDao.queryFriendsByUserId(userId);
+	}
+	
+	//後台
+	public List<ArticleContent> queryMemberContentByUserId(int id) {
+		return contentDao.queryMemberContentByUserId(id);
 	}
 }

@@ -224,7 +224,16 @@ iframe {
 		</div>
 	</div>
 
-
+	<nav id="nav-div" style="bottom:0; position:fixed;width:1550px;height:90px; padding:0">
+	<div id="nav-div1" class="container-fluid" style="height:90px;margin: 0">
+		
+	  	<div style="position:fixed;bottom:10px;right:80px">
+  		<span style="color: red;">總金額&nbsp;&nbsp;:&nbsp;&nbsp;</span><span id="total"style="color: red;"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+    		<button id="paybillF" style="width:200px;" class="btn btn-outline-success btn-lg"  type="button" data-toggle="modal"
+		data-target="#exampleModalCenter">結&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;帳</button>
+  		</div>
+  	</div>
+	</nav>
 
 
 	<script type="text/javascript">

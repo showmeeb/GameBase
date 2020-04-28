@@ -59,6 +59,7 @@ var initCropperInModal = function(img, input, modal){
         }
     }
 
+
 var sendPhoto = function(){
 	console.log('start to sendPhoto');
 	$('#photo').cropper('getCroppedCanvas',{
@@ -101,8 +102,9 @@ var sendPhoto = function(){
             error: function() {
             	
             }
-            
-        });
+            });
+
+        
         
     });
     	

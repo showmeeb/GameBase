@@ -19,6 +19,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.user.SimpUser;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -103,7 +105,7 @@ public class ChatController {
 			bean.setTo(new String[] { receiver });
 			bean.setType(type);
 			bean.setURL("img/PDF_file_icon.jpg");
-			System.out.println("123fffffffffffffff");
+//			System.out.println("123fffffffffffffff");
 			bean.setTime(new Timestamp(System.currentTimeMillis()));
 			sendMulti(bean, bean.getFrom(), bean.getTo()[0]);
 		} else {
@@ -126,11 +128,49 @@ public class ChatController {
 		return result;
 	}
 
+	@PostMapping(path = "/Query", produces = "application/json")
+	@ResponseBody
+	public List<ChatRoom> query(@RequestParam(name = "sender") String sender,
+			@RequestParam(name = "receiver") String receiver, Model model) {
+		List<ChatRoom> chatHistory = null;
+		chatHistory = cService.queryHistory(sender, receiver);
+		for (ChatRoom result : chatHistory) {
+			WebSocketMessage bean = new WebSocketMessage();
+			bean.setFrom(result.getSender().toString());
+			bean.setTo(new String[] { result.getReceiver().toString() });
+			bean.setMessage(result.getHistory());
+			bean.setType(result.getType());
+			bean.setURL(result.getURL());
+			bean.setTime(result.getTime());
+			sendMultiMessage(bean, bean.getFrom(), bean.getTo()[0]);
+			System.out.println("-------------------------");
+			System.out.println(bean.getFrom());
+			System.out.println(bean.getTo());
+			System.out.println(bean.getMessage());
+			System.out.println(bean.getType());
+			System.out.println(bean.getURL());
+			System.out.println(bean.getTime());
+			System.out.println("-------------------------");
+		}
+
+		if (chatHistory != null) {
+			return chatHistory;
+		} else {
+			return null;
+		}
+
+	}
+
 	public void sendMulti(WebSocketMessage msg, String... receivers) {
 		for (String receiver : receivers) {
 			simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages", msg);
 		}
 		cService.saveToRedis(msg);
+	}
+	public void sendMultiMessage(WebSocketMessage msg, String... receivers) {
+		for (String receiver : receivers) {
+			simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages", msg);
+		}
 	}
 
 	@EventListener

@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.gamebase.article.model.ArticleListView;
 import com.gamebase.article.model.ContentListView;
+import com.gamebase.member.model.Friends;
 
 @Repository
 public class vContentListViewDAO {
@@ -22,11 +22,18 @@ public class vContentListViewDAO {
 	}
 
 	public List<ContentListView> queryContentListByContentRN(Integer titleId) {
-		Query<ContentListView> query = sessionFactory.getCurrentSession().createQuery("from ContentListView where titleId = :titleId order by titleId ", ContentListView.class)
+		Query<ContentListView> query = sessionFactory.getCurrentSession()
+				.createQuery("from ContentListView where titleId = :titleId order by titleId ", ContentListView.class)
 				.setParameter("titleId", titleId);
 		List<ContentListView> list = query.list();
 		return list;
-		
+
 	}
 
+	public List<Friends> queryFriendsByUserId(Integer userId) {
+		Query<Friends> query = sessionFactory.getCurrentSession()
+				.createQuery("from Friends where userId = :userId", Friends.class).setParameter("userId", userId);
+		List<Friends> list = query.list();
+		return list;
+	}
 }

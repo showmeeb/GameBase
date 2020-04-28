@@ -6,20 +6,65 @@ function myFunction(a) {
 	  console.log(a)    
 	}
 $(document).ready(function () {
+	//**************popover**************
+	$("[data-toggle='popover']").mouseover(function(){
+		
+		var userId = $(this).children("img").attr("id");
 
+		//防止一直存取
+		if(window.sessionStorage.getItem("uid="+userId) != null){
+//			console.log(window.sessionStorage.getItem("uid="+userId));
+			var oldUser = JSON.parse(window.sessionStorage.getItem("uid="+userId));
+//			console.log("oldUser uid = "+oldUser.userId);
+			var ocontent = "Account:"+oldUser.account+"<br>";
+			ocontent += "userId:"+ oldUser.userId+"<br>";
+			if (oldUser.img) {
+				ocontent +="img:<img src='"+oldUser.img+"'><br>";
+			}else{
+				ocontent +="img:<img src='https://i.imgur.com/ke6wdHI.jpg'><br>";
+			}
+			//popover 沒有refresh 所以必須每次都dispose( Hides and destroys the popover )
+			$("[data-toggle='popover']").popover('dispose').popover({title: "會員資料",trigger: "hover",placement: "bottom",html:true, content: ocontent, delay: {show: 200, hide: 1000}});
+			
+		}else{
+			
+			$.ajax({
+				contentType: "application/json",
+				url: "/GameBase/userInfo/"+userId,
+				type:"GET",
+				success:function(data){
+					var fUInfo = data.fUserInfo;
+					window.sessionStorage.setItem("uid="+userId,JSON.stringify(fUInfo));
+					var ucontent = "Account:"+fUInfo.account+"<br>";
+					ucontent += "userId:"+fUInfo.userId+"<br>";
+					if (fUInfo.img) {
+						ucontent +="img:<img src='"+fUInfo.img+"'><br>";
+					}else{
+						ucontent +="img:<img src='https://i.imgur.com/ke6wdHI.jpg'><br>";
+					}
+					$("[data-toggle='popover']").popover('dispose').popover({title: "會員資料",trigger: "hover",placement: "bottom" ,html:true, content: ucontent, delay: {show: 200, hide: 1000}});
+				}
+			});
+			
+		}
+
+	});
+	
+
+	
   if (window.sessionStorage.getItem("loginUser") != "") {
     var login = JSON.parse(window.sessionStorage.getItem("loginUser"));
     if (login.img) {
       $(".shot").removeClass("disable");
-      $(".shot").attr("src", login.img);
+      $(".shot").attr("src", login.img).attr("id",login.userId);;
     } else {
       $(".shot").removeClass("disable");
-      $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg");
+      $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg").attr("id",login.userId);;
     }
     $("#login-str").addClass("hidden-window", 700);
     $("#regiest-str").addClass("hidden-window", 700);
     $("#logout-str").removeClass("hidden-window", 700);
-
+    $("[data-toggle='popover']").removeClass("disable");
 
   }
 
@@ -38,19 +83,6 @@ $(document).ready(function () {
     }
   });
 
-  // $(".loggedin-icon").click(function () {
-  // $("#loggedin-list").fadeToggle(500);
-
-  // });
-
-  // in the list
-
-  // user center button
-  // $("#user-center-btn").click(function () {
-  // $("#loggedin-list").fadeToggle(500);
-  // location.href = userCenterUrl;
-  // });
-
   // regist button
   $("#regiest-str").click(function () {
     $("#loggedin-list").fadeToggle(500);
@@ -64,10 +96,13 @@ $(document).ready(function () {
     	$(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg");
     });
     
+    $(".dropdown button[name='dmb-u']").html("會員系統");
+    
     $("#logout-str").addClass("hidden-window", 700);
 
     $("#login-str").removeClass("hidden-window", 700);
     $("#regiest-str").removeClass("hidden-window", 700);
+    $("[data-toggle='popover']").addClass("disable");
     // google logout
     googleSignOut();
 
@@ -92,44 +127,6 @@ $(document).ready(function () {
         cleanChatRoom();
         disconnectChatRoom();
 
-        // if user at User Center then redirect to index page
-        // var userCenterUrlTest = /^.*UserCenter.*$/;
-
-        // if (userCenterUrlTest.test(location.href)) {
-        // location.href = "/motozone/";
-        // }
-
-        // if user at product post page then update form's action
-        // attribute
-        // var productPostUrlTest = /^.*ProductPost.*$/;
-
-        // if (productPostUrlTest.test(location.href)) {
-        // // update AutoBuy productPost page
-        // updateProductPostAttr('', '');
-        // }
-
-        // if user at AutoBuy publish page then update form's attribute
-        // var autoBuyUrlTest = /^.*AutoBuy.*$/;
-
-        // if (autoBuyUrlTest.test(location.href)) {
-        // // update AutoBuy publish
-        // updateAutoBuyPublishAttr('');
-        // }
-
-        // if user at AutoBuy Cart Page then redirect to AutoBuy index
-        // page
-        // var autoBuyCartUrlTest = /^.*AutoBuyCart.*$/;
-
-        // if (autoBuyCartUrlTest.test(location.href)) {
-        // location.href = "/motozone/AutoBuy";
-        // }
-
-        // hide shopping cart
-        // if (autoBuyFlag) {
-        // $("#shoppingCart").hide(700);
-        // updateCartLink('');
-        // }
-
       }
     });
   });
@@ -144,7 +141,6 @@ function userLogin() {
   var saveValue = $("input[name='save']").is(":checked");
 
   $("#login-submit-btn").addClass("disable");
-
   // empty check
   if (userAcc != "" && pwd != "") {
     var formdata = $("#login-form").serializeObject();
@@ -159,21 +155,20 @@ function userLogin() {
       contentType: "application/json",
       success: function (data) {
         if (data.status == true) {
-          console.log("google photo:" + data.loginUser.img);
+          console.log("img url:" + data.loginUser.img);
           // if user has snapshot , then use it
           if (data.loginUser.img) {
             $(".shot").removeClass("disable");
-            $(".shot").attr("src", data.loginUser.img);
+            $(".shot").attr("src", data.loginUser.img).attr("id",data.loginUser.userId);
           } else {
             $(".shot").removeClass("disable");
-            $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg");
+            $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg").attr("id",data.loginUser.userId);;
           }
 
-          // show user icon
-          // $(".login-btn").addClass("disable", 700, function () {
-          // $(".loggedin-icon").removeClass("disable", 700);
-          // });
-
+          //show userAccount
+          $(".dropdown button[name='dmb-u']").html(data.loginUser.account);
+          $("[data-toggle='popover']").removeClass("disable");
+          
           // close login window
           $("#login-submit-btn").parent().addClass("hidden-window", 700);
           $("#shadow").fadeOut(700);
@@ -208,33 +203,10 @@ function userLogin() {
           $("#login-str").addClass("hidden-window", 700);
           $("#regiest-str").addClass("hidden-window", 700);
           $("#logout-str").removeClass("hidden-window", 700);
-          // if user at product post page then update form's action
-          // attribute
-          // var productPostUrlTest = /^.*ProductPost.*$/;
 
-          // if (productPostUrlTest.test(location.href)) {
-          // update AutoBuy productPost page
-          // updateProductPostAttr(data.uNo, data.uName);
-          // }
-
-          // if user at AutoBuy publish page then update form's
-          // attribute
-          // var autoBuyUrlTest = /^.*AutoBuy.*$/;
-
-          // if (autoBuyUrlTest.test(location.href)) {
-          // // update AutoBuy publish
-          // updateAutoBuyPublishAttr(data.uNo);
-          // }
-
-          // show shopping cart
-          // if (autoBuyFlag) {
-          // $("#shoppingCart").show(700);
-          // updateCartLink(data.uNo);
-          // }
-
-        
         } else {
           alert("帳號或密碼不符合");
+          $("#login-submit-btn").removeClass("disable");
         }
 
       },
@@ -556,7 +528,7 @@ var startApp = function () {
 };
 
 function attachSignin(element) {
-  console.log("qqq");
+ // console.log("qqq");
   // bind click event to specific id button
   auth2.attachClickHandler(element, {},
     function (googleUser) {
@@ -570,11 +542,11 @@ function attachSignin(element) {
         data: { idTokenStr: id_token },
         success: function (data) {
           if (data) {
-
+        	//console.log("goo userid:"+data.userId);
             // if user has snapshot , then use it
             if (data.img) {
               $(".shot").removeClass("disable", 700);
-              $(".shot").attr("src", data.img);
+              $(".shot").attr("src", data.img).attr("id",data.userId);
             }
 
             // show user icon
@@ -582,6 +554,8 @@ function attachSignin(element) {
               $(".loggedin-icon").removeClass("disable", 700);
             });
 
+            $("[data-toggle='popover']").removeClass("disable");
+            
             // close login window
             $("#login-submit-btn").parent().addClass("hidden-window", 700);
             $("#shadow").fadeOut(700);
@@ -848,6 +822,24 @@ function emptyChatContentArea() {
 }
 
 function showUsersDiaglog(element) {
+    var sender = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
+    var receiver = $(element).children(".chat-room-user-id").text();
+    let formData = new FormData();
+    formData.append('sender', sender);
+    formData.append('receiver', receiver);
+    $.ajax({
+        url: "/GameBase/Query",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+           if(data){
+               console.log(data);
+           }
+        }
+    });
+	
   // get chat room object from sessionStorage
   var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
 
@@ -882,6 +874,7 @@ function showUsersDiaglog(element) {
 }
 
 function showUserListFromMessage(msg) {
+		
   // get chat room object from sessionStorage
   var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
   // in order to check is the user already in the user list
@@ -1045,9 +1038,10 @@ function sendMyFile(msgOutput) {
   // get chat room object from sessionStorage
   var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
 
-  var className = $("#chat-message-area").attr("class");
+//  var className = $("#chat-message-area").attr("class");
   //userNo is 幾號聊天室
-  var userNo = className.substring(className.indexOf("-") + 1);
+//  var userNo = className.substring(className.indexOf("-") + 1);
+  var userNo = msgOutput.to
 
   // get data from message input area
   var dateObj = new Date();
@@ -1056,16 +1050,6 @@ function sendMyFile(msgOutput) {
   var minutes = '0' + dateObj.getMinutes();
   minutes = minutes.substring(minutes.length - 2);
   var currentTime = hours + ':' + minutes;
-
-  // set object for render message use
-  //    var msgObj = {
-  //        from: JSON.parse(window.sessionStorage.getItem("loginUser")).userId,
-  //        to: [userNo],
-  //        url: msgOutput.url,
-  //        //url: $("btn-file").val(),
-  //        time: Date.now()
-  //    }
-  //    console.log('msgOutput.url: ' + msgOutput.url);
 
   // set formated time for print
   msgOutput.time = currentTime;
@@ -1123,9 +1107,10 @@ function sendMyMessage(msgOutput) {
   // get chat room object from sessionStorage
   var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
 
-  var className = $("#chat-message-area").attr("class");
+//  var className = $("#chat-message-area").attr("class");
   //userNo is 幾號聊天室
-  var userNo = className.substring(className.indexOf("-") + 1);
+//  var userNo = className.substring(className.indexOf("-") + 1);
+  var userNo = msgOutput.to;
 
   // get data from message input area
   var dateObj = new Date();
@@ -1134,19 +1119,6 @@ function sendMyMessage(msgOutput) {
   var minutes = '0' + dateObj.getMinutes();
   minutes = minutes.substring(minutes.length - 2);
   var currentTime = hours + ':' + minutes;
-
-  // set object for render message use
-  // var msgObj = {
-  //   from: JSON.parse(window.sessionStorage.getItem("loginUser")).userId,
-  //   to: [userNo],
-  //   message: $("#chat-room-input").val(),
-  //   //url: $("btn-file").val(),
-  //   time: Date.now()
-  // }
-  // console.log('msgObj.message: ' + msgObj.message);
-  //console.log('msgObj.url: ' + msgObj.url);
-  // set object for sending use
-  // sendWebSocketMessage(msgObj);
 
   // set formated time for print
   msgOutput.time = currentTime;
@@ -1511,16 +1483,12 @@ var ownMsgTemplate = '<div class="chat-messages own-messages">'
 
 var replyFileTemplate = '<div class="chat-messages">'
   + '<img class="chat-message-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}"/>'
-  + '<div class="chat-file">'
-  + '<img src="{{&url}}"/>'
-  + '</div>'
+  + '<img class="chat-file" src="{{&url}}"/>'
   + '<div class="chat-time">{{time}}</div>'
   + '</div>';
 
 var ownFileTemplate = '<div class="chat-messages own-messages">'
-  + '<div class="chat-file">'
-  + '<img src="{{&url}}"/>'
-  + '</div>'
+  + '<img class="chat-file" src="{{&url}}"/>'
   + '<div class="chat-time">{{time}}</div>'
   + '</div>';
 
@@ -1556,3 +1524,4 @@ function checkAcc() {
     });
   }
 }
+
