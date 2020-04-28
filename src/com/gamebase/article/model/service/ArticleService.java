@@ -169,8 +169,24 @@ public class ArticleService {
 		return clvDao.queryFriendsByUserId(userId);
 	}
 	
+	public Friends queryFriendsByUserIdAndAuthorId(Integer userId, Integer authorId) {
+		return clvDao.queryFriendByUserIdAndAuthorId(userId, authorId);
+	}
+	
+	public Friends updateFriendsByUserIdAndAuthorId(Integer userId, Integer authorId) {
+		return clvDao.updateFriendByUserIdAndAuthorId(userId, authorId);
+	}
+	
 	//後台
 	public List<ArticleContent> queryMemberContentByUserId(int id) {
 		return contentDao.queryMemberContentByUserId(id);
+	}
+	//後台
+	public List<ArticleTitle> querySomeArticleTitleByKeyInOneForum(Integer forumId, String title) {
+		return titleDao.querySomeArticleTitleByKeyInOneForum(forumId,title);
+	}
+	//後台
+	public List<ArticleTitle> querySomeArticleTitleByKeyInallForum(String title) {
+		return titleDao.querySomeArticleTitleByKeyInallForum(title);
 	}
 }

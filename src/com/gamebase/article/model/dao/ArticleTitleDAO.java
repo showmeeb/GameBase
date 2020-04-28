@@ -78,4 +78,23 @@ public class ArticleTitleDAO implements IArticleTitleDAO {
 		return false;
 	}
 
+	@Override
+	public List<ArticleTitle> querySomeArticleTitleByKeyInOneForum(Integer forumId, String title) {
+		System.out.println("querySomeArticleTitleByKeyInOneForum : "+forumId);	
+		Query<ArticleTitle> query = sessionFactory.getCurrentSession()
+				.createQuery("from ArticleTitle where forumId= :id and titleName like'%" + title +"%'", ArticleTitle.class);
+		query.setParameter("id", forumId);
+		List<ArticleTitle> list=query.list();
+		return list;
+	}
+
+	@Override
+	public List<ArticleTitle> querySomeArticleTitleByKeyInallForum(String title) {
+
+		Query<ArticleTitle> query = sessionFactory.getCurrentSession()
+				.createQuery("from ArticleTitle where titleName like'%" + title +"%'", ArticleTitle.class);
+		List<ArticleTitle> list=query.list();
+		return list;
+	}
+
 }

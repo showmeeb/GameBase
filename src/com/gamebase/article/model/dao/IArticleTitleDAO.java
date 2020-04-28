@@ -17,4 +17,8 @@ public interface IArticleTitleDAO {
 	public ArticleTitle updateOneArticleTitle(ArticleTitle title);
 
 	public boolean deleteOneArticleTitle(ArticleTitle title);
+	
+	public List<ArticleTitle> querySomeArticleTitleByKeyInOneForum(Integer forumId,String title);
+	
+	public List<ArticleTitle> querySomeArticleTitleByKeyInallForum(String title);
 }
