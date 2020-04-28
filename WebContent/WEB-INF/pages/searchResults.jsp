@@ -42,6 +42,12 @@
 	height: 40px;
 	margin: 5px 2px 5px 2px;
 }
+
+.fasBnt {
+	width: 25px;
+	height: 25px;
+	border: none;
+}
 </style>
 </head>
 <body>
@@ -53,7 +59,7 @@
 			<div class="col-3 column text-center">ps、switch、pc</div>
 			<div class="col-9 column">
 				<div class="container">
-					<div class="row bg-rgb220 "> 
+					<div class="row bg-rgb220 ">
 						<div class="col-10 align-items-center">
 							篩選
 							<button class="btn btn-light selectBarBtn">最熱銷</button>
@@ -61,7 +67,11 @@
 							<button class="btn btn-light selectBarBtn">最低價</button>
 
 						</div>
-						<div class="col-2 text-right">- [1] +</div>
+						<div class="col-2 text-right">
+							<button class="fasBnt">＜</button>
+							[1]
+							<button class="fasBnt">＞</button>
+						</div>
 					</div>
 				</div>
 
@@ -78,7 +88,8 @@
 
         var jsonResults = JSON.parse(JSON.stringify(${ results }));
 		var txt = "";
- 
+
+		var pageNum =Math.ceil(jsonResults.length/4); 
 
         for (i = 0; i < jsonResults.length; i++) {
    
