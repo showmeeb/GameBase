@@ -101,10 +101,11 @@ public class MemberAjaxController {
 	public Map<String, Object> loginAction(@RequestBody UserData logindata,@PathVariable("save") boolean save, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
 		
-		uService.setCookie(logindata.getAccount(), logindata.getPassword(), save, request, response);
-		uService.GetCookie(logindata.getAccount(), logindata.getPassword(), request);
 		
 		String pwd = uService.encryptString(logindata.getPassword());
+		uService.setCookie(logindata.getAccount(), pwd, save, request, response);
+		uService.GetCookie(logindata.getAccount(), pwd, request);
+		
 		Map<String, Object> map = uService.getLogin(logindata.getAccount(), pwd);
 		if ((boolean) map.get("status")) {
 			model.addAttribute("loginUser", (UsersInfo) map.get("loginUser"));

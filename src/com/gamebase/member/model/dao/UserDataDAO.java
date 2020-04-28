@@ -103,6 +103,8 @@ public class UserDataDAO implements IUserData {
 		Cookie accCookie = new Cookie("account", account);
 		Cookie pwdCookie = new Cookie("password", password);
 		System.out.println("save: " + save);
+		request.setAttribute("account", account);
+		request.setAttribute("password", password);
 		if (save) {
 
 			accCookie.setMaxAge(60 * 60 * 24 * 7);

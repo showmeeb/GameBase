@@ -95,6 +95,7 @@ var sendPhoto = function(){
               		})
             		
             	}
+            	window.sessionStorage.setItem("loginUser", JSON.stringify(data.loginUser));
             	$('#imgShow img').attr("src",data.img);
             	$('#imgSpan').css("display","none");
             	$(".modal-backdrop").addClass("hidden");

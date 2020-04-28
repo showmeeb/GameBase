@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.gamebase.general.model.service.GeneralService;
 import com.gamebase.member.model.UserProfile;
+import com.gamebase.member.model.UsersInfo;
 import com.gamebase.member.model.service.UserDataService;
 
 @Controller
@@ -51,8 +52,10 @@ public class UploadImgController {
 			if (myUp != null) {
 				myUp.setImg(img);
 				uService.saveUserPrfile(myUp);
+				UsersInfo myInfo = uService.showUserData(myUp.getUserId());
 				map.put("status", true);
 				map.put("img", img);
+				map.put("loginUser", myInfo);
 				return map;
 			}
 
