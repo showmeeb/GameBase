@@ -94,5 +94,5 @@
 
 <!-- Start admin-broadcast area -->
 <div class="admin-broadcast-area popup-window hidden-window">
-
+	<i class="fas fa-times close-btn"></i>
 </div>
