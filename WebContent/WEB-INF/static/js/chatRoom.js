@@ -66,6 +66,7 @@ $(document).ready(function () {
     $("#regiest-str").addClass("hidden-window", 700);
     $("#mainCenter").removeClass("hidden-window", 700);
     $("#logout-str").removeClass("hidden-window", 700);
+    $("#mainCenter").removeClass("hidden-window", 700);
     $("[data-toggle='popover']").removeClass("disable");
     if(login.rankId==4){
   	  $("#admin-broadcast").removeClass("hidden-window", 700);

@@ -26,11 +26,13 @@ import com.gamebase.article.model.ArticleTitle;
 import com.gamebase.article.model.ContentListView;
 import com.gamebase.article.model.Forum;
 import com.gamebase.article.model.ForumListView;
+import com.gamebase.article.model.FriendsInfoView;
 import com.gamebase.article.model.service.ArticleService;
 import com.gamebase.article.model.service.ForumService;
 import com.gamebase.general.model.service.GeneralService;
 import com.gamebase.member.model.Friends;
 import com.gamebase.member.model.UserData;
+import com.gamebase.member.model.service.UserDataService;
 
 import net.sf.json.JSONObject;
 
@@ -44,6 +46,8 @@ public class ArticleController {
 	private ArticleService aService;
 	@Autowired
 	private GeneralService gService;
+	@Autowired
+	private UserDataService uService;
 
 	@RequestMapping(value = "/forumHome", method = RequestMethod.GET)
 	public String forumHome() {
@@ -136,30 +140,33 @@ public class ArticleController {
 	/* query content author friends */
 	@RequestMapping(value = "/queryfriends", produces = "application/json")
 	@ResponseBody
-	public JSONObject queryAuthorFriends(@RequestParam("userId") Integer userId, @RequestParam("authorId") Integer authorId) {
-		System.out.println("get in controller");
+	public JSONObject queryAuthorFriends(@RequestParam("userId") Integer userId,
+			@RequestParam("authorId") Integer authorId) {
+		System.out.println("query author friends");
 		/* query friends */
 		Friends friend = aService.queryFriendsByUserIdAndAuthorId(userId, authorId);
 		JSONObject j = new JSONObject();
-		Boolean friendStatus = false ;
-		if(friend.getFriendId().equals(userId)) {
-			friendStatus = true;
-		}
-		j.put("friendStatus", friendStatus);
+		/* query author data */
+		FriendsInfoView friendInfo = aService.queryFriendsInfoView(authorId);
+
+		j.put("friend", friend);
+		j.put("friendInfo", friendInfo);
 		System.out.println(j);
 		return j;
 	}
-	/*update friend*/
+
+	/* update friend */
 	@RequestMapping(value = "/addfriend", produces = "application/json")
 	@ResponseBody
 	public JSONObject updateFriends(Integer userId, Integer authorId) {
 		System.out.println("update or insert friends");
 		JSONObject result = new JSONObject();
-		Friends friend = aService.updateFriendsByUserIdAndAuthorId(userId, authorId);
-		result.put("updatefriend", friend);
-		return result;		
-	} 
-	
+		Friends friend1 = aService.updateFriendsByUserIdAndAuthorId(userId, authorId);
+		Friends friend2 = aService.updateFriendsByUserIdAndAuthorId(authorId, userId);
+		result.put("updatefriend", "true");
+		return result;
+	}
+
 	/* test */
 	/* insert new article title */
 	@RequestMapping(value = "/forum_test/{forumId}/add", produces = "application/json")
@@ -200,7 +207,7 @@ public class ArticleController {
 		ArticleTitle title = aService.queryTitleByTitleId(titleId);
 		model.addAttribute("title", title);
 
-		/* get user data */
+		/* get user data *//* ?暫時沒用到 */
 		UserData userData = (UserData) model.getAttribute("UserData");
 		if (userData != null) {
 			/* query user friends */
@@ -399,7 +406,7 @@ public class ArticleController {
 		System.out.println(result);
 		return result;
 	}
-	
+
 	/* delete forum */
 	@PostMapping(value = "/forum_test/{forumId}/del", produces = "application/json")
 	@ResponseBody
@@ -413,7 +420,7 @@ public class ArticleController {
 		System.out.println(result);
 		return result;
 	}
-	
+
 	/* delete title , content , user's record */
 	@RequestMapping(value = "/forum_test/{forumId}/{titleId}/del", produces = "application/json")
 	@ResponseBody
@@ -481,7 +488,7 @@ public class ArticleController {
 				List<ArticleTitle> b = aService.querySomeArticleTitleByKeyInOneForum(Integer.valueOf(forum), title);
 				result.put("articles", b);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

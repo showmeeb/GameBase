@@ -110,9 +110,7 @@ function update_content(btn,contentId){
 			},
 			success: function(response){
 				console.log("success");	
-
-
-				
+				//
 			}
 		})
 	}
@@ -161,7 +159,7 @@ a.disabled {
 
 				<hr />
 				<c:forEach items="${contentList}" var="item" varStatus="itemStatus">
-					<%@ include file="../include/friendForm.jsp"%>
+<%-- 					<%@ include file="../include/friendForm.jsp"%> --%>
 					<div id="${item.contentId}" class="content_id">
 					<!-- user data and update/post time -->	
 					<div>				
