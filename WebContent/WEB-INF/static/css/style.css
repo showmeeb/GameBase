@@ -222,6 +222,13 @@ i {
   margin: 20px auto;
 }
 
+.admin-broadcast-area {
+  width: 400px;
+  height: 450px;
+  margin-top: -200px;
+  margin-left: -200px;
+}
+
 #google-login-btn {
   display: block;
   position: absolute;
