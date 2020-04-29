@@ -64,6 +64,7 @@ $(document).ready(function () {
     $("#login-str").addClass("hidden-window", 700);
     $("#regiest-str").addClass("hidden-window", 700);
     $("#logout-str").removeClass("hidden-window", 700);
+    $("#mainCenter").removeClass("hidden-window", 700);
     $("[data-toggle='popover']").removeClass("disable");
 
   }
