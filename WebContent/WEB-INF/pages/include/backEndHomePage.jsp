@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <style>
 * {
@@ -68,7 +69,7 @@ ul {
 					<li class="nav-item px-0 text-muted"><a id="12"
 						class="nav-link" href="#">交易管理</a></li>
 					<li class="nav-item px-0 text-muted"><a id="13"
-						class="nav-link" href="#">文章管理</a></li>
+						class="nav-link" href="myArticles">文章管理</a></li>
 				</ul>
 				<ul id="admin-bar" class="nav float-left ">
 					<li class="nav-item px-0 text-muted"><a id="21"
@@ -76,7 +77,7 @@ ul {
 					<li class="nav-item px-0 text-muted"><a id="22"
 						class="nav-link" href="#">商品管理</a></li>
 					<li class="nav-item px-0 text-muted"><a id="23"
-						class="nav-link" href="#">文章管理</a></li>
+						class="nav-link" href="allArticles">文章管理</a></li>
 					<li class="nav-item px-0 text-muted"><a id="24"
 						class="nav-link" href="#">新聞管理</a></li>
 					<li class="nav-item px-0 text-muted"><a id="25"
@@ -126,10 +127,10 @@ ul {
 		</table>
 		<table id="admin-content" class="d-none" cellpadding="10">
 			<tr>
-				<td><a class="tag" href="allArticles">所有文章</a></td>
+				<td><a id="allArticles" class="tag" href="#">所有文章</a></td>
 			</tr>
 			<tr>
-				<td><a id="allArticles-del" class="tag" href="#">刪除文章</a></td>
+				<td><a id="delArticle" class="tag" href="#">刪除文章</a></td>
 			</tr>
 		</table>
 		<table id="admin-news" class="d-none" cellpadding="10">
@@ -159,7 +160,7 @@ ul {
 				<td><a id="update-up" href="#">個人資料</a></td>
 			</tr>
 			<tr>
-				<td><a class="tag" href="#">升級</a></td>
+				<td><a class="tag" href="<c:url value="/goOp"/>">升級</a></td>
 			</tr>
 			<tr>
 				<td><a id="myFriend" class="tag" href="#">好友</a></td>
@@ -172,7 +173,7 @@ ul {
 		</table>
 		<table id="member-content" class="d-none" cellpadding="10">
 			<tr>
-				<td><a id="myArticles" class="tag" href="myArticles">我的文章</a></td>
+				<td><a id="myArticles" class="tag" href="#">我的文章</a></td>
 			</tr>
 			<tr>
 				<td><a class="tag" href="#">刪除文章</a></td>

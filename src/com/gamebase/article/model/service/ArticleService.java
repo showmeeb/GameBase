@@ -12,6 +12,7 @@ import com.gamebase.article.model.ArticleListView;
 import com.gamebase.article.model.ArticleRecord;
 import com.gamebase.article.model.ArticleTitle;
 import com.gamebase.article.model.ContentListView;
+import com.gamebase.article.model.FriendsInfoView;
 import com.gamebase.article.model.dao.ArticleContentDAO;
 import com.gamebase.article.model.dao.ArticleRecordDAO;
 import com.gamebase.article.model.dao.ArticleTitleDAO;
@@ -169,8 +170,28 @@ public class ArticleService {
 		return clvDao.queryFriendsByUserId(userId);
 	}
 	
+	public Friends queryFriendsByUserIdAndAuthorId(Integer userId, Integer authorId) {
+		return clvDao.queryFriendByUserIdAndAuthorId(userId, authorId);
+	}
+	
+	public Friends updateFriendsByUserIdAndAuthorId(Integer userId, Integer authorId) {
+		return clvDao.updateFriendByUserIdAndAuthorId(userId, authorId);
+	}
+	
+	public FriendsInfoView queryFriendsInfoView(Integer userId) {
+		return clvDao.queryFriendsInfoView(userId);
+	}
+	
 	//後台
 	public List<ArticleContent> queryMemberContentByUserId(int id) {
 		return contentDao.queryMemberContentByUserId(id);
+	}
+	//後台
+	public List<ArticleTitle> querySomeArticleTitleByKeyInOneForum(Integer forumId, String title) {
+		return titleDao.querySomeArticleTitleByKeyInOneForum(forumId,title);
+	}
+	//後台
+	public List<ArticleTitle> querySomeArticleTitleByKeyInallForum(String title) {
+		return titleDao.querySomeArticleTitleByKeyInallForum(title);
 	}
 }

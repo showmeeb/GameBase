@@ -4,7 +4,7 @@
 <html>
 <head>
 <style>
-img{width: 50px }
+
 </style>
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -33,6 +33,7 @@ img{width: 50px }
 #du1 img {
 	width: 70px
 }
+#d1{width: 70%; margin:auto; padding:0}
 
 
 #total{color:red}
@@ -40,45 +41,7 @@ img{width: 50px }
 </head>
 <body>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="#">Navbar</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarSupportedContent"
-			aria-controls="navbarSupportedContent" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active"><a class="nav-link" href="#">Home
-						<span class="sr-only">(current)</span>
-				</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-					role="button" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="false"> Dropdown </a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="#">Action</a> <a
-							class="dropdown-item" href="#">Another action</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#">Something else here</a>
-					</div></li>
-				<li class="nav-item"><a class="nav-link disabled" href="#"
-					tabindex="-1" aria-disabled="true">Disabled</a></li>
-			</ul>
-			<form class="form-inline my-2 my-lg-0">
-				<input id="se1" class="form-control mr-sm-2" type="search"
-					placeholder="Search" aria-label="Search">
-				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-			</form>
-			<span id="order" role="button" tabindex="0"
-				aria-pressed="true"><img src="https://i.imgur.com/MflYSUa.jpg"></span>
-			<span id="shopcart" role="button" tabindex="0"
-				aria-pressed="true"><img src="https://i.imgur.com/fzG8Ocj.png"></span>
-		</div>
-	</nav>
+	<jsp:include page="topBar.jsp" />
 	
 	<div id="du1">
 		<ul class="nav justify-content-center">
@@ -90,28 +53,28 @@ img{width: 50px }
 			tabindex="-1" aria-disabled="true">Disabled</a></li> -->
 		</ul>
 	</div>
-<h1>訂單紀錄</h1>
-
-
-	<table class="table table-hover">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">No.</th>
-      <th scope="col">orderId</th>
-      <th scope="col">uuId</th>
-	  <th scope="col">orderName</th>
-	  <th scope="col">orderPhone</th>
-	  <th scope="col">orderAddress</th>
-	  <th scope="col">orderPrice</th>
-	  <th scope="col">orderDate</th>
-	  <th scope="col">payStatus</th>
-    </tr>
-  </thead>
-  <tbody id="tb1">
-
-  </tbody>
-</table>
-
+	<div id="d1">
+	<h1>訂單紀錄</h1>
+	
+		<table class="table table-hover">
+			  <thead class="thead-dark">
+			    <tr>
+			      <th scope="col">No.</th>
+			      <th scope="col">orderId</th>
+			      <th scope="col">uuId</th>
+				  <th scope="col">orderName</th>
+				  <th scope="col">orderPhone</th>
+				  <th scope="col">orderAddress</th>
+				  <th scope="col">orderPrice</th>
+				  <th scope="col">orderDate</th>
+				  <th scope="col">payStatus</th>
+			    </tr>
+			  </thead>
+			  <tbody id="tb1">
+			
+			  </tbody>
+		</table>
+	</div>
 <div class="modal fade" id="exampleModalCenter" tabindex="-1"
 		role="dialog" aria-labelledby="exampleModalCenterTitle"
 		aria-hidden="true">

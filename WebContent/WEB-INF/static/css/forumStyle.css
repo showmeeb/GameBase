@@ -186,8 +186,8 @@ div.content_datas {
 	overflow: hidden; /*避免float跑框*/
 }
 .firends_area {
-	width: 20vw;
-	height: 45vh;
+	width: 350px;
+	height: 350px;
 	margin-top: -35vh;
 	margin-left: -10vw;
 	overflow: auto;

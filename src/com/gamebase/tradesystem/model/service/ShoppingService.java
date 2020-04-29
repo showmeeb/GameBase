@@ -37,8 +37,11 @@ public class ShoppingService {
 		
 		return shoppingCartDao.shoppingCartDeletes(id);
 	}
-
 	
+	public String shoppingCartUpdate(String data) {
+		return shoppingCartDao.shoppingCartUpdate(data);
+	}
+
 	public JSONArray showProduct(String keyword) {
 		return tagSearchDAO.showProduct(keyword);
 	}

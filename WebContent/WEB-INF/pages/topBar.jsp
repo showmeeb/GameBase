@@ -11,8 +11,6 @@
 <title>GameBase</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-
 <!-- Font Awesome -->
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
@@ -29,7 +27,6 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
 <!-- javaScript -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -41,7 +38,6 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-
 <!-- mustache Template Engine library -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
@@ -61,7 +57,7 @@
 
 <body>
 	<nav class="navbar navbar-light topBarFixed " id="topBar">
-
+	
 		<!--LOGO-->
 		<div class="col-md-4 column ">
 			<a class="navbar-brand" href="<c:url value="/"/>"> <img
@@ -126,10 +122,11 @@
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 					<!-- Ajax -->
-					<a class="dropdown-item" id="login-str" href="#">登入</a> <a
-						class="dropdown-item" id="regiest-str" href="#">註冊</a> <a
-						class="dropdown-item hidden-window" id="logout-str" href="#">登出</a>
-					<a class="dropdown-item" id="op" href="<c:url value="/goOp"/>">權限</a>
+					<a class="dropdown-item" id="login-str" href="#">登入</a>
+					<a class="dropdown-item" id="regiest-str" href="#">註冊</a>
+					<a class="dropdown-item hidden-window" id="logout-str" href="#">登出</a>
+					<a class="dropdown-item hidden-window" id="mainCenter"href="<c:url value="/mainProduct"/>">管理中心</a>
+					<a class="dropdown-item hidden-window" id="admin-broadcast" href="#">管理員廣播</a>
 				</div>
 			</div>
 		</div>
@@ -174,7 +171,7 @@
 		
 		
 		
-	
+		if("${looking}"=="foForumr"){$("#lookingFor").val("foForumr")}
 	</script>
 
 </body>

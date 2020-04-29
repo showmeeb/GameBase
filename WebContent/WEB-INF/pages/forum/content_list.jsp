@@ -23,6 +23,7 @@
 <link href="<c:url value="/css/forumStyle.css"/>" rel="stylesheet">
 <!-- create_article.js import -->
 <script src="<c:url value="/js/create_article.js"/>"></script>
+<script src="<c:url value="/js/content.js"/>"></script>
 <!-- update record likenum and unlikenum -->
 <script>
 $("#document").ready(function () {
@@ -49,16 +50,16 @@ $("#document").ready(function () {
 		update_content(btn,contentId);
 	});
 	
-	/*author img clicked*/
-	$(".userId").click(function(){
-		console.log("author img clicked");
-		var userId = $(this).attr("id");
-		console.log("userId :"+userId);
-		$("#addfriend_"+userId).removeClass("hidden-window");
-		$(".close-btn").click(function(){
-			$("#addfriend_"+userId).addClass("hidden-window");
-		});
-	});
+// 	/*author img clicked*/
+// 	$(".userId").click(function(){
+// 		console.log("author img clicked");
+// 		var userId = $(this).attr("id");
+// 		console.log("userId :"+userId);
+// 		$("#addfriend_"+userId).removeClass("hidden-window");
+// 		$(".close-btn").click(function(){
+// 			$("#addfriend_"+userId).addClass("hidden-window");
+// 		});
+// 	});
 	
 });
 /*update like unlike number*/
@@ -109,9 +110,7 @@ function update_content(btn,contentId){
 			},
 			success: function(response){
 				console.log("success");	
-
-
-				
+				//
 			}
 		})
 	}
@@ -160,7 +159,7 @@ a.disabled {
 
 				<hr />
 				<c:forEach items="${contentList}" var="item" varStatus="itemStatus">
-					<%@ include file="../include/friendForm.jsp"%>
+<%-- 					<%@ include file="../include/friendForm.jsp"%> --%>
 					<div id="${item.contentId}" class="content_id">
 					<!-- user data and update/post time -->	
 					<div>				

@@ -25,6 +25,11 @@
 <style type="text/css">
 body{
 padding: 0;
+	background-image:url('https://i.imgur.com/OMBOMxR.jpg');
+	background-repeat:no-repeat;
+	background-size:100% 100%;
+	background-attachment:fixed;
+	
 }
 #st1 img {
 	width: 130px;border: 1px solid blue; margin:0;
@@ -32,19 +37,17 @@ padding: 0;
 #st1 {
 	width: 1520px;height:800px;margin-left:0; 
 	position: relative;
-	background-image:url('https://i.imgur.com/1u2eosf.jpg');
-	background-size:100%;
-	background-color:#1C1C1C;
 	}
 #st1 table{
 	
 	text-align: center;
 	width: 1000px;
-	height:450px;
+
 	}
 #st1 td{
 	vertical-align:middle;
 	padding: 0;
+
 	}
 #dt1{
 	margin:auto;
@@ -54,10 +57,12 @@ padding: 0;
 
 	}
 
-div,tr,td {
-
+div,tr,td,th {
+	
 	margin:0;
+
 	}
+
 #imgb1 {
 	background:url('');
 	display:block;
@@ -124,15 +129,15 @@ div,tr,td {
   	right: 20px;
 	
 	}
-#nav-div{background: rgba(10%,10%,10%,0.9)}
+#nav-div{background: rgba(20%,20%,20%,0.4)}
 
-#paybillF{}
+#sp1{ display: flex; vertical-align: middle;}
 </style>
 </head>
 <body >
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 	<jsp:include page="topBar.jsp" />
-	
+	<!-- 測試固定圖片 -->
 	<div id="imgb1"></div>
 	<div id="imgb3"></div>
 	<div id="imgb4"></div>
@@ -140,17 +145,20 @@ div,tr,td {
 	<div id="imgb6"></div>
 
 
-	<div id="st1" class="text-white">
+	<div id="st1" >
 	
-		<div id="dt1" >
+		<div id="dt1" class="text-white">
 		<h1>購物車</h1>
-		<table id="t1" style="background:rgba(5%,5%,5%,0.7) "></table>
+		<table  style="background:rgba(50%,50%,50%,0.3) ">
+		<thead><tr><th>商品ID<th>商品照片<th>商品名稱<th>商品價錢<th>商品數量<th>總金額<th>編輯</thead>
+		<tbody id="t1"></tbody>
+		</table>
 	</div>
 
 	<!-- Modal -->
-	<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+	<div class="modal fade"  id="exampleModalCenter" tabindex="-1"
 		role="dialog" aria-labelledby="exampleModalCenterTitle"
-		aria-hidden="true">
+		aria-hidden="true" >
 		<div class="modal-dialog modal-lg modal-dialog-centered"
 			role="document">
 			<div id="payform" class="modal-content">
@@ -188,7 +196,7 @@ div,tr,td {
 			</div>
 		</div>
 	</div>
-	
+	<!-- 結帳的BAR -->
 	</div>
 		<div id="nav-div" style="bottom:0; position:fixed;width:1550px;height:90px;">
 	  	<div style="position:fixed;bottom:10px;right:80px">
@@ -199,7 +207,8 @@ div,tr,td {
 	</div>
 	
 	<script type="text/javascript">
-
+	var t = false;
+	//沒效果 控制model 呼叫前或後的函數
 	$("#exampleModalCenter").on("show.bs.modal",function(e){
 			console.log('顯示視窗前呼叫');
 		});
@@ -210,7 +219,67 @@ div,tr,td {
 	if($('#exampleModalCenter').hasClass('model')){
 	  console.log('視窗目前是開啟的狀態..');
 	}
-
+		
+		$(window).bind('beforeunload',function(){
+			var t=false;
+			if(window.sessionStorage.getItem("loginUser")!=""){
+				var c = [];
+				var x = {};
+				var data;
+				$('#t1').find('.upd').each(function(i,e){
+				
+					let j;
+					let k;
+					if(i%2==0){
+						x[i]=e.innerHTML;
+	
+						}
+					else{
+	
+						k=e.value;
+						c.push({"shoppingCartId":x[i-1],"amount":k});
+						}
+					});
+				data=JSON.stringify(c);
+	
+				$.ajax({
+					url:"shopping/shoppingCartUpdate",
+					dataType:"json",
+					data:{data:data},
+					type:"post",
+					success:function(response){
+						console.log(response);
+						if(respone=="false"){return '提示資訊';}
+						
+						}
+					});
+			}
+			else{
+				var x = {};
+				$('#t1').find('.localupd').each(function(i,e){
+					console.log(e);
+					let j;
+					let k;
+					if(i%2==0){
+						x[i]=e.value;
+						console.log(x[i]);
+						}
+					else{
+						j=localStorage.getItem(e.innerHTML);
+						k=JSON.parse(j);
+						k.amount=x[i-1];
+						k=JSON.stringify(k);
+						localStorage.setItem(e.innerHTML,k);
+						}		
+					});	
+				
+				}
+			if(t==true){
+				return '提示資訊';
+			}
+			
+		}
+		);
 
 	
 
@@ -227,7 +296,7 @@ div,tr,td {
 		}
 	
 		function showtables(response) {
-			var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品價錢<th>商品數量<th>總金額<th>編輯";
+			var txt = "";
 			for (let i = 0; i < response.length; i++) {
 				var item ={
 						productId:response[i].productId,
@@ -236,19 +305,21 @@ div,tr,td {
 						amount:response[i].amount
 						}
 				console.log(response[i].lsId);
-				txt += "<tr><td style='display:none'>"
+				
+				txt += "<tr><td class='upd' style='display:none'>"
 						+ response[i].shoppingCartId;
 				txt += "<td style='display:none'><span id='item'>"+JSON.stringify(item);
 				txt += "<td>" + response[i].productId;
 				txt += "<td id='img'><img src='"+response[i].productImg+"'>";
 				txt += "<td>" + response[i].productName;
 				txt += "<td id='oriPrice'>" + response[i].productPrice;
-				txt += "<td>"+"<span>數量:<button id='noplus' type='button' class='btn btn-outline-secondary btn-sm'>-</button>";
-				txt += "<input style='width: 40px;' id='quantity_input' type='text' value='"+ response[i].amount+"'>";
+				txt += "<td>"+"<span id='sp1'><button id='noplus' type='button' class='btn btn-outline-secondary btn-sm'>-</button>";
+				txt += "<input style='width: 35px;' id='quantity_input' class='upd localupd' type='text' value='"+ response[i].amount+"'>";
 				txt	+= "<button id='plus' type='button' class='btn btn-outline-secondary btn-sm'>+</button></span>";
 				txt += "<td id='money'>" + (response[i].productPrice * response[i].amount)
-				txt += "<td id='lsId' style='display:none'>"+response[i].lsId;
+				txt += "<td id='lsId' class='localupd' style='display:none'>"+response[i].lsId;
 				txt += "<td><botton id='delete' class='btn btn-danger'>移除</botton>"
+
 			}
 			$('#t1').html(txt);
 		}
@@ -268,7 +339,9 @@ div,tr,td {
 			
 		})
 
-		$(document).on('click', '#plus', function() {
+		$(document).on('click', '#plus', function() {	
+
+			
 			$tr=$(this).parents("tr");
 			var num=$tr.find("input[id='quantity_input']");
 			num.val(parseInt(num.val()) + 1);
@@ -281,6 +354,7 @@ div,tr,td {
 		})
 		
 		$(document).on('click', '#noplus', function() {
+			
 			$tr=$(this).parents("tr");
 			var num=$tr.find("input[id='quantity_input']");
 			if (num.val() > 1) {

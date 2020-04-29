@@ -2,7 +2,7 @@ package com.gamebase.general.controller;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +20,7 @@ import org.springframework.messaging.simp.user.SimpUser;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,6 +37,9 @@ import com.gamebase.general.model.WebSocketMessage;
 import com.gamebase.general.model.dao.ChatRoomCrudRepository;
 import com.gamebase.general.model.service.ChatRoomService;
 import com.gamebase.general.model.service.GeneralService;
+import com.google.gson.Gson;
+
+import net.sf.json.JSONObject;
 
 @Controller
 @MultipartConfig
@@ -107,7 +111,7 @@ public class ChatController {
 			bean.setURL("img/PDF_file_icon.jpg");
 //			System.out.println("123fffffffffffffff");
 			bean.setTime(new Timestamp(System.currentTimeMillis()));
-			sendMulti(bean, bean.getFrom(), bean.getTo()[0]);
+			sendMultiFile(bean, bean.getFrom(), bean.getTo()[0]);
 		} else {
 			String fileURL = generalService.uploadToImgur(file);
 			System.out.println(fileURL);
@@ -117,10 +121,10 @@ public class ChatController {
 			bean.setType(type);
 			bean.setURL(fileURL);
 			bean.setTime(new Timestamp(System.currentTimeMillis()));
-			sendMulti(bean, bean.getFrom(), bean.getTo()[0]);
+			sendMultiFile(bean, bean.getFrom(), bean.getTo()[0]);
 		}
 		Map<String, String> result = new HashMap<>();
-		if (type != null) {
+		if (file != null && file.getSize() != 0) {
 			result.put("type", type);
 		} else {
 			result.put("type", null);
@@ -128,12 +132,20 @@ public class ChatController {
 		return result;
 	}
 
-	@PostMapping(path = "/Query", produces = "application/json")
+	@PostMapping(path = "/Query/{chatHistoryPage}", produces = "application/json")
 	@ResponseBody
-	public List<ChatRoom> query(@RequestParam(name = "sender") String sender,
-			@RequestParam(name = "receiver") String receiver, Model model) {
+	public List<ChatRoom> queryNext(@RequestParam(name = "sender") String sender,
+			@RequestParam(name = "receiver") String receiver, @PathVariable Integer chatHistoryPage, Model model) {
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		List<ChatRoom> chatHistory = null;
-		chatHistory = cService.queryHistory(sender, receiver);
+		chatHistory = cService.queryHistoryNext(sender, receiver, chatHistoryPage);
+		// reverse list
+//		Collections.reverse(chatHistory);
 		for (ChatRoom result : chatHistory) {
 			WebSocketMessage bean = new WebSocketMessage();
 			bean.setFrom(result.getSender().toString());
@@ -143,34 +155,61 @@ public class ChatController {
 			bean.setURL(result.getURL());
 			bean.setTime(result.getTime());
 			sendMultiMessage(bean, bean.getFrom(), bean.getTo()[0]);
-			System.out.println("-------------------------");
-			System.out.println(bean.getFrom());
-			System.out.println(bean.getTo());
-			System.out.println(bean.getMessage());
-			System.out.println(bean.getType());
-			System.out.println(bean.getURL());
-			System.out.println(bean.getTime());
-			System.out.println("-------------------------");
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-
 		if (chatHistory != null) {
 			return chatHistory;
 		} else {
 			return null;
 		}
-
 	}
 
-	public void sendMulti(WebSocketMessage msg, String... receivers) {
+	@PostMapping(path = "/Broadcast/{userId}", produces = "application/json")
+	@ResponseBody
+	public Map<String, String> sendTopicMessage(@PathVariable("userId") Integer userId,
+			@RequestParam(name = "broadcast") String body, Model model) {
+		System.out.println(userId);
+		System.out.println(body);
+		
+//		Gson gson = new Gson();
+//		Map requestMap = gson.fromJson(body, Map.class);
+//		
+//		String broadcastMsg = (String) requestMap.get("broadcast");
+//		System.out.println(broadcastMsg);
+		
+		WebSocketMessage bean = new WebSocketMessage();
+		bean.setMessage(body);
+		sendMultiTopicMessage(bean);
+		Map<String, String> result = new HashMap<>();
+//		if (body != null && body.length() != 0) {
+//			result.put("true", bean.getFrom());
+//		} else {
+			result.put("false", null);
+//		}
+		return result;
+	}
+
+	public void sendMultiFile(WebSocketMessage msg, String... receivers) {
 		for (String receiver : receivers) {
 			simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages", msg);
 		}
 		cService.saveToRedis(msg);
 	}
+
 	public void sendMultiMessage(WebSocketMessage msg, String... receivers) {
 		for (String receiver : receivers) {
-			simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages", msg);
+			simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages/history", msg);
 		}
+	}
+
+	public void sendMultiTopicMessage(WebSocketMessage msg) {
+
+		simpMessagingTemplate.convertAndSend("/topic/messages/broadcast", msg);
 	}
 
 	@EventListener

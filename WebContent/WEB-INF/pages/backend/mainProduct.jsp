@@ -19,10 +19,8 @@
 	
 }
 
-
 </style>
 </head>
-
 <body>
 <jsp:include page="../include/backEndHomePage.jsp"></jsp:include>
 	<main id="main_back">

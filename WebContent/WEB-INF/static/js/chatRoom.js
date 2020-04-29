@@ -54,17 +54,24 @@ $(document).ready(function () {
 	
   if (window.sessionStorage.getItem("loginUser") != "") {
     var login = JSON.parse(window.sessionStorage.getItem("loginUser"));
+//    $(".dropdown button[name='dmb-u']").html(login.account);
     if (login.img) {
       $(".shot").removeClass("disable");
-      $(".shot").attr("src", login.img).attr("id",login.userId);;
+      $(".shot").attr("src", login.img).attr("id",login.userId);
     } else {
       $(".shot").removeClass("disable");
       $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg").attr("id",login.userId);;
     }
     $("#login-str").addClass("hidden-window", 700);
     $("#regiest-str").addClass("hidden-window", 700);
+    $("#mainCenter").removeClass("hidden-window", 700);
     $("#logout-str").removeClass("hidden-window", 700);
+    $("#mainCenter").removeClass("hidden-window", 700);
     $("[data-toggle='popover']").removeClass("disable");
+    if(login.rankId==4){
+  	  $("#admin-broadcast").removeClass("hidden-window", 700);
+    }
+   
 
   }
 
@@ -72,7 +79,7 @@ $(document).ready(function () {
     $(".login-area").removeClass("hidden-window", 700);
     $("#shadow").fadeIn(700);
   });
-
+ 
   $("#login-submit-btn").click(function () {
     userLogin();
   });
@@ -83,6 +90,13 @@ $(document).ready(function () {
     }
   });
 
+//**************Admin broadcast******************
+  $("#admin-broadcast").click(function(){
+  	console.log("got admin bro");
+  	$(".admin-broadcast-area").removeClass("hidden-window", 700);
+      $("#shadow").fadeIn(700);
+  })
+  
   // regist button
   $("#regiest-str").click(function () {
     $("#loggedin-list").fadeToggle(500);
@@ -99,9 +113,10 @@ $(document).ready(function () {
     $(".dropdown button[name='dmb-u']").html("會員系統");
     
     $("#logout-str").addClass("hidden-window", 700);
-
+    $("#mainCenter").addClass("hidden-window", 700);
     $("#login-str").removeClass("hidden-window", 700);
     $("#regiest-str").removeClass("hidden-window", 700);
+    $("#admin-broadcast").addClass("hidden-window", 700);
     $("[data-toggle='popover']").addClass("disable");
     // google logout
     googleSignOut();
@@ -120,7 +135,7 @@ $(document).ready(function () {
         window.sessionStorage.setItem("loginUser", "");
         window.sessionStorage.setItem("chatRoom", "");
         window.sessionStorage.setItem("UserData", "");
-        console.log('success');
+        //console.log('success');
 
         // hide and clean chat room
         hideChatRoom(true);
@@ -166,7 +181,7 @@ function userLogin() {
           }
 
           //show userAccount
-          $(".dropdown button[name='dmb-u']").html(data.loginUser.account);
+//          $(".dropdown button[name='dmb-u']").html(data.loginUser.account);
           $("[data-toggle='popover']").removeClass("disable");
           
           // close login window
@@ -203,7 +218,12 @@ function userLogin() {
           $("#login-str").addClass("hidden-window", 700);
           $("#regiest-str").addClass("hidden-window", 700);
           $("#logout-str").removeClass("hidden-window", 700);
-
+          $("#mainCenter").removeClass("hidden-window", 700)
+          
+          if(data.loginUser.rankId==4){
+        	  $("#admin-broadcast").removeClass("hidden-window", 700);
+          }
+          
         } else {
           alert("帳號或密碼不符合");
           $("#login-submit-btn").removeClass("disable");
@@ -564,7 +584,8 @@ function attachSignin(element) {
             $("#login-str").addClass("hidden-window", 700);
             $("#regiest-str").addClass("hidden-window", 700);
             $("#logout-str").removeClass("hidden-window", 700);
-
+            $("#mainCenter").removeClass("hidden-window", 700);
+            
             // clear the form
             $(".input-group input").each(function () {
               $(this).val("");
@@ -736,7 +757,38 @@ $(document).ready(function () {
   if (window.sessionStorage.getItem("loginUser") != "") {
     initChatRoom();
   }
+  
+  //broadcast
+  $("#broadcast-submit-btn").click(function () {
+    var userId = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
+//    var formData = $("#admin-broadcast-form").serializeObject();
+//    var broad = JSON.stringify(formData);
+//    console.log('broadcastData: ' + broadcastData);
+    var broadcast = $("#admin-broadcast-form input[name='broadcast']").val();
+//    console.log('broad: ' + broad);
+    let formData = new FormData();
+    formData.append('broadcast' , broadcast);
+//    if(broadcast != undefined){
+//    	console.log('broadcastMessage');
+        $.ajax({
+            url: "/GameBase/Broadcast/" + userId,
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+              if (data) {
+                alert('發送成功');
+                $("#broadcast-submit-btn").parent().addClass("hidden-window", 700);
+                $("#shadow").fadeOut(700);
+              }
 
+            }
+
+          });
+//    }
+
+  });
 
 });
 
@@ -750,7 +802,7 @@ function initChatRoom() {
     $("#chat-room-users").append(Mustache.render(chatRoomUsersTemplate, user));
   }
   console.log('initChatRoom');
-  console.log(chatRoomObj);
+  //console.log(chatRoomObj);
 }
 
 // user list click event
@@ -777,6 +829,9 @@ function showChatContentArea(element) {
     var renderData = Mustache.render(chatRoomContentTemplate, userObj);
 
     $("#chat-room-content").html(renderData);
+    
+    // get history msg
+    scrollMyMessage();
   }
 
   // fill chat area with chat history
@@ -822,23 +877,6 @@ function emptyChatContentArea() {
 }
 
 function showUsersDiaglog(element) {
-    var sender = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
-    var receiver = $(element).children(".chat-room-user-id").text();
-    let formData = new FormData();
-    formData.append('sender', sender);
-    formData.append('receiver', receiver);
-    $.ajax({
-        url: "/GameBase/Query",
-        type: "POST",
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function (data) {
-           if(data){
-               console.log(data);
-           }
-        }
-    });
 	
   // get chat room object from sessionStorage
   var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
@@ -869,11 +907,12 @@ function showUsersDiaglog(element) {
 
     // append new user diaglog block to chat room
     $("#chat-room-users").append(renderData);
+    
   }
 
 }
 
-function showUserListFromMessage(msg) {
+function showUserListFromMessage(msg, isHistory) {
 		
   // get chat room object from sessionStorage
   var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
@@ -885,7 +924,7 @@ function showUserListFromMessage(msg) {
       checkFlag = false;
 
       // receiver update brief message
-      console.log('update brief message');
+      //console.log('update brief message');
       user.message = msg.message;
       user.time = msg.time;
     }
@@ -924,7 +963,7 @@ function showUserListFromMessage(msg) {
 }
 
 function hideChatRoom(flag) {
-  console.log('hideChatRoom.hide0');
+  //console.log('hideChatRoom.hide0');
   // close friend list
   $(".chat-room-friend-list-area").removeClass("friend-list-show", 700, function () {
     // change button icon
@@ -972,7 +1011,7 @@ function sendMessage(event) {
       //url: $("btn-file").val(),
       time: Date.now()
     }
-    console.log('msgObj.message: ' + msgObj.message);
+    //console.log('msgObj.message: ' + msgObj.message);
     //console.log('msgObj.url: ' + msgObj.url);
     // set object for sending use
     sendWebSocketMessage(msgObj);
@@ -995,7 +1034,7 @@ function sendMessage(event) {
         singleChat.chatContent[singleChat.chatContent.length] = msgObj;
         flag = false;
       }
-      console.log('sender flag: ' + flag);
+      //console.log('sender flag: ' + flag);
     }
 
     if (flag) {
@@ -1003,8 +1042,8 @@ function sendMessage(event) {
         userNo: userNo,
         chatContent: [msgObj]
       }
-      console.log('sender flag: ' + flag);
-      console.log(chatContent)
+      //console.log('sender flag: ' + flag);
+      //console.log(chatContent)
 
       chatRoomObj.chatHistory[chatRoomObj.chatHistory.length] = chatContent;
     }
@@ -1028,13 +1067,14 @@ function sendMessage(event) {
 
     // move the scroll bar to the end
     $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
+    console.log('scrollL: ' + $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight")));
 
     // clean message input area
     $("#chat-room-input").val("");
   }
 }
 
-function sendMyFile(msgOutput) {
+function sendMyFile(msgOutput, isHistory) {
   // get chat room object from sessionStorage
   var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
 
@@ -1043,22 +1083,11 @@ function sendMyFile(msgOutput) {
 //  var userNo = className.substring(className.indexOf("-") + 1);
   var userNo = msgOutput.to
 
-  // get data from message input area
-  var dateObj = new Date();
-  var hours = '0' + dateObj.getHours();
-  hours = hours.substring(hours.length - 2);
-  var minutes = '0' + dateObj.getMinutes();
-  minutes = minutes.substring(minutes.length - 2);
-  var currentTime = hours + ':' + minutes;
-
-  // set formated time for print
-  msgOutput.time = currentTime;
-
   // update brief message in users list
   $(".chat-room-user").each(function () {
     if ($(this).children(".chat-room-user-id").text() == userNo) {
       $(this).children(".chat-user-brief-message").attr("src");
-      $(this).children(".chat-user-message-time").text(currentTime);
+      $(this).children(".chat-user-message-time").text(msgOutput.time);
     }
   });
 
@@ -1092,18 +1121,23 @@ function sendMyFile(msgOutput) {
   window.sessionStorage.setItem("chatRoom", JSON.stringify(chatRoomObj));
 
   // show data from message input area
-
-  $("#chat-message-area").append(Mustache.render(ownFileTemplate, msgOutput));
+if(isHistory){
+	$("#chat-message-area").prepend(Mustache.render(ownFileTemplate, msgOutput));
+}else{
+	$("#chat-message-area").append(Mustache.render(ownFileTemplate, msgOutput));
+}
+  
 
   // move the scroll bar to the end
   $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
-
   // clean message input area
   $("#chat-room-input").val("");
 }
 
-function sendMyMessage(msgOutput) {
+function sendMyMessage(msgOutput, isHistory) {
 
+	console.log('sendMyMessage_msgOutput: ' + msgOutput);
+	
   // get chat room object from sessionStorage
   var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
 
@@ -1112,22 +1146,11 @@ function sendMyMessage(msgOutput) {
 //  var userNo = className.substring(className.indexOf("-") + 1);
   var userNo = msgOutput.to;
 
-  // get data from message input area
-  var dateObj = new Date();
-  var hours = '0' + dateObj.getHours();
-  hours = hours.substring(hours.length - 2);
-  var minutes = '0' + dateObj.getMinutes();
-  minutes = minutes.substring(minutes.length - 2);
-  var currentTime = hours + ':' + minutes;
-
-  // set formated time for print
-  msgOutput.time = currentTime;
-
   // update brief message in users list
   $(".chat-room-user").each(function () {
     if ($(this).children(".chat-room-user-id").text() == userNo) {
       $(this).children(".chat-user-brief-message").text($("#chat-room-input").val());
-      $(this).children(".chat-user-message-time").text(currentTime);
+      $(this).children(".chat-user-message-time").text(msgOutput.time);
     }
   });
 
@@ -1157,16 +1180,17 @@ function sendMyMessage(msgOutput) {
     }
   }
 
-
   window.sessionStorage.setItem("chatRoom", JSON.stringify(chatRoomObj));
-
-
 
   // show data from message input area
   if (msgOutput.url == undefined) {
-    $("#chat-message-area").append(Mustache.render(ownMsgTemplate, msgOutput));
+	  if(isHistory){
+		  $("#chat-message-area").prepend(Mustache.render(ownMsgTemplate, msgOutput));
+	  }else{
+		  $("#chat-message-area").append(Mustache.render(ownMsgTemplate, msgOutput)); 
+	  }
   } else {
-    sendMyFile(msgOutput);
+    sendMyFile(msgOutput, isHistory);
   }
 
 
@@ -1176,6 +1200,15 @@ function sendMyMessage(msgOutput) {
   // clean message input area
   $("#chat-room-input").val("");
 }
+
+function showSnackbarMessage(msg) {
+	  console.log('showsnack');
+	  $("#snackbar").html(msg.message);
+	  console.log('html');
+	  $("#snackbar").attr("class","show");
+	  console.log(setTimeout);
+	  setTimeout(function () {  $("#snackbar").removeClass("show") }, 3000);
+	}
 
 function cleanChatRoom() {
   $("#chat-room-users").html("");
@@ -1207,15 +1240,22 @@ function connectChatRoom() {
       if (JSON.parse(msgOutput.body).from == undefined) {
         hideOfflineUser(JSON.parse(msgOutput.body));
       } else {
-        showMessageOutput(JSON.parse(msgOutput.body));
+        showMessageOutput(JSON.parse(msgOutput.body), false);
       }
     });
+    stompClient.subscribe('/topic/messages/broadcast', function (msgOutput) {
+    console.log('subscribe_broadcast');
+    	//  showMessageOutput(JSON.parse(msgOutput.body), false);
+    	showSnackbarMessage(JSON.parse(msgOutput.body));
+      });
     // /user原始碼-->/queue/message-{websocket session id}
     stompClient.subscribe('/user/queue/messages', function (msgOutput) {
-      console.log('msgOutput: ' + msgOutput.body);
-      showMessageOutput(JSON.parse(msgOutput.body));
+      showMessageOutput(JSON.parse(msgOutput.body), false);
     });
-    // stompClient.send("/app/chat", {}, JSON.stringify({'msg':'userLogin'}));
+    // subscribe History
+    stompClient.subscribe('/user/queue/messages/history', function (msgOutput) {
+        showMessageOutput(JSON.parse(msgOutput.body), true);
+      });
     // get online list
     var data = JSON.parse(window.sessionStorage.getItem("loginUser"));
     sendWebSocketMessage({ from: data.userId, to: ['regist'], message: '', time: Date.now() });
@@ -1236,15 +1276,17 @@ function sendWebSocketMessage(msg) {
   // stompClient.send("/app/chat", {}, JSON.stringify({'msg':'userLogin'}));
 }
 
-function showMessageOutput(msgOutput) {
-  var sender = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
+function showMessageOutput(msgOutput, isHistory) {
+	console.log('isHistory: ' + isHistory);
+	console.log('showMessageOutput_msgOutput: ' + msgOutput);
+	var sender = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
 
   // show in user list
   if (sender == msgOutput.from) {
-    sendMyMessage(msgOutput);
-    console.log('My message');
+    sendMyMessage(msgOutput, isHistory);
+    //console.log('My message');
   } else {
-    showUserListFromMessage(msgOutput);
+    showUserListFromMessage(msgOutput, isHistory);
 
 
     // get chat room object from sessionStorage
@@ -1274,7 +1316,7 @@ function showMessageOutput(msgOutput) {
         singleChat.chatContent[singleChat.chatContent.length] = msgOutput;
         flag = false;
       }
-      console.log('receiver flag: ' + flag);
+      //console.log('receiver flag: ' + flag);
     }
 
     if (flag) {
@@ -1282,8 +1324,8 @@ function showMessageOutput(msgOutput) {
         userNo: msgOutput.from,
         chatContent: [msgOutput]
       }
-      console.log('receiver flag: ' + flag);
-      console.log(chatContent)
+      //console.log('receiver flag: ' + flag);
+      //console.log(chatContent)
 
       chatRoomObj.chatHistory[chatRoomObj.chatHistory.length] = chatContent;
     }
@@ -1293,9 +1335,17 @@ function showMessageOutput(msgOutput) {
     //    console.log('msgOutput.time: ' + msgOutput.time);
     if ($("#chat-message-area").hasClass("id-" + msgOutput.from)) {
       if (msgOutput.url == undefined) {
-        $("#chat-message-area").append(Mustache.render(replyMsgTemplate, msgOutput));
+    	  if(isHistory){
+    		  $("#chat-message-area").prepend(Mustache.render(replyMsgTemplate, msgOutput));
+    	  }else{
+    		  $("#chat-message-area").append(Mustache.render(replyMsgTemplate, msgOutput));
+    	  }
       } else {
-        $("#chat-message-area").append(Mustache.render(replyFileTemplate, msgOutput));
+    	  if(isHistory){
+    		  $("#chat-message-area").prepend(Mustache.render(replyFileTemplate, msgOutput));
+    	  }else{
+    		  $("#chat-message-area").append(Mustache.render(replyFileTemplate, msgOutput));  
+    	  }
       }
       // move the scroll bar to the end
       $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
@@ -1326,15 +1376,15 @@ function showOnlineUsers(userList) {
 function hideOfflineUser(user) {
   // hide specific online mark
   $(".chat-room-friend").each(function () {
-    console.log(this);
+    //console.log(this);
     var userNo = $(this).children(".chat-room-user-id").text();
 
-    console.log(userNo);
-    console.log(user);
+    //console.log(userNo);
+    //console.log(user);
 
     if (userNo == user) {
       $(this).children(".chat-room-friend-online-light").hide(500);
-      console.log('This is hideOffineUser');
+      //console.log('This is hideOffineUser');
     }
   });
 }
@@ -1365,13 +1415,50 @@ function upfile() {
   });
 }
 
-// chat room friend list template
-// <div class="chat-room-friend">
-// <img class="chat-room-friend-icon" src="img/userIcon.png" />
-// <div class="chat-room-friend-name">我GM</div>
-// <div class="chat-room-user-id">100</div>
-// <div class="chat-room-friend-online-light"></div>
-// </div>
+//scroll to load history
+//for chat history loading use
+//true for execute loading
+//false for denied loading
+var chatHistoryLoadLock = true;
+var chatHistoryInit = true;
+
+//chat history page start from page 2
+var chatHistoryPage = 1;
+
+function scrollMyMessage() {
+ if (($("#chat-message-area").scrollTop() <= 50 && chatHistoryLoadLock) || chatHistoryInit) {
+	 chatHistoryInit = false;
+	 console.log('enter');
+     var sender = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
+     var receiver = $(".chat-room-friend").children(".chat-room-user-id").text();
+     //disable loading
+     chatHistoryLoadLock = false;
+
+     // show next page
+     displayHistory(sender, receiver);
+     chatHistoryPage++;
+ }
+}
+function displayHistory(sender, receiver) {
+ console.log('displayHistory');
+ let formData = new FormData();
+ formData.append('sender', sender);
+ formData.append('receiver', receiver);
+ $.ajax({
+     url: "/GameBase/Query/" + chatHistoryPage,
+     type: "POST",
+     data: formData,
+     contentType: false,
+     processData: false,
+     success: function (data) {
+         if (data) {
+             console.log('scroll_data: + ' + data);
+             chatHistoryLoadLock = true;
+         }
+     }
+ });
+}
+
 
 var chatRoomFriendsListTemplate = '{{#friendsList}}'
   + '<div class="chat-room-friend" onclick="showUsersDiaglog(this)">'
@@ -1382,19 +1469,6 @@ var chatRoomFriendsListTemplate = '{{#friendsList}}'
   + '</div>'
   + '{{/friendsList}}';
 
-// chat room users template
-// <div class="chat-room-user" onclick="showChatContentArea(this)" >
-// <img class="chat-user-icon" src="img/userIcon.png" />
-// <div class="chat-user-name">名字名字名字名字名字名字名字</div>
-// <div class="chat-room-user-id">0</div>
-// <div class="chat-user-brief-message">
-// 訊息訊息訊息訊息訊息訊息訊息訊息
-// </div>
-// <div class="chat-user-message-time">
-// 下午13:03
-// </div>
-// </div>
-
 var chatRoomUsersTemplate = '<div class="chat-room-user" onclick="showChatContentArea(this)" >'
   + '<img class="chat-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}" />'
   + '<div class="chat-user-name">{{account}}</div>'
@@ -1403,42 +1477,11 @@ var chatRoomUsersTemplate = '<div class="chat-room-user" onclick="showChatConten
   + '<div class="chat-user-message-time">{{time}}</div>'
   + '</div>';
 
-// char room content area template
-// <div id="chat-header-area">
-// <div id="chat-header-name">
-// 名字在這名字在這名字在這名字在這名字在這名字在這
-// </div>
-// <i class="fas fa-times" onclick="emptyChatContentArea()"></i>
-// </div>
-// <div id="chat-message-area">
-// <div class="chat-messages">
-// <img class="chat-message-user-icon" src="img/userIcon.png"/>
-// <div class="chat-message">
-// 安安安安安安安
-// </div>
-// <div class="chat-time">
-// 下午 13:03
-// </div>
-// </div>
-// <div class="chat-messages own-messages">
-// <img class="chat-message-user-icon" src="img/userIcon.png"/>
-// <div class="chat-message">
-// 安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安
-// </div>
-// <div class="chat-time">
-// 下午 13:03
-// </div>
-// </div>
-// </div>
-// <div id="chat-room-input-area">
-// <input type="text" id="chat-room-input"/>
-// </div>
-
 var chatRoomContentTemplate = '<div id="chat-header-area">'
   + '<div id="chat-header-name">{{account}}</div>'
   + '<i class="fas fa-times" onclick="emptyChatContentArea()"></i>'
   + '</div>'
-  + '<div id="chat-message-area" class="id-{{userId}}"></div>'
+  + '<div id="chat-message-area" class="id-{{userId}}" onScroll="scrollMyMessage()"></div>'
   + '<div id="chat-tool-area">'
   + '<input type="file" id="btn-file" onchange="upfile()" style="display:none">'
   + '<i class="fas fa-upload upload-btn" onclick="upload()"></i>'
@@ -1446,29 +1489,6 @@ var chatRoomContentTemplate = '<div id="chat-header-area">'
   + '<div id="chat-room-input-area">'
   + '<input type="text" id="chat-room-input" autocomplete="off" onkeypress="sendMessage(event)"/>'
   + '</div>';
-
-
-// chat message template
-// <div id="chat-message-area">
-// <div class="chat-messages">
-// <img class="chat-message-user-icon" src="img/userIcon.png"/>
-// <div class="chat-message">
-// 安安安安安安安
-// </div>
-// <div class="chat-time">
-// 下午 13:03
-// </div>
-// </div>
-// <div class="chat-messages own-messages">
-// <img class="chat-message-user-icon" src="img/userIcon.png"/>
-// <div class="chat-message">
-// 安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安
-// </div>
-// <div class="chat-time">
-// 下午 13:03
-// </div>
-// </div>
-// </div>
 
 var replyMsgTemplate = '<div class="chat-messages">'
   + '<img class="chat-message-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}"/>'
