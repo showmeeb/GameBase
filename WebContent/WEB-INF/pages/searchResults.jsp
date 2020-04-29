@@ -7,56 +7,13 @@
 <head>
 <meta charset="UTF-8">
 <style>
-.cardSize {
-	width: 24.70%;
-	margin: 1px;
-	cursor: pointer;
-}
-
-.center {
-	margin: auto;
-}
-
-.bg-rgb220 {
-	background-color: rgb(220, 220, 220);
-	margin-bottom: 10px;
-}
-
-.bg-rgb245 {
-	background-color: rgb(245, 245, 245);
-}
-
-.card-title {
-	font-size: 17px;
-}
-
-.card-subtitle {
-	font-size: 13px;
-}
-
-.card-img-top {
-	height: 250px;
-}
-
-.selectBarBtn {
-	height: 99%;
-	width: 90px;
-}
-
-.pageBnt {
-	height: 99%;
-	border: none;
-}
-
-.pageLi {
-	margin-right: 3px;
-}
 
 </style>
 </head>
 <body>
 
 	<jsp:include page="topBar.jsp" />
+
 
 	<div class="container">
 		<div class="row">
@@ -85,15 +42,54 @@
 	</div>
 	<jsp:include page="footer.jsp" />
 
+	<!-- 商品細節彈出視窗 -->
+	<div class="modal" tabindex="-1" role="dialog" id="productDetial">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">商品標題</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">×</button>
+				</div>
+				<div class="modal-body">
+					<div class="container">
+						<div class="row">
+							<div class="col-6 column gray-boder">
+								<img src="https://i.imgur.com/Nt5Bn7u.png"
+									class="modal-width theImg">
+							</div>
+							<div class="col-6 column gray-boder">
+								<div class="row row-height thePrice">這邊放價格</div>
+								<div
+									class="row row-height align-items-end justify-content-center">
+									<button class="btn-warning number-btn decrease">-</button>
+									<span class="buy-quantity text-center">1</span>
+									<button class="btn-warning number-btn increase">+</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary bottom-bnt"
+						data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary bottom-bnt">加入購物車</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 	<script>
 
+		//解析資料
         var jsonResults = JSON.parse(JSON.stringify(${ results }));
 		var cardResults = "";
-		var pageItem=6;
+		var pageItem=8; //每頁商品數量設定
 		
 		var pageNum = Math.ceil(jsonResults.length/pageItem); 
 
+		//初始化填入第一頁資料
         for (i = 0; i < pageItem; i++) {
         	if(i<jsonResults.length){        		   
 	           cardResults += '<div class="card cardSize" id="'+jsonResults[i].productId+'">';
@@ -101,12 +97,12 @@
 	           cardResults += '<div class="card-body">'
 	           cardResults += '<h5 class="card-title cardsdd">'+jsonResults[i].productName+'</h5>' 				     //商品標題
 	           cardResults += '<h6 class="card-subtitle mb-2 text-muted">NT$'+jsonResults[i].productPrice+'</h6>'	 //商品價格
-		//     cardResults += '<p class="card-text">'+jsonResults[i].productInfo+'</p>'								 //商品介紹e
 			   cardResults += '</div></div>'  
         }}
         $("#resultsTable").append(cardResults);
 
         
+        //創建分頁按鈕
 		var pageTxt = "";
 		for (i=1;i<=pageNum;i++){
 		pageTxt += '<li class="pageLi"><button id="'+i+'" class="btn btn-light pageBnt">'+i+'</button></li>'
@@ -114,10 +110,11 @@
 	    $("#pageUl").append(pageTxt);
 		
 
+	    //分頁運作邏輯
 		$(".pageBnt").click(function(){
 			let toPage=this.id-1;
 			cardResults = "";
-
+			
 	        for (i = 0+pageItem*toPage; i < pageItem+pageItem*toPage; i++) {
 	        	if(i<jsonResults.length){
 	        		cardResults += '<div class="card cardSize" id="'+jsonResults[i].productId+'">';
@@ -125,23 +122,36 @@
 		            cardResults += '<div class="card-body">'
 		            cardResults += '<h5 class="card-title cardsdd">'+jsonResults[i].productName+'</h5>' 				 //商品標題
 		            cardResults += '<h6 class="card-subtitle mb-2 text-muted">NT$'+jsonResults[i].productPrice+'</h6>'	 //商品價格
-		 	//      cardResults += '<p class="card-text">'+jsonResults[i].productInfo+'</p>'							 //商品介紹
 		 		    cardResults += '</div></div>'  
 	         }}
 	         $("#resultsTable").html(cardResults);
 			
 		})
         
-       // for(i=0;i){console.log(productId)}
 		
 
-        
+        //彈出視窗
         $(document).on('click','.card',function(){
             for (i in jsonResults) {
                 if (jsonResults[i].productId == this.id) {
-                    
+                	$(".modal-title").html(jsonResults[i].productName);
+                	$(".thePrice").html(jsonResults[i].productPrice);
+                	$(".theImg").attr('src',jsonResults[i].productImg);
+                	$(".buy-quantity").html(1);
+                	
+                	$('#productDetial').modal('show');
                 }
               }
+        })
+        
+        //彈出視窗-購物數量增減
+        $(".number-btn").click(function(){
+        	if($(this).hasClass("increase")&&$(".buy-quantity").html()<9){
+        		$(".buy-quantity").html(parseInt($(".buy-quantity").html())+1)
+        		
+        	}else if($(this).hasClass("decrease")&&$(".buy-quantity").html()>1){
+        		$(".buy-quantity").html(parseInt($(".buy-quantity").html())-1)
+        	}
         })
     </script>
 
