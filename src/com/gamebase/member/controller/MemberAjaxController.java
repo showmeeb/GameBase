@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.gamebase.general.model.service.GeneralService;
 //import com.gamebase.member.model.Role;
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UserProfile;
@@ -37,6 +39,8 @@ public class MemberAjaxController {
 
 	@Autowired
 	private UserDataService uService;
+	@Autowired
+	public GeneralService gService;
 	
 	@GetMapping(value = "/userInfo/{ID}",produces = "application/json")
 	@ResponseBody
@@ -98,7 +102,7 @@ public class MemberAjaxController {
 
 	@RequestMapping(path = "/loginAjax/{save}", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> loginAction(@RequestBody UserData logindata,@PathVariable("save") boolean save, Model model, HttpServletRequest request,
+	public Map<String, Object> loginAction(@RequestBody UserData logindata,@PathVariable("save") String save, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
 		
 		
@@ -214,6 +218,140 @@ public class MemberAjaxController {
 		System.out.println(profile);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("profile", profile);
+		return map;
+	}
+	
+	@RequestMapping(path = "/saveName", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> addName(@RequestBody UserProfile userProfile, HttpServletRequest request) {
+
+		UserProfile up = (UserProfile)request.getSession().getAttribute("userProfile");
+		System.out.println("upId: " + up.getUserId());
+		String name = userProfile.getName();
+		up.setName(userProfile.getName());
+		uService.saveUserPrfile(up);
+		System.out.println("updateName=" + userProfile.getName());
+
+		request.setAttribute("userProfile", up);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("name", name);
+		return map;
+		
+
+	}
+
+	@RequestMapping(path = "/savenickName", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> addNickName(@RequestBody UserProfile userProfile, HttpServletRequest request) {
+		
+		UserProfile up = (UserProfile)request.getSession().getAttribute("userProfile");
+		String nickName = userProfile.getNickName();
+		up.setNickName(userProfile.getNickName());
+		System.out.println("NName: " + userProfile.getNickName());
+		uService.saveUserPrfile(up);
+		System.out.println("updatenickName=" + userProfile.getNickName());
+		
+		request.setAttribute("userProfile", up);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("nickName", nickName);
+		return map;
+
+	}
+
+	@RequestMapping(path = "/saveGender", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> addGender(@RequestBody UserProfile userProfile, HttpServletRequest request) {
+		
+		UserProfile up = (UserProfile) request.getSession().getAttribute("userProfile");
+		String gender = userProfile.getGender();
+		up.setGender(userProfile.getGender());
+		System.out.println("Gender: " + userProfile.getGender());
+		uService.saveUserPrfile(up);
+
+		request.setAttribute("userProfile", up);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("gender", gender);
+		return map;
+
+	}
+
+	@RequestMapping(path = "/saveAddress", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> addAddress(@RequestBody UserProfile userProfile, HttpServletRequest request) {
+		
+		UserProfile up = (UserProfile)request.getSession().getAttribute("userProfile");
+		String address = userProfile.getAddress();
+		up.setAddress(userProfile.getAddress());
+		System.out.println("Address: " + userProfile.getAddress());
+		uService.saveUserPrfile(up);
+
+		request.setAttribute("userProfile", up);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("address", address);
+		return map;
+
+	}
+
+	@RequestMapping(path = "/savePhone", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> addPhone(@RequestBody UserProfile userProfile, HttpServletRequest request) {
+	
+		UserProfile up = (UserProfile)request.getSession().getAttribute("userProfile");
+		String phone = userProfile.getPhone();
+		up.setPhone(userProfile.getPhone());
+		System.out.println("Phone: " + userProfile.getPhone());
+		uService.saveUserPrfile(up);
+
+		request.setAttribute("userProfile", up);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("phone", phone);
+		return map;
+
+	}
+
+	@RequestMapping(path = "/saveAge", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> addAge(@RequestBody UserProfile update, HttpServletRequest request) {
+		
+		UserProfile myUp = (UserProfile)request.getSession().getAttribute("userProfile");
+		String age= String.valueOf(update.getAge());
+		myUp.setAge(update.getAge());
+		System.out.println("Age: " + update.getAge());
+		uService.saveUserPrfile(myUp);
+
+		request.setAttribute("userProfile", myUp);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("age", age);
+		return map;
+
+	}
+	
+
+	@RequestMapping(value = "/userProfileCreate", method = RequestMethod.GET)
+	public String goProfile() {
+		return "ProfilePage";
+	}
+
+	@RequestMapping(value = "/updateProfile", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> updateProfile(ModelMap model,HttpServletRequest request) {
+
+		UsersInfo myUser = (UsersInfo) model.getAttribute("loginUser");
+		UserProfile myUp = uService.getProfileByUserId(myUser.getUserId());
+		String url = "/GameBase/userProfileCreate";
+		if (myUp == null) {
+			myUp = new UserProfile();
+			myUp.setUserId(myUser.getUserId());
+
+			uService.saveUserPrfile(myUp);
+			request.getSession().setAttribute("userProfile", myUp);
+			model.addAttribute("userProfile", myUp);
+
+		}
+		request.getSession().setAttribute("userProfile", myUp);
+		model.addAttribute("userProfile", myUp);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("url", url);
 		return map;
 	}
 	

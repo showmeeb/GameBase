@@ -42,7 +42,7 @@ public class UploadImgController {
 //
 //		model.addAttribute("imgURL", imgURL);
 //
-		String img = generalService.uploadToImgur(theFile);
+		String img = generalService.UserProfileuploadToImgur(theFile);
 		if (img.equals("false")) {
 			map.put("status", false);
 			return map;
