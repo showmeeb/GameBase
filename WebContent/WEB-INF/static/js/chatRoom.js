@@ -756,6 +756,37 @@ $(document).ready(function () {
   if (window.sessionStorage.getItem("loginUser") != "") {
     initChatRoom();
   }
+  
+  //broadcast
+  $("#broadcast-submit-btn").click(function () {
+    var userId = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
+    var formData = $("#admin-broadcast-form").serializeObject();
+    var broad = JSON.stringify(formData);
+//    console.log('broadcastData: ' + broadcastData);
+//    var broadcast = $("#admin-broadcast-form input[name='broadcast']").val();
+    console.log('broad: ' + broad);
+//    let formData = new FormData();
+//    formData.append('broadcast' + broadcast);
+//    if(broadcast != undefined){
+//    	console.log('broadcastMessage');
+        $.ajax({
+            url: "/GameBase/Broadcast/" + userId,
+            type: "POST",
+            data: broad,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+              if (data) {
+                alert('發送成功');
+              }
+
+            }
+
+          });
+//    }
+
+  });
+
 });
 
 // init chat room when change page
@@ -1414,13 +1445,6 @@ function displayHistory(sender, receiver) {
  });
 }
 
-// chat room friend list template
-// <div class="chat-room-friend">
-// <img class="chat-room-friend-icon" src="img/userIcon.png" />
-// <div class="chat-room-friend-name">我GM</div>
-// <div class="chat-room-user-id">100</div>
-// <div class="chat-room-friend-online-light"></div>
-// </div>
 
 var chatRoomFriendsListTemplate = '{{#friendsList}}'
   + '<div class="chat-room-friend" onclick="showUsersDiaglog(this)">'
@@ -1431,19 +1455,6 @@ var chatRoomFriendsListTemplate = '{{#friendsList}}'
   + '</div>'
   + '{{/friendsList}}';
 
-// chat room users template
-// <div class="chat-room-user" onclick="showChatContentArea(this)" >
-// <img class="chat-user-icon" src="img/userIcon.png" />
-// <div class="chat-user-name">名字名字名字名字名字名字名字</div>
-// <div class="chat-room-user-id">0</div>
-// <div class="chat-user-brief-message">
-// 訊息訊息訊息訊息訊息訊息訊息訊息
-// </div>
-// <div class="chat-user-message-time">
-// 下午13:03
-// </div>
-// </div>
-
 var chatRoomUsersTemplate = '<div class="chat-room-user" onclick="showChatContentArea(this)" >'
   + '<img class="chat-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}" />'
   + '<div class="chat-user-name">{{account}}</div>'
@@ -1451,37 +1462,6 @@ var chatRoomUsersTemplate = '<div class="chat-room-user" onclick="showChatConten
   + '<div class="chat-user-brief-message">{{message}}</div>'
   + '<div class="chat-user-message-time">{{time}}</div>'
   + '</div>';
-
-// char room content area template
-// <div id="chat-header-area">
-// <div id="chat-header-name">
-// 名字在這名字在這名字在這名字在這名字在這名字在這
-// </div>
-// <i class="fas fa-times" onclick="emptyChatContentArea()"></i>
-// </div>
-// <div id="chat-message-area">
-// <div class="chat-messages">
-// <img class="chat-message-user-icon" src="img/userIcon.png"/>
-// <div class="chat-message">
-// 安安安安安安安
-// </div>
-// <div class="chat-time">
-// 下午 13:03
-// </div>
-// </div>
-// <div class="chat-messages own-messages">
-// <img class="chat-message-user-icon" src="img/userIcon.png"/>
-// <div class="chat-message">
-// 安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安
-// </div>
-// <div class="chat-time">
-// 下午 13:03
-// </div>
-// </div>
-// </div>
-// <div id="chat-room-input-area">
-// <input type="text" id="chat-room-input"/>
-// </div>
 
 var chatRoomContentTemplate = '<div id="chat-header-area">'
   + '<div id="chat-header-name">{{account}}</div>'
@@ -1495,29 +1475,6 @@ var chatRoomContentTemplate = '<div id="chat-header-area">'
   + '<div id="chat-room-input-area">'
   + '<input type="text" id="chat-room-input" autocomplete="off" onkeypress="sendMessage(event)"/>'
   + '</div>';
-
-
-// chat message template
-// <div id="chat-message-area">
-// <div class="chat-messages">
-// <img class="chat-message-user-icon" src="img/userIcon.png"/>
-// <div class="chat-message">
-// 安安安安安安安
-// </div>
-// <div class="chat-time">
-// 下午 13:03
-// </div>
-// </div>
-// <div class="chat-messages own-messages">
-// <img class="chat-message-user-icon" src="img/userIcon.png"/>
-// <div class="chat-message">
-// 安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安安
-// </div>
-// <div class="chat-time">
-// 下午 13:03
-// </div>
-// </div>
-// </div>
 
 var replyMsgTemplate = '<div class="chat-messages">'
   + '<img class="chat-message-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}"/>'

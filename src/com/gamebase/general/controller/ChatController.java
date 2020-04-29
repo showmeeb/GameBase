@@ -37,6 +37,9 @@ import com.gamebase.general.model.WebSocketMessage;
 import com.gamebase.general.model.dao.ChatRoomCrudRepository;
 import com.gamebase.general.model.service.ChatRoomService;
 import com.gamebase.general.model.service.GeneralService;
+import com.google.gson.Gson;
+
+import net.sf.json.JSONObject;
 
 @Controller
 @MultipartConfig
@@ -121,7 +124,7 @@ public class ChatController {
 			sendMultiFile(bean, bean.getFrom(), bean.getTo()[0]);
 		}
 		Map<String, String> result = new HashMap<>();
-		if (type != null) {
+		if (file != null && file.getSize() != 0) {
 			result.put("type", type);
 		} else {
 			result.put("type", null);
@@ -152,11 +155,6 @@ public class ChatController {
 			bean.setURL(result.getURL());
 			bean.setTime(result.getTime());
 			sendMultiMessage(bean, bean.getFrom(), bean.getTo()[0]);
-//			System.out.println("---------queryNext----------");
-//			System.out.println(bean.getFrom());
-//			System.out.println(bean.getTo());
-//			System.out.println(bean.getMessage());
-//			System.out.println(bean.getTime());
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
@@ -170,14 +168,31 @@ public class ChatController {
 			return null;
 		}
 	}
-	
-	@GetMapping(path = "/broadcast", produces = "application/json")
-	public Map<String, String> sendTopicMessage(@RequestBody WebSocketMessage msg) {
 
-		simpMessagingTemplate.convertAndSendToUser(msg.getFrom(), "/topic/messages/broadcast", msg);
+	@PostMapping(path = "/Broadcast/{userId}", produces = "application/json")
+	@ResponseBody
+	public Map<String, String> sendTopicMessage(@PathVariable("userId") Integer userId,
+			@RequestBody String body, Model model) {
+		System.out.println(userId);
+		System.out.println(body);
 		
-		return null;
-
+		Gson gson = new Gson();
+		Map requestMap = gson.fromJson(body, Map.class);
+		
+		String broadcastMsg = (String) requestMap.get("broadcast");
+		System.out.println(broadcastMsg);
+		
+		WebSocketMessage bean = new WebSocketMessage();
+		bean.setFrom(userId.toString());
+		bean.setMessage(broadcastMsg);
+		sendMultiTopicMessage(bean, bean.getFrom());
+		Map<String, String> result = new HashMap<>();
+		if (body != null && body.length() != 0) {
+			result.put("true", bean.getFrom());
+		} else {
+			result.put("false", null);
+		}
+		return result;
 	}
 
 	public void sendMultiFile(WebSocketMessage msg, String... receivers) {
@@ -192,10 +207,10 @@ public class ChatController {
 			simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages/history", msg);
 		}
 	}
-	public void sendMultiTopicMessage(WebSocketMessage msg, String... receivers) {
-		for (String receiver : receivers) {
-			simpMessagingTemplate.convertAndSendToUser(receiver, "/topic/messages/broadcast", msg);
-		}
+
+	public void sendMultiTopicMessage(WebSocketMessage msg, String sender) {
+
+		simpMessagingTemplate.convertAndSendToUser(sender, "/topic/messages/broadcast", msg);
 	}
 
 	@EventListener
