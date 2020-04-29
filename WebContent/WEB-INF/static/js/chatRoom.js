@@ -66,7 +66,6 @@ $(document).ready(function () {
     $("#regiest-str").addClass("hidden-window", 700);
     $("#mainCenter").removeClass("hidden-window", 700);
     $("#logout-str").removeClass("hidden-window", 700);
-    $("#mainCenter").removeClass("hidden-window", 700);
     $("[data-toggle='popover']").removeClass("disable");
     if(login.rankId==4){
   	  $("#admin-broadcast").removeClass("hidden-window", 700);
@@ -104,6 +103,7 @@ $(document).ready(function () {
     $("#shadow").fadeIn(700);
   });
 
+  // logout button
   $("#logout-str").click(function () {
     $("#login-submit-btn").removeClass("disable");
     $(".shot").addClass("disable", 700,function(){
