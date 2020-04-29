@@ -824,23 +824,6 @@ function emptyChatContentArea() {
 }
 
 function showUsersDiaglog(element) {
-//    var sender = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
-//    var receiver = $(element).children(".chat-room-user-id").text();
-//    let formData = new FormData();
-//    formData.append('sender', sender);
-//    formData.append('receiver', receiver);
-//    $.ajax({
-//        url: "/GameBase/Query",
-//        type: "POST",
-//        data: formData,
-//        contentType: false,
-//        processData: false,
-//        success: function (data) {
-//           if(data){
-//               console.log(data);
-//           }
-//        }
-//    });
 	
   // get chat room object from sessionStorage
   var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
@@ -1198,17 +1181,17 @@ function connectChatRoom() {
         showMessageOutput(JSON.parse(msgOutput.body), false);
       }
     });
+    stompClient.subscribe('/topic/messages/broadcast', function (msgOutput) {
+        showMessageOutput(JSON.parse(msgOutput.body), false);
+      });
     // /user原始碼-->/queue/message-{websocket session id}
     stompClient.subscribe('/user/queue/messages', function (msgOutput) {
-//      console.log('subscribe_msgOutput.body: ' + msgOutput.body);
       showMessageOutput(JSON.parse(msgOutput.body), false);
     });
     // subscribe History
     stompClient.subscribe('/user/queue/messages/history', function (msgOutput) {
-//        console.log('subscribe_history_msgOutput.body: ' + msgOutput.body);
         showMessageOutput(JSON.parse(msgOutput.body), true);
       });
-    // stompClient.send("/app/chat", {}, JSON.stringify({'msg':'userLogin'}));
     // get online list
     var data = JSON.parse(window.sessionStorage.getItem("loginUser"));
     sendWebSocketMessage({ from: data.userId, to: ['regist'], message: '', time: Date.now() });
