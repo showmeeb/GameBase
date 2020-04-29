@@ -12,6 +12,7 @@ import com.gamebase.article.model.ArticleListView;
 import com.gamebase.article.model.ArticleRecord;
 import com.gamebase.article.model.ArticleTitle;
 import com.gamebase.article.model.ContentListView;
+import com.gamebase.article.model.FriendsInfoView;
 import com.gamebase.article.model.dao.ArticleContentDAO;
 import com.gamebase.article.model.dao.ArticleRecordDAO;
 import com.gamebase.article.model.dao.ArticleTitleDAO;
@@ -175,6 +176,10 @@ public class ArticleService {
 	
 	public Friends updateFriendsByUserIdAndAuthorId(Integer userId, Integer authorId) {
 		return clvDao.updateFriendByUserIdAndAuthorId(userId, authorId);
+	}
+	
+	public FriendsInfoView queryFriendsInfoView(Integer userId) {
+		return clvDao.queryFriendsInfoView(userId);
 	}
 	
 	//後台

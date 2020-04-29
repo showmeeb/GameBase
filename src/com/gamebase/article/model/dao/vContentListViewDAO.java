@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.gamebase.article.model.ContentListView;
+import com.gamebase.article.model.FriendsInfoView;
 import com.gamebase.member.model.Friends;
 
 @Repository
@@ -49,14 +50,23 @@ public class vContentListViewDAO {
 	
 	public Friends updateFriendByUserIdAndAuthorId(Integer userId, Integer authorId) {
 		Session session = sessionFactory.getCurrentSession();
-		Query<Friends> query = session
-				.createQuery("from Friends where userId = :userId and friendId = :friendId", Friends.class)
-				.setParameter("userId", userId)
-				.setParameter("friendId", authorId);
-		Friends re = query.uniqueResult();
+//		Query<Friends> query = session
+//				.createQuery("from Friends where userId = :userId and friendId = :friendId", Friends.class)
+//				.setParameter("userId", userId)
+//				.setParameter("friendId", authorId);
+//		Friends re = query.uniqueResult();
+		Friends re = new Friends();
 		re.setUserId(userId);
 		re.setFriendId(authorId);
 		session.saveOrUpdate(re);
+		return re;
+	}
+	
+	public FriendsInfoView queryFriendsInfoView(Integer userId) {
+		Query<FriendsInfoView> query = sessionFactory.getCurrentSession()
+				.createQuery("from FriendsInfoView where userId = :userId", FriendsInfoView.class)
+				.setParameter("userId", userId);
+		FriendsInfoView re = query.uniqueResult();
 		return re;
 	}
 }
