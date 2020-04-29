@@ -81,8 +81,65 @@ iframe {
 #dt1 img {
 	width: 150px;
 }
+
+.cardSize {
+	width: 24.70%;
+	max-height:342px;
+	margin: 1px;
+	cursor: pointer;
+}
+
+.center {
+	margin: auto;
+}
+
+.bg-rgb220 {
+	background-color: rgb(220, 220, 220);
+	margin-bottom: 10px;
+}
+
+.bg-rgb245 {
+	background-color: rgb(245, 245, 245);
+}
+
+.card-title {
+	font-size: 17px;
+}
+
+.card-subtitle {
+	font-size: 13px;
+}
+
+.card-img-top {
+	height: 250px;
+}
+
+.selectBarBtn {
+	height: 99%;
+	width: 90px;
+}
+
+.pageBnt {
+	height: 99%;
+	border: none;
+}
+
+.pageLi {
+	margin-right: 3px;
+}
+
+#d1{display: none;}
+
+#resultsTable{
+	height:690px;
+	overflow:hidden;
+
+}
+
 </style>
 </head>
+
+
 
 <body>
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
@@ -158,33 +215,94 @@ iframe {
 	</div>
 
 
-	<nav id="nav-div"
-		style="bottom: 0; position: fixed; width: 1550px; height: 90px; padding: 0">
-		<div id="nav-div1" class="container-fluid"
-			style="height: 90px; margin: 0">
+	<div class="container">
+		<div class="row">
+			<div class="col-3 column text-center">ps、switch、pc</div>
+			<div class="col-9 column">
+				<div class="container">
+					<div class="row bg-rgb220 ">
+						<div class="col-6 align-self-center">
+							篩選
+							<button class="btn btn-light selectBarBtn">最熱銷</button>
+							<button class="btn btn-light selectBarBtn">最高價</button>
+							<button class="btn btn-light selectBarBtn">最低價</button>
 
-			<div style="position: fixed; bottom: 10px; right: 80px">
-				<span style="color: red;">總金額&nbsp;&nbsp;:&nbsp;&nbsp;</span><span
-					id="total" style="color: red;"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-				<button id="paybillF" style="width: 200px;"
-					class="btn btn-outline-success btn-lg" type="button"
-					data-toggle="modal" data-target="#exampleModalCenter">結&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;帳</button>
+						</div>
+						<div class="col-6 align-self-center">
+							<ul class="pagination justify-content-center" id="pageUl"></ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="container">
+					<div class="row" id="resultsTable"></div>
+				</div>
 			</div>
 		</div>
-	</nav>
+	</div>
 
 	<script type="text/javascript">
 		var u = window.sessionStorage.getItem("loginUser");
-
+		var pageItem=8;
+		var swArray;
+		var psArray;
 		window.onload = function() {
 			console.log(window.sessionStorage.getItem("loginUser"));
-			user.checkUser();
-			user.getRankId();
-			user.getUserId();
-			console.log(user.userId);
-			console.log(user.rankId);
+ 			 user.checkUser();
+// 			 user.getRankId();
+// 			 user.getUserId();
+ 			swArray=swich();
+//  			console.log("switch");
+//  			console.log(swArray);
+//  			psArray=ps();
+//  			console.log("ps");
+//  			console.log(psArray);
 
 		}
+
+		function numPage(response){
+			var pageNum = Math.ceil(response.length/pageItem); 
+			
+			var pageTxt = "";
+			for (i=1;i<=pageNum;i++){
+			pageTxt += '<li class="pageLi"><button id="'+i+'" class="btn btn-light pageBnt">'+i+'</button></li>'
+			}
+		    $("#pageUl").html(pageTxt);
+		}
+
+
+		$(document).on('click',".pageBnt",function(){
+			console.log($(this));
+//			console.log(psArray);
+			let toPage=this.id-1;
+			cardResults = "";
+			var response = psArray;
+	        for (i = 0+pageItem*toPage; i < pageItem+pageItem*toPage; i++) {
+	        	if(i<psArray.length){
+	        		var s = {
+				            productId: response[i].productId,
+				            productVideo: response[i].productVideo,
+				            productName: response[i].productName,
+				            productImg: response[i].productImg,
+				            productType: response[i].productType,
+				            inventory: response[i].inventory,
+				            productPrice: response[i].productPrice,
+				            productTag: response[i].productTag,
+				            productInfo: response[i].productInfo,
+				            amount: 1
+				        }
+			
+			   cardResults +='<div class="card cardSize" id="productDetail" role="button" tabindex="0"aria-pressed="true" data-toggle="modal"data-target="#d1">';
+	           cardResults += "<img class='card-img-top' src='"+response[i].productImg+"'alt='"+JSON.stringify(s)+"'>";				 //商品圖片
+	           cardResults += '<div class="card-body">';
+	           cardResults += '<h5 class="card-title cardsdd">'+response[i].productName+'</h5>';			     //商品標題
+	           cardResults += '<h6 class="card-subtitle mb-2 text-muted">NT$'+response[i].productPrice+'</h6>';	   //商品價格
+
+			   cardResults += '</div></div>';   
+	         }}
+	         $("#resultsTable").html(cardResults);
+			
+		})
 
 		var user = {
 			userId : 999,
@@ -281,38 +399,71 @@ iframe {
 
 		}
 
-		function showtable(response) {
-			var txt = "<tr><th>#<th>商品照片<th>商品名稱";
 
+// 		function showtable(response) {
+// 			var txt = "<tr><th>#<th>商品照片<th>商品名稱";
+
+// 			for (let i = 0; i < response.length; i++) {
+// 				var s = {
+// 					productId : response[i].productId,
+// 					productVideo : response[i].productVideo,
+// 					productName : response[i].productName,
+// 					productImg : response[i].productImg,
+// 					productType : response[i].productType,
+// 					inventory : response[i].inventory,
+// 					productPrice : response[i].productPrice,
+// 					productTag : response[i].productTag,
+// 					productInfo : response[i].productInfo,
+// 					amount : 1
+// 				};
+// 				//var a=JSON.stringify(s);
+// 				//console.log("a:"+a);
+// 				txt += "<tr><td>" + response[i].productId;
+// 				txt += "<td id='img'><span id='productDetail' role='button' tabindex='0'aria-pressed='true' data-toggle='modal'data-target='#d1'> <img src='"
+// 						+ response[i].productImg
+// 						+ "' alt='"
+// 						+ JSON.stringify(s) + "'></span>";
+// 				txt += "<td>" + response[i].productName;
+
+// 			}
+// 			$('#t1').html(txt);
+
+// 		}
+
+		function showCard(response){
+			var cardResults ="";
 			for (let i = 0; i < response.length; i++) {
-				var s = {
-					productId : response[i].productId,
-					productVideo : response[i].productVideo,
-					productName : response[i].productName,
-					productImg : response[i].productImg,
-					productType : response[i].productType,
-					inventory : response[i].inventory,
-					productPrice : response[i].productPrice,
-					productTag : response[i].productTag,
-					productInfo : response[i].productInfo,
-					amount : 1
-				};
-				//var a=JSON.stringify(s);
-				//console.log("a:"+a);
-				txt += "<tr><td>" + response[i].productId;
-				txt += "<td id='img'><span id='productDetail' role='button' tabindex='0'aria-pressed='true' data-toggle='modal'data-target='#d1'> <img src='"
-						+ response[i].productImg
-						+ "' alt='"
-						+ JSON.stringify(s) + "'></span>";
-				txt += "<td>" + response[i].productName;
-
+					var s = {
+				            productId: response[i].productId,
+				            productVideo: response[i].productVideo,
+				            productName: response[i].productName,
+				            productImg: response[i].productImg,
+				            productType: response[i].productType,
+				            inventory: response[i].inventory,
+				            productPrice: response[i].productPrice,
+				            productTag: response[i].productTag,
+				            productInfo: response[i].productInfo,
+				            amount: 1
+				        }
+			
+			   cardResults +='<div class="card cardSize" id="productDetail" role="button" tabindex="0"aria-pressed="true" data-toggle="modal"data-target="#d1">';
+	           cardResults += "<img class='card-img-top' src='"+response[i].productImg+"'alt='"+JSON.stringify(s)+"'>";				 //商品圖片
+	           cardResults += '<div class="card-body">';
+	           cardResults += '<h5 class="card-title cardsdd">'+response[i].productName+'</h5>';			     //商品標題
+	           cardResults += '<h6 class="card-subtitle mb-2 text-muted">NT$'+response[i].productPrice+'</h6>';	   //商品價格
+		//     cardResults += '<p class="card-text">'+jsonResults[i].productInfo+'</p>'								 //商品介紹e
+			   cardResults += '</div></div>';  
+				}
+			   $("#resultsTable").html(cardResults);
 			}
-			$('#t1').html(txt);
 
-		}
+
+
+		
 		$(document).on('click', '#productDetail', function() {
-			var $tr = $(this).parents("tr");
-			var s = $tr.find("img").attr("alt");
+			console.log(swich);
+			var $img = $(this).find('img');
+			var s = $img.attr("alt");
 			var a = JSON.parse(s);
 			$('#d4').html(showprodetail(a));
 
@@ -324,7 +475,7 @@ iframe {
 						function() {
 							var a = $('#youtube').attr("alt");
 							var video = JSON.parse(a);
-							//console.log(a);
+							console.log(a);
 							$('#youtube').attr({
 								id : "youtube1"
 							});
@@ -343,137 +494,24 @@ iframe {
 
 		})
 
-				- $(document)
-						.on(
+			 $(document).on(
 								'click',
 								'#swp',
 								function() {
-
-									var type = "switch";
-									$
-											.ajax({
-												url : "shopping/switchProduct",
-												datatype : "json",
-												type : "POST",
-												data : {
-													type : type
-												},
-												success : function(response) {
-													console.log(response);
-													showtable(response);
-												},
-												complete : function() {
-													$('#d1')
-															.addClass(
-																	"modal fade")
-															.attr(
-																	{
-																		"id" : "d1",
-																		"tabindex" : "-1",
-																		"role" : "dialog",
-																		"aria-labelledby" : "exampleModalCenterTitle",
-																		"aria-hidden" : "true"
-																	});
-													$('#d2')
-															.addClass(
-																	"modal-dialog modal-xl modal-dialog-centered")
-															.attr(
-																	{
-																		"role" : "document"
-																	});
-													$('#d3').addClass(
-															"modal-content");
-													$('#d4').addClass(
-															"modal-body");
-
-												}
-											});
+									swich();
 								})
-		$(document)
-				.on(
+		$(document).on(
 						'click',
 						'#psp',
 						function() {
-							var type = "PS";
-							$
-									.ajax({
-										url : "shopping/switchProduct",
-										datatype : "text",
-										type : "POST",
-										data : {
-											type : type
-										},
-										success : function(response) {
-
-											var response = JSON.parse(JSON
-													.stringify(response));
-											console.log(response);
-											showtable(response);
-										},
-										complete : function() {
-											$('#d1')
-													.addClass("modal fade")
-													.attr(
-															{
-																"tabindex" : "-1",
-																"role" : "dialog",
-																"aria-labelledby" : "exampleModalCenterTitle",
-																"aria-hidden" : "true"
-															});
-											$('#d2')
-													.addClass(
-															"modal-dialog modal-xl modal-dialog-centered")
-													.attr({
-														"role" : "document"
-													});
-											$('#d3').addClass("modal-content");
-											$('#d4').addClass("modal-body");
-
-										}
-									});
+							ps();
 						})
 		$(document)
 				.on(
 						'click',
 						'#pcp',
 						function() {
-							var type = "pc";
-							$
-									.ajax({
-										url : "shopping/switchProduct",
-										datatype : "text",
-										type : "POST",
-										data : {
-											type : type
-										},
-										success : function(response) {
-											console.log(response);
-											var response = JSON.parse(JSON
-													.stringify(response));
-											showtable(response);
-										},
-										complete : function() {
-											$('#d1')
-													.addClass("modal fade")
-													.attr(
-															{
-																"tabindex" : "-1",
-																"role" : "dialog",
-																"aria-labelledby" : "exampleModalCenterTitle",
-																"aria-hidden" : "true"
-															});
-											$('#d2')
-													.addClass(
-															"modal-dialog modal-xl modal-dialog-centered")
-													.attr({
-														"role" : "document"
-													});
-											$('#d3').addClass("modal-content");
-											$('#d4').addClass("modal-body");
-
-										}
-									});
-
+							pc();
 						})
 
 		$(document).on('click', '#addProduct1', function() {
@@ -533,6 +571,147 @@ iframe {
 		//$('#shopcart').click(function(){
 		//	window.location.href("/shoppingCartPage");
 		//	})
+		
+		
+		function swich() {
+									var type = "switch";
+									var array;
+									$.ajax({
+												async: false,
+												url : "shopping/switchProduct",
+												datatype : "json",
+												type : "POST",
+												data : {
+													type : type
+												},
+												success : function(response) {
+													console.log(response);
+													showCard(response);
+													numPage(response);
+													array=response;
+// 													console.log("asdasd");
+// 													console.log(array);
+													//showtable(response);
+												},
+												complete : function() {
+													$('#d1')
+															.addClass(
+																	"modal fade")
+															.attr(
+																	{
+																		"id" : "d1",
+																		"tabindex" : "-1",
+																		"role" : "dialog",
+																		"aria-labelledby" : "exampleModalCenterTitle",
+																		"aria-hidden" : "true"
+																	});
+													$('#d2')
+															.addClass(
+																	"modal-dialog modal-xl modal-dialog-centered")
+															.attr(
+																	{
+																		"role" : "document"
+																	});
+													$('#d3').addClass(
+															"modal-content");
+													$('#d4').addClass(
+															"modal-body");
+
+												}
+											});
+				
+									return array;
+		}
+
+		function ps() {
+			var type = "PS";
+			var array;
+			$.ajax({
+						async: false,
+						url : "shopping/switchProduct",
+						datatype : "text",
+						type : "POST",
+						data : {
+							type : type
+						},
+						success : function(response) {
+
+							var response = JSON.parse(JSON
+									.stringify(response));
+							console.log(response);
+							showCard(response);
+							numPage(response);
+							array=response;
+							//showtable(response);
+						},
+						complete : function() {
+							$('#d1')
+									.addClass("modal fade")
+									.attr(
+											{
+												"tabindex" : "-1",
+												"role" : "dialog",
+												"aria-labelledby" : "exampleModalCenterTitle",
+												"aria-hidden" : "true"
+											});
+							$('#d2')
+									.addClass(
+											"modal-dialog modal-xl modal-dialog-centered")
+									.attr({
+										"role" : "document"
+									});
+							$('#d3').addClass("modal-content");
+							$('#d4').addClass("modal-body");
+
+						}
+					});
+			return array;
+		}
+
+		function pc() {
+			var type = "pc";
+			var array;
+			$.ajax({
+						async: false,
+						url : "shopping/switchProduct",
+						datatype : "text",
+						type : "POST",
+						data : {
+							type : type
+						},
+						success : function(response) {
+							console.log(response);
+							var response = JSON.parse(JSON
+									.stringify(response));
+							showCard(response);
+							numPage(response);
+							array=response;
+							//showtable(response);
+						},
+						complete : function() {
+							$('#d1')
+									.addClass("modal fade")
+									.attr(
+											{
+												"tabindex" : "-1",
+												"role" : "dialog",
+												"aria-labelledby" : "exampleModalCenterTitle",
+												"aria-hidden" : "true"
+											});
+							$('#d2')
+									.addClass(
+											"modal-dialog modal-xl modal-dialog-centered")
+									.attr({
+										"role" : "document"
+									});
+							$('#d3').addClass("modal-content");
+							$('#d4').addClass("modal-body");
+
+						}
+					});
+			return array;
+
+		}
 	</script>
 
 </body>
