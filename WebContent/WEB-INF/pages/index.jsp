@@ -54,7 +54,6 @@
 		</div>
 		<hr>
 
-
 		<div class="row column">
 			<div class="col-md-12 column">
 			<h3>熱門商品</h3>
@@ -68,6 +67,7 @@
 		</div>
 		<hr>
 	</div>
+	<div id="snackbar"></div>
 
 	<jsp:include page="footer.jsp" />
 

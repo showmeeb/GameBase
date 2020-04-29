@@ -8,8 +8,9 @@
 <meta charset="UTF-8">
 <style>
 .cardSize {
-	width: 24.99%;
-	height: margin:1px;
+	width: 24.70%;
+	margin: 1px;
+	cursor: pointer;
 }
 
 .center {
@@ -38,15 +39,17 @@
 }
 
 .selectBarBtn {
+	height: 99%;
 	width: 90px;
-	height: 40px;
-	margin: 5px 2px 5px 2px;
 }
 
-.fasBnt {
-	width: 25px;
-	height: 25px;
+.pageBnt {
+	height: 99%;
 	border: none;
+}
+
+.pageLi {
+	margin-right: 3px;
 }
 </style>
 </head>
@@ -54,23 +57,21 @@
 
 	<jsp:include page="topBar.jsp" />
 
-	<div class="container ">
+	<div class="container">
 		<div class="row">
 			<div class="col-3 column text-center">ps、switch、pc</div>
 			<div class="col-9 column">
 				<div class="container">
 					<div class="row bg-rgb220 ">
-						<div class="col-10 align-items-center">
+						<div class="col-6 align-self-center">
 							篩選
 							<button class="btn btn-light selectBarBtn">最熱銷</button>
 							<button class="btn btn-light selectBarBtn">最高價</button>
 							<button class="btn btn-light selectBarBtn">最低價</button>
 
 						</div>
-						<div class="col-2 text-right">
-							<button class="fasBnt">＜</button>
-							[1]
-							<button class="fasBnt">＞</button>
+						<div class="col-6 align-self-center">
+							<ul class="pagination justify-content-center" id="pageUl"></ul>
 						</div>
 					</div>
 				</div>
@@ -87,22 +88,60 @@
 	<script>
 
         var jsonResults = JSON.parse(JSON.stringify(${ results }));
-		var txt = "";
+		var cardResults = "";
+		var pageItem=6;
+		
+		var pageNum = Math.ceil(jsonResults.length/pageItem); 
 
-		var pageNum =Math.ceil(jsonResults.length/4); 
+        for (i = 0; i < pageItem; i++) {
+        	if(i<jsonResults.length){        		   
+	           cardResults += '<div class="card cardSize" id="'+jsonResults[i].productId+'">';
+	           cardResults += '<img class="card-img-top" src="'+jsonResults[i].productImg+'">'  					 //商品圖片
+	           cardResults += '<div class="card-body">'
+	           cardResults += '<h5 class="card-title cardsdd">'+jsonResults[i].productName+'</h5>' 				     //商品標題
+	           cardResults += '<h6 class="card-subtitle mb-2 text-muted">NT$'+jsonResults[i].productPrice+'</h6>'	 //商品價格
+		//     cardResults += '<p class="card-text">'+jsonResults[i].productInfo+'</p>'								 //商品介紹e
+			   cardResults += '</div></div>'  
+        }}
+        $("#resultsTable").append(cardResults);
 
-        for (i = 0; i < jsonResults.length; i++) {
-   
-           txt += '<div class="card cardSize">';
-           txt += '<img class="card-img-top" src="'+jsonResults[i].productImg+'">'  					 //商品圖片
-	       txt += '<div class="card-body">'
-	       txt += '<h5 class="card-title cardsdd">'+jsonResults[i].productName+'</h5>' 							 //商品標題
-	       txt += '<h6 class="card-subtitle mb-2 text-muted">NT$'+jsonResults[i].productPrice+'</h6>'	 //商品價格
-	//     txt += '<p class="card-text">'+jsonResults[i].productInfo+'</p>'								 //商品介紹
-		   txt += '</div></div>'  
-        }
-        $("#resultsTable").append(txt);
+        
+		var pageTxt = "";
+		for (i=1;i<=pageNum;i++){
+		pageTxt += '<li class="pageLi"><button id="'+i+'" class="btn btn-light pageBnt">'+i+'</button></li>'
+		}
+	    $("#pageUl").append(pageTxt);
+		
 
+		$(".pageBnt").click(function(){
+			let toPage=this.id-1;
+			cardResults = "";
+
+	        for (i = 0+pageItem*toPage; i < pageItem+pageItem*toPage; i++) {
+	        	if(i<jsonResults.length){
+	        		cardResults += '<div class="card cardSize" id="'+jsonResults[i].productId+'">';
+		            cardResults += '<img class="card-img-top" src="'+jsonResults[i].productImg+'">'  					 //商品圖片
+		            cardResults += '<div class="card-body">'
+		            cardResults += '<h5 class="card-title cardsdd">'+jsonResults[i].productName+'</h5>' 				 //商品標題
+		            cardResults += '<h6 class="card-subtitle mb-2 text-muted">NT$'+jsonResults[i].productPrice+'</h6>'	 //商品價格
+		 	//      cardResults += '<p class="card-text">'+jsonResults[i].productInfo+'</p>'							 //商品介紹
+		 		    cardResults += '</div></div>'  
+	         }}
+	         $("#resultsTable").html(cardResults);
+			
+		})
+        
+       // for(i=0;i){console.log(productId)}
+		
+
+        
+        $(document).on('click','.card',function(){
+            for (i in jsonResults) {
+                if (jsonResults[i].productId == this.id) {
+                    
+                }
+              }
+        })
     </script>
 
 

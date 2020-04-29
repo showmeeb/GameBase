@@ -20,6 +20,7 @@ import org.springframework.messaging.simp.user.SimpUser;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -107,7 +108,7 @@ public class ChatController {
 			bean.setURL("img/PDF_file_icon.jpg");
 //			System.out.println("123fffffffffffffff");
 			bean.setTime(new Timestamp(System.currentTimeMillis()));
-			sendMulti(bean, bean.getFrom(), bean.getTo()[0]);
+			sendMultiFile(bean, bean.getFrom(), bean.getTo()[0]);
 		} else {
 			String fileURL = generalService.uploadToImgur(file);
 			System.out.println(fileURL);
@@ -117,7 +118,7 @@ public class ChatController {
 			bean.setType(type);
 			bean.setURL(fileURL);
 			bean.setTime(new Timestamp(System.currentTimeMillis()));
-			sendMulti(bean, bean.getFrom(), bean.getTo()[0]);
+			sendMultiFile(bean, bean.getFrom(), bean.getTo()[0]);
 		}
 		Map<String, String> result = new HashMap<>();
 		if (type != null) {
@@ -126,44 +127,6 @@ public class ChatController {
 			result.put("type", null);
 		}
 		return result;
-	}
-
-	@PostMapping(path = "/Query", produces = "application/json")
-	@ResponseBody
-	public List<ChatRoom> query(@RequestParam(name = "sender") String sender,
-			@RequestParam(name = "receiver") String receiver, Model model) {
-		List<ChatRoom> chatHistory = null;
-		chatHistory = cService.queryHistory(sender, receiver);
-		// reverse list
-//		Collections.reverse(chatHistory);
-		for (ChatRoom result : chatHistory) {
-			WebSocketMessage bean = new WebSocketMessage();
-			bean.setFrom(result.getSender().toString());
-			bean.setTo(new String[] { result.getReceiver().toString() });
-			bean.setMessage(result.getHistory());
-			bean.setType(result.getType());
-			bean.setURL(result.getURL());
-			bean.setTime(result.getTime());
-			sendMultiMessage(bean, bean.getFrom(), bean.getTo()[0]);
-			System.out.println("---------query-----------");
-			System.out.println(bean.getFrom());
-			System.out.println(bean.getTo());
-			System.out.println(bean.getMessage());
-			System.out.println(bean.getTime());
-			try {
-				Thread.sleep(200);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
-		if (chatHistory != null) {
-			return chatHistory;
-		} else {
-			return null;
-		}
-
 	}
 
 	@PostMapping(path = "/Query/{chatHistoryPage}", produces = "application/json")
@@ -176,7 +139,6 @@ public class ChatController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		List<ChatRoom> chatHistory = null;
 		chatHistory = cService.queryHistoryNext(sender, receiver, chatHistoryPage);
 		// reverse list
@@ -190,12 +152,11 @@ public class ChatController {
 			bean.setURL(result.getURL());
 			bean.setTime(result.getTime());
 			sendMultiMessage(bean, bean.getFrom(), bean.getTo()[0]);
-			System.out.println("---------queryNext----------");
-			System.out.println(bean.getFrom());
-			System.out.println(bean.getTo());
-			System.out.println(bean.getMessage());
-			System.out.println(bean.getTime());
-			
+//			System.out.println("---------queryNext----------");
+//			System.out.println(bean.getFrom());
+//			System.out.println(bean.getTo());
+//			System.out.println(bean.getMessage());
+//			System.out.println(bean.getTime());
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
@@ -203,16 +164,23 @@ public class ChatController {
 				e.printStackTrace();
 			}
 		}
-
 		if (chatHistory != null) {
 			return chatHistory;
 		} else {
 			return null;
 		}
+	}
+	
+	@GetMapping(path = "/broadcast", produces = "application/json")
+	public Map<String, String> sendTopicMessage(@RequestBody WebSocketMessage msg) {
+
+		simpMessagingTemplate.convertAndSendToUser(msg.getFrom(), "/topic/messages/broadcast", msg);
+		
+		return null;
 
 	}
 
-	public void sendMulti(WebSocketMessage msg, String... receivers) {
+	public void sendMultiFile(WebSocketMessage msg, String... receivers) {
 		for (String receiver : receivers) {
 			simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages", msg);
 		}
@@ -222,6 +190,11 @@ public class ChatController {
 	public void sendMultiMessage(WebSocketMessage msg, String... receivers) {
 		for (String receiver : receivers) {
 			simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages/history", msg);
+		}
+	}
+	public void sendMultiTopicMessage(WebSocketMessage msg, String... receivers) {
+		for (String receiver : receivers) {
+			simpMessagingTemplate.convertAndSendToUser(receiver, "/topic/messages/broadcast", msg);
 		}
 	}
 

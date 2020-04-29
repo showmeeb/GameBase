@@ -91,3 +91,8 @@
     <button id="return-login-btn">返回登入</button>
 </div>
 <!-- End regist-reply area -->
+
+<!-- Start admin-broadcast area -->
+<div class="admin-broadcast-area popup-window hidden-window">
+	<i class="fas fa-times close-btn"></i>
+</div>
