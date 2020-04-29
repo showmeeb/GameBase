@@ -42,35 +42,35 @@ public class MemberController {
 //		return "ProfilePage";
 //
 //	}
-
-	@RequestMapping(value = "/userProfileCreate", method = RequestMethod.GET)
-	public String goProfile() {
-		return "ProfilePage";
-	}
-
-	@RequestMapping(value = "/updateProfile", produces = "application/json", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> updateProfile(ModelMap model,HttpServletRequest request) {
-//		System.out.println("Update123" + userId);
-
-		UsersInfo myUser = (UsersInfo) model.getAttribute("loginUser");
-		UserProfile myUp = uService.getProfileByUserId(myUser.getUserId());
-		String url = "/GameBase/userProfileCreate";
-		if (myUp == null) {
-			myUp = new UserProfile();
-			myUp.setUserId(myUser.getUserId());
-
-			uService.saveUserPrfile(myUp);
-			request.getSession().setAttribute("userProfile", myUp);
-			model.addAttribute("userProfile", myUp);
-
-		}
-		request.getSession().setAttribute("userProfile", myUp);
-		model.addAttribute("userProfile", myUp);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("url", url);
-		return map;
-	}
+//
+//	@RequestMapping(value = "/userProfileCreate", method = RequestMethod.GET)
+//	public String goProfile() {
+//		return "ProfilePage";
+//	}
+//
+//	@RequestMapping(value = "/updateProfile", produces = "application/json", method = RequestMethod.POST)
+//	@ResponseBody
+//	public Map<String, Object> updateProfile(ModelMap model,HttpServletRequest request) {
+////		System.out.println("Update123" + userId);
+//
+//		UsersInfo myUser = (UsersInfo) model.getAttribute("loginUser");
+//		UserProfile myUp = uService.getProfileByUserId(myUser.getUserId());
+//		String url = "/GameBase/userProfileCreate";
+//		if (myUp == null) {
+//			myUp = new UserProfile();
+//			myUp.setUserId(myUser.getUserId());
+//
+//			uService.saveUserPrfile(myUp);
+//			request.getSession().setAttribute("userProfile", myUp);
+//			model.addAttribute("userProfile", myUp);
+//
+//		}
+//		request.getSession().setAttribute("userProfile", myUp);
+//		model.addAttribute("userProfile", myUp);
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("url", url);
+//		return map;
+//	}
 
 //	@RequestMapping(value="/saveProfile",method=RequestMethod.POST)
 //	public String saveProfileAction(@RequestParam("userId") Integer userId, @RequestParam("name") String name,
