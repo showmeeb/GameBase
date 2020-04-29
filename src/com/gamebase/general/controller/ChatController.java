@@ -172,26 +172,25 @@ public class ChatController {
 	@PostMapping(path = "/Broadcast/{userId}", produces = "application/json")
 	@ResponseBody
 	public Map<String, String> sendTopicMessage(@PathVariable("userId") Integer userId,
-			@RequestBody String body, Model model) {
+			@RequestParam(name = "broadcast") String body, Model model) {
 		System.out.println(userId);
 		System.out.println(body);
 		
-		Gson gson = new Gson();
-		Map requestMap = gson.fromJson(body, Map.class);
-		
-		String broadcastMsg = (String) requestMap.get("broadcast");
-		System.out.println(broadcastMsg);
+//		Gson gson = new Gson();
+//		Map requestMap = gson.fromJson(body, Map.class);
+//		
+//		String broadcastMsg = (String) requestMap.get("broadcast");
+//		System.out.println(broadcastMsg);
 		
 		WebSocketMessage bean = new WebSocketMessage();
-		bean.setFrom(userId.toString());
-		bean.setMessage(broadcastMsg);
-		sendMultiTopicMessage(bean, bean.getFrom());
+		bean.setMessage(body);
+		sendMultiTopicMessage(bean);
 		Map<String, String> result = new HashMap<>();
-		if (body != null && body.length() != 0) {
-			result.put("true", bean.getFrom());
-		} else {
+//		if (body != null && body.length() != 0) {
+//			result.put("true", bean.getFrom());
+//		} else {
 			result.put("false", null);
-		}
+//		}
 		return result;
 	}
 
@@ -208,9 +207,9 @@ public class ChatController {
 		}
 	}
 
-	public void sendMultiTopicMessage(WebSocketMessage msg, String sender) {
+	public void sendMultiTopicMessage(WebSocketMessage msg) {
 
-		simpMessagingTemplate.convertAndSendToUser(sender, "/topic/messages/broadcast", msg);
+		simpMessagingTemplate.convertAndSend("/topic/messages/broadcast", msg);
 	}
 
 	@EventListener
