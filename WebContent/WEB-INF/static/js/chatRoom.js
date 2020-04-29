@@ -203,6 +203,7 @@ function userLogin() {
           $("#login-str").addClass("hidden-window", 700);
           $("#regiest-str").addClass("hidden-window", 700);
           $("#logout-str").removeClass("hidden-window", 700);
+          $("#mainCenter").removeClass("hidden-window", 700)
 
         } else {
           alert("帳號或密碼不符合");
