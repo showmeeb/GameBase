@@ -1,3 +1,4 @@
+
 $("#document").ready(function () {
 	console.log("this is content.js");
 
@@ -39,7 +40,6 @@ $("#document").ready(function () {
 		}else{
 			$(".firends_area[authorId="+authorId+"]").removeClass("hidden-window");
 		}
-//		$(".btn_add_friends").click(addfriend(userId,authorId));
 		console.log(friendsStatus);	
 	});
 	
@@ -51,12 +51,6 @@ $("#document").ready(function () {
 var friendsStatus = {};
 var authorId;
 var userId;
-//var authorData = {
-//	"userId": "1",
-//	"account": "",
-//	"nickName": "",
-//	"img": "https://i.imgur.com/U2MY6nK.png"
-//};
 
 function update_content(btn){
 	var forumId = JSON.parse(window.sessionStorage.getItem("forum")).forumId;
@@ -200,4 +194,3 @@ var friendTemplate =
 		+'<button id="delete">已加為好友</button>'
 		+'</div>'
 		+'</div>';
-

@@ -54,17 +54,24 @@ $(document).ready(function () {
 	
   if (window.sessionStorage.getItem("loginUser") != "") {
     var login = JSON.parse(window.sessionStorage.getItem("loginUser"));
+//    $(".dropdown button[name='dmb-u']").html(login.account);
     if (login.img) {
       $(".shot").removeClass("disable");
-      $(".shot").attr("src", login.img).attr("id",login.userId);;
+      $(".shot").attr("src", login.img).attr("id",login.userId);
     } else {
       $(".shot").removeClass("disable");
       $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg").attr("id",login.userId);;
     }
     $("#login-str").addClass("hidden-window", 700);
     $("#regiest-str").addClass("hidden-window", 700);
+    $("#mainCenter").removeClass("hidden-window", 700);
     $("#logout-str").removeClass("hidden-window", 700);
+    $("#mainCenter").removeClass("hidden-window", 700);
     $("[data-toggle='popover']").removeClass("disable");
+    if(login.rankId==4){
+  	  $("#admin-broadcast").removeClass("hidden-window", 700);
+    }
+   
 
   }
 
@@ -72,7 +79,7 @@ $(document).ready(function () {
     $(".login-area").removeClass("hidden-window", 700);
     $("#shadow").fadeIn(700);
   });
-
+ 
   $("#login-submit-btn").click(function () {
     userLogin();
   });
@@ -83,6 +90,13 @@ $(document).ready(function () {
     }
   });
 
+//**************Admin broadcast******************
+  $("#admin-broadcast").click(function(){
+  	console.log("got admin bro");
+  	$(".admin-broadcast-area").removeClass("hidden-window", 700);
+      $("#shadow").fadeIn(700);
+  })
+  
   // regist button
   $("#regiest-str").click(function () {
     $("#loggedin-list").fadeToggle(500);
@@ -99,9 +113,10 @@ $(document).ready(function () {
     $(".dropdown button[name='dmb-u']").html("會員系統");
     
     $("#logout-str").addClass("hidden-window", 700);
-
+    $("#mainCenter").addClass("hidden-window", 700);
     $("#login-str").removeClass("hidden-window", 700);
     $("#regiest-str").removeClass("hidden-window", 700);
+    $("#admin-broadcast").addClass("hidden-window", 700);
     $("[data-toggle='popover']").addClass("disable");
     // google logout
     googleSignOut();
@@ -166,7 +181,7 @@ function userLogin() {
           }
 
           //show userAccount
-          $(".dropdown button[name='dmb-u']").html(data.loginUser.account);
+//          $(".dropdown button[name='dmb-u']").html(data.loginUser.account);
           $("[data-toggle='popover']").removeClass("disable");
           
           // close login window
@@ -203,7 +218,12 @@ function userLogin() {
           $("#login-str").addClass("hidden-window", 700);
           $("#regiest-str").addClass("hidden-window", 700);
           $("#logout-str").removeClass("hidden-window", 700);
-
+          $("#mainCenter").removeClass("hidden-window", 700)
+          
+          if(data.loginUser.rankId==4){
+        	  $("#admin-broadcast").removeClass("hidden-window", 700);
+          }
+          
         } else {
           alert("帳號或密碼不符合");
           $("#login-submit-btn").removeClass("disable");
@@ -564,7 +584,8 @@ function attachSignin(element) {
             $("#login-str").addClass("hidden-window", 700);
             $("#regiest-str").addClass("hidden-window", 700);
             $("#logout-str").removeClass("hidden-window", 700);
-
+            $("#mainCenter").removeClass("hidden-window", 700);
+            
             // clear the form
             $(".input-group input").each(function () {
               $(this).val("");
@@ -823,23 +844,6 @@ function emptyChatContentArea() {
 }
 
 function showUsersDiaglog(element) {
-//    var sender = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
-//    var receiver = $(element).children(".chat-room-user-id").text();
-//    let formData = new FormData();
-//    formData.append('sender', sender);
-//    formData.append('receiver', receiver);
-//    $.ajax({
-//        url: "/GameBase/Query",
-//        type: "POST",
-//        data: formData,
-//        contentType: false,
-//        processData: false,
-//        success: function (data) {
-//           if(data){
-//               console.log(data);
-//           }
-//        }
-//    });
 	
   // get chat room object from sessionStorage
   var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
@@ -1197,17 +1201,17 @@ function connectChatRoom() {
         showMessageOutput(JSON.parse(msgOutput.body), false);
       }
     });
+    stompClient.subscribe('/topic/messages/broadcast', function (msgOutput) {
+        showMessageOutput(JSON.parse(msgOutput.body), false);
+      });
     // /user原始碼-->/queue/message-{websocket session id}
     stompClient.subscribe('/user/queue/messages', function (msgOutput) {
-//      console.log('subscribe_msgOutput.body: ' + msgOutput.body);
       showMessageOutput(JSON.parse(msgOutput.body), false);
     });
     // subscribe History
     stompClient.subscribe('/user/queue/messages/history', function (msgOutput) {
-//        console.log('subscribe_history_msgOutput.body: ' + msgOutput.body);
         showMessageOutput(JSON.parse(msgOutput.body), true);
       });
-    // stompClient.send("/app/chat", {}, JSON.stringify({'msg':'userLogin'}));
     // get online list
     var data = JSON.parse(window.sessionStorage.getItem("loginUser"));
     sendWebSocketMessage({ from: data.userId, to: ['regist'], message: '', time: Date.now() });

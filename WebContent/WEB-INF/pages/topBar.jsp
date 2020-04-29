@@ -57,7 +57,7 @@
 
 <body>
 	<nav class="navbar navbar-light topBarFixed " id="topBar">
-
+	
 		<!--LOGO-->
 		<div class="col-md-4 column ">
 			<a class="navbar-brand" href="<c:url value="/"/>"> <img
@@ -122,10 +122,11 @@
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 					<!-- Ajax -->
-					<a class="dropdown-item" id="login-str" href="#">登入</a> <a
-						class="dropdown-item" id="regiest-str" href="#">註冊</a> <a
-						class="dropdown-item hidden-window" id="logout-str" href="#">登出</a>
-	
+					<a class="dropdown-item" id="login-str" href="#">登入</a>
+					<a class="dropdown-item" id="regiest-str" href="#">註冊</a>
+					<a class="dropdown-item hidden-window" id="logout-str" href="#">登出</a>
+					<a class="dropdown-item hidden-window" id="mainCenter"href="<c:url value="/mainProduct"/>">管理中心</a>
+					<a class="dropdown-item hidden-window" id="admin-broadcast" href="#">管理員廣播</a>
 				</div>
 			</div>
 		</div>

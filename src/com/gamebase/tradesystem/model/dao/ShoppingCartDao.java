@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.hibernate.Session;
 
+import com.gamebase.tradesystem.model.OrderDetail;
 import com.gamebase.tradesystem.model.Product;
 import com.gamebase.tradesystem.model.ShoppingCart;
 import com.google.gson.Gson;
@@ -91,6 +92,28 @@ public class ShoppingCartDao {
 			return result;
 		}
 		
+	}
+	
+	public String shoppingCartUpdate(String data) {
+		Session session = sessionFactory.getCurrentSession();
+		JSONArray items = JSONArray.fromObject(data);
+		String t="false";
+		try {
+		for(int i=0;i<items.size();i++) {
+			JSONObject jobj=items.getJSONObject(i);
+			System.out.println("shoppingCartId"+Integer.valueOf(jobj.getString("shoppingCartId")));
+			ShoppingCart sc=session.get(ShoppingCart.class,Integer.valueOf(jobj.getString("shoppingCartId")));
+			System.out.println("amount"+Integer.valueOf(jobj.getString("amount")));
+			sc.setAmount(Integer.valueOf(jobj.getString("amount")));
+			t="true";
+		}
+		}catch(Exception e) {
+			e.printStackTrace();
+			t="false";
+		}finally {
+			System.out.println("t"+t);
+			return t;
+		}
 	}
 	
 	public ShoppingCart translateKey(String b) {

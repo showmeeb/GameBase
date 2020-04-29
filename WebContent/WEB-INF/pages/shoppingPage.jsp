@@ -4,7 +4,7 @@
 
 
 <!doctype html>
-<html lang="en">
+<html>
 <head>
 
 <!-- Required meta tags -->
@@ -287,6 +287,64 @@
 		    $('#youtubeX').remove();
 		
 		})
+
+
+
+		$(document).on('click', '#addProduct1',function() {
+
+			var a=$('#quantity_input').val();
+			var b = $('#itemdetail').text();
+			var b1=JSON.parse(b)
+			b1.amount=a;
+			b=JSON.stringify(b1);
+			console.log(b);
+			var user ;
+			if(u==""){
+						console.log("localStorage.length");
+						console.log(localStorage.length);
+						if(localStorage.length>4){
+							alert('訪客 購物車數量不能超過5<br>登入會員可以存20個');
+							}
+						else{
+							let i=1;
+							while(localStorage.hasOwnProperty(i)){
+								i+=1;
+								}
+							b1['lsId']=i;
+							b=JSON.stringify(b1);
+							console.log(b);
+							localStorage.setItem(i,b);
+							alert("放入成功");
+							}
+
+				}
+			else{
+						user =JSON.parse(u);
+						var userId=user.userId;
+						console.log("userId");
+						console.log(userId);
+						$.ajax({
+							async : false,
+							url : "shopping/addProduct",
+							dataType : "json",
+							type : "POST",
+							data : {
+								userId:userId,
+								b : b
+							},
+							success : function(response) {
+								console.log(response.t);
+								if (response.t == true) {
+									alert("放入成功");
+								} else {
+									alert("放入失敗");
+								}
+							}
+						});
+				}
+			
+			
+
 		
 		$(document).on('click', '#swp',
 		    function () {
@@ -447,7 +505,7 @@
 		        });
 		    }
 		
-		})
+
 		
 		$(document).on('click', '#order', function () {
 		    location.assign("orderPage");
