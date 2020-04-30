@@ -264,7 +264,7 @@ public class UserDataService {
 		return myBean;
 	}
 
-	public void setCookie(String account, String password, String save, HttpServletRequest request, HttpServletResponse response) {
+	public void setCookie(String account, String password, boolean save, HttpServletRequest request, HttpServletResponse response) {
 		udDao.setCookie(account, password, save, request, response);
 	}
 
