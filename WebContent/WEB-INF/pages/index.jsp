@@ -57,7 +57,7 @@
 		<div class="row column">
 			<div class="col-md-12 column">
 			<h3>熱門商品</h3>
-					<table class="resultCenter" id="resultsTable"></table>
+					<table class="resultCenter" id="resultsHotTable"></table>
 			</div>
 		</div>
 		<hr>
@@ -92,7 +92,7 @@
 		            txt += "<div>" + jsonResults[i].productName + "</div>";
 		            txt += "<div>" + jsonResults[i].productPrice + "</div></a>";
 		        }
-		        $("#resultsTable").append(txt);
+		        $("#resultsHotTable").append(txt);
 			}
 		});
 

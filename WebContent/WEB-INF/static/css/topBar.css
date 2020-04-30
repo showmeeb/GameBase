@@ -234,9 +234,11 @@ iframe {
 }
 
 #resultsTable {
-	
+	height: 690px;
 	overflow: hidden;
 }
+
+
 
 #switchBar {
 	width: 100%;
