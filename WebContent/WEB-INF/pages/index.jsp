@@ -111,6 +111,17 @@
 		    console.log("ff");	}
 		})
 		 */
+
+		 $(document).ready(function(){
+			console.log("page ready");
+			$.ajax({
+				url : "GameBase/getip",
+				type : "POST",
+				contentType : "application/json",
+				success : function(response) {
+					console.log(response)}
+				})
+			 })
 	</script>
 </body>
 </html>

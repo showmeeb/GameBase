@@ -90,5 +90,6 @@ public class SpringJavaConfig {
 		return new HibernateTransactionManager(sessionFactory());
 
 	}
-
+	
+	
 }
