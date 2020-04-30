@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gamebase.tradesystem.model.OrderDetail;
 import com.gamebase.tradesystem.model.UserOrder;
+import com.gamebase.tradesystem.model.service.ProductService;
 import com.gamebase.tradesystem.model.service.ShoppingService;
 import com.google.gson.Gson;
 
@@ -20,12 +21,12 @@ import net.sf.json.JSONObject;
 
 @Controller
 public class ShoppingController {
+	@Autowired
 	private ShoppingService  shoppingService;
+	@Autowired
+	private ProductService productService;
 	
 
-	public ShoppingController(ShoppingService shoppingService) {
-		this.shoppingService=shoppingService;
-	}
 	
 	@RequestMapping(path = "/shopping/switchProduct", method = RequestMethod.POST)
 	@ResponseBody
@@ -93,9 +94,11 @@ public class ShoppingController {
 //		System.out.println("uuId:"+uuId);
 //		System.out.println("orderDate:"+orderDate);
 //		System.out.println("orderPrice:"+orderPrice);
-		System.out.println("付款成功!!");
+		
 		shoppingService.sendOrderDetail(Integer.parseInt(orderId));
 		shoppingService.orderStatus(Integer.parseInt(rtnCode),Integer.parseInt(orderId));
+		productService.updateFreq(Integer.parseInt(orderId));
+		System.out.println("付款成功!!");
 	}
 	
 	@RequestMapping(path = "/orderPage/showOrder", method = RequestMethod.POST)
