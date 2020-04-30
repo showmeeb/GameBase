@@ -9,124 +9,13 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-
-
-<style type="text/css">
-.iconImg{width: 50px;}
-
-#d4 img {
-	width: 300px;
-	height: 450px;
-}
-
-iframe {
-	width: 400px;
-	height: 330px;
-}
-
-#youtubeX {
-	width: 400px;
-	height: 330px;
-	position: absolute;
-	top: 0px;
-	right: 0px;
-}
-
-#t1 {
-	border: 1px solid green;
-	width: 600px;
-}
-
-#dt1 {
-	width: 600px;
-	margin: auto;
-	right: 250px;
-}
-
-#dt1 img {
-	width: 150px;
-}
-
-.cardSize {
-	width: 24.70%;
-	max-height: 342px;
-	margin: 1px;
-	cursor: pointer;
-}
-
-.center {
-	margin: auto;
-}
-
-.bg-rgb220 {
-	background-color: rgb(220, 220, 220);
-	margin-bottom: 10px;
-}
-
-.bg-rgb245 {
-	background-color: rgb(245, 245, 245);
-}
-
-.card-title {
-	font-size: 17px;
-}
-
-.card-subtitle {
-	font-size: 13px;
-}
-
-.card-img-top {
-	height: 250px;
-}
-
-.selectBarBtn {
-	height: 99%;
-	width: 90px;
-}
-
-.pageBnt {
-	height: 99%;
-	border: none;
-}
-
-.pageLi {
-	margin-right: 3px;
-}
-
-#d1 {
-	display: none;
-}
-
-#resultsTable {
-	height: 690px;
-	overflow: hidden;
-}
-
-#switchBar {
-	width: 100%;
-	margin: 0;
-	padding: 0;
-}
-
-#switchBar li {
-	margin: 0px 20px 0px 20px;
-}
-
-#switchBar img {
-	width: 40px
-}
-</style>
 </head>
 
 
 
 <body>
 	<jsp:include page="topBar.jsp" />
-
-
-
-
+	
 	<div id="dt1">
 		<form>
 			<table id="t1">
@@ -158,9 +47,9 @@ iframe {
 						<li id="psp" class="nav-item" role="button" tabindex="0"
 							aria-pressed="true"><img
 							src="https://i.imgur.com/chcSF3h.png"></li>
-						<li id="pcp" class="nav-item" role="button" tabindex="0"
+						<li id="xboxp" class="nav-item" role="button" tabindex="0"
 							aria-pressed="true"><img
-							src="https://i.imgur.com/pnzStW7.png"></li>
+							src="https://i.imgur.com/ZfTAY8U.png"></li>
 					</ul>
 				</div>
 
@@ -362,8 +251,8 @@ iframe {
 		$(document).on('click', '#psp', function() {
 			array = ps();
 		})
-		$(document).on('click', '#pcp', function() {
-			array = pc();
+		$(document).on('click', '#xboxp', function() {
+			array = xbox();
 		})
 
 		$(document).on('click', '#addProduct1', function() {
@@ -482,8 +371,8 @@ iframe {
 			return array;
 		}
 
-		function pc() {
-			var type = "pc";
+		function xbox() {
+			var type = "xbox";
 			var array;
 			$.ajax({
 						async: false,
