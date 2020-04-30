@@ -134,10 +134,14 @@ iframe {
 		</form>
 	</div>
 
-	<div id="d1">
-		<div id="d2">
-			<div id="d3" style="width: 800px; height: 600px; display: flex; justify-content: flex-start; padding: 3px; margin: auto;">
-				<div id="d4"></div>
+	<div class="modal fade" id="d1" tabindex="-1"
+		role="dialog" aria-labelledby="d1"
+		aria-hidden="true">
+		<div  class="modal-dialog modal-lg modal-dialog-centered"
+			role="document">
+			<div  class="modal-content"
+				style="width: 800px; height: 600px; display: flex; justify-content: flex-start; padding: 3px; margin: auto;">
+				<div id="d4" class="modal-body"></div>
 			</div>
 		</div>
 	</div>
@@ -194,7 +198,7 @@ iframe {
 
 		window.onload = function() {
 			console.log(window.sessionStorage.getItem("loginUser"));
-			user.checkUser();
+			//user.checkUser();
 			// 			 user.getRankId();
 			// 			 user.getUserId();
 			//swich();
@@ -420,85 +424,61 @@ iframe {
 		//	window.location.href("/shoppingCartPage");
 		//	})
 
-		function swich() {
-			var type = "switch";
-			var array;
-			$.ajax({
-				async : false,
-				url : "shopping/switchProduct",
-				datatype : "json",
-				type : "POST",
-				data : {
-					type : type
-				},
-				success : function(response) {
-					console.log(response);
-					showCard(response);
-					numPage(response);
-					array = response;
-					// 													console.log("asdasd");
-					// 													console.log(array);
-					//showtable(response);
-				},
-				complete : function() {
-					$('#d1').addClass("modal fade").attr({
-						"id" : "d1",
-						"tabindex" : "-1",
-						"role" : "dialog",
-						"aria-labelledby" : "exampleModalCenterTitle",
-						"aria-hidden" : "true"
-					});
-					$('#d2').addClass(
-							"modal-dialog modal-xl modal-dialog-centered")
-							.attr({
-								"role" : "document"
-							});
-					$('#d3').addClass("modal-content");
-					$('#d4').addClass("modal-body");
+				function swich() {
+									var type = "switch";
+									var array;
+									$.ajax({
+												async: false,
+												url : "shopping/switchProduct",
+												datatype : "json",
+												type : "POST",
+												data : {
+													type : type
+												},
+												success : function(response) {
+													console.log(response);
+													showCard(response);
+													numPage(response);
+													array=response;
+// 													console.log("asdasd");
+// 													console.log(array);
+													//showtable(response);
+												},
+												complete : function() {
+													
 
-				}
-			});
-
-			return array;
+												}
+											});
+				
+									return array;
 		}
 
 		function ps() {
 			var type = "PS";
 			var array;
 			$.ajax({
-				async : false,
-				url : "shopping/switchProduct",
-				datatype : "text",
-				type : "POST",
-				data : {
-					type : type
-				},
-				success : function(response) {
+						async: false,
+						url : "shopping/switchProduct",
+						datatype : "text",
+						type : "POST",
+						data : {
+							type : type
+						},
+						success : function(response) {
 
-					var response = JSON.parse(JSON.stringify(response));
-					console.log(response);
-					showCard(response);
-					numPage(response);
-					array = response;
-					//showtable(response);
-				},
-				complete : function() {
-					$('#d1').addClass("modal fade").attr({
-						"tabindex" : "-1",
-						"role" : "dialog",
-						"aria-labelledby" : "exampleModalCenterTitle",
-						"aria-hidden" : "true"
+							var response = JSON.parse(JSON
+									.stringify(response));
+							console.log(response);
+							showCard(response);
+							numPage(response);
+							array=response;
+							//showtable(response);
+						},
+						complete : function() {
+						
+
+						}
 					});
-					$('#d2').addClass(
-							"modal-dialog modal-xl modal-dialog-centered")
-							.attr({
-								"role" : "document"
-							});
-					$('#d3').addClass("modal-content");
-					$('#d4').addClass("modal-body");
-
-				}
-			});
 			return array;
 		}
 
@@ -506,38 +486,27 @@ iframe {
 			var type = "pc";
 			var array;
 			$.ajax({
-				async : false,
-				url : "shopping/switchProduct",
-				datatype : "text",
-				type : "POST",
-				data : {
-					type : type
-				},
-				success : function(response) {
-					console.log(response);
-					var response = JSON.parse(JSON.stringify(response));
-					showCard(response);
-					numPage(response);
-					array = response;
-					//showtable(response);
-				},
-				complete : function() {
-					$('#d1').addClass("modal fade").attr({
-						"tabindex" : "-1",
-						"role" : "dialog",
-						"aria-labelledby" : "exampleModalCenterTitle",
-						"aria-hidden" : "true"
-					});
-					$('#d2').addClass(
-							"modal-dialog modal-xl modal-dialog-centered")
-							.attr({
-								"role" : "document"
-							});
-					$('#d3').addClass("modal-content");
-					$('#d4').addClass("modal-body");
+						async: false,
+						url : "shopping/switchProduct",
+						datatype : "text",
+						type : "POST",
+						data : {
+							type : type
+						},
+						success : function(response) {
+							console.log(response);
+							var response = JSON.parse(JSON
+									.stringify(response));
+							showCard(response);
+							numPage(response);
+							array=response;
+							//showtable(response);
+						},
+						complete : function() {
+						
 
-				}
-			});
+						}
+					});
 			return array;
 
 		}
