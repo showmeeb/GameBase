@@ -99,6 +99,18 @@ body {
 	height: 50px;
 	border-radius: 50%;
 }
+#div-left{
+	width:1000px;
+	line-height: 50px;
+	padding:auto;
+	float:left;
+}
+#div-right{
+	width:200px;
+	line-height: 50px;
+	padding:auto;
+	float:right;
+}
 
 
 </style>
@@ -112,14 +124,14 @@ body {
 		<div class="container">
 		<form id="formData">
 		
-			<div class="form-group form-group-lg">
+			<div id="div-left" class="form-group form-group-lg">
 				<div id="nameShow" class="user-data-tag-area">姓名:${userProfile.name}</div>
-				<div id="nameSpan"><input type="text" class="form-control input-lg" name="name" id="name">	</div>
+				<div id="nameSpan"><input type="text" class="form-control input-lg" name="name" id="name"></div>
 			</div>
 			
-			<div >				
-				<input type="button" onclick='showName()' class="btn btn-info" id="eName" value="修改">
-				
+			
+			<div id="div-right">
+				<input type="button" onclick='showName()' class="btn btn-info" id="eName" value="修改">	
 				<button class="btn btn-primary nameBut" id="up" onclick='editName()'>更新</button>
 			</div>
 			<hr>

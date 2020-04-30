@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -102,23 +103,59 @@ public class MemberAjaxController {
 
 	@RequestMapping(path = "/loginAjax/{save}", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> loginAction(@RequestBody UserData logindata,@PathVariable("save") String save, Model model, HttpServletRequest request,
+	public Map<String, Object> loginAction(@RequestBody UserData logindata,@PathVariable("save") boolean save, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
 		
 		
+		
+		uService.setCookie(logindata.getAccount(), logindata.getPassword(), save, request, response);
 		String pwd = uService.encryptString(logindata.getPassword());
-		uService.setCookie(logindata.getAccount(), pwd, save, request, response);
-		uService.GetCookie(logindata.getAccount(), pwd, request);
 		
 		Map<String, Object> map = uService.getLogin(logindata.getAccount(), pwd);
 		if ((boolean) map.get("status")) {
+			
 			model.addAttribute("loginUser", (UsersInfo) map.get("loginUser"));
 			model.addAttribute("UserData", (UserData) map.get("UserData"));
 			return map;
 		}
+		
 		return map;
 	}
+	
+	@RequestMapping(path = "/loginAjax", method = RequestMethod.GET)
+	public String showLoginPage() {
+	
+		return "LoginViewPageAjax";
+	}
+	
+	@RequestMapping(path = "/loginAjax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> loginPageShow(HttpServletRequest request){
+		Cookie[] cookies = request.getCookies();
+		String acc="",pwd="";
+		System.out.println("我進來囉");
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				String name = cookie.getName();
+				System.out.println("Cookie的名字: " + name);
+				if ("account".equals(name)) {
+					acc = cookie.getValue();
+					request.getSession().setAttribute("account", acc);
+					System.out.println("acc123" + acc);
+				} else if ("password".equals(name)) {
+					pwd = cookie.getValue();
+					request.getSession().setAttribute("password", pwd);
+					System.out.println("pwd123" + pwd);
+				}
+			}
+		}
 
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("account", acc);
+		map.put("password",pwd);
+		return map;
+	}
+	
 	@RequestMapping(path = "/checkAcc", produces = "application/json", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> checkAccount(@RequestParam("account") String account) {
@@ -157,10 +194,6 @@ public class MemberAjaxController {
 		return map;
 	}
 
-	@RequestMapping(value = "/loginAjax", method = RequestMethod.GET)
-	public String showLoginPage() {
-		return "LoginViewPageAjax";
-	}
 
 	@RequestMapping(value = "/registerAjax", method = RequestMethod.GET)
 	public String showRegisterPage() {
@@ -354,5 +387,7 @@ public class MemberAjaxController {
 		map.put("url", url);
 		return map;
 	}
+	
+
 	
 }

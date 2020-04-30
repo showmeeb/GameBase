@@ -77,6 +77,20 @@ $(document).ready(function () {
   $("#login-str").click(function () {
     $(".login-area").removeClass("hidden-window", 700);
     $("#shadow").fadeIn(700);
+    $.ajax({
+    	url: "loginAjax",
+    	method: "POST",
+    	success: function(data){
+//    		alert("acc:" + data.account)
+//    		alert("pwd:" + data.password)
+    		$("input[type=text]#account").val(data.account);
+    		$("input[type=text]#password").val(data.password);
+    	},
+    	error: function(data){
+    		alert("fail.")
+    		console.log(data)
+    	}
+    })
   });
  
   $("#login-submit-btn").click(function () {
