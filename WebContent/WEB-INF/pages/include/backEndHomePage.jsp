@@ -58,6 +58,7 @@ ul {
 					alt="">
 				</a>
 				<h4>你好,${sessionScope.loginUser.account}</h4>
+				<h4 id="userId" class="d-none">${sessionScope.loginUser.userId}</h4>
 				<div class="btn-group fixed-sm-left" role="group"
 					aria-label="Basic example">
 					<button type="button" id="change-admin" class="btn btn-secondary">管理者</button>
