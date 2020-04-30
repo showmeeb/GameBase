@@ -177,7 +177,7 @@ body {
 			</div>
 			<hr>
 		</form>	
-			<div id="imgShow">
+			<div id="imgShow" class="form-group form-group-lg">
 			大頭貼:<img src="${userProfile.img}">
 			</div>
 
