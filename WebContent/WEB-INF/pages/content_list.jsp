@@ -50,17 +50,6 @@ $("#document").ready(function () {
 		update_content(btn,contentId);
 	});
 	
-// 	/*author img clicked*/
-// 	$(".userId").click(function(){
-// 		console.log("author img clicked");
-// 		var userId = $(this).attr("id");
-// 		console.log("userId :"+userId);
-// 		$("#addfriend_"+userId).removeClass("hidden-window");
-// 		$(".close-btn").click(function(){
-// 			$("#addfriend_"+userId).addClass("hidden-window");
-// 		});
-// 	});
-	
 });
 /*update like unlike number*/
 function update_record(btn){	
@@ -110,10 +99,40 @@ function update_content(btn,contentId){
 			},
 			success: function(response){
 				console.log("success");	
-				//
+			
 			}
 		})
-	}
+	} else if(btn==='update'){
+		console.log("get btn value :"+btn);
+		console.log("/forum_test/${forum.forumId}/${title.titleId}");
+		//get content
+		var content = $(".content_content").val();
+		//set editor
+		$("#articleTitle").val("");
+ 		$("#accountId").val("");
+        editor.setData(content);
+		//open editor
+		$(".publish-area").removeClass("hidden-window",700);
+       	$("#shadow").fadeIn(700);
+       	$("#submit").addClass("hidden-window");
+       	$("#update").removeClass("hidden-window");
+		//editor update button clicked
+// 		$.ajax({
+// 			url:'<c:url value="/forum_test/${forum.forumId}/${title.titleId}/'+contentId+'/update"/>',
+// 			dataType:"json",
+// 			type:"POST",
+// 			cache:false,
+// 			data:{
+// 				clickedBTN:btn,
+// 				contentId:contentId
+// 			},
+// 			success: function(response){
+// 				console.log("success");	
+			
+// 			}
+// 		})
+		
+		}
 }
 </script>
 <style type="text/css">
@@ -124,7 +143,7 @@ a.disabled {
 </head>
 <body>
 	<!-- top bar -->
-	<%@ include file="../topBar.jsp"%>
+	<%@ include file="topBar.jsp"%>
 	
 	<c:if test="${loginUser.rankId==2}">
 	<!-- forum title bar -->
@@ -165,8 +184,8 @@ a.disabled {
 					<div>				
 					<!-- user img -->
 					<div id="${item.userId}" class="userId">
-					<c:if test="${empty item.img}"><img src="<c:url value="/img/userIcon.png"/>" width="60" height="60"/></c:if>
-					<c:if test="${not empty item.img}"><img src=${item.img} alt="" width="40" height="40"/></c:if>
+					<c:if test="${empty item.img}"><img src="<c:url value="/img/userIcon.png"/>" width="60" height="60" class="content_head"/></c:if>
+					<c:if test="${not empty item.img}"><img src=${item.img} alt="" width="60" height="60" class="content_head"/></c:if>
 					</div>
 					<!-- user account -->
 					<div>
@@ -196,7 +215,7 @@ a.disabled {
 					<hr />
 					
 					<!-- content area -->
-					<div class="content_content">
+					<div contentId="${item.contentId}" class="content_content">
 						<span>${item.content}</span><br />
 					</div>
 					<hr />
@@ -277,7 +296,7 @@ a.disabled {
 	
 
 <!-- create article window -->
-<%@ include file="article_editor.jsp"%>
+<%@ include file="include/article_editor.jsp"%>
 <script type="text/javascript">
 var url = '<c:url value="/forum_test/${forum.forumId}/${title.titleId}/add"/>';
 var lo = 'content';

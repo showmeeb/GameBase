@@ -98,14 +98,14 @@ public class UserDataDAO implements IUserData {
 	}
 
 	@Override
-	public void setCookie(String account, String password, String save, HttpServletRequest request, HttpServletResponse response) {
+	public void setCookie(String account, String password, boolean save, HttpServletRequest request, HttpServletResponse response) {
 
 		Cookie accCookie = new Cookie("account", account);
 		Cookie pwdCookie = new Cookie("password", password);
 		System.out.println("save: " + save);
 		request.setAttribute("account", account);
 		request.setAttribute("password", password);
-		if (save!=null) {
+		if (save) {
 
 			accCookie.setMaxAge(60 * 60 * 24 * 7);
 			pwdCookie.setMaxAge(60 * 60 * 24 * 7);
@@ -123,7 +123,7 @@ public class UserDataDAO implements IUserData {
 
 	@Override
 	public void GetCookie(String account, String password, HttpServletRequest request) {
-
+		
 		HttpSession session = request.getSession();
 		String sessionId = session.getId();
 		System.out.println("sID: " + sessionId);
@@ -138,14 +138,16 @@ public class UserDataDAO implements IUserData {
 				System.out.println("我是一個pwd: " + password);
 				if ("account".equals(name)) {
 					String acc = cookie.getValue();
-					
+					request.getSession().setAttribute("account", acc);
 					System.out.println("acc123" + acc);
 				} else if ("password".equals(name)) {
 					String pwd = cookie.getValue();
+					request.getSession().setAttribute("password", pwd);
 					System.out.println("pwd123" + pwd);
 				}
 			}
 		}
+		
 
 	}
 

@@ -172,7 +172,7 @@ var friendTemplate =
 		+'<i class="fas fa-times close-btn"></i>'
 		+'<h2>好友申請</h2>'
 		+'<div>'
-		+'<img src="{{img}}" width="100" height="100" />'
+		+'<img src="{{img}}" width="100" height="100" class="content_head" />'
 		+'<table>'
 		+'<tr>'
 		+'<td>帳號:</td>'

@@ -145,6 +145,12 @@ $(document).ready(function () {
       }
     });
   });
+  
+  //forgetPwd button
+  $("#forgetPwd").click(function(){
+	  $(".login-area").addClass("hidden-window", 700);
+	  $(".forgetPassword-area").removeClass("hidden-window",700);
+  });
 
 
 });
@@ -225,8 +231,10 @@ function userLogin() {
           }
           
         } else {
-          alert("帳號或密碼不符合");
           $("#login-submit-btn").removeClass("disable");
+          alert("帳號或密碼不符合");
+          $("#login-area").css("height",500);
+          $("#forgetPwd").removeClass("hidden-window").addClass("buttonL");
         }
 
       },
@@ -268,7 +276,7 @@ $(document).ready(function () {
 
 
   // regist
-  $("#regist-submit-btn").click(function () {
+  $("#regist-submit-btn").click(function() {
     userRegist();
   });
 
@@ -313,7 +321,8 @@ $(document).ready(function () {
   });
 
   $(".close-btn").click(function () {
-    $(this).parent().addClass("hidden-window", 700);
+    $(this).parent().addClass("hidden-window", 700).css("height",450);
+    $("#forgetPwd").removeClass("buttonL").addClass("hidden-window");
     $("#shadow").fadeOut(700);
 
     // clear the form
@@ -759,7 +768,17 @@ $(document).ready(function () {
   }
   
   //broadcast
+
   $("#broadcast-submit-btn").click(function () {
+	broadSend();
+  });
+  $("#admin-broadcast-form .input-group input").keypress(function (e) {
+	    if (e.key == "Enter") {
+	    	broadSend();
+	    }
+	  });
+function broadSend(){
+		
     var userId = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
 //    var formData = $("#admin-broadcast-form").serializeObject();
 //    var broad = JSON.stringify(formData);
@@ -786,10 +805,7 @@ $(document).ready(function () {
             }
 
           });
-//    }
-
-  });
-
+}
 });
 
 // init chat room when change page
@@ -1207,7 +1223,7 @@ function showSnackbarMessage(msg) {
 	  console.log('html');
 	  $("#snackbar").attr("class","show");
 	  console.log(setTimeout);
-	  setTimeout(function () {  $("#snackbar").removeClass("show") }, 3000);
+	  setTimeout(function () {  $("#snackbar").removeClass("show") }, 5000);
 	}
 
 function cleanChatRoom() {

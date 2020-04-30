@@ -55,7 +55,7 @@ public class ArticleContentDAO implements IArticleContentDAO {
 	public ArticleContent updateByContentId(ArticleContent content) {
 		ArticleContent result = sessionFactory.getCurrentSession().get(ArticleContent.class, content.getContentId());
 		result.setContent(content.getContent());
-		result.setUpdateTime(content.getContent());
+		result.setUpdateTime(content.getUpdateTime());
 		return result;
 	}
 

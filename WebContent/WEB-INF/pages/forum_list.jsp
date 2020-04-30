@@ -12,16 +12,16 @@
 <script src="https://kit.fontawesome.com/83bb506b46.js"
 	crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
-	rel="stylesheet">
+<!-- <link -->
+<!-- 	href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" -->
+<!-- 	rel="stylesheet"> -->
 <!-- editor improt -->
 <script
 	src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
 <!-- ckfinder import -->
 <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 <!-- main style -->
-<link href="<c:url value="/css/style.css"/>" rel="stylesheet">
+<%-- <link href="<c:url value="/css/style.css"/>" rel="stylesheet"> --%>
 <!-- forum style -->
 <link href="<c:url value="/css/forumStyle.css"/>" rel="stylesheet">
 <!-- ajax -->
@@ -136,7 +136,7 @@ $(document).ready(function(){
 		
 		//ajax
 		$.ajax({
-			url:'<c:url value="/forum_test/add"/>',
+			url:'/GameBase/forum_test/add"/',
 			processData: false,		
 			type:"POST",
 			cache: false,
@@ -168,7 +168,7 @@ $(document).ready(function(){
 				'</div>'+
 				'<div class="forum_content">'+
 				'<div class="forum_img">'+
-				'<img alt="圖片提示字串" src="'+response.newForum.forumFigure+'" height="200">'+
+				'<img alt="圖片提示字串" src="'+response.newForum.forumFigure+'" height="320">'+
 				'</div>'+
 				'<div class="forum_articles">'+
 				'<span>熱門點閱文章:</span><br /> <a href="<c:url value="/forum_test/'+response.newForum.forumId+'/'+response.newForum.titleId+'"/>">'+response.newForum.titleName+'</a><br />'+
@@ -196,7 +196,7 @@ $(document).ready(function(){
 		console.log("delete forum, forum ID : "+$(this).attr("id"));
 		var forumId=$(this).attr("id");
 		$.ajax({
-			url:'<c:url value="/forum_test/'+forumId+'/del"/>',
+			url:'/GameBase/forum_test/'+forumId+'/del',
 			type:"POST",
 			cache: false,
 	        data:{
@@ -215,7 +215,7 @@ $(document).ready(function(){
 </head>
 <body>
 	<!-- top bar -->
-	<%@ include file="../topBar.jsp"%>
+	<%@ include file="topBar.jsp"%>
 	
 	<c:if test="${loginUser.rankId==2}">
 	<!-- forum title bar -->
@@ -278,14 +278,10 @@ $(document).ready(function(){
 					</div>
 
 
-
-
-
-
 					<div class="forum_content">
 
 						<div class="forum_img">
-							<img alt="圖片提示字串" src="${item.forumFigure}" height="200">
+							<img alt="圖片提示字串" src="${item.forumFigure}" height="320">
 						</div>
 						<div class="forum_articles">
 							<span>熱門點閱文章:</span><br /> <a

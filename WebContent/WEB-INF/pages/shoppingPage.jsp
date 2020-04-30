@@ -5,165 +5,17 @@
 <html lang="en">
 
 <head>
-
-<style>
-img {
-	width: 50px
-}
-</style>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
-
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-	crossorigin="anonymous"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-	crossorigin="anonymous"></script>
-
-<title>Hello, world!</title>
-<style type="text/css">
-
-
-
-
-#d4 img {
-	width: 300px;
-	height: 450px;
-}
-
-div {
-	border: 1px solid grey;
-}
-
-iframe {
-	width: 400px;
-	height: 330px;
-}
-
-#youtubeX {
-	width: 400px;
-	height: 330px;
-	position: absolute;
-	top: 0px;
-	right: 0px;
-}
-
-#t1 {
-	border: 1px solid green;
-	width: 600px;
-}
-
-#dt1 {
-	width: 600px;
-	margin: auto;
-	right: 250px;
-	border: 1px solid red;
-}
-
-#dt1 img {
-	width: 150px;
-}
-
-.cardSize {
-	width: 24.70%;
-	max-height:342px;
-	margin: 1px;
-	cursor: pointer;
-}
-
-.center {
-	margin: auto;
-}
-
-.bg-rgb220 {
-	background-color: rgb(220, 220, 220);
-	margin-bottom: 10px;
-}
-
-.bg-rgb245 {
-	background-color: rgb(245, 245, 245);
-}
-
-.card-title {
-	font-size: 17px;
-}
-
-.card-subtitle {
-	font-size: 13px;
-}
-
-.card-img-top {
-	height: 250px;
-}
-
-.selectBarBtn {
-	height: 99%;
-	width: 90px;
-}
-
-.pageBnt {
-	height: 99%;
-	border: none;
-}
-
-.pageLi {
-	margin-right: 3px;
-}
-
-#d1{display: none;}
-
-#resultsTable{
-	height:690px;
-	overflow:hidden;
-
-}
-
-#switchBar{ width: 100%;margin:0;padding: 0;}
-#switchBar li {
-	margin: 0px 20px 0px 20px;
-}
-#switchBar img {
-	width: 40px
-}
-
-</style>
 </head>
 
 
 
 <body>
-	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+	<jsp:include page="topBar.jsp" />
 	
-
-	<div id="du1" style="background-color: #D0D0D0">
-		<ul class="nav justify-content-center">
-			<li id="swp" class="nav-item" role="button" tabindex="0"
-				aria-pressed="true"><img src="https://i.imgur.com/ilWFjYW.png"></li>
-			<li id="psp" class="nav-item" role="button" tabindex="0"
-				aria-pressed="true"><img src="https://i.imgur.com/chcSF3h.png"></li>
-			<li id="pcp" class="nav-item" role="button" tabindex="0"
-				aria-pressed="true"><img src="https://i.imgur.com/pnzStW7.png"></li>
-			<li id="order" class="nav-item" role="button" tabindex="0"
-				aria-pressed="true"><img src="https://i.imgur.com/MflYSUa.jpg"></li>
-			<li id="shopcart" class="nav-item" role="button" tabindex="0"
-				aria-pressed="true"><img src="https://i.imgur.com/fzG8Ocj.png"></li>
-		</ul>
-	</div>
-
 	<div id="dt1">
 		<form>
 			<table id="t1">
@@ -171,11 +23,14 @@ iframe {
 		</form>
 	</div>
 
-	<div id="d1">
-		<div id="d2">
-			<div id="d3"
+	<div class="modal fade" id="d1" tabindex="-1"
+		role="dialog" aria-labelledby="d1"
+		aria-hidden="true">
+		<div  class="modal-dialog modal-lg modal-dialog-centered"
+			role="document">
+			<div  class="modal-content"
 				style="width: 800px; height: 600px; display: flex; justify-content: flex-start; padding: 3px; margin: auto;">
-				<div id="d4"></div>
+				<div id="d4" class="modal-body"></div>
 			</div>
 		</div>
 	</div>
@@ -185,17 +40,19 @@ iframe {
 		<div class="row">
 			<div class="col-3 column text-center" style="padding: 0;">
 				<div id="switchBar" style="background-color: #D0D0D0">
-					<ul  class="nav justify-content-center">
+					<ul class="nav justify-content-center">
 						<li id="swp" class="nav-item" role="button" tabindex="0"
-							aria-pressed="true"><img src="https://i.imgur.com/ilWFjYW.png"></li>
+							aria-pressed="true"><img
+							src="https://i.imgur.com/ilWFjYW.png"></li>
 						<li id="psp" class="nav-item" role="button" tabindex="0"
-							aria-pressed="true"><img src="https://i.imgur.com/chcSF3h.png"></li>
-						<li id="pcp" class="nav-item" role="button" tabindex="0"
-							aria-pressed="true"><img src="https://i.imgur.com/pnzStW7.png"></li>
-			
+							aria-pressed="true"><img
+							src="https://i.imgur.com/chcSF3h.png"></li>
+						<li id="xboxp" class="nav-item" role="button" tabindex="0"
+							aria-pressed="true"><img
+							src="https://i.imgur.com/ZfTAY8U.png"></li>
 					</ul>
 				</div>
-			
+
 			</div>
 			<div class="col-9 column">
 				<div class="container">
@@ -220,21 +77,24 @@ iframe {
 		</div>
 	</div>
 
+	<jsp:include page="footer.jsp" />
+
+
 	<script type="text/javascript">
 		var u = window.sessionStorage.getItem("loginUser");
-		var pageItem=8;
+		var pageItem = 8;
 		var array;
 
 		window.onload = function() {
 			console.log(window.sessionStorage.getItem("loginUser"));
- 			 user.checkUser();
-// 			 user.getRankId();
-// 			 user.getUserId();
-				swich();
-//  			console.log("switch");
+			//user.checkUser();
+			// 			 user.getRankId();
+			// 			 user.getUserId();
+			//swich();
+			//  			console.log("switch");
 
-// 				ps();
-//  			console.log("ps");
+			// 				ps();
+			//  			console.log("ps");
 		}
 		var user = {
 			checkUser : function() {
@@ -243,44 +103,44 @@ iframe {
 				}
 			}
 		}
-		$(document).on('click',"#hotSale",function(){
+		$(document).on('click', "#hotSale", function() {
 			console.log(array);
 			for (var i = 0, l = array.length; i < l; ++i) {
-				array = array.sort(function (a, b) {
-					 return a.searchFreq < b.searchFreq ? 1 : -1;
-					});
-				}
+				array = array.sort(function(a, b) {
+					return a.searchFreq < b.searchFreq ? 1 : -1;
+				});
+			}
 			console.log(array);
 			showCard(array);
-			
+
 		})
-		$(document).on('click',"#fromHigher",function(){
+		$(document).on('click', "#fromHigher", function() {
 			console.log(array);
 			for (var i = 0, l = array.length; i < l; ++i) {
-				array = array.sort(function (a, b) {
-					 return a.productPrice < b.productPrice ? 1 : -1;
-					});
-				}
+				array = array.sort(function(a, b) {
+					return a.productPrice < b.productPrice ? 1 : -1;
+				});
+			}
 			console.log(array);
 			showCard(array);
-			
+
 		})
-		$(document).on('click',"#fromLower",function(){
+		$(document).on('click', "#fromLower", function() {
 			console.log(array);
 			for (var i = 0, l = array.length; i < l; ++i) {
-				array = array.sort(function (a, b) {
-					 return a.productPrice > b.productPrice ? 1 : -1;
-					});
-				}
+				array = array.sort(function(a, b) {
+					return a.productPrice > b.productPrice ? 1 : -1;
+				});
+			}
 			console.log(array);
 			showCard(array);
-			
+
 		})
-		
-		$(document).on('click',".pageBnt",function(){
-			let toPage=this.id-1;
-			$("#resultsTable").html(changePage(array,toPage));
-			
+
+		$(document).on('click', ".pageBnt", function() {
+			let toPage = this.id - 1;
+			$("#resultsTable").html(changePage(array, toPage));
+
 		})
 
 		$(document).on('change', '#quantity_input', function() {
@@ -351,7 +211,6 @@ iframe {
 
 		}
 
-		
 		$(document).on('click', '#productDetail', function() {
 			console.log(swich);
 			var $img = $(this).find('img');
@@ -386,22 +245,15 @@ iframe {
 
 		})
 
-		$(document).on('click','#swp',function() {
-									array=swich();
-								})
-		$(document).on(
-						'click',
-						'#psp',
-						function() {
-							array=ps();
-						})
-		$(document)
-				.on(
-						'click',
-						'#pcp',
-						function() {
-							array=pc();
-						})
+		$(document).on('click', '#swp', function() {
+			array = swich();
+		})
+		$(document).on('click', '#psp', function() {
+			array = ps();
+		})
+		$(document).on('click', '#xboxp', function() {
+			array = xbox();
+		})
 
 		$(document).on('click', '#addProduct1', function() {
 
@@ -460,9 +312,8 @@ iframe {
 		//$('#shopcart').click(function(){
 		//	window.location.href("/shoppingCartPage");
 		//	})
-		
-		
-		function swich() {
+
+				function swich() {
 									var type = "switch";
 									var array;
 									$.ajax({
@@ -483,28 +334,7 @@ iframe {
 													//showtable(response);
 												},
 												complete : function() {
-													$('#d1')
-															.addClass(
-																	"modal fade")
-															.attr(
-																	{
-																		"id" : "d1",
-																		"tabindex" : "-1",
-																		"role" : "dialog",
-																		"aria-labelledby" : "exampleModalCenterTitle",
-																		"aria-hidden" : "true"
-																	});
-													$('#d2')
-															.addClass(
-																	"modal-dialog modal-xl modal-dialog-centered")
-															.attr(
-																	{
-																		"role" : "document"
-																	});
-													$('#d3').addClass(
-															"modal-content");
-													$('#d4').addClass(
-															"modal-body");
+													
 
 												}
 											});
@@ -534,31 +364,15 @@ iframe {
 							//showtable(response);
 						},
 						complete : function() {
-							$('#d1')
-									.addClass("modal fade")
-									.attr(
-											{
-												"tabindex" : "-1",
-												"role" : "dialog",
-												"aria-labelledby" : "exampleModalCenterTitle",
-												"aria-hidden" : "true"
-											});
-							$('#d2')
-									.addClass(
-											"modal-dialog modal-xl modal-dialog-centered")
-									.attr({
-										"role" : "document"
-									});
-							$('#d3').addClass("modal-content");
-							$('#d4').addClass("modal-body");
+						
 
 						}
 					});
 			return array;
 		}
 
-		function pc() {
-			var type = "pc";
+		function xbox() {
+			var type = "xbox";
 			var array;
 			$.ajax({
 						async: false,
@@ -578,23 +392,7 @@ iframe {
 							//showtable(response);
 						},
 						complete : function() {
-							$('#d1')
-									.addClass("modal fade")
-									.attr(
-											{
-												"tabindex" : "-1",
-												"role" : "dialog",
-												"aria-labelledby" : "exampleModalCenterTitle",
-												"aria-hidden" : "true"
-											});
-							$('#d2')
-									.addClass(
-											"modal-dialog modal-xl modal-dialog-centered")
-									.attr({
-										"role" : "document"
-									});
-							$('#d3').addClass("modal-content");
-							$('#d4').addClass("modal-body");
+						
 
 						}
 					});
@@ -602,105 +400,120 @@ iframe {
 
 		}
 
-		function numPage(response){
-			var pageNum = Math.ceil(response.length/pageItem); 
-			
+		function numPage(response) {
+			var pageNum = Math.ceil(response.length / pageItem);
+
 			var pageTxt = "";
-			for (i=1;i<=pageNum;i++){
-			pageTxt += '<li class="pageLi"><button id="'+i+'" class="btn btn-light pageBnt">'+i+'</button></li>'
+			for (i = 1; i <= pageNum; i++) {
+				pageTxt += '<li class="pageLi"><button id="'+i+'" class="btn btn-light pageBnt">'
+						+ i + '</button></li>'
 			}
-		    $("#pageUl").html(pageTxt);
+			$("#pageUl").html(pageTxt);
 		}
 
-		function changePage(array,toPage){
-			
+		function changePage(array, toPage) {
+
 			console.log(array)
-			cardResults ="";
-			
-	        for (i = 0+pageItem*toPage; i < pageItem+pageItem*toPage; i++) {
-	        	if(i<array.length){
-	        		var s = {
-				            productId: array[i].productId,
-				            productVideo: array[i].productVideo,
-				            productName: array[i].productName,
-				            productImg: array[i].productImg,
-				            productType: array[i].productType,
-				            inventory: array[i].inventory,
-				            productPrice: array[i].productPrice,
-				            productTag: array[i].productTag,
-				            productInfo: array[i].productInfo,
-				            amount: 1
-				        }
-			
-			   cardResults +='<div class="card cardSize" id="productDetail" role="button" tabindex="0"aria-pressed="true" data-toggle="modal"data-target="#d1">';
-	           cardResults += "<img class='card-img-top' src='"+array[i].productImg+"'alt='"+JSON.stringify(s)+"'>";				 //商品圖片
-	           cardResults += '<div class="card-body">';
-	           cardResults += '<h5 class="card-title cardsdd">'+array[i].productName+'</h5>';			     //商品標題
-	           cardResults += '<h6 class="card-subtitle mb-2 text-muted">NT$'+array[i].productPrice+'</h6>';	   //商品價格
+			cardResults = "";
 
-			   cardResults += '</div></div>';   
-	         }}
-	         return cardResults;
+			for (i = 0 + pageItem * toPage; i < pageItem + pageItem * toPage; i++) {
+				if (i < array.length) {
+					var s = {
+						productId : array[i].productId,
+						productVideo : array[i].productVideo,
+						productName : array[i].productName,
+						productImg : array[i].productImg,
+						productType : array[i].productType,
+						inventory : array[i].inventory,
+						productPrice : array[i].productPrice,
+						productTag : array[i].productTag,
+						productInfo : array[i].productInfo,
+						amount : 1
+					}
 
+					cardResults += '<div class="card cardSize" id="productDetail" role="button" tabindex="0"aria-pressed="true" data-toggle="modal"data-target="#d1">';
+					cardResults += "<img class='card-img-top' src='"
+							+ array[i].productImg + "'alt='"
+							+ JSON.stringify(s) + "'>"; //商品圖片
+					cardResults += '<div class="card-body">';
+					cardResults += '<h5 class="card-title cardsdd">'
+							+ array[i].productName + '</h5>'; //商品標題
+					cardResults += '<h6 class="card-subtitle mb-2 text-muted">NT$'
+							+ array[i].productPrice + '</h6>'; //商品價格
+
+					cardResults += '</div></div>';
+				}
 			}
+			return cardResults;
 
-// 		function showtable(response) {
-//			var txt = "<tr><th>#<th>商品照片<th>商品名稱";
-
-//			for (let i = 0; i < response.length; i++) {
-//				var s = {
-//					productId : response[i].productId,
-//					productVideo : response[i].productVideo,
-//					productName : response[i].productName,
-//					productImg : response[i].productImg,
-//					productType : response[i].productType,
-//					inventory : response[i].inventory,
-//					productPrice : response[i].productPrice,
-//					productTag : response[i].productTag,
-//					productInfo : response[i].productInfo,
-//					amount : 1
-//				};
-//				//var a=JSON.stringify(s);
-//				//console.log("a:"+a);
-//				txt += "<tr><td>" + response[i].productId;
-//				txt += "<td id='img'><span id='productDetail' role='button' tabindex='0'aria-pressed='true' data-toggle='modal'data-target='#d1'> <img src='"
-//						+ response[i].productImg
-//						+ "' alt='"
-//						+ JSON.stringify(s) + "'></span>";
-//				txt += "<td>" + response[i].productName;
-
-//			}
-//			$('#t1').html(txt);
-
-//		}
-
-	function showCard(response){
-		var cardResults ="";
-		for (let i = 0; i < response.length; i++) {
-				var s = {
-			            productId: response[i].productId,
-			            productVideo: response[i].productVideo,
-			            productName: response[i].productName,
-			            productImg: response[i].productImg,
-			            productType: response[i].productType,
-			            inventory: response[i].inventory,
-			            productPrice: response[i].productPrice,
-			            productTag: response[i].productTag,
-			            productInfo: response[i].productInfo,
-			            amount: 1
-			        }
-		
-		   cardResults +='<div class="card cardSize" id="productDetail" role="button" tabindex="0"aria-pressed="true" data-toggle="modal"data-target="#d1">';
-           cardResults += "<img class='card-img-top' src='"+response[i].productImg+"'alt='"+JSON.stringify(s)+"'>";				 //商品圖片
-           cardResults += '<div class="card-body">';
-           cardResults += '<h5 class="card-title cardsdd">'+response[i].productName+'</h5>';			     //商品標題
-           cardResults += '<h6 class="card-subtitle mb-2 text-muted">NT$'+response[i].productPrice+'</h6>';	   //商品價格
-	//     cardResults += '<p class="card-text">'+jsonResults[i].productInfo+'</p>'								 //商品介紹e
-		   cardResults += '</div></div>';  
-			}
-		   $("#resultsTable").html(cardResults);
 		}
-	
+
+		// 		function showtable(response) {
+		//			var txt = "<tr><th>#<th>商品照片<th>商品名稱";
+
+		//			for (let i = 0; i < response.length; i++) {
+		//				var s = {
+		//					productId : response[i].productId,
+		//					productVideo : response[i].productVideo,
+		//					productName : response[i].productName,
+		//					productImg : response[i].productImg,
+		//					productType : response[i].productType,
+		//					inventory : response[i].inventory,
+		//					productPrice : response[i].productPrice,
+		//					productTag : response[i].productTag,
+		//					productInfo : response[i].productInfo,
+		//					amount : 1
+		//				};
+		//				//var a=JSON.stringify(s);
+		//				//console.log("a:"+a);
+		//				txt += "<tr><td>" + response[i].productId;
+		//				txt += "<td id='img'><span id='productDetail' role='button' tabindex='0'aria-pressed='true' data-toggle='modal'data-target='#d1'> <img src='"
+		//						+ response[i].productImg
+		//						+ "' alt='"
+		//						+ JSON.stringify(s) + "'></span>";
+		//				txt += "<td>" + response[i].productName;
+
+		//			}
+		//			$('#t1').html(txt);
+
+		//		}
+
+		function showCard(response) {
+			var cardResults = "";
+			for (let i = 0; i < response.length; i++) {
+				var s = {
+					productId : response[i].productId,
+					productVideo : response[i].productVideo,
+					productName : response[i].productName,
+					productImg : response[i].productImg,
+					productType : response[i].productType,
+					inventory : response[i].inventory,
+					productPrice : response[i].productPrice,
+					productTag : response[i].productTag,
+					productInfo : response[i].productInfo,
+					amount : 1
+				}
+
+				cardResults += '<div class="card cardSize" id="productDetail" role="button" tabindex="0"aria-pressed="true" data-toggle="modal"data-target="#d1">';
+				cardResults += "<img class='card-img-top' src='"
+						+ response[i].productImg + "'alt='" + JSON.stringify(s)
+						+ "'>"; //商品圖片
+				cardResults += '<div class="card-body">';
+				cardResults += '<h5 class="card-title cardsdd">'
+						+ response[i].productName + '</h5>'; //商品標題
+				cardResults += '<h6 class="card-subtitle mb-2 text-muted">NT$'
+						+ response[i].productPrice + '</h6>'; //商品價格
+				//     cardResults += '<p class="card-text">'+jsonResults[i].productInfo+'</p>'								 //商品介紹e
+				cardResults += '</div></div>';
+			}
+			$("#resultsTable").html(cardResults);
+		}
+
+		var jsonResults = JSON.parse(JSON.stringify(${ results }));
+		console.log(jsonResults);
+		showCard(jsonResults);
+		numPage(jsonResults);
+		array = jsonResults;
 		
 	</script>
 
