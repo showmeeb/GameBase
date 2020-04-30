@@ -66,7 +66,6 @@ $(document).ready(function () {
     $("#regiest-str").addClass("hidden-window", 700);
     $("#mainCenter").removeClass("hidden-window", 700);
     $("#logout-str").removeClass("hidden-window", 700);
-    $("#mainCenter").removeClass("hidden-window", 700);
     $("[data-toggle='popover']").removeClass("disable");
     if(login.rankId==4){
   	  $("#admin-broadcast").removeClass("hidden-window", 700);
@@ -104,6 +103,7 @@ $(document).ready(function () {
     $("#shadow").fadeIn(700);
   });
 
+  // logout button
   $("#logout-str").click(function () {
     $("#login-submit-btn").removeClass("disable");
     $(".shot").addClass("disable", 700,function(){
@@ -154,7 +154,7 @@ function userLogin() {
   var userAcc = $("#login-form input[name='account']").val();
   var pwd = $("#login-form input[name='password']").val();
   var saveValue = $("input[name='save']").is(":checked");
-
+  
   $("#login-submit-btn").addClass("disable");
   // empty check
   if (userAcc != "" && pwd != "") {
@@ -761,24 +761,26 @@ $(document).ready(function () {
   //broadcast
   $("#broadcast-submit-btn").click(function () {
     var userId = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
-    var formData = $("#admin-broadcast-form").serializeObject();
-    var broad = JSON.stringify(formData);
+//    var formData = $("#admin-broadcast-form").serializeObject();
+//    var broad = JSON.stringify(formData);
 //    console.log('broadcastData: ' + broadcastData);
-//    var broadcast = $("#admin-broadcast-form input[name='broadcast']").val();
-    console.log('broad: ' + broad);
-//    let formData = new FormData();
-//    formData.append('broadcast' + broadcast);
+    var broadcast = $("#admin-broadcast-form input[name='broadcast']").val();
+//    console.log('broad: ' + broad);
+    let formData = new FormData();
+    formData.append('broadcast' , broadcast);
 //    if(broadcast != undefined){
 //    	console.log('broadcastMessage');
         $.ajax({
             url: "/GameBase/Broadcast/" + userId,
             type: "POST",
-            data: broad,
+            data: formData,
             contentType: false,
             processData: false,
             success: function (data) {
               if (data) {
                 alert('發送成功');
+                $("#broadcast-submit-btn").parent().addClass("hidden-window", 700);
+                $("#shadow").fadeOut(700);
               }
 
             }
@@ -1199,6 +1201,15 @@ function sendMyMessage(msgOutput, isHistory) {
   $("#chat-room-input").val("");
 }
 
+function showSnackbarMessage(msg) {
+	  console.log('showsnack');
+	  $("#snackbar").html(msg.message);
+	  console.log('html');
+	  $("#snackbar").attr("class","show");
+	  console.log(setTimeout);
+	  setTimeout(function () {  $("#snackbar").removeClass("show") }, 3000);
+	}
+
 function cleanChatRoom() {
   $("#chat-room-users").html("");
   $("#chat-room-content").html("");
@@ -1233,7 +1244,9 @@ function connectChatRoom() {
       }
     });
     stompClient.subscribe('/topic/messages/broadcast', function (msgOutput) {
-        showMessageOutput(JSON.parse(msgOutput.body), false);
+    console.log('subscribe_broadcast');
+    	//  showMessageOutput(JSON.parse(msgOutput.body), false);
+    	showSnackbarMessage(JSON.parse(msgOutput.body));
       });
     // /user原始碼-->/queue/message-{websocket session id}
     stompClient.subscribe('/user/queue/messages', function (msgOutput) {
