@@ -77,20 +77,6 @@ $(document).ready(function () {
   $("#login-str").click(function () {
     $(".login-area").removeClass("hidden-window", 700);
     $("#shadow").fadeIn(700);
-    $.ajax({
-    	url: "loginAjax",
-    	method: "POST",
-    	success: function(data){
-//    		alert("acc:" + data.account)
-//    		alert("pwd:" + data.password)
-    		$("input[type=text]#account").val(data.account);
-    		$("input[type=text]#password").val(data.password);
-    	},
-    	error: function(data){
-    		alert("fail.")
-    		console.log(data)
-    	}
-    })
   });
  
   $("#login-submit-btn").click(function () {
@@ -158,6 +144,12 @@ $(document).ready(function () {
 
       }
     });
+  });
+  
+  //forgetPwd button
+  $("#forgetPwd").click(function(){
+	  $(".login-area").addClass("hidden-window", 700);
+	  $(".forgetPassword-area").removeClass("hidden-window",700);
   });
 
 
@@ -239,8 +231,10 @@ function userLogin() {
           }
           
         } else {
-          alert("帳號或密碼不符合");
           $("#login-submit-btn").removeClass("disable");
+          alert("帳號或密碼不符合");
+          $("#login-area").css("height",500);
+          $("#forgetPwd").removeClass("hidden-window").addClass("buttonL");
         }
 
       },
@@ -282,7 +276,7 @@ $(document).ready(function () {
 
 
   // regist
-  $("#regist-submit-btn").click(function () {
+  $("#regist-submit-btn").click(function() {
     userRegist();
   });
 
@@ -327,7 +321,8 @@ $(document).ready(function () {
   });
 
   $(".close-btn").click(function () {
-    $(this).parent().addClass("hidden-window", 700);
+    $(this).parent().addClass("hidden-window", 700).css("height",450);
+    $("#forgetPwd").removeClass("buttonL").addClass("hidden-window");
     $("#shadow").fadeOut(700);
 
     // clear the form

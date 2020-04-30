@@ -214,9 +214,11 @@ i {
   margin-left: -200px;
 }
 
+
 .regist-reply-area .fa-user,
 .regist-area .fa-user,
 .login-area .fa-user,
+.forgetPassword-area .fa-envelope,
 .auth-code-input-area .fa-keycdn {
   font-size: 80px;
   margin: 20px auto;
@@ -225,6 +227,13 @@ i {
 .admin-broadcast-area {
   width: 400px;
   height: 175px;
+  margin-top: -200px;
+  margin-left: -200px;
+}
+
+.forgetPassword-area {
+  width: 400px;
+  height: 400px;
   margin-top: -200px;
   margin-left: -200px;
 }
