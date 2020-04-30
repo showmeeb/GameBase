@@ -30,7 +30,7 @@
 
 <body>
 	<!-- top bar -->
-	<%@ include file="../topBar.jsp"%>
+	<%@ include file="topBar.jsp"%>
 	
 	<c:if test="${loginUser.rankId==2}">
 	<!-- forum title bar -->
@@ -107,7 +107,7 @@
 <!-- 			class="far fa-edit fa-2x"></i></a><br /> -->
 <!-- 	</div> -->
 	<!-- create article window -->
-	<%@ include file="article_editor.jsp"%>
+	<%@ include file="include/article_editor.jsp"%>
 <script type="text/javascript">
 var url = '<c:url value="/forum_test/${forum.forumId}/add"/>';
 var lo = 'title';

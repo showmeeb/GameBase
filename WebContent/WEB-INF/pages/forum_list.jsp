@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>welcome to forum page</title>
 <!-- jQuery library -->
-<!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <!-- Font Awesome icons -->
 <script src="https://kit.fontawesome.com/83bb506b46.js"
 	crossorigin="anonymous"></script>
@@ -136,7 +136,7 @@ $(document).ready(function(){
 		
 		//ajax
 		$.ajax({
-			url:'<c:url value="/forum_test/add"/>',
+			url:'/GameBase/forum_test/add"/',
 			processData: false,		
 			type:"POST",
 			cache: false,
@@ -168,7 +168,7 @@ $(document).ready(function(){
 				'</div>'+
 				'<div class="forum_content">'+
 				'<div class="forum_img">'+
-				'<img alt="圖片提示字串" src="'+response.newForum.forumFigure+'" height="200">'+
+				'<img alt="圖片提示字串" src="'+response.newForum.forumFigure+'" height="320">'+
 				'</div>'+
 				'<div class="forum_articles">'+
 				'<span>熱門點閱文章:</span><br /> <a href="<c:url value="/forum_test/'+response.newForum.forumId+'/'+response.newForum.titleId+'"/>">'+response.newForum.titleName+'</a><br />'+
@@ -196,7 +196,7 @@ $(document).ready(function(){
 		console.log("delete forum, forum ID : "+$(this).attr("id"));
 		var forumId=$(this).attr("id");
 		$.ajax({
-			url:'<c:url value="/forum_test/'+forumId+'/del"/>',
+			url:'/GameBase/forum_test/'+forumId+'/del',
 			type:"POST",
 			cache: false,
 	        data:{
@@ -215,7 +215,7 @@ $(document).ready(function(){
 </head>
 <body>
 	<!-- top bar -->
-	<%@ include file="../topBar.jsp"%>
+	<%@ include file="topBar.jsp"%>
 	
 	<c:if test="${loginUser.rankId==2}">
 	<!-- forum title bar -->
@@ -278,14 +278,10 @@ $(document).ready(function(){
 					</div>
 
 
-
-
-
-
 					<div class="forum_content">
 
 						<div class="forum_img">
-							<img alt="圖片提示字串" src="${item.forumFigure}" height="200">
+							<img alt="圖片提示字串" src="${item.forumFigure}" height="320">
 						</div>
 						<div class="forum_articles">
 							<span>熱門點閱文章:</span><br /> <a

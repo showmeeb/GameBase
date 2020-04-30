@@ -12,94 +12,19 @@
 <!-- Font Awesome icons -->
 <script src="https://kit.fontawesome.com/83bb506b46.js"
 	crossorigin="anonymous"></script>
-<!-- forum style -->
-<link href="<c:url value="/css/forumStyle.css"/>" rel="stylesheet">
 <!-- btn js import -->
 <%-- <script src="<c:url value="/js/content.js"/>"></script> --%>
 <!-- editor improt -->
 <script
 	src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
-<!-- create new article -->
-<script>
-let editor;
-
-$(document).ready(function(){
-
-	var articleTitle = location.href.substring(location.href.lastIndexOf("/") + 1);
-	console.log(articleTitle);
-	
-	//editor submit	
-	$("#submit").click(function(){
-		console.log("click submit");
-		//get form's inputs and transform to json form
-// 		var a=$(this.form).serializeObject();
-// 		console.log(a);
-// 		var form = JSON.stringify(a);
-		
-		//get url (forum name = article title =article location)
-
-		//get img source
-		var jsonObj = {"urlList":[]};
-		var imgSrc = "";
-		
-		//get all img-element's source from the editor block
-		$(".publish-area img").each(function(){
-			console.log("jsonObj.urlList ="+jsonObj.urlList+", jsonObj.urlList[jsonObj.urlList.length]= "+jsonObj.urlList[jsonObj.urlList.length]);
-			console.log($(this).attr("src"));
-			jsonObj.urlList[jsonObj.urlList.length] = $(this).attr("src");
-        });
-		
-		//get first img's src
-		if(jsonObj.urlList.length != 0){
-			console.log("first img's src: "+jsonObj.urlList[0]);
-			imgSrc = jsonObj.urlList[0];
-		}
-		
-		//do function when editor has data and title has value
-		if(editor.getData() && $("#articleTitle").val()){
-			console.log("has data");
-			console.log(editor.getData());
-			var myurl="/forum/"+articleTitle+"/add";
-			console.log(myurl);
-			//ajax send data to controller
-			$.ajax({
-				url:articleTitle+"/add",
-				dataType:"json",
-				type:"POST",
-				cache: false,
-	            data:{articleTitle: $("#articleTitle").val(),
-	            	userId: $("#accountId").val(),
-               		content: editor.getData()
-               		},
-         		success : function(response) {
-        			console.log(response);
-        			/*ajac response*/
-        								<!-- user data and update/post time -->
-        			var txt = '<div>'+
-            			'<span>userId : '+response.newContent.userId+'</span>'+
-            			'<div class="article_time_record">'+
-						'<i class="fas fa-pen-alt">Post Time : '+response.newContent.createTime+'</i><br />'+
-						'</div>'+
-						'<div class="article_time_record">'+
-						'<i class="fas fa-pen-alt">Update Time : '+response.newContent.updateTime+'</i><br />'+
-						'</div>'+
-						'</div>'+
-						'<br />'+
-						'<div class="content_content">'+<!-- content area -->
-						'<span>'+response.newContent.content+'</span><br />'+
-						'</div><hr />';
-					$("#publish-area").before(txt);
-
-        		}        			
-			})
-		}
-		
-	})
-});
-	
-</script>
-
-<!-- update record -->
+<!-- ckfinder import -->
+<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+<!-- forum style -->
+<link href="<c:url value="/css/forumStyle.css"/>" rel="stylesheet">
+<!-- create_article.js import -->
+<script src="<c:url value="/js/create_article.js"/>"></script>
+<script src="<c:url value="/js/content.js"/>"></script>
+<!-- update record likenum and unlikenum -->
 <script>
 $("#document").ready(function () {
 	console.log("this is content.js2");
@@ -111,27 +36,27 @@ $("#document").ready(function () {
 		var btn = $(this).attr("id");
 		console.log(btn);
 		
-		update_content(btn);
+		update_record(btn);
 	});
 	
 	/*update content button clicked*/
 	$(".btn_update_content").click(function(){
-		console.log("update content btn clicked");
+		console.log("update record btn clicked");
 		/*identify which btn been clicked */
 		var btn = $(this).attr("id")
 		console.log(btn);
-		
-		update_content(btn);
+		var contentId = $(this).parents(".content_id").attr("id");
+		console.log("content ID : "+contentId);
+		update_content(btn,contentId);
 	});
 	
 });
-
-function update_content(btn){
-	
+/*update like unlike number*/
+function update_record(btn){	
 	console.log("get btn value :"+btn);
 	console.log("/forum_test/${forum.forumId}/${title.titleId}");
 	$.ajax({
-		url:'<c:url value="/forum_test/${forum.forumId}/${title.titleId}/btn"/>',
+		url:'<c:url value="/forum_test/${forum.forumId}/${title.titleId}/record"/>',
 		dataType:"json",
 		type:"POST",
 		cache:false,
@@ -156,6 +81,59 @@ function update_content(btn){
 		}
 	})
 }
+/*update or delete content and reply*/
+function update_content(btn,contentId){
+// 	var contentId = $(this).parents(".content_id").attr("id");
+// 	console.log("content ID : "+contentId);
+	if(btn==='delete'){
+		console.log("get btn value :"+btn);
+		console.log("/forum_test/${forum.forumId}/${title.titleId}");
+		$.ajax({
+			url:'<c:url value="/forum_test/${forum.forumId}/${title.titleId}/'+contentId+'/update"/>',
+			dataType:"json",
+			type:"POST",
+			cache:false,
+			data:{
+				clickedBTN:btn,
+				contentId:contentId
+			},
+			success: function(response){
+				console.log("success");	
+			
+			}
+		})
+	} else if(btn==='update'){
+		console.log("get btn value :"+btn);
+		console.log("/forum_test/${forum.forumId}/${title.titleId}");
+		//get content
+		var content = $(".content_content").val();
+		//set editor
+		$("#articleTitle").val("");
+ 		$("#accountId").val("");
+        editor.setData(content);
+		//open editor
+		$(".publish-area").removeClass("hidden-window",700);
+       	$("#shadow").fadeIn(700);
+       	$("#submit").addClass("hidden-window");
+       	$("#update").removeClass("hidden-window");
+		//editor update button clicked
+// 		$.ajax({
+// 			url:'<c:url value="/forum_test/${forum.forumId}/${title.titleId}/'+contentId+'/update"/>',
+// 			dataType:"json",
+// 			type:"POST",
+// 			cache:false,
+// 			data:{
+// 				clickedBTN:btn,
+// 				contentId:contentId
+// 			},
+// 			success: function(response){
+// 				console.log("success");	
+			
+// 			}
+// 		})
+		
+		}
+}
 </script>
 <style type="text/css">
 a.disabled {
@@ -163,81 +141,25 @@ a.disabled {
 }
 </style>
 </head>
-
 <body>
-	<!-- test article title dispaly -->
-	<div class="article">
-
-		<!-- 發文者區塊 -->
-		<div class="content_Authordata"></div>
-
-		<!-- 發文時間 修改時間  -->
-		<div class="content_postdata">
-			<!-- create time -->
-			<div class="article_time_record">
-				<i class="fas fa-pen-alt fa-2x">Post Time : 2020-04-19 07:07:07</i><br />
-			</div>
-			<!-- last reply time -->
-			<div class="article_time_record">
-				<i class="far fa-comment-dots fa-2x">Last Reply : 2020-04-19
-					07:07:07</i><br /> <i class="fas fa-comment-dots fa-2x">Last Reply
-					: 2020-04-19 07:07:07</i><br />
-			</div>
-		</div>
-
-		<!-- content part -->
-		<div class="article_part">
-			<h2>article title : this is title for test</h2>
-			<hr />
-			<div class="article_img">
-				<img alt="圖片提示字串" src="https://i.imgur.com/8g2jFuM.png" height="100"
-					width="100">
-				<!-- 柴犬圖 -->
-			</div>
-			<div class="article_content">
-				<span>沃爾夫勒姆表示，這些更新步對應於我們對時間的一般概念，即宇宙時鐘的滴答作響。
-					將一條規則重複應用於一組抽象實體，得到的連接（即鏈接這組實體的關係圖）對應於空
-					間結構。因此空間不只是一組無法分辨的點，而是一個以無比複雜的模式連接的點網絡， 它可以復現物質和能量，以及被統稱爲物理學定律的關係。</span><br />
-			</div>
-		</div>
-
-		<!-- icons import : like, unlike, click, reply, delete, update -->
-		<div class="article_part article_datas">
-			<!-- like button -->
-			<div class="article_icons">
-				<i class="far fa-thumbs-up fa-2x">123</i> 
-				<i class="fas fa-thumbs-up fa-2x">132</i>
-			</div>
-			<!-- unlike button -->
-			<div class="article_icons">
-				<i class="far fa-thumbs-down fa-2x">123</i> 
-				<i class="fas fa-thumbs-down fa-2x">123</i>
-			</div>
-			<!-- click -->
-			<!-- 可不要使用 -->
-			<div class="article_icons">
-				<i class="far fa-eye fa-2x">123123</i> 
-<!-- 				<i class="fas fa-eye fa-2x">123123</i><br /> -->
-			</div>
-			<!-- reply article button -->
-			<div class="article_icons">
-				<i class="fab fa-replyd fa-2x"></i><br />
-			</div>
-			<!-- delete article button -->
-			<div class="article_icons">
-				<i class="far fa-trash-alt fa-2x"></i><br /> 
-<!-- 				<i class="fas fa-trash-alt fa-2x"></i><br /> -->
-			</div>
+	<!-- top bar -->
+	<%@ include file="topBar.jsp"%>
+	
+	<c:if test="${loginUser.rankId==2}">
+	<!-- forum title bar -->
+	<nav class="navbar navbar-expand-sm bg-light forum_topbar">
+		<ul class="nav justify-content-end">
 			<!-- update article button -->
-			<div class="article_icons">
-<!-- 				<i class="fas fa-edit fa-2x"></i><br />  -->
-				<i class="far fa-edit fa-2x"></i><br />
-			</div>
-
-		</div>
-	</div>
-
-	<!-- ================================================================================ -->
+			<li class="nav-item">
+				<a id="publish-btn" class="btn_update_forum" href="javascript:void(0)">
+					<i class="far fa-edit fa-2x"></i>
+				</a>
+			</li>
+			<li class="nav-item"> hello manager<br/></li>
+		</ul>
+	</nav>
+	</c:if>
+	
 	<div id="contentList" class="article">
 	<h1>主題：${forum.forumName}</h1>
 	<br />
@@ -256,13 +178,14 @@ a.disabled {
 
 				<hr />
 				<c:forEach items="${contentList}" var="item" varStatus="itemStatus">
-				
+<%-- 					<%@ include file="../include/friendForm.jsp"%> --%>
+					<div id="${item.contentId}" class="content_id">
 					<!-- user data and update/post time -->	
 					<div>				
 					<!-- user img -->
-					<div>
-					<c:if test="${empty item.img}"><img src="<c:url value="/img/userIcon.png"/>" width="60" height="60"/></c:if>
-					<c:if test="${not empty item.img}"><img src=${item.img} alt="" width="40" height="40"/></c:if>
+					<div id="${item.userId}" class="userId">
+					<c:if test="${empty item.img}"><img src="<c:url value="/img/userIcon.png"/>" width="60" height="60" class="content_head"/></c:if>
+					<c:if test="${not empty item.img}"><img src=${item.img} alt="" width="60" height="60" class="content_head"/></c:if>
 					</div>
 					<!-- user account -->
 					<div>
@@ -270,6 +193,7 @@ a.disabled {
 					user ID 		: ${item.userId}<br/>
 					user Account 	: ${item.account}<br/>
 					user NickName 	: ${item.nickName}<br/>
+					content Id 		: ${item.contentId}<br/>
 					</span>
 					</div>
 					<!-- time -->
@@ -291,13 +215,13 @@ a.disabled {
 					<hr />
 					
 					<!-- content area -->
-					<div class="content_content">
+					<div contentId="${item.contentId}" class="content_content">
 						<span>${item.content}</span><br />
 					</div>
 					<hr />
 					<!-- icons input and time record -->
 					<c:if test="${itemStatus.count==1 }">
-					<div class="article_part article_datas">
+					<div class="article_datas">
 					<!-- ajax link record btns -->
 					<div class="record_btns">
 					<!-- user clicked like -->
@@ -362,49 +286,20 @@ a.disabled {
 					</div>
 					</c:if>
 					<hr />
+					</div>
 					<!-- content end -->
+					
 				</c:forEach>
 			</div>
-
-		
-
 	</c:if>
-	<!-- ================================================================================ -->
-	<!--輸入區 -->
-	<div id="publish-area" class="publish-area">
-		<form>
-			<!-- User ID and Article Title -->
-			<table>
-				<tr>
-					<td><p>your account id:</p></td>
-					<td><input type="text" id="accountId" name="accountId"></td>
-				</tr>
-				<tr>
-					<td><p>article title:</p></td>
-					<td><input type="text" id="articleTitle" name="articleTitle" disabled="disabled" value="${title.titleName}"></td>
-				</tr>
-			</table>
-			<!-- CKeditor -->
-			<textarea name="content" id="editor"></textarea>
-
-			<script>
-		editor = ClassicEditor
-            	.create( document.querySelector( '#editor' ),{
-            	    mediaEmbed:{
-            	    	previewsInData:true
-          	        }
-         		} )
-         		.then( newEditor => {
-                	editor = newEditor
-                } )
-            	.catch( error => {
-                	console.error( error );
-            	} );
-
-   		</script>
-		</form>
-		<button id="submit">Post Your Article</button>
 	</div>
-	</div>
+	
+
+<!-- create article window -->
+<%@ include file="include/article_editor.jsp"%>
+<script type="text/javascript">
+var url = '<c:url value="/forum_test/${forum.forumId}/${title.titleId}/add"/>';
+var lo = 'content';
+</script>
 </body>
 </html>

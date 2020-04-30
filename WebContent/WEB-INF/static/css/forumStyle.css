@@ -24,11 +24,11 @@ nav.forum_topbar {
 
 /*=====================================================*/
 /* icons setting*/
-i {
+/*i {
 	margin: auto;
 	width: auto;
 	text-align: center;
-}
+}*/
 
 .fa-thumbs-up {
 	color: #0080ff;
@@ -38,13 +38,18 @@ i {
 /* img { */
 /* 	margin: auto; */
 /* } */
-
 .forum_editor {
 	width: 40vw;
 	height: 85vh;
 	margin-top: -40vh;
 	margin-left: -20vw;
 	overflow: auto;
+}
+/*論壇表背景*/
+.forum_background {
+	background-image: url("/GameBase/img/bg_space_wood.jpg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
 }
 
 div.forum_list {
@@ -64,7 +69,6 @@ div.forum_title_bar {
 	overflow: hidden;
 }
 
-
 div.forum_title_name {
 	float: left;
 	width: 50%;
@@ -76,12 +80,13 @@ div.forum_title_name {
 
 div.forum_btn {
 	float: right;
-	height: 30px;
+	height: 40px;
 	width: 50px;
 	padding: 1px;
 	margin: auto;
 	border: 1px solid DodgerBlue;
 	width: 50px;
+	text-align: center;
 }
 
 div.forum_content {
@@ -92,12 +97,18 @@ div.forum_content {
 }
 
 div.forum_img {
-	float: left; width : 45%;
+	float: left;
+	height: 330px;
+	width: 180px;
 	margin: auto;
 	padding: 5px;
 	border: 1px solid DodgerBlue;
+	border-radius: 10px;
 	width: 45%;
 	text-align: center;
+	background-image: url("/GameBase/img/bg_gray.jpg");
+	background-repeat: repeat;
+	
 }
 
 div.forum_articles {
@@ -187,6 +198,7 @@ div.content_datas {
 	border: 3px solid DodgerBlue;
 	overflow: hidden; /*避免float跑框*/
 }
+
 .firends_area {
 	width: 350px;
 	height: 350px;
@@ -194,6 +206,7 @@ div.content_datas {
 	margin-left: -10vw;
 	overflow: auto;
 }
+
 img.content_head {
 	border-radius: 50%;
 }
