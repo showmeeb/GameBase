@@ -248,6 +248,8 @@ body {
 			$('.aBut').css("display", "none");
 			$('#imgSpan').css("display", "none");
 
+			$("#member-profile").removeClass("d-none").addClass("d-block");
+
 		});
 		function showName() {
 			$('#nameSpan').show();

@@ -21,16 +21,16 @@
 		我的文章
 
 		<div id="bar" class="">
-			<form>
-				<input type="text" id="se1" placeholder="請輸入關鍵字"> <select
-					name="forum">
+			
+				<input type="text" id="sBar" placeholder="請輸入關鍵字">  <select
+						id="option" name="forum">
 					<option value="0">依主題搜尋</option>
-					<option value="LOL">英雄聯盟</option>
-					<option value="WOW">魔獸世界</option>
-					<option value="MH">魔物獵人</option>
+					<option value="1">英雄聯盟</option>
+					<option value="2">魔獸世界</option>
+					<option value="3">魔物獵人</option>
 				</select>
-				<button id="search">查詢</button>
-			</form>
+				<input type="button" id="s" value="查詢" />
+			
 		</div>
 		<div>
 			<span id="sp1"></span>
@@ -108,7 +108,64 @@
 										},
 												});
 									})
+									
+									
+				$(document).on("click","#s",function() {
+				var forum = $("#option").val();
+				var title = $("#sBar").val();
+				var userId=$("#userId").text();
+				console.log("forum:"+forum+"title:"+title+"userId:"+userId);
+					$.ajax({
+						type : "POST",
+						url : "GameBase/getMemberArticles",
+						dataType : "json",
+						data : {
+							forum : forum,
+							title : title,
+							id:userId
+							},
+						beforesend : function() {
+							$('#rTable').html("");
+							$('#cTable').html("");
+							},
+						success : function(response) {
+							console.log(response);
+							var rTable = "<thead><tr><th>文章ID<th>主題<th>文章標題<th>發文時間</thead><tbody>";
+							var cTable = "<thead><tr><th></thead><tbody>"
+						if (response.articles.length > 0) {
+							for (let i = 0; i < response.articles.length; i++) {
+							rTable += '<tr class="tr"><td scope="row">'+ (i+1);
+							if (response.articles[i].forumId == 1) {
+								rTable += "<td>英雄聯盟"
+								} else if (response.articles[i].forumId == 2) {
+								rTable += "<td>魔獸世界"
+								} else if (response.articles[i].forumId == 3) {
+								rTable += "<td>魔物獵人"
+									}
+							rTable += "<td>"+ response.articles[i].titleName;
+							rTable += "<td>"+ response.articles[i].createTime;
+							rTable += "<td>"+ response.articles[i].titleId;
+							rTable += "<td>"+ response.articles[i].forumId;
+							cTable += '<tr><td><input type="radio" class="del d-none" name="d" value="a[i].userId">'
+								}
 						
+							$('#rTable').html(rTable);
+							$('#cTable').html(cTable);
+							$("#del").addClass("d-none").removeClass("d-block");
+							$("#toDel").addClass("d-none").removeClass("d-block");
+					
+							}else{
+								$('#rTable').html("");
+								$('#cTable').html("");
+								$('#rMsg').html("查無結果");
+								$("#toDel").addClass(
+										"d-none")
+										.removeClass(
+												"d-block");
+									}
+						}
+						});
+					})	
 		})//ready結尾		
 	</script>
 </body>

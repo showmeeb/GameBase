@@ -102,5 +102,12 @@
 			</div>
 		</div>
 	</div>
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+			$("#member-profile").removeClass("d-none").addClass("d-block");
+			})
+
+	</script>
 </body>
 </html>
