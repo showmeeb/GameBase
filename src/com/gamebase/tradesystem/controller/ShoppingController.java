@@ -84,6 +84,7 @@ public class ShoppingController {
 	public void orderStatus(HttpServletRequest request) {
 		String rtnCode = request.getParameter("RtnCode");
 		String orderId = request.getParameter("CustomField4");
+		String uuid = request.getParameter("MerchantTradeNo");
 		System.out.println("RtnCode:"+rtnCode);
 		System.out.println("orderName:"+orderId);
 //		System.out.println("orderPhone:"+orderPhone);
@@ -93,6 +94,7 @@ public class ShoppingController {
 //		System.out.println("orderDate:"+orderDate);
 //		System.out.println("orderPrice:"+orderPrice);
 		System.out.println("付款成功!!");
+		shoppingService.sendOrderDetail(Integer.parseInt(orderId));
 		shoppingService.orderStatus(Integer.parseInt(rtnCode),Integer.parseInt(orderId));
 	}
 	

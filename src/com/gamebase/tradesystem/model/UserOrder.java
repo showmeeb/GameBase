@@ -1,6 +1,7 @@
 package com.gamebase.tradesystem.model;
 
 import java.util.Date;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.UUID;
 
@@ -24,13 +25,14 @@ public class UserOrder {
 	private String orderPhone;
 	private String orderAddress;
 	private int orderPrice;
-	private String orderDate;
+	private Timestamp orderDate;
+	private String orderEmail;
 	private int payStatus;
 
 	public UserOrder() {
 	}
 
-	public UserOrder(int userId,String uuId,String orderName,String orderPhone, String orderAddress, int orderPrice, String orderDate,int payStatus) {
+	public UserOrder(int userId,String uuId,String orderName,String orderPhone, String orderAddress, int orderPrice, Timestamp orderDate,String orderEmail,int payStatus) {
 		this.userId = userId;
 		this.uuId=uuId;
 		this.orderName=orderName;
@@ -39,6 +41,7 @@ public class UserOrder {
 		this.orderPrice = orderPrice;
 		this.orderDate = orderDate;
 		this.payStatus=payStatus;
+		this.orderEmail=orderEmail;
 	}
 
 	@Column(name = "USERID")
@@ -105,11 +108,11 @@ public class UserOrder {
 	}
 
 	@Column(name = "ORDERDATE")
-	public String getOrderDate() {
+	public Timestamp getOrderDate() {
 		return orderDate;
 	}
 
-	public void setOrderDate(String orderDate) {
+	public void setOrderDate(Timestamp orderDate) {
 		this.orderDate = orderDate;
 	}
 	@Column(name = "PAYSTATUS")
@@ -119,6 +122,14 @@ public class UserOrder {
 
 	public void setPayStatus(int payStatus) {
 		this.payStatus = payStatus;
+	}
+	@Column(name="ORDEREMAIL")
+	public String getOrderEmail() {
+		return orderEmail;
+	}
+
+	public void setOrderEmail(String orderEmail) {
+		this.orderEmail = orderEmail;
 	}
 
 	

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gamebase.general.model.dao.TagSearchDAO;
+import com.gamebase.member.model.dao.MailSenderDAO;
 import com.gamebase.tradesystem.model.UserOrder;
 import com.gamebase.tradesystem.model.dao.ShoppingCartDao;
 import com.gamebase.tradesystem.model.dao.UserOrderDao;
@@ -24,6 +25,9 @@ public class ShoppingService {
 	
 	@Autowired
 	private UserOrderDao userOrderDao;
+	
+	@Autowired
+	private MailSenderDAO mailSenderDao;
 	
 	
 	public JSONObject shoppingCartAdds(String form ,int id) {
@@ -63,6 +67,10 @@ public class ShoppingService {
 	public JSONArray orderQuery(int id) {
 		
 		return userOrderDao.orderQuery(id);
+	}
+	
+	public void sendOrderDetail(int orderId) {
+		mailSenderDao.sendOrderDetail(orderId);
 	}
 	
 	}

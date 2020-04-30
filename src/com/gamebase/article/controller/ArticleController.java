@@ -469,7 +469,7 @@ public class ArticleController {
 		return "allArticles";
 	}
 
-	// 後台搜尋BAR
+	//allArticles 後台搜尋BAR
 	@SuppressWarnings("finally")
 	@RequestMapping(path = "/GameBase/getSomeArticles", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
@@ -496,6 +496,34 @@ public class ArticleController {
 			return result;
 		}
 	}
+	
+	//myArticles 後台搜尋BAR
+		@SuppressWarnings("finally")
+		@RequestMapping(path = "/GameBase/getMemberArticles", produces = "application/json", method = RequestMethod.POST)
+		@ResponseBody
+		public JSONObject getMemberArticlesTitle(@RequestParam("id") String id,@RequestParam("forum") String forum, @RequestParam("title") String title) {
+			System.out.println("query some Article Title");
+			JSONObject result = new JSONObject();
+
+			System.out.println("forum" + forum);
+			try {
+				if (forum.equals("0")) {
+					System.out.println("queryMemberArticleTitleByKeyInallForum");
+					List<ArticleListView> a = aService.queryMemberArticleTitleByKeyInallForum(Integer.valueOf(id),title);
+					result.put("articles", a);
+				} else {
+					System.out.println("queryMemberArticleTitleByKeyInOneForum");
+					List<ArticleListView> b = aService.queryMemberArticleTitleByKeyInOneForum(Integer.valueOf(id),Integer.valueOf(forum), title);
+					result.put("articles", b);
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				System.out.println(result);
+				return result;
+			}
+		}
 
 	/* upload figure to imgur */
 	@RequestMapping(value = "/figureupload", produces = "application/json")
@@ -527,7 +555,7 @@ public class ArticleController {
 		List<ArticleListView> articles = aService.queryMyArticle(Integer.valueOf(id));
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("articles", articles);
-		System.out.println(map);
+		System.out.println(map+"map");
 		return map;
 	}
 
