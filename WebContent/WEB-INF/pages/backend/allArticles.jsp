@@ -61,7 +61,7 @@
 			</div>
 		</div>
 		<div id="forum" class="float-right w-50">
-			<iframe id="iframe" class="d-none" style="width:500px;height:800px" onload="dtopBar()"></iframe>
+		    <iframe id="iframe" class="d-none" style="width:700px;height:800px" onload="dtopBar()"></iframe>
 		</div>
 	</main>
 	<script type="text/javascript">
@@ -154,16 +154,11 @@
 								var forumid = $(this).children().eq(4).text();
 								var articleid = $(this).children().eq(5).text();
 								console.log(forumid+"~"+articleid);
-//								$("#iframe").attr("src","http://localhost:8080/GameBase/forum_test/"+forumid+"/"+articleid).ready(function(){console.log("kkkk");$(this).find("#topBar").addClass("d-none")});
+								$("#iframe").attr("src","http://localhost:8080/GameBase/forum_test/"+forumid+"/"+articleid);
 								iframe(forumid,articleid);
-//不能去掉Bar								$("#iframe").ready(function(){$(this).contents().find('#topBar').addClass("d-none");console.log("fff")})
-								console.log("ggggg");																	
-								$("#iframe").removeClass("d-none").addClass("d-block");
-								})
+																})
+		})
 
-		$(document).on("ready","iframe",function(){
-				alert("iframe ready");
-			});
 
 		
 		$(document).on("click", "#delArticle", function() {
@@ -174,14 +169,16 @@
 			}
 		})
 		
-		function iframe(forumid,articleid){
-			$("#iframe").attr("src","http://localhost:8080/GameBase/forum_test/"+forumid+"/"+articleid);
 
-			}
 		//可以去掉 顯示順序還有問題
 		function dtopBar(){
 				console.log("delete----------------------");
 				$("#iframe").contents().find('#topBar').addClass("d-none");
+				showIframe();
+			}
+		function showIframe(){
+ 			$("#iframe").addClass("d-block").delay(5000).queue(function(){
+ 				$(this).removeClass("d-none").dequeue()});
 			}
 		
 	</script>

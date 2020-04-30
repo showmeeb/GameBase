@@ -194,4 +194,13 @@ public class ArticleService {
 	public List<ArticleTitle> querySomeArticleTitleByKeyInallForum(String title) {
 		return titleDao.querySomeArticleTitleByKeyInallForum(title);
 	}
+	//後台
+	public List<ArticleListView> queryMemberArticleTitleByKeyInOneForum(Integer userId,Integer forumId, String title){
+		return alvDao.queryMemberArticleTitleByKeyInOneForum(userId, forumId, title);		
+	}
+	//後台
+	public List<ArticleListView> queryMemberArticleTitleByKeyInallForum(Integer userId,String title){
+		return alvDao.queryMemberArticleTitleByKeyInallForum(userId, title);	
+	}
+	
 }
