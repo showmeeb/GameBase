@@ -38,7 +38,7 @@ public class TagSearchController {
 		model.addAttribute("looking", looking);
 		}
 		
-		return "searchResults";
+		return "shoppingPage";
 	}
 
 	@RequestMapping(value = "/autoComplete", method = RequestMethod.POST)

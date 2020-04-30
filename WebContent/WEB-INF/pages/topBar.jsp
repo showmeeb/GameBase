@@ -76,7 +76,7 @@
 				</select> <input class="form-control search-input" type="search"
 					placeholder="搜尋" aria-label="Search" name="keyword"
 					value="${keyword}" id="searchInput">
-				<button class="btn btn-outline-light search-submit-btn topBarBtn"
+				<button class="btn btn-outline-light search-submit-btn"
 					type="submit">Search</button>
 			</form>
 		</div>
@@ -90,7 +90,7 @@
 				<a class="dropdown-item" href="<c:url value="/mallHome"/>">商城首頁(子敬)</a>
 				<a class="dropdown-item" href="<c:url value="/tradesystem"/>">登記商品</a>
 				<a class="dropdown-item" href="<c:url value="/mainProduct"/>">商品管理</a>
-				<a class="dropdown-item" href="<c:url value="/shoppingPage"/>">商城頁面</a>
+				<a class="dropdown-item" href="<c:url value="/tagSearch?looking=forProduct&keyword=ps4"/>">商城頁面</a>
 				<a class="dropdown-item" href="<c:url value="/test"/>">圖片上傳</a>
 
 			</div>
@@ -103,9 +103,10 @@
 			</a>
 		</div>
 
+
+		<!-- 會員系統 -->
 		<div class="col-md-2 column">
 			<div class="dropdown">
-
 				<!-- 這邊放使用者大頭貼-->
 				<span>
 					<a href="#" data-toggle="popover" class="disable" >
@@ -118,7 +119,6 @@
 					type="button" id="dropdownMenuButton" data-toggle="dropdown"
 					aria-haspopup="true" aria-expanded="true">
 					會員系統
-					<!--使用動態產生-->
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 					<!-- Ajax -->
@@ -127,6 +127,9 @@
 					<a class="dropdown-item hidden-window" id="logout-str" href="#">登出</a>
 					<a class="dropdown-item hidden-window" id="mainCenter"href="<c:url value="/mainProduct"/>">管理中心</a>
 					<a class="dropdown-item hidden-window" id="admin-broadcast" href="#">管理員廣播</a>
+					<a class="dropdown-item" id="order" href="#">訂單查詢</a>
+					<a class="dropdown-item" id="shopcart" href="#">購物車</a>
+					
 				</div>
 			</div>
 		</div>

@@ -1,5 +1,6 @@
 package com.gamebase.article.controller;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -386,7 +387,8 @@ public class ArticleController {
 		System.out.println("update article title");
 		JSONObject result = new JSONObject();
 		ArticleContent content = new ArticleContent();
-		String updateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+		Timestamp updateTime = new Timestamp(System.currentTimeMillis());
+		System.out.println(updateTime);
 		/* identify clicked btn */
 		if (clickedBTN.equals("delete")) {
 			/* update reply content */

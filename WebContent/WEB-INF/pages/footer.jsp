@@ -9,15 +9,16 @@
 <meta charset="UTF-8">
 
 <style type="text/css">
-footer{margin-top: 20px}
+footer {
+margin-top: 55px;
+}
 </style>
 
 </head>
 <body>
 
-      <footer class="card-footer bg-dark text-center text-light">
-        Copyright © 2020 GameBase. All rights reserved.
-      </footer>
+	<footer class="card-footer bg-dark text-center text-light">
+		Copyright © 2020 GameBase. All rights reserved. </footer>
 
 </body>
 </html>
