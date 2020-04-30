@@ -4,256 +4,259 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
 
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-	crossorigin="anonymous"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-	crossorigin="anonymous"></script>
-<title>Insert title here</title>
 <style type="text/css">
-body{
-padding: 0;
-	background-image:url('https://i.imgur.com/OMBOMxR.jpg');
-	background-repeat:no-repeat;
-	background-size:100% 100%;
-	background-attachment:fixed;
-	
-}
 #st1 img {
-	width: 130px;border: 1px solid blue; margin:0;
+	width: 350px;
+	height: 230px;
+	margin: 0;
 }
-#st1 {
-	width: 100%;height:800px;margin-left:0; 
 
-	}
-#st1 table{
-	
+#st1 {
+	width: 100%;
+	height: 800px;
+	margin-left: 0;
+}
+
+#st1 table {
 	text-align: center;
 	width: 1000px;
+}
 
-	}
-#st1 td{
-	vertical-align:middle;
+#st1 td {
+	vertical-align: middle;
 	padding: 0;
+}
 
-	}
-#dt1{
-	margin:auto;
+#dt1 {
+	margin: auto;
 	width: 1000px;
 	position: relative;
-	top:0;
+	top: 0;
+}
 
-	}
+div, tr, td, th {
+	margin: 0;
+}
 
-div,tr,td,th {
-	
-	margin:0;
+#nav-div {
+	background: rgba(20%, 20%, 20%, 0.4);
+	bottom: 0;
+	position: fixed;
+	width: 100%;
+	height: 90px;
+}
 
-	}
-
-
-#nav-div{background: rgba(20%,20%,20%,0.4);bottom:0; position:fixed;width:100%;height:90px;}
-
-#sp1{ display: flex; vertical-align: middle;}
+#sp1 {
+	display: flex;
+	vertical-align: middle;
+}
 </style>
 </head>
-<body >
-	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<body>
 	<jsp:include page="topBar.jsp" />
 	<!-- 測試固定圖片 -->
 
 
 
-	<div id="st1" >
-	
-		<div id="dt1" class="text-white">
-		<h1>購物車</h1>
-		<table  style="background:rgba(50%,50%,50%,0.3) ">
-		<thead><tr><th>商品ID<th>商品照片<th>商品名稱<th>商品價錢<th>商品數量<th>總金額<th>編輯</thead>
-		<tbody id="t1"></tbody>
-		</table>
-	</div>
+	<div id="st1">
 
-	<!-- Modal -->
-	<div class="modal fade"  id="exampleModalCenter" tabindex="-1"
-		role="dialog" aria-labelledby="exampleModalCenterTitle"
-		aria-hidden="true" >
-		<div class="modal-dialog modal-lg modal-dialog-centered"
-			role="document">
-			<div id="payform" class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalCenterTitle">付款資訊</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<form id="f1">
-						<div class="form-group">
-							<label for="orderName">姓名:</label> <input type="text"
-								class="form-control" name="orderName" aria-describedby="emailHelp">
-						</div>
-						<div class="form-group">
-							<label for="orderPhone">電話:</label> <input type="text"
-								class="form-control" name="orderPhone" aria-describedby="emailHelp">
-						</div>
-						<div class="form-group">
-							<label for="orderAddress">住址:</label> <input type="text"
-								class="form-control" name="orderAddress" aria-describedby="emailHelp">
-						</div>
-						
-						<div class="form-group">
-						    <label for="orderEmail">信箱:</label>
-						    <input type="email" class="form-control" name="orderEmail" placeholder="name@example.com">
-						</div>
-						
-					</form>
-				</div>
-				<div class="modal-footer">
-					
-					<button id="paybill" type="button" class="btn btn-primary">結帳</button>
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">取消</button>
+		<div id="dt1">
+			<h1>購物車</h1>
+			<table style="background: rgba(50%, 50%, 50%, 0.3)">
+				<thead>
+					<tr>
+						<th>商品ID
+						<th>商品照片
+						<th>商品名稱
+						<th>商品價錢
+						<th>商品數量
+						<th>總金額
+						<th>編輯
+				</thead>
+				<tbody id="t1"></tbody>
+			</table>
+		</div>
 
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+			role="dialog" aria-labelledby="exampleModalCenterTitle"
+			aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered"
+				role="document">
+				<div id="payform" class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalCenterTitle">付款資訊</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form id="f1">
+							<div class="form-group">
+								<label for="orderName">姓名:</label> <input type="text"
+									class="form-control" name="orderName"
+									aria-describedby="emailHelp">
+							</div>
+							<div class="form-group">
+								<label for="orderPhone">電話:</label> <input type="text"
+									class="form-control" name="orderPhone"
+									aria-describedby="emailHelp">
+							</div>
+							<div class="form-group">
+								<label for="orderAddress">住址:</label> <input type="text"
+									class="form-control" name="orderAddress"
+									aria-describedby="emailHelp">
+							</div>
+
+							<div class="form-group">
+								<label for="orderEmail">信箱:</label> <input type="email"
+									class="form-control" name="orderEmail"
+									placeholder="name@example.com">
+							</div>
+
+						</form>
+					</div>
+					<div class="modal-footer">
+
+						<button id="paybill" type="button" class="btn btn-primary">結帳</button>
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">取消</button>
+
+					</div>
 				</div>
 			</div>
 		</div>
+		<!-- 結帳的BAR -->
 	</div>
-	<!-- 結帳的BAR -->
+	<div id="nav-div">
+		<div style="position: fixed; bottom: 10px; right: 80px">
+			<span style="color: red;">總金額&nbsp;&nbsp;:&nbsp;&nbsp;</span><span
+				id="total" style="color: red;"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+			<button id="paybillF" style="width: 200px;"
+				class="btn btn-primary btn-lg " type="button"
+				data-toggle="modal" data-target="#exampleModalCenter">結&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;帳</button>
+		</div>
 	</div>
-		<div id="nav-div" >
-	  	<div style="position:fixed;bottom:10px;right:80px">
-  		<span style="color: red;">總金額&nbsp;&nbsp;:&nbsp;&nbsp;</span><span id="total"style="color: red;"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-    		<button id="paybillF" style="width:200px;" class="btn btn-outline-success btn-lg"  type="button" data-toggle="modal"
-		data-target="#exampleModalCenter">結&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;帳</button>
-  		</div>
-	</div>
-	
+
 	<script type="text/javascript">
-	var t = false;
-	//沒效果 控制model 呼叫前或後的函數
-	$("#exampleModalCenter").on("show.bs.modal",function(e){
+		var t = false;
+		//沒效果 控制model 呼叫前或後的函數
+		$("#exampleModalCenter").on("show.bs.modal", function(e) {
 			console.log('顯示視窗前呼叫');
 		});
-	$('#exampleModalCenter').on('hidden.bs.modal fade', function (e) {
-	alert("asd");
-	})
-	
-	if($('#exampleModalCenter').hasClass('model')){
-	  console.log('視窗目前是開啟的狀態..');
-	}
-		
-		$(window).bind('beforeunload',function(){
-			var t=false;
-			if(window.sessionStorage.getItem("loginUser")!=""){
+		$('#exampleModalCenter').on('hidden.bs.modal fade', function(e) {
+			alert("asd");
+		})
+
+		if ($('#exampleModalCenter').hasClass('model')) {
+			console.log('視窗目前是開啟的狀態..');
+		}
+
+		$(window).bind('beforeunload', function() {
+			var t = false;
+			if (window.sessionStorage.getItem("loginUser") != "") {
 				var c = [];
 				var x = {};
 				var data;
-				$('#t1').find('.upd').each(function(i,e){
-				
+				$('#t1').find('.upd').each(function(i, e) {
+
 					let j;
 					let k;
-					if(i%2==0){
-						x[i]=e.innerHTML;
-	
-						}
-					else{
-	
-						k=e.value;
-						c.push({"shoppingCartId":x[i-1],"amount":k});
-						}
-					});
-				data=JSON.stringify(c);
-	
+					if (i % 2 == 0) {
+						x[i] = e.innerHTML;
+
+					} else {
+
+						k = e.value;
+						c.push({
+							"shoppingCartId" : x[i - 1],
+							"amount" : k
+						});
+					}
+				});
+				data = JSON.stringify(c);
+
 				$.ajax({
-					url:"shopping/shoppingCartUpdate",
-					dataType:"json",
-					data:{data:data},
-					type:"post",
-					success:function(response){
+					url : "shopping/shoppingCartUpdate",
+					dataType : "json",
+					data : {
+						data : data
+					},
+					type : "post",
+					success : function(response) {
 						console.log(response);
-						if(respone=="false"){return '提示資訊';}
-						
+						if (respone == "false") {
+							return '提示資訊';
 						}
-					});
-			}
-			else{
+
+					}
+				});
+			} else {
 				var x = {};
-				$('#t1').find('.localupd').each(function(i,e){
+				$('#t1').find('.localupd').each(function(i, e) {
 					console.log(e);
 					let j;
 					let k;
-					if(i%2==0){
-						x[i]=e.value;
+					if (i % 2 == 0) {
+						x[i] = e.value;
 						console.log(x[i]);
-						}
-					else{
-						j=localStorage.getItem(e.innerHTML);
-						k=JSON.parse(j);
-						k.amount=x[i-1];
-						k=JSON.stringify(k);
-						localStorage.setItem(e.innerHTML,k);
-						}		
-					});	
-				
-				}
-			if(t==true){
+					} else {
+						j = localStorage.getItem(e.innerHTML);
+						k = JSON.parse(j);
+						k.amount = x[i - 1];
+						k = JSON.stringify(k);
+						localStorage.setItem(e.innerHTML, k);
+					}
+				});
+
+			}
+			if (t == true) {
 				return '提示資訊';
 			}
-			
-		}
-		);
 
-	
+		});
 
-		function total(){
-		var a=0;
-		$('tr').find("td[id='money']").each(function(i, e) {
-			console.log("e:"+e.innerHTML);
-			a+=parseInt(e.innerHTML);
+		function total() {
+			var a = 0;
+			$('tr').find("td[id='money']").each(function(i, e) {
+				console.log("e:" + e.innerHTML);
+				a += parseInt(e.innerHTML);
 			})
-		console.log("a:"+a);
-		
-		$('#total').html(a);
-		return a;
+			console.log("a:" + a);
+
+			$('#total').html(a);
+			return a;
 		}
-	
+
 		function showtables(response) {
 			var txt = "";
 			for (let i = 0; i < response.length; i++) {
-				var item ={
-						productId:response[i].productId,
-						productName:response[i].productName,
-						productPrice:response[i].productPrice,
-						amount:response[i].amount
-						}
+				var item = {
+					productId : response[i].productId,
+					productName : response[i].productName,
+					productPrice : response[i].productPrice,
+					amount : response[i].amount
+				}
 				console.log(response[i].lsId);
-				
+
 				txt += "<tr><td class='upd' style='display:none'>"
 						+ response[i].shoppingCartId;
-				txt += "<td style='display:none'><span id='item'>"+JSON.stringify(item);
+				txt += "<td style='display:none'><span id='item'>"
+						+ JSON.stringify(item);
 				txt += "<td>" + response[i].productId;
 				txt += "<td id='img'><img src='"+response[i].productImg+"'>";
 				txt += "<td>" + response[i].productName;
 				txt += "<td id='oriPrice'>" + response[i].productPrice;
-				txt += "<td>"+"<span id='sp1'><button id='noplus' type='button' class='btn btn-outline-secondary btn-sm'>-</button>";
+				txt += "<td>"
+						+ "<span id='sp1'><button id='noplus' type='button' class='btn btn-outline-secondary btn-sm'>-</button>";
 				txt += "<input style='width: 35px;' id='quantity_input' class='upd localupd' type='text' value='"+ response[i].amount+"'>";
-				txt	+= "<button id='plus' type='button' class='btn btn-outline-secondary btn-sm'>+</button></span>";
-				txt += "<td id='money'>" + (response[i].productPrice * response[i].amount)
-				txt += "<td id='lsId' class='localupd' style='display:none'>"+response[i].lsId;
+				txt += "<button id='plus' type='button' class='btn btn-outline-secondary btn-sm'>+</button></span>";
+				txt += "<td id='money'>"
+						+ (response[i].productPrice * response[i].amount)
+				txt += "<td id='lsId' class='localupd' style='display:none'>"
+						+ response[i].lsId;
 				txt += "<td><botton id='delete' class='btn btn-danger'>移除</botton>"
 
 			}
@@ -261,97 +264,96 @@ div,tr,td,th {
 		}
 
 		$(document).on('change', '#quantity_input', function() {
-			$tr=$(this).parents("tr");
-			var num=$tr.find("input[id='quantity_input']");
+			$tr = $(this).parents("tr");
+			var num = $tr.find("input[id='quantity_input']");
 			console.log(num.val());
-			if(num.val()<1){
+			if (num.val() < 1) {
 				num.val(1);
-				}
-			var num1=$tr.find("#quantity_input").val();
+			}
+			var num1 = $tr.find("#quantity_input").val();
 			var price = $tr.find("td[id='oriPrice']").text();
 			console.log(price);
-			$tr.find("td[id='money']").html(price*num1);
+			$tr.find("td[id='money']").html(price * num1);
 			total()
-			
+
 		})
 
-		$(document).on('click', '#plus', function() {	
+		$(document).on('click', '#plus', function() {
 
-			
-			$tr=$(this).parents("tr");
-			var num=$tr.find("input[id='quantity_input']");
+			$tr = $(this).parents("tr");
+			var num = $tr.find("input[id='quantity_input']");
 			num.val(parseInt(num.val()) + 1);
-			var num1=num.val();
+			var num1 = num.val();
 			var price = $tr.find("td[id='oriPrice']").text();
-			
-			$tr.find("td[id='money']").html(price*num1);
+
+			$tr.find("td[id='money']").html(price * num1);
 			total()
-			
+
 		})
-		
+
 		$(document).on('click', '#noplus', function() {
-			
-			$tr=$(this).parents("tr");
-			var num=$tr.find("input[id='quantity_input']");
+
+			$tr = $(this).parents("tr");
+			var num = $tr.find("input[id='quantity_input']");
 			if (num.val() > 1) {
 				num.val(parseInt(num.val()) - 1)
-            }
-			var num1=num.val();
+			}
+			var num1 = num.val();
 			var price = $tr.find("td[id='oriPrice']").text();
-			
-			$tr.find("td[id='money']").html(price*num1);
+
+			$tr.find("td[id='money']").html(price * num1);
 			total()
-			
+
 		})
 
-		
-		$(document).ready(function() {
-				
-				var user;
-				if(window.sessionStorage.getItem("loginUser")==""){
-					var response = [];
-					for(var i=0; i<localStorage.length;i++){
-						  response.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
-						}
-					console.log("response");
-					console.log(response);
-					showtables(response);
-				}else{
-					user=JSON.parse(window.sessionStorage.getItem("loginUser"));
+		$(document).ready(
+				function() {
 
-					var id =user.userId;
-					$.ajax({
-						url : "shopping/showCartProduct",
-						dataType : "json",
-						type : "POST",
-						data : {
-							id : id
-						},
-						success : function(response) {
-							console.log("資料回應:"+response);
-							showtables(response);
-						},
-						complete : function() {
-							total();
-							
+					var user;
+					if (window.sessionStorage.getItem("loginUser") == "") {
+						var response = [];
+						for (var i = 0; i < localStorage.length; i++) {
+							response.push(JSON.parse(localStorage
+									.getItem(localStorage.key(i))));
 						}
-					});
-					
-				}
-			
-					
-			total();
-		})
-		
+						console.log("response");
+						console.log(response);
+						showtables(response);
+					} else {
+						user = JSON.parse(window.sessionStorage
+								.getItem("loginUser"));
+
+						var id = user.userId;
+						$.ajax({
+							url : "shopping/showCartProduct",
+							dataType : "json",
+							type : "POST",
+							data : {
+								id : id
+							},
+							success : function(response) {
+								console.log("資料回應:" + response);
+								showtables(response);
+							},
+							complete : function() {
+								total();
+
+							}
+						});
+
+					}
+
+					total();
+				})
+
 		$(document).on('click', '#delete', function() {
 			var $tr = $(this).parents("tr");
-			if(window.sessionStorage.getItem("loginUser")==""){
+			if (window.sessionStorage.getItem("loginUser") == "") {
 				var d = $tr.find("td").eq(8).text();
 				console.log(d);
 				localStorage.removeItem(d);
 				$tr.remove();
-			}
-			else{
+			} else {
 				var d = $tr.find("td").eq(0).text();
 				console.log(d);
 				$.ajax({
@@ -371,59 +373,61 @@ div,tr,td,th {
 							alert("刪除失敗");
 						}
 					}
-					})
-			}
-			});
-		
-		$(document).on('click', '#paybillF', function() {
-			var a=total();
-			if(a>30000){
-				alert("信用卡刷卡最大金額不得超過3萬元台幣");
-				}
-			})
-		$(document).on('click', '#paybill', function() {
-			
-			var items =[];
-			$(document).find('span[id="item"]').each(function(i,e){
-					items[i]=e.innerHTML;
 				})
+			}
+		});
+
+		$(document).on('click', '#paybillF', function() {
+			var a = total();
+			if (a > 30000) {
+				alert("信用卡刷卡最大金額不得超過3萬元台幣");
+			}
+		})
+		$(document).on('click', '#paybill', function() {
+
+			var items = [];
+			$(document).find('span[id="item"]').each(function(i, e) {
+				items[i] = e.innerHTML;
+			})
 
 			var a = $('#f1').serializeObject();
 			var totalPrice = $('#total').html();
 
-			if(window.sessionStorage.getItem("loginUser")==""){
-					a['userId']=1;
-				}else{
-					user=JSON.parse(window.sessionStorage.getItem("loginUser"));
-					a['userId']=user.userId;
-				}
-			a['orderPrice']=totalPrice;
+			if (window.sessionStorage.getItem("loginUser") == "") {
+				a['userId'] = 1;
+			} else {
+				user = JSON.parse(window.sessionStorage.getItem("loginUser"));
+				a['userId'] = user.userId;
+			}
+			a['orderPrice'] = totalPrice;
 			var form = JSON.stringify(a);
-			var items1= "["+items+"]";
-			console.log("a:"+a);
-			console.log("total:"+total);
-			console.log("form:"+form);
-			console.log("items1:"+items1);
-			var a=total();
-			if(a>30000){
+			var items1 = "[" + items + "]";
+			console.log("a:" + a);
+			console.log("total:" + total);
+			console.log("form:" + form);
+			console.log("items1:" + items1);
+			var a = total();
+			if (a > 30000) {
 				alert("信用卡刷卡最大金額不得超過3萬元台幣");
-				}else{
-					console.log("bbbb");
-					$.ajax({
-						url :"shoppingCart/payBill",
-						dataType : "text",
-						data:{form:form,items1:items1},
-						type : "POST",
-						success : function(response) {
-							console.log(response);
-							document.write(response);
-						}
-					});
+			} else {
+				console.log("bbbb");
+				$.ajax({
+					url : "shoppingCart/payBill",
+					dataType : "text",
+					data : {
+						form : form,
+						items1 : items1
+					},
+					type : "POST",
+					success : function(response) {
+						console.log(response);
+						document.write(response);
 					}
-			})
-			
-			
-			$.fn.serializeObject = function() {
+				});
+			}
+		})
+
+		$.fn.serializeObject = function() {
 			var o = {};
 			var a = this.serializeArray();
 			$.each(a, function() {
@@ -437,8 +441,7 @@ div,tr,td,th {
 				}
 			});
 			return o;
-			};
-		
+		};
 	</script>
 
 </body>
