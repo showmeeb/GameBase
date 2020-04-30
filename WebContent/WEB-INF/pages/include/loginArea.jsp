@@ -21,10 +21,10 @@
 			<input type="password" name="password" id="password"
 				value="${cookie.password.value}" required /> <span>密碼</span>
 		</div>
-		<input type="checkbox" name="save" id="rm" />Remember Me
+		<input type="checkbox" name="save" id="rm" /><label for="rm">Remember Me</label>
 	</form>
-	<button id="login-submit-btn">登入</button>
-	<button class="regist-btn">註冊</button>
+	<button id="login-submit-btn" class="buttonL">登入</button>
+	<button class="regist-btn buttonL">註冊</button>
 
 </div>
 <!-- End login area -->

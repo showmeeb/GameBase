@@ -62,61 +62,12 @@ body{background-color: rgb(245, 245, 245);}
 	margin: 0px 5px 0px 5px;
 }
 
-.topBarBtn {
-	width: 90px;
-	margin-top: 2%;
-}
+
 
 .userNameBtn {
 	width: 70%;
 }
 
-/*商城style*/
-#du1 img {
-	width: 60px
-}
-
-#du1 li {
-	margin: 0px 20px 0px 20px;
-}
-
-#d4 img {
-	width: 300px;
-	height: 450px;
-}
-
-iframe {
-	width: 400px;
-	height: 330px;
-}
-
-#youtubeX {
-	width: 400px;
-	height: 330px;
-	position: absolute;
-	top: 0px;
-	right: 0px;
-}
-
-#t1 {
-	border: 1px solid green;
-	width: 600px;
-}
-
-#dt1 {
-	width: 600px;
-	margin: auto;
-	right: 250px;
-	border: 1px solid red;
-}
-
-#dt1 img {
-	width: 150px;
-}
-
-.iconImg {
-	width: 50px
-}
 
 /*searchResults Style*/
 .cardSize {
