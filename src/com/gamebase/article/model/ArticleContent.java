@@ -1,5 +1,6 @@
 package com.gamebase.article.model;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -21,23 +22,24 @@ public class ArticleContent {
 	private Integer titleId;
 	private Integer userId;
 	private String content;
-	private String createTime;
-	private String updateTime;
+	private Timestamp createTime;
+	private Timestamp updateTime;
 
 	public ArticleContent() {
 	}
 
 	public ArticleContent(Integer titleId) {
 		this.titleId = titleId;
-		this.updateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+		this.updateTime = new Timestamp(System.currentTimeMillis());
 	}
+//	Timestamp ts = new Timestamp(System.currentTimeMillis());
 
 	/* be used when insert new content */
 	public ArticleContent(Integer titleId, Integer userId, String content) {
 		this.titleId = titleId;
 		this.userId = userId;
 		this.content = content;
-		this.createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+		this.createTime = new Timestamp(System.currentTimeMillis());
 	}
 
 	@Id
@@ -79,21 +81,21 @@ public class ArticleContent {
 	}
 
 	@Column(name = "CREATETIME")
-	public String getCreateTime() {
+	public Timestamp getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(String createTime) {
+	public void setCreateTime(Timestamp createTime) {
 		this.createTime = createTime;
 	}
 
 	@Column(name = "UPDATETIME")
-	public String getUpdateTime() {
+	public Timestamp getUpdateTime() {
 		return updateTime;
 	}
 
-	public void setUpdateTime(String updateTime) {
-		this.updateTime = updateTime;
+	public void setUpdateTime(Timestamp times) {
+		this.updateTime = times;
 	}
 
 }

@@ -48,10 +48,12 @@ i {
 }
 
 div.forum_list {
+	background-color: lightblue;
 	width: 80%;
-	margin: 5px auto;
+	margin: 10px auto;
 	padding: 10px;
 	border: 1px solid DodgerBlue;
+	border-radius: 10px;
 	overflow: hidden; /*避免float跑框*/
 }
 
@@ -191,6 +193,9 @@ div.content_datas {
 	margin-top: -35vh;
 	margin-left: -10vw;
 	overflow: auto;
+}
+img.content_head {
+	border-radius: 50%;
 }
 /*=====================================================*/
 /*editor stytle*/
