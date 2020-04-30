@@ -87,12 +87,7 @@
 				type="button" id="dropdownMenuButton" data-toggle="dropdown"
 				aria-haspopup="true" aria-expanded="true">商城</button>
 			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				<a class="dropdown-item" href="<c:url value="/mallHome"/>">商城首頁(子敬)</a>
-				<a class="dropdown-item" href="<c:url value="/tradesystem"/>">登記商品</a>
-				<a class="dropdown-item" href="<c:url value="/mainProduct"/>">商品管理</a>
 				<a class="dropdown-item" href="<c:url value="/tagSearch?looking=forProduct&keyword=ps4"/>">商城頁面</a>
-				<a class="dropdown-item" href="<c:url value="/test"/>">圖片上傳</a>
-
 			</div>
 		</div>
 
@@ -170,10 +165,6 @@
 
 		});
 	
-		
-		
-		
-		
 		if("${looking}"=="foForumr"){$("#lookingFor").val("foForumr")}
 	</script>
 

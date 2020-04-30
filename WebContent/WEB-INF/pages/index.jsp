@@ -88,7 +88,7 @@
 		        var txt = "";
 		        for (i = 0; i < 5; i++) {
 		            if (i % 5 == 0) { txt += "<tr>" }
-		            txt += "<td><a href='/GameBase/productDetail?prodId="+jsonResults[i].productId+"'><img class='resultImg' src='" + jsonResults[i].productImg + "'>";  
+		            txt += "<td><a href='/GameBase/tagSearch?looking=forProduct&keyword="+jsonResults[i].productName+"'><img class='resultImg' src='" + jsonResults[i].productImg + "'>";  
 		            txt += "<div>" + jsonResults[i].productName + "</div>";
 		            txt += "<div>" + jsonResults[i].productPrice + "</div></a>";
 		        }
