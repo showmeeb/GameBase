@@ -773,7 +773,17 @@ $(document).ready(function () {
   }
   
   //broadcast
+
   $("#broadcast-submit-btn").click(function () {
+	broadSend();
+  });
+  $("#admin-broadcast-form .input-group input").keypress(function (e) {
+	    if (e.key == "Enter") {
+	    	broadSend();
+	    }
+	  });
+function broadSend(){
+		
     var userId = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
 //    var formData = $("#admin-broadcast-form").serializeObject();
 //    var broad = JSON.stringify(formData);
@@ -800,10 +810,7 @@ $(document).ready(function () {
             }
 
           });
-//    }
-
-  });
-
+}
 });
 
 // init chat room when change page
@@ -1221,7 +1228,7 @@ function showSnackbarMessage(msg) {
 	  console.log('html');
 	  $("#snackbar").attr("class","show");
 	  console.log(setTimeout);
-	  setTimeout(function () {  $("#snackbar").removeClass("show") }, 3000);
+	  setTimeout(function () {  $("#snackbar").removeClass("show") }, 5000);
 	}
 
 function cleanChatRoom() {

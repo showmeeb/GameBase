@@ -35,8 +35,8 @@ padding: 0;
 	width: 130px;border: 1px solid blue; margin:0;
 }
 #st1 {
-	width: 1520px;height:800px;margin-left:0; 
-	position: relative;
+	width: 100%;height:800px;margin-left:0; 
+
 	}
 #st1 table{
 	
@@ -63,73 +63,8 @@ div,tr,td,th {
 
 	}
 
-#imgb1 {
-	background:url('');
-	display:block;
-  	width:100px;
-  	height:100px;
-	background-repeat:no-repeat;
-	position: fixed;
-	bottom: 89px;
-  	right: 80px;
-	
-	}
-#imgb3 {
-	background:url('');
-	display:block;
-  	width:100px;
-  	height:100px;
-	background-repeat:no-repeat;
-	position: fixed;
-	bottom: 89px;
-  	right: 0px;
-	
-	}
-#imgb4 {
-	background:url('');
-	display:block;
-  	width:100px;
-  	height:100px;
-	background-repeat:no-repeat;
-	position: fixed;
-	bottom: 89px;
-  	right: 130px;
-	
-	}
-#imgb2 {
-	background:url('');
-	display:block;
-  	width:300px;
-  	height:200px;
-	background-repeat:no-repeat;
-	position: fixed;
-	bottom: 0px;
-  	right: 1200px;
-	
-	}
-#imgb5 {
-	background:url('');
-	display:block;
-  	width:300px;
-  	height:300px;
-	background-repeat:no-repeat;
-	position: fixed;
-	bottom: 250px;
-  	right: 1270px;
-	
-	}
-#imgb6 {
-	background:url('');
-	display:block;
-  	width:150px;
-  	height:450px;
-	background-repeat:no-repeat;
-	position: fixed;
-	bottom: 270px;
-  	right: 20px;
-	
-	}
-#nav-div{background: rgba(20%,20%,20%,0.4)}
+
+#nav-div{background: rgba(20%,20%,20%,0.4);bottom:0; position:fixed;width:100%;height:90px;}
 
 #sp1{ display: flex; vertical-align: middle;}
 </style>
@@ -138,11 +73,7 @@ div,tr,td,th {
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 	<jsp:include page="topBar.jsp" />
 	<!-- 測試固定圖片 -->
-	<div id="imgb1"></div>
-	<div id="imgb3"></div>
-	<div id="imgb4"></div>
-	<div id="imgb5"></div>
-	<div id="imgb6"></div>
+
 
 
 	<div id="st1" >
@@ -172,16 +103,21 @@ div,tr,td,th {
 				<div class="modal-body">
 					<form id="f1">
 						<div class="form-group">
-							<label for="userName">姓名:</label> <input type="text"
+							<label for="orderName">姓名:</label> <input type="text"
 								class="form-control" name="orderName" aria-describedby="emailHelp">
 						</div>
 						<div class="form-group">
-							<label for="userPhone">電話:</label> <input type="text"
+							<label for="orderPhone">電話:</label> <input type="text"
 								class="form-control" name="orderPhone" aria-describedby="emailHelp">
 						</div>
 						<div class="form-group">
-							<label for="userPhone">住址:</label> <input type="text"
+							<label for="orderAddress">住址:</label> <input type="text"
 								class="form-control" name="orderAddress" aria-describedby="emailHelp">
+						</div>
+						
+						<div class="form-group">
+						    <label for="orderEmail">信箱:</label>
+						    <input type="email" class="form-control" name="orderEmail" placeholder="name@example.com">
 						</div>
 						
 					</form>
@@ -198,7 +134,7 @@ div,tr,td,th {
 	</div>
 	<!-- 結帳的BAR -->
 	</div>
-		<div id="nav-div" style="bottom:0; position:fixed;width:1550px;height:90px;">
+		<div id="nav-div" >
 	  	<div style="position:fixed;bottom:10px;right:80px">
   		<span style="color: red;">總金額&nbsp;&nbsp;:&nbsp;&nbsp;</span><span id="total"style="color: red;"></span>&nbsp;&nbsp;&nbsp;&nbsp;
     		<button id="paybillF" style="width:200px;" class="btn btn-outline-success btn-lg"  type="button" data-toggle="modal"
@@ -456,7 +392,7 @@ div,tr,td,th {
 			var totalPrice = $('#total').html();
 
 			if(window.sessionStorage.getItem("loginUser")==""){
-					a['userId']=999999;
+					a['userId']=1;
 				}else{
 					user=JSON.parse(window.sessionStorage.getItem("loginUser"));
 					a['userId']=user.userId;

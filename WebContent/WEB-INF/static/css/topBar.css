@@ -62,61 +62,12 @@ body{background-color: rgb(245, 245, 245);}
 	margin: 0px 5px 0px 5px;
 }
 
-.topBarBtn {
-	width: 90px;
-	margin-top: 2%;
-}
+
 
 .userNameBtn {
 	width: 70%;
 }
 
-/*商城style*/
-#du1 img {
-	width: 60px
-}
-
-#du1 li {
-	margin: 0px 20px 0px 20px;
-}
-
-#d4 img {
-	width: 300px;
-	height: 450px;
-}
-
-iframe {
-	width: 400px;
-	height: 330px;
-}
-
-#youtubeX {
-	width: 400px;
-	height: 330px;
-	position: absolute;
-	top: 0px;
-	right: 0px;
-}
-
-#t1 {
-	border: 1px solid green;
-	width: 600px;
-}
-
-#dt1 {
-	width: 600px;
-	margin: auto;
-	right: 250px;
-	border: 1px solid red;
-}
-
-#dt1 img {
-	width: 150px;
-}
-
-.iconImg {
-	width: 50px
-}
 
 /*searchResults Style*/
 .cardSize {
@@ -194,4 +145,109 @@ iframe {
 .bottom-bnt {
 	width: 150px;
 	height: 50px;
+}
+
+/*shopping page style*/
+.iconImg{width: 50px;}
+
+#d4 img {
+	width: 300px;
+	height: 450px;
+}
+
+iframe {
+	width: 400px;
+	height: 330px;
+}
+
+#youtubeX {
+	width: 400px;
+	height: 330px;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+
+#t1 {
+	border: 1px solid green;
+	width: 600px;
+}
+
+#dt1 {
+	width: 600px;
+	margin: auto;
+	right: 250px;
+}
+
+#dt1 img {
+	width: 150px;
+}
+
+.cardSize {
+	width: 24.70%;
+	height: 342.5px;
+	margin: 1px;
+	cursor: pointer;
+}
+
+.center {
+	margin: auto;
+}
+
+.bg-rgb220 {
+	background-color: rgb(220, 220, 220);
+	margin-bottom: 10px;
+}
+
+.bg-rgb245 {
+	background-color: rgb(245, 245, 245);
+}
+
+.card-title {
+	font-size: 17px;
+}
+
+.card-subtitle {
+	font-size: 13px;
+}
+
+.card-img-top {
+	height: 250px;
+}
+
+.selectBarBtn {
+	height: 99%;
+	width: 90px;
+}
+
+.pageBnt {
+	height: 99%;
+	border: none;
+}
+
+.pageLi {
+	margin-right: 3px;
+}
+
+#d1 {
+	display: none;
+}
+
+#resultsTable {
+	height: 690px;
+	overflow: hidden;
+}
+
+#switchBar {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#switchBar li {
+	margin: 0px 20px 0px 20px;
+}
+
+#switchBar img {
+	width: 40px
 }

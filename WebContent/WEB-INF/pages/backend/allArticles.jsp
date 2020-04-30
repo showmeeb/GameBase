@@ -61,7 +61,7 @@
 			</div>
 		</div>
 		<div id="forum" class="float-right w-50">
-			<iframe id="iframe" class="d-none" style="width:500px;height:800px" onload="dtopBar()"></iframe>
+		    <iframe id="iframe" class="d-none" style="width:700px;height:800px" onload="dtopBar()"></iframe>
 		</div>
 	</main>
 	<script type="text/javascript">
@@ -112,6 +112,7 @@
 				});
 			})
 			
+
 			$(document).on("click",	"#allArticles",	function() {
 					$.ajax({
 						type : "POST",
@@ -120,50 +121,44 @@
 						beforesend : function() {
 							$('#rTable').html("");
 							$('#cTable').html("");
-						},
+							},
 						success : function(response) {
 							console.log("hh");
 							var rTable = "<thead><tr><th>文章ID<th>主題<th>文章標題<th>發文時間</thead><tbody>";
 							var cTable = "<thead><tr><th></thead><tbody>"
 							for (let i = 0; i < response.articles.length; i++) {
 								rTable += '<tr class="tr"><td scope="row">'+ (i+1);
-								if (response.articles[i].forumId == 1) {
-									rTable += "<td>英雄聯盟"
-								} else if (response.articles[i].forumId == 2) {
-									rTable += "<td>魔獸世界"
-								} else if (response.articles[i].forumId == 3) {
-									rTable += "<td>魔物獵人"
-								}
-								rTable += "<td>"+ response.articles[i].titleName;
-								rTable += "<td>"+ response.articles[i].createTime;
-								rTable += "<td>"+ response.articles[i].titleId;
-								rTable += "<td>"+ response.articles[i].forumId;
-								cTable += '<tr><td><input type="radio" class="del d-none" name="d" value="a[i].userId">'
-							}
-							$('#rTable').html(rTable);
-							$('#cTable').html(cTable);
-							$("#del").addClass("d-none").removeClass("d-block");
-							$("#toDel").addClass("d-none").removeClass("d-block");
-						},
-					});
-				})
-				
-			$(document).on("click", ".tr", function() {
-				var forumid = $(this).children().eq(4).text();
-				var articleid = $(this).children().eq(5).text();
-				console.log(forumid+"~"+articleid);
-//				$("#iframe").attr("src","http://localhost:8080/GameBase/forum_test/"+forumid+"/"+articleid).ready(function(){console.log("kkkk");$(this).find("#topBar").addClass("d-none")});
-				iframe(forumid,articleid);
-//不能去掉Bar		$("#iframe").ready(function(){$(this).contents().find('#topBar').addClass("d-none");console.log("fff")})
-				console.log("ggggg");
-// 				$("#iframe").removeClass("d-none").addClass("d-block");
-				})
+									if (response.articles[i].forumId == 1) {
+										rTable += "<td>英雄聯盟"
+										} else if (response.articles[i].forumId == 2) {
+										rTable += "<td>魔獸世界"
+										} else if (response.articles[i].forumId == 3) {
+										rTable += "<td>魔物獵人"
+										}
+										rTable += "<td>"+ response.articles[i].titleName;
+										rTable += "<td>"+ response.articles[i].createTime;
+										rTable += "<td>"+ response.articles[i].titleId;
+										rTable += "<td>"+ response.articles[i].forumId;
+										cTable += '<tr><td><input type="radio" class="del d-none" name="d" value="a[i].userId">'
+										}
+										$('#rTable').html(rTable);
+										$('#cTable').html(cTable);
+										$("#del").addClass("d-none").removeClass("d-block");
+										$("#toDel").addClass("d-none").removeClass("d-block");
+										},
+											});
+								})
+								
+								
+							$(document).on("click", ".tr", function() {
+								var forumid = $(this).children().eq(4).text();
+								var articleid = $(this).children().eq(5).text();
+								console.log(forumid+"~"+articleid);
+								$("#iframe").attr("src","http://localhost:8080/GameBase/forum_test/"+forumid+"/"+articleid);
+								iframe(forumid,articleid);
+																})
+		})
 
-		});
-
-		$(document).on("ready","iframe",function(){
-				alert("iframe ready");
-			});
 
 		
 		$(document).on("click", "#delArticle", function() {
@@ -174,14 +169,16 @@
 			}
 		})
 		
-		function iframe(forumid,articleid){
-			$("#iframe").attr("src","http://localhost:8080/GameBase/forum_test/"+forumid+"/"+articleid);
 
-			}
 		//可以去掉 顯示順序還有問題
 		function dtopBar(){
 				console.log("delete----------------------");
 				$("#iframe").contents().find('#topBar').addClass("d-none");
+				showIframe();
+			}
+		function showIframe(){
+ 			$("#iframe").addClass("d-block").delay(5000).queue(function(){
+ 				$(this).removeClass("d-none").dequeue()});
 			}
 		
 	</script>

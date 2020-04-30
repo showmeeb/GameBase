@@ -54,5 +54,5 @@
    		</script>
 	</form>
 	<button id="submit">Post</button>
-<!-- 	<button type="reset">Reset</button> -->
+	<button id="update" class="hidden-window">Update</button>
 </div>

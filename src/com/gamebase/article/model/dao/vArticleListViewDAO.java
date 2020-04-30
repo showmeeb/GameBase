@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.gamebase.article.model.ArticleListView;
+import com.gamebase.article.model.ArticleTitle;
 
 @Repository
 public class vArticleListViewDAO {
@@ -35,6 +36,26 @@ public class vArticleListViewDAO {
 		List<ArticleListView> list = query.list();
 		return list;
 		
+	}
+	
+	//myArticles
+	public List<ArticleListView> queryMemberArticleTitleByKeyInOneForum(Integer userId, Integer forumId, String title) {
+		System.out.println("querySomeArticleTitleByKeyInOneForum : "+forumId);	
+		 Query<ArticleListView> query = sessionFactory.getCurrentSession()
+				.createQuery("from ArticleListView where contentRN = 1 and userId= :uid and forumId= :id and titleName like'%" + title +"%'", ArticleListView.class);
+		query.setParameter("id", forumId);
+		query.setParameter("uid", userId);
+		List<ArticleListView> list=query.list();
+		return list;
+	}
+
+	//myArticles
+	public List<ArticleListView> queryMemberArticleTitleByKeyInallForum(Integer userId, String title) {
+		Query<ArticleListView> query = sessionFactory.getCurrentSession()
+				.createQuery("from ArticleListView where contentRN = 1 and userId= :id and titleName like'%" + title +"%'", ArticleListView.class);
+		query.setParameter("id", userId);
+		List<ArticleListView> list=query.list();
+		return list;
 	}
 
 }
