@@ -1,5 +1,6 @@
 package com.gamebase.tradesystem.model.dao;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +30,6 @@ public class UserOrderDao {
 	
 	private InvoiceObj invoice = null;
 
-	private SimpleDateFormat sdFormat;
 
 	private Date date;
 
@@ -39,16 +39,18 @@ public class UserOrderDao {
 	}
 
 	public String processOrder(String form,String items1) {
-		sdFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Session session = sessionFactory.getCurrentSession();
+		SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		date = new Date();
+		Timestamp ts = Timestamp.valueOf(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
+		
 		try {
 		String uuid = this.makeUUID();
-		String date1 = String.valueOf(sdFormat.format(date));
 		JSONArray items = JSONArray.fromObject(items1);
 		UserOrder uo = new Gson().fromJson(form, UserOrder.class);
+		System.out.println(uo.getUserId()+"ididididididi");
 		uo.setUuId(uuid);
-		uo.setOrderDate(date1);
+		uo.setOrderDate(ts);
 		uo.setPayStatus(0);
 		session.save(uo);
 		for(int i=0;i<items.size();i++) {
@@ -66,13 +68,13 @@ public class UserOrderDao {
 //		order.setCustomField2(uo.getOrderPhone());
 //		order.setCustomField3(uo.getOrderAddress());
 		order.setCustomField4(String.valueOf(uo.getOrderId()));
-		order.setMerchantTradeDate(date1);
+		order.setMerchantTradeDate(String.valueOf(sdFormat.format(date)));
 		order.setPaymentType("aio");
 		order.setTotalAmount(String.valueOf(uo.getOrderPrice()));//前端引入
 		order.setTradeDesc("Game");//不能中文
 		order.setItemName("Game1");//不能中文前端引入
-		order.setReturnURL("http://d7c0cc70.ngrok.io/GameBase/shoppingCart/orderStatus");
-		order.setClientBackURL("http://d7c0cc70.ngrok.io/GameBase/shoppingPage");
+		order.setReturnURL("http://1363db3d.ngrok.io/GameBase/shoppingCart/orderStatus");
+		order.setClientBackURL("http://1363db3d.ngrok.io/GameBase/shoppingPage");
 		String str = Ecpay.aioCheckOut(order, invoice);
 		System.out.println(str);
 		return str;
