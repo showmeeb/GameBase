@@ -77,7 +77,9 @@ public class ArticleTitleDAO implements IArticleTitleDAO {
 		}
 		return false;
 	}
-
+	
+	
+	//allArticles
 	@Override
 	public List<ArticleTitle> querySomeArticleTitleByKeyInOneForum(Integer forumId, String title) {
 		System.out.println("querySomeArticleTitleByKeyInOneForum : "+forumId);	
@@ -87,7 +89,8 @@ public class ArticleTitleDAO implements IArticleTitleDAO {
 		List<ArticleTitle> list=query.list();
 		return list;
 	}
-
+	
+	//allArticles
 	@Override
 	public List<ArticleTitle> querySomeArticleTitleByKeyInallForum(String title) {
 
@@ -96,5 +99,7 @@ public class ArticleTitleDAO implements IArticleTitleDAO {
 		List<ArticleTitle> list=query.list();
 		return list;
 	}
+	
+
 
 }
