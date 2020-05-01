@@ -106,3 +106,11 @@
 	<button class="buttonL" id="sendPwd">Send<img src="<c:url value="/img/loading.gif"/>" /></button>
 </div>
 <!-- End admin-broadcast area -->
+
+<!-- Start regist-reply area -->
+<div class="forget-reply-area popup-window hidden-window">
+	<i class="fas fa-times close-btn"></i> <i class="fas fa-dove"></i> <br />
+	<div id="forget-msg">密碼重置成功！</div>
+	<button class="buttonL" id="return-login-btn">返回登入</button>
+</div>
+<!-- End regist-reply area -->

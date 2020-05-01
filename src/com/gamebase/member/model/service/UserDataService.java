@@ -61,6 +61,28 @@ public class UserDataService {
 	
 	private final String GOOGLE_CLIENT_ID = "982957556355-9h99fuvvivi52g599iucre1v04ktheh0.apps.googleusercontent.com";
 	
+	public void sendPwdEmail(UserData userdata) {
+		mDao.password(userdata);
+	}
+	
+	public Map<String,String> randomPwd() {
+		int i = (int) (Math.random() * (99999999 - 1000 + 1) + 150);
+		String pwd = i+"";
+		String encryptpwd=eDao.encryptString(pwd);
+		Map<String,String> map = new HashMap<String,String>();
+		System.out.println("pwd:"+pwd+" , encryptpwd: " + encryptpwd);
+		map.put("pwd", pwd);
+		map.put("encryptpwd",encryptpwd);
+		return map;
+	}
+	
+	public UserData checkAccWithEmail(UserData userdata) {
+		UserData findUserData = udDao.getByAccount(userdata.getAccount());
+		if(findUserData.getEmail().equals(userdata.getEmail())) {
+			return findUserData;
+		}
+		return null;
+	}
 	
 	public UsersInfo googleLogin(String idTokenStr) {
 		// get verifier

@@ -75,7 +75,7 @@ $(document).ready(function () {
   }
 
   $("#login-str").click(function () {
-    $(".login-area").removeClass("hidden-window", 700);
+    $(".login-area").css("height",450).removeClass("hidden-window", 700);
     $("#shadow").fadeIn(700);
   });
  
@@ -152,7 +152,10 @@ $(document).ready(function () {
 	  $(".forgetPassword-area").removeClass("hidden-window",700);
   });
 
-
+  $("#sendPwd").click(function(){
+	 sendPwd(); 
+  });
+  
 });
 
 function userLogin() {
@@ -231,8 +234,9 @@ function userLogin() {
           }
           
         } else {
-          $("#login-submit-btn").removeClass("disable");
-          alert("帳號或密碼不符合");
+          $("#login-submit-btn").removeClass("disable",function(){
+        	  alert("帳號或密碼不符合");
+          });
           $("#login-area").css("height",500);
           $("#forgetPwd").removeClass("hidden-window").addClass("buttonL");
         }
@@ -244,6 +248,35 @@ function userLogin() {
     $("#login-submit-btn").removeClass("disable");
   }
 
+}
+
+function sendPwd(){
+	var facc = $("#forgetPwd-form input[name='account']");
+	var femail = $("#forgetPwd-form input[name='email']");
+	if (facc != "" && femail != ""){
+		var forgetform = $("#forgetPwd-form").serializeObject();
+		var forgetData = JSON.stringify(forgetform);
+		console.log(forgetData);
+		$("#sendPwd img").css({ "opacity": "1" });
+		$.ajax({
+			url: "/GameBase/resetPwd",
+		    type: "POST",
+		    data: forgetData,
+		    contentType: "application/json",
+		    success: function (data){
+		    	if(data.status){
+		    		$(".forgetPassword-area").addClass("hidden-window", 700, function () {
+		                $(".forget-reply-area").removeClass("hidden-window", 700);
+		              });
+		    		$("#sendPwd img").css({ "opacity": "0" });
+		    	}else{
+		    		$("#sendPwd img").css({ "opacity": "0" });
+		    		alert("帳號或信箱錯誤");
+		    	}
+		    } 
+		});
+	}
+	
 }
 
 /* ----------------------------------------------------------- */
@@ -306,8 +339,6 @@ $(document).ready(function () {
     userAuthCodeCheck();
   });
 
-
-
   $("#auth-code-form .input-group input").keypress(function (e) {
     if (e.key == "Enter") {
       userAuthCodeCheck();
@@ -320,8 +351,15 @@ $(document).ready(function () {
     });
   });
 
+  $(".forget-reply-area button").click(function () {
+	    $(this).parent().addClass("hidden-window", 700, function () {
+	      $(".login-area").removeClass("hidden-window", 700);
+	    });
+	  });
+  
   $(".close-btn").click(function () {
-    $(this).parent().addClass("hidden-window", 700).css("height",450);
+    $(this).parent().addClass("hidden-window", 700);
+    $(".login-area").css("height",450);
     $("#forgetPwd").removeClass("buttonL").addClass("hidden-window");
     $("#shadow").fadeOut(700);
 
