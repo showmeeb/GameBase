@@ -320,7 +320,7 @@ public class UserDataService {
 		if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
 			ipAddress = httpRequest.getRemoteAddr();
 			if (ipAddress.equals("127.0.0.1") || ipAddress.equals("0:0:0:0:0:0:0:1")) {
-				// 根據網絡卡取本機配置的IP
+				// ?寞?蝬脩窗?∪??祆??蔭?P
 				InetAddress inet = null;
 				try {
 					inet = InetAddress.getLocalHost();
@@ -336,4 +336,25 @@ public class UserDataService {
 	public Webflow insertIp(Webflow Webflow) {
 		return webDAO.insertIp(Webflow);		
 	}
+	
+	public Webflow checkIpByIpNDate(String ip, String date) {
+		return webDAO.queryByIpNDate(ip,date);		
+	}
+	
+	public Webflow updateTimes(Webflow webflow) {
+		return webDAO.updateTimes(webflow); 
+	}
+	public List<Webflow> IpnoRepeatDay(String date){
+		return webDAO.IpnoRepeatDay(date);
+	}
+	public List<Webflow> IpnoRepeatWeek(String date){
+		return webDAO.IpnoRepeatWeek(date);
+	}
+	public List<Webflow> IpRepeatDay(String date){
+		return webDAO.IpRepeatDay(date);
+	}
+	public List<Webflow> IpRepeatWeek(String date){
+		return webDAO.IpRepeatWeek(date);
+	}
+
 }

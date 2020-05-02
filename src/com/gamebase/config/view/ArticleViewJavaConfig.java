@@ -70,7 +70,7 @@ public class ArticleViewJavaConfig {
 	@Bean
 	public View myArticles() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/backend/myArticles.jsp");
+		view.setUrl("/WEB-INF/pages/myArticles.jsp");
 		return view;
 	}
 	
@@ -78,7 +78,7 @@ public class ArticleViewJavaConfig {
 	@Bean
 	public View allArticles() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/backend/allArticles.jsp");
+		view.setUrl("/WEB-INF/pages/allArticles.jsp");
 		return view;
 	}
 }

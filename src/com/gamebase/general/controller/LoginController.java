@@ -1,5 +1,7 @@
 package com.gamebase.general.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,12 +88,37 @@ public class LoginController {
 	@RequestMapping(path = "/GameBase/getip", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
 	public boolean getip(HttpServletRequest request) {
-		System.out.println("doing controller");	
-		System.out.println(request.getMethod());
+			
 		String ip = uService.getIp(request);
+		Webflow status = uService.checkIpByIpNDate(ip,new SimpleDateFormat("yyyy/MM/dd").format(new Date()));
 		System.out.println(ip);
+		if(status!=null) {//隞予????>??->?湔
+			System.out.println("來過了");
+		Webflow Webflow = uService.updateTimes(status);
+//		System.out.println("ip:"+Webflow.getIp());
+//		System.out.println("times:"+Webflow.getLogtime());
+		}else {
+			System.out.println("今天第一次");
 		Webflow Webflow = uService.insertIp(new Webflow(ip));
-		
+//		System.out.println("ip:"+Webflow.getIp());
+//		System.out.println("times:"+Webflow.getLogtime());
+		}		
 		return true;
 	}
+	
+	@RequestMapping(path = "/GameBase/getIpWeek", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> getIpWeek() {
+			
+		System.out.println("getNoRepeatIpWeek-----");
+		String date = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
+		List<Webflow> norepeat = uService.IpnoRepeatWeek(date);
+		List<Webflow> repeat = uService.IpRepeatWeek(date);
+		Map<String,Object> map= new HashMap<String,Object>();
+		map.put("norepeat", norepeat);
+		map.put("totalnum", repeat);
+		
+		return map;
+	}
 }
+

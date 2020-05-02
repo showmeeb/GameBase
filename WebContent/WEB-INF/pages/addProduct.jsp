@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +14,7 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="<c:url value="/js/addProduct.js"/>"></script>
 </head>
 <style type="text/css">
 #dh{display: none}
@@ -21,7 +22,7 @@
 </style>
 </head>
 <body>
-    <jsp:include page="../include/backEndHomePage.jsp"></jsp:include>
+    <jsp:include page="include/backEndHomePage.jsp"></jsp:include>
 <main id="main_back">
 切換註冊商品<button id="gameMode" value="game">遊戲</button>
 <div id ="dg">
@@ -98,63 +99,6 @@
 	</form>
 </div>
 </main>
-	<script type="text/javascript">
-	$(document).on('click','#gameMode',function(){
-		$('#gameMode').attr({id:"hostMode",value:"host"}).html("主機");
-		$('#dg').hide();
-		$('#dh').show();
-		
-		})
-		
-	$(document).on('click','#hostMode',function(){
-		$('#hostMode').attr({id:"gameMode",value:"game"}).html("遊戲");
-		$('#dh').hide();
-		$('#dg').show();
-		})
-
-	$(document).on('click','#s1',function(){
-		var a=$(this.form).serializeObject();
-		//console.log(a);
-		var form = JSON.stringify(a);
-		//console.log(form);
-		$.ajax({
-			url:"tradesystem/add",
-			data : {form : form},
-			dataType : "json",
-			type : "POST",
-			success : function(response) {
-				console.log(response.t);
-				if(response.t==true){
-					alert("登記成功");
-					}
-				else{
-					alert("登記失敗");
-					}
-			}
-
-
-			});
-		})
 	
-	
-	$.fn.serializeObject = function() {
-			var o = {};
-			var a = this.serializeArray();
-			$.each(a, function() {
-				if (o[this.name] !== undefined) {
-					if (!o[this.name].push) {
-						o[this.name] = [ o[this.name] ];
-					}
-					o[this.name].push(this.value || '');
-				} else {
-					o[this.name] = this.value || '';
-				}
-			});
-			return o;
-		};
-		$(document).ready(function(){
-			$("#admin-product").removeClass("d-none").addClass("d-block");
-			})
-	</script>
 </body>
 </html>

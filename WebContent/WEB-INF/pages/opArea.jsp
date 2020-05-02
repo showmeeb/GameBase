@@ -21,46 +21,11 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
-<style type="text/css">
-.data-area {
-	overflow: auto;
-}
+<link href="<c:url value="/css/opArea.css"/>" rel="stylesheet">
 
-#auth-data-area button {
-	margin-top: 20px;
-}
-
-.auth-fa-user {
-	width: 32%;
-	display: inline-block;
-}
-
-.auth-fa-user>i {
-	display: block;
-	width: 100%;
-	text-align: center;
-	font-size: 80px;
-	color: black;
-}
-
-.auth-fa-user>div {
-	font-size: 35px;
-	border: 2px solid skyblue;
-	border-radius: 10px;
-	color: black;
-}
-
-#auth-data-area button {
-	margin-top: 20px;
-}
-
-.auth-content-area {
-	visibility: hidden;
-}
-</style>
 <title>Insert title here</title>
 </head>
-<jsp:include page="../include/backEndHomePage.jsp"></jsp:include>
+<jsp:include page="include/backEndHomePage.jsp"></jsp:include>
 <body>
 	<div id="main_back">
 		<div class="data-area" id="auth-data-area">
