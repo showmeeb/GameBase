@@ -159,10 +159,11 @@ function addfriend(){
 		},
 		success: function(response){
 			console.log("success");
-			//
+			
 			friendsStatus[authorId] = response.updatefriend;
 			$(".firends_area[authorId="+authorId+"]").children(".btn_delete_firends").removeClass("hidden-window");
 			$(".firends_area[authorId="+authorId+"]").children(".btn_add_friends").addClass("hidden-window");
+			
 		}
 	});
 }

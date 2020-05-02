@@ -155,6 +155,8 @@ $(document).ready(function () {
         hideChatRoom(true);
         cleanChatRoom();
         disconnectChatRoom();
+        //reset chatHistroy
+        chatHistoryPage=1;
 
       }
     });
@@ -900,6 +902,7 @@ function showChatContentArea(element) {
     
     // get history msg
     scrollMyMessage();
+    
   }
 
   // fill chat area with chat history
@@ -945,7 +948,7 @@ function emptyChatContentArea() {
 }
 
 function showUsersDiaglog(element) {
-	
+  chatHistoryPage = 1;
   // get chat room object from sessionStorage
   var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
 
@@ -1160,22 +1163,26 @@ function sendMyFile(msgOutput, isHistory) {
   });
 
   // update chat history in session (sender)
-  var flag = true;
-  for (let singleChat of chatRoomObj.chatHistory) {
-    if (singleChat.userNo == userNo) {
-      singleChat.chatContent[singleChat.chatContent.length] = msgOutput;
-      flag = false;
-    }
-  }
-
-  if (flag) {
-    var chatContent = {
-      userNo: userNo,
-      chatContent: [msgOutput]
-    }
-
-    chatRoomObj.chatHistory[chatRoomObj.chatHistory.length] = chatContent;
-  }
+//  var flag = true;
+//  for (let singleChat of chatRoomObj.chatHistory) {
+//    if (singleChat.userNo == userNo) {
+//  	  if(isHistory){
+//		  singleChat.chatContent.unshift(msgOutput); 
+//	  }else{
+//		  singleChat.chatContent[singleChat.chatContent.length] = msgOutput; 
+//	  }
+//      flag = false;
+//    }
+//  }
+//
+//  if (flag) {
+//    var chatContent = {
+//      userNo: userNo,
+//      chatContent: [msgOutput]
+//    }
+//
+//    chatRoomObj.chatHistory[chatRoomObj.chatHistory.length] = chatContent;
+//  }
 
   // update user list
   for (let i = 0, len = chatRoomObj.usersList.length; i < len; i++) {
@@ -1185,26 +1192,26 @@ function sendMyFile(msgOutput, isHistory) {
       // console.log("Should update here");
     }
   }
-
-  window.sessionStorage.setItem("chatRoom", JSON.stringify(chatRoomObj));
+  
 
   // show data from message input area
 if(isHistory){
 	$("#chat-message-area").prepend(Mustache.render(ownFileTemplate, msgOutput));
 }else{
 	$("#chat-message-area").append(Mustache.render(ownFileTemplate, msgOutput));
+	$("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
 }
   
 
   // move the scroll bar to the end
-  $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
+//  $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
   // clean message input area
   $("#chat-room-input").val("");
 }
 
 function sendMyMessage(msgOutput, isHistory) {
 
-	console.log('sendMyMessage_msgOutput: ' + msgOutput);
+//	console.log('sendMyMessage_msgOutput: ' + msgOutput);
 	
   // get chat room object from sessionStorage
   var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
@@ -1212,7 +1219,11 @@ function sendMyMessage(msgOutput, isHistory) {
 //  var className = $("#chat-message-area").attr("class");
   //userNo is 幾號聊天室
 //  var userNo = className.substring(className.indexOf("-") + 1);
-  var userNo = msgOutput.to;
+  var userNo = msgOutput.to[0];
+//  console.log("userNo[0] = " + userNo[0]);
+  console.log("userNo = " + userNo);
+//  console.log("userNo[0] == 1 = " + (userNo[0] == '1'));
+  console.log("userNo == 1 = " + (userNo == '1'));
 
   // update brief message in users list
   $(".chat-room-user").each(function () {
@@ -1225,9 +1236,19 @@ function sendMyMessage(msgOutput, isHistory) {
   // update chat history in session (sender)
   var flag = true;
   for (let singleChat of chatRoomObj.chatHistory) {
-    if (singleChat.userNo == userNo) {
-      singleChat.chatContent[singleChat.chatContent.length] = msgOutput;
-      flag = false;
+//	  console.log("in loop");
+	  
+	  if (singleChat.userNo == userNo) {
+//		  console.log("XXXXXXXXXXXXX");
+		  
+	  	  if(isHistory){
+			  singleChat.chatContent.unshift(msgOutput); 
+//			  console.log("test123456");
+		  }else{
+			  singleChat.chatContent[singleChat.chatContent.length] = msgOutput; 
+		  }
+	  	  
+	      flag = false;
     }
   }
 
@@ -1263,18 +1284,18 @@ function sendMyMessage(msgOutput, isHistory) {
 
 
   // move the scroll bar to the end
-  $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
+//  $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
 
   // clean message input area
   $("#chat-room-input").val("");
 }
 
 function showSnackbarMessage(msg) {
-	  console.log('showsnack');
+//	  console.log('showsnack');
 	  $("#snackbar").html(msg.message);
-	  console.log('html');
+//	  console.log('html');
 	  $("#snackbar").attr("class","show");
-	  console.log(setTimeout);
+//	  console.log(setTimeout);
 	  setTimeout(function () {  $("#snackbar").removeClass("show") }, 5000);
 	}
 
@@ -1345,14 +1366,13 @@ function sendWebSocketMessage(msg) {
 }
 
 function showMessageOutput(msgOutput, isHistory) {
-	console.log('isHistory: ' + isHistory);
-	console.log('showMessageOutput_msgOutput: ' + msgOutput);
+	console.log(msgOutput);
 	var sender = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
 
   // show in user list
   if (sender == msgOutput.from) {
-    sendMyMessage(msgOutput, isHistory);
-    //console.log('My message');
+	  console.log('My message');
+	  sendMyMessage(msgOutput, isHistory);
   } else {
     showUserListFromMessage(msgOutput, isHistory);
 
@@ -1381,7 +1401,11 @@ function showMessageOutput(msgOutput, isHistory) {
     var flag = true;
     for (let singleChat of chatRoomObj.chatHistory) {
       if (singleChat.userNo == msgOutput.from) {
-        singleChat.chatContent[singleChat.chatContent.length] = msgOutput;
+    	  if(isHistory){
+    		  singleChat.chatContent.unshift(msgOutput); 
+    	  }else{
+    		  singleChat.chatContent[singleChat.chatContent.length] = msgOutput; 
+    	  }
         flag = false;
       }
       //console.log('receiver flag: ' + flag);
@@ -1420,7 +1444,9 @@ function showMessageOutput(msgOutput, isHistory) {
     }
 
     // update chat room object in session
-    window.sessionStorage.setItem("chatRoom", JSON.stringify(chatRoomObj));
+    	window.sessionStorage.setItem("chatRoom", JSON.stringify(chatRoomObj));
+
+    
 
   }
 }
@@ -1498,7 +1524,8 @@ function scrollMyMessage() {
 	 chatHistoryInit = false;
 	 console.log('enter');
      var sender = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
-     var receiver = $(".chat-room-friend").children(".chat-room-user-id").text();
+     var className = $("#chat-message-area").attr("class");
+     var receiver = className.substring(className.indexOf("-") + 1);
      //disable loading
      chatHistoryLoadLock = false;
 
@@ -1512,6 +1539,10 @@ function displayHistory(sender, receiver) {
  let formData = new FormData();
  formData.append('sender', sender);
  formData.append('receiver', receiver);
+ 
+ console.log("sender = " + sender);
+ console.log("receiver = " + receiver);
+ 
  $.ajax({
      url: "/GameBase/Query/" + chatHistoryPage,
      type: "POST",

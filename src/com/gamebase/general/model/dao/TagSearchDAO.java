@@ -85,8 +85,6 @@ public class TagSearchDAO {
 			hqlStr += fieldNameArray[i] + " like :field" + i + " or ";
 		}
 
-		
-		
 		Query query = session.createQuery(hqlStr);
 
 		for (int i = 0; i < keywordArray.length; i++) {
@@ -107,54 +105,57 @@ public class TagSearchDAO {
 		}
 
 		System.out.println(jsonString);
-		
+
 		return jsonString;
 	}
-	
+
 	public JSONArray showProduct(String keyword) {
 
 		Session session = sessionFactory.getCurrentSession();
 		JSONArray jsonArray = new JSONArray();
-			List<Product> list = session.createQuery("From Product where productTag like'%" + keyword + "%'", Product.class).list();
-			for (Product beans:list) {
-				JSONObject jobj = new JSONObject();
-				jobj.put("productId", beans.getProductId());
-				jobj.put("productVideo", beans.getProductVideo());
-				jobj.put("productImg", beans.getProductImg());
-				jobj.put("productName", beans.getProductName());
-				jobj.put("productType", beans.getProductType());
-				jobj.put("inventory", beans.getInventory());
-				jobj.put("productPrice", beans.getProductPrice());
-				jobj.put("productTag", beans.getProductTag());
-				jobj.put("productInfo", beans.getProductInfo());
-				jobj.put("searchFreq", beans.getSearchFreq());
-				jsonArray.add(jobj);
-			}	
-			System.out.println("jsonArray:"+jsonArray);
+		List<Product> list = session.createQuery("From Product where productTag like'%" + keyword + "%'", Product.class)
+				.list();
+		for (Product beans : list) {
+			JSONObject jobj = new JSONObject();
+			jobj.put("productId", beans.getProductId());
+			jobj.put("productVideo", beans.getProductVideo());
+			jobj.put("productImg", beans.getProductImg());
+			jobj.put("productName", beans.getProductName());
+			jobj.put("productType", beans.getProductType());
+			jobj.put("inventory", beans.getInventory());
+			jobj.put("productPrice", beans.getProductPrice());
+			jobj.put("productTag", beans.getProductTag());
+			jobj.put("productInfo", beans.getProductInfo());
+			jobj.put("searchFreq", beans.getSearchFreq());
+			jsonArray.add(jobj);
+		}
+		System.out.println("jsonArray:" + jsonArray);
 		return jsonArray;
 	}
-	
-	public Set<String> autoComplete()  {
-		List<Object[]> resultList =sessionFactory.getCurrentSession().createQuery("Select productName,productTag from Product").list();
-		Set<String> returnSet = new LinkedHashSet<String>();
 
-		for(Object[] object : resultList) {
-			returnSet.add((String)object[0]);
-			
-			String[] tagSplit = ((String)object[1]).split(",");
-			for(String tagItem:tagSplit) {
-				returnSet.add(tagItem);
+	public Set<String> autoComplete() {
+		List<Object[]> resultList = sessionFactory.getCurrentSession()
+				.createQuery("Select productName,productTag from Product").list();
+		Set<String> returnSet = new LinkedHashSet<String>();
+		for (Object[] object : resultList) {
+			returnSet.add((String) object[0]);
+			if (object[1] != null) {
+				String[] tagSplit = ((String) object[1]).split(",");
+				for (String tagItem : tagSplit) {
+					returnSet.add(tagItem);
+				}
 			}
+
 		}
 		return returnSet;
 	}
-	
+
 	public String searchFreq() {
 		Session session = sessionFactory.getCurrentSession();
 		Query<Product> query = session.createQuery("From Product order by searchFreq DESC");
-		//query.setMaxResults(5);
-		List<Product> list =query.list();
-		
+		// query.setMaxResults(5);
+		List<Product> list = query.list();
+
 		String jsonString = null;
 		try {
 			jsonString = new ObjectMapper().writeValueAsString(list);
@@ -162,7 +163,6 @@ public class TagSearchDAO {
 			e.printStackTrace();
 		}
 
-		
 		return jsonString;
 	}
 }
