@@ -22,7 +22,6 @@ public interface IUserData {
 			HttpServletResponse response);
 	public List<UserData> getuserbyacinallrank(String ac);
 	public List<UserData> getuserbyacinonerank(Integer rank,String ac);
-//	public void setCookie(String account, String password, String save, HttpServletRequest request,
-//			HttpServletResponse response);
+
 
 }

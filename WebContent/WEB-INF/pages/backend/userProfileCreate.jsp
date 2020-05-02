@@ -29,89 +29,8 @@
 <script src="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.js"></script>
 <script
 	src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+<link href="<c:url value="/css/userProfile.css"/>" rel="stylesheet">
 <style type="text/css">
-.form-control{
-	width:800px;
-	margin:auto;
-}
-#yourData{
-	font-size:45px;
-	margin-top: 30px;
-	margin-bottom:20px;
-}
-.form-group-lg{
-	font-size: 25px;
-
-}
-button{
-	margin:auto;
-	width:100px;
-	height:40px;
-	font-size:23px;
-}
-input{
-	margin:auto;
-	width:100px;
-	height:40px;
-	font-size:23px;
-}
-body {
-	text-align: center;
-}
-
-#user-photo {
-	width: 300px;
-	height: 300px;
-	margin-top: 10px;
-}
-
-#photo {
-	max-width: 100%;
-	max-height: 350px;
-}
-
-.img-preview-box {
-	text-align: center;
-}
-
-.img-preview-box>div {
-	display: inline-block;;
-	margin-right: 10px;
-}
-
-.img-preview {
-	overflow: hidden;
-}
-
-.img-preview-box .img-preview-lg {
-	width: 150px;
-	height: 150px;
-}
-
-.img-preview-box .img-preview-md {
-	width: 100px;
-	height: 100px;
-}
-
-.img-preview-box .img-preview-sm {
-	width: 50px;
-	height: 50px;
-	border-radius: 50%;
-}
-#div-left{
-	width:1000px;
-	line-height: 50px;
-	padding:auto;
-	float:left;
-}
-#div-right{
-	width:200px;
-	line-height: 50px;
-	padding:auto;
-	float:right;
-}
-
 
 </style>
 
@@ -169,8 +88,9 @@ body {
 			</div>
 			<hr>	
 			<div class="form-group form-group-lg">
-				<div id="phoneShow">電話:${userProfile.phone}</div>
-				<div id="phoneSpan"><input type="text" class="form-control input-lg" name="phone" id="phone"></div>
+				<div id="phoneShow">手機號碼:${userProfile.phone}</div>
+				<div id="phoneSpan"><input type="text" class="form-control input-lg" name="phone" id="phone" placeholder="Ex:09xxxxxxxx" onblur="checkPhone()" oninput="if(value.length>10)value=0"></div>
+				<div id="phoneErr"></div>
 			</div>
 			
 			<div class="user-data-btn-area">
@@ -180,7 +100,8 @@ body {
 			<hr>
 			<div class="form-group form-group-lg">
 				<div id="ageShow">年齡:${userProfile.age}</div>
-				<div id="ageSpan"><input type="text" class="form-control input-lg" name="age" id="age"></div>
+				<div id="ageSpan"><input type="text" class="form-control input-lg" name="age" id="age" placeholder="Ex:25(最小年齡為10歲)" onblur="checkAge()" oninput="if(value>100)value=0"></div>
+				<div id="ageErr"></div>
 			</div>
 			
 			<div class="user-data-btn-area">
@@ -240,210 +161,9 @@ body {
 			
 
 			<script type="text/javascript" src="<c:url value="/js/crop.js"/>"></script>
-
+			<script type="text/javascript" src="<c:url value="/js/userProfile.js"/>"></script>
 		</div>
 	</main>
 
-	<script>
-		$(document).ready(function() {
-			$('#nameSpan').hide();
-			$('.nameBut').css("display", "none");
-			$('#nicknameSpan').css("display", "none");
-			$('.nickBut').css("display", "none");
-			$('#genderSpan').css("display", "none");
-			$('.gBut').css("display", "none");
-			$('#addressSpan').css("display", "none");
-			$('.addBut').css("display", "none");
-			$('#phoneSpan').css("display", "none");
-			$('.pBut').css("display", "none");
-			$('#ageSpan').css("display", "none");
-			$('.aBut').css("display", "none");
-			$('#imgSpan').css("display", "none");
-
-			$("#member-profile").removeClass("d-none").addClass("d-block");
-
-		});
-		function showName() {
-			$('#nameSpan').show();
-			$('.nameBut').css("display", "block");
-			$('#eName').hide();
-		};
-		function showNickName() {
-			$('#nicknameSpan').css("display", "block");
-			$('.nickBut').css("display", "block");
-			$('#eNick').css("display", "none");
-		};
-		function showGender() {
-			$('#genderSpan').css("display", "block");
-			$('.gBut').css("display", "block");
-			$('#eG').css("display", "none");
-		};
-		function showAddress() {
-			$('#addressSpan').css("display", "block");
-			$('.addBut').css("display", "block");
-			$('#eAdd').css("display", "none");
-		};
-		function showPhone() {
-			$('#phoneSpan').css("display", "block");
-			$('.pBut').css("display", "block");
-			$('#ePh').css("display", "none");
-		};
-		function showAge() {
-			$('#ageSpan').css("display", "block");
-			$('.aBut').css("display", "block");
-			$('#eAge').css("display", "none");
-		};
-		function showImg() {
-			$('#imgSpan').css("display", "block");
-			$('#eImg').css("display", "none");
-		};
-
-		$.fn.serializeObject = function() {
-			var formData = {};
-			var formArray = this.serializeArray();
-			for (var i = 0, n = formArray.length; i < n; ++i) {
-				formData[formArray[i].name] = formArray[i].value;
-			}
-			return formData;
-		}
-
-		function editName() {
-
-			var formdata = $('#formData').serializeObject();
-			//console.log(formdata);
-			var UserProfile = JSON.stringify(formdata);
-			//console.log(UserProfile);
-			$.ajax({
-				url : "/GameBase/saveName",
-				data : UserProfile,
-				type : "POST",
-				contentType : "application/json",
-				success : function(data) {
-
-					$('#nameShow').html('姓名: ' + data.name);
-				}
-			});
-			$('#nameSpan').css("display", "none");
-			$('.nameBut').css("display", "none");
-			$('#eName').css("display", "block");
-		}
-		function editNickName() {
-
-			var formdata = $('#formData').serializeObject();
-			console.log(formdata);
-			var UserProfile = JSON.stringify(formdata);
-			console.log(UserProfile);
-			$.ajax({
-				url : "/GameBase/savenickName",
-				data : UserProfile,
-				type : "POST",
-				contentType : "application/json",
-				success : function(data) {
-					$('#nickNameShow').html('暱稱: ' + data.nickName);
-				}
-			});
-			$('#nicknameSpan').css("display", "none");
-			$('.nickBut').css("display", "none");
-			$('#eNick').css("display", "block");
-		}
-		function editGender() {
-
-			var formdata = $('#formData').serializeObject();
-			console.log(formdata);
-			var UserProfile = JSON.stringify(formdata);
-			console.log(UserProfile);
-			$.ajax({
-				url : "/GameBase/saveGender",
-				data : UserProfile,
-				type : "POST",
-				contentType : "application/json",
-				success : function(data) {
-					$('#genderShow').html('性別: ' + data.gender);
-				}
-			});
-			$('#genderSpan').css("display", "none");
-			$('.gBut').css("display", "none");
-			$('#eG').css("display", "block");
-		}
-		function editAddress() {
-
-			var formdata = $('#formData').serializeObject();
-			console.log(formdata);
-			var UserProfile = JSON.stringify(formdata);
-			console.log(UserProfile);
-			$.ajax({
-				url : "/GameBase/saveAddress",
-				data : UserProfile,
-				type : "POST",
-				contentType : "application/json",
-				success : function(data) {
-					$('#addressShow').html('地址: ' + data.address);
-				}
-			});
-			$('#addressSpan').css("display", "none");
-			$('.addBut').css("display", "none");
-			$('#eAdd').css("display", "block");
-		}
-
-		function editPhone() {
-
-			var formdata = $('#formData').serializeObject();
-			console.log(formdata);
-			var UserProfile = JSON.stringify(formdata);
-			console.log(UserProfile);
-			$.ajax({
-				url : "/GameBase/savePhone",
-				data : UserProfile,
-				type : "POST",
-				contentType : "application/json",
-				success : function(data) {
-					$('#phoneShow').html('電話: ' + data.phone);
-				}
-			});
-			$('#phoneSpan').css("display", "none");
-			$('.pBut').css("display", "none");
-			$('#ePh').css("display", "block");
-		}
-
-		function editAge() {
-
-			var formdata = $('#formData').serializeObject();
-			console.log(formdata);
-			var UserProfile = JSON.stringify(formdata);
-			console.log(UserProfile);
-			$.ajax({
-				url : "/GameBase/saveAge",
-				data : UserProfile,
-				type : "POST",
-				contentType : "application/json",
-				success : function(data) {
-					$('#ageShow').html('年齡: ' + data.age);
-					$('.aBut').css("display", "none");
-					$('#eAge').css("display", "block");
-				}
-			});
-			$('#ageSpan').css("display", "none");
-
-		}
-
-		function editImg() {
-
-			var formdata = $('#formData').serializeObject();
-			console.log(formdata);
-			var UserProfile = JSON.stringify(formdata);
-			console.log(UserProfile);
-			$.ajax({
-				url : "/GameBase/saveImg",
-				data : UserProfile,
-				type : "POST",
-				contentType : "application/json",
-				success : function(data) {
-					//$('#imgShow').html("Image: " + data.img);
-				}
-			});
-			$('#imgSpan').css("display", "none");
-
-		}
-	</script>
 </body>
 </html>

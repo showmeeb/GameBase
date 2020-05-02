@@ -73,7 +73,7 @@ public class MemberAjaxController {
 		HttpSession session = request.getSession();
 		session.removeAttribute("UserData");
 		session.removeAttribute("loginUser");
-		return "indexPage";
+		return "redirect://indexPage";
 	}
 
 	@GetMapping(path = { "/Users/{authCode}" })
@@ -133,7 +133,7 @@ public class MemberAjaxController {
 	public Map<String, Object> loginPageShow(HttpServletRequest request){
 		Cookie[] cookies = request.getCookies();
 		String acc="",pwd="";
-		System.out.println("我進來囉");
+	
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
 				String name = cookie.getName();

@@ -14,10 +14,10 @@
 	<i id="google-login-btn" class="fab fa-google"></i>
 	<form id="login-form">
 		<div class="input-group">
-			<input type="text" name="account" id="account" required /> <span>帳號</span>
+			<input type="text" name="account" id="account" value="${account} " required /> <span>帳號</span>
 		</div>
 		<div class="input-group">
-			<input type="password" name="password" id="password" required /> <span>密碼</span>
+			<input type="password" name="password" id="password" value="${password}" required /> <span>密碼</span>
 		</div>
 
 		<input type="checkbox" name="save" id="rm" /><label for="rm">Remember Me</label>

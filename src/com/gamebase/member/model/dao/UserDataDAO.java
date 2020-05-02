@@ -129,21 +129,18 @@ public class UserDataDAO implements IUserData {
 		System.out.println("sID: " + sessionId);
 	
 		Cookie[] cookies = request.getCookies();
-		System.out.println("我的cookie:" + cookies);
+		
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
 				String name = cookie.getName();
-				System.out.println("Cookie的名字: " + name);
-				System.out.println("我是一個acc: " + account);
-				System.out.println("我是一個pwd: " + password);
 				if ("account".equals(name)) {
 					String acc = cookie.getValue();
 					request.getSession().setAttribute("account", acc);
-					System.out.println("acc123" + acc);
+				
 				} else if ("password".equals(name)) {
 					String pwd = cookie.getValue();
 					request.getSession().setAttribute("password", pwd);
-					System.out.println("pwd123" + pwd);
+				
 				}
 			}
 		}
