@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,7 +110,22 @@ public class ChatController {
 			bean.setTo(new String[] { receiver });
 			bean.setType(type);
 			bean.setURL("img/PDF_file_icon.jpg");
-//			System.out.println("123fffffffffffffff");
+			bean.setTime(new Timestamp(System.currentTimeMillis()));
+			sendMultiFile(bean, bean.getFrom(), bean.getTo()[0]);
+		} else if (type.contentEquals("xlsx")) {
+			WebSocketMessage bean = new WebSocketMessage();
+			bean.setFrom(sender);
+			bean.setTo(new String[] { receiver });
+			bean.setType(type);
+			bean.setURL("img/EXCEL_file_icon.jpg");
+			bean.setTime(new Timestamp(System.currentTimeMillis()));
+			sendMultiFile(bean, bean.getFrom(), bean.getTo()[0]);
+		} else if (type.contentEquals("csv")) {
+			WebSocketMessage bean = new WebSocketMessage();
+			bean.setFrom(sender);
+			bean.setTo(new String[] { receiver });
+			bean.setType(type);
+			bean.setURL("img/EXCEL_file_icon.jpg");
 			bean.setTime(new Timestamp(System.currentTimeMillis()));
 			sendMultiFile(bean, bean.getFrom(), bean.getTo()[0]);
 		} else {
@@ -135,7 +151,11 @@ public class ChatController {
 	@PostMapping(path = "/Query/{chatHistoryPage}", produces = "application/json")
 	@ResponseBody
 	public List<ChatRoom> queryNext(@RequestParam(name = "sender") String sender,
-			@RequestParam(name = "receiver") String receiver, @PathVariable Integer chatHistoryPage, Model model) {
+			@RequestParam(name = "receiver") String receiver, @PathVariable Integer chatHistoryPage, Model model,
+			HttpServletRequest request) {
+		System.out.println("sender = " + sender);
+		System.out.println("receiver = " + receiver);
+		
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
@@ -144,17 +164,55 @@ public class ChatController {
 		}
 		List<ChatRoom> chatHistory = null;
 		chatHistory = cService.queryHistoryNext(sender, receiver, chatHistoryPage);
-		// reverse list
-//		Collections.reverse(chatHistory);
+		String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+				+ request.getContextPath() + "/";
+		
+		System.out.println("list size = " + chatHistory.size());
 		for (ChatRoom result : chatHistory) {
-			WebSocketMessage bean = new WebSocketMessage();
-			bean.setFrom(result.getSender().toString());
-			bean.setTo(new String[] { result.getReceiver().toString() });
-			bean.setMessage(result.getHistory());
-			bean.setType(result.getType());
-			bean.setURL(result.getURL());
-			bean.setTime(result.getTime());
-			sendMultiMessage(bean, bean.getFrom(), bean.getTo()[0]);
+			if (result.getType() != null) {
+				if (result.getType().contentEquals("pdf")) {
+					WebSocketMessage bean = new WebSocketMessage();
+					bean.setFrom(result.getSender().toString());
+					bean.setTo(new String[] { result.getReceiver().toString() });
+					bean.setType(result.getType());
+					bean.setURL(basePath + result.getURL());
+					bean.setTime(result.getTime());
+					sendMyHistory(bean, sender);
+				} else if (result.getType().contentEquals("xlsx")) {
+					WebSocketMessage bean = new WebSocketMessage();
+					bean.setFrom(result.getSender().toString());
+					bean.setTo(new String[] { result.getReceiver().toString() });
+					;
+					bean.setType(result.getType());
+					bean.setURL(basePath + result.getURL());
+					bean.setTime(result.getTime());
+					sendMyHistory(bean, sender);
+				} else if (result.getType().contentEquals("csv")) {
+					WebSocketMessage bean = new WebSocketMessage();
+					bean.setFrom(result.getSender().toString());
+					bean.setTo(new String[] { result.getReceiver().toString() });
+					bean.setType(result.getType());
+					bean.setURL(basePath + result.getURL());
+					bean.setTime(result.getTime());
+					sendMyHistory(bean, sender);
+				} else {
+					WebSocketMessage bean = new WebSocketMessage();
+					bean.setFrom(result.getSender().toString());
+					bean.setTo(new String[] { result.getReceiver().toString() });
+					bean.setType(result.getType());
+					bean.setURL(result.getURL());
+					bean.setTime(result.getTime());
+					sendMyHistory(bean, sender);
+				}
+			} else {
+				WebSocketMessage bean = new WebSocketMessage();
+				bean.setFrom(result.getSender().toString());
+				bean.setTo(new String[] { result.getReceiver().toString() });
+				bean.setMessage(result.getHistory());
+				bean.setTime(result.getTime());
+				sendMyHistory(bean, sender);
+			}
+
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
@@ -175,13 +233,13 @@ public class ChatController {
 			@RequestParam(name = "broadcast") String body, Model model) {
 		System.out.println(userId);
 		System.out.println(body);
-		
+
 //		Gson gson = new Gson();
 //		Map requestMap = gson.fromJson(body, Map.class);
 //		
 //		String broadcastMsg = (String) requestMap.get("broadcast");
 //		System.out.println(broadcastMsg);
-		
+
 		WebSocketMessage bean = new WebSocketMessage();
 		bean.setMessage(body);
 		sendMultiTopicMessage(bean);
@@ -189,7 +247,7 @@ public class ChatController {
 //		if (body != null && body.length() != 0) {
 //			result.put("true", bean.getFrom());
 //		} else {
-			result.put("false", null);
+		result.put("false", null);
 //		}
 		return result;
 	}
@@ -201,10 +259,12 @@ public class ChatController {
 		cService.saveToRedis(msg);
 	}
 
-	public void sendMultiMessage(WebSocketMessage msg, String... receivers) {
-		for (String receiver : receivers) {
-			simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages/history", msg);
-		}
+	public void sendMyHistory(WebSocketMessage msg, String user) {
+		System.out.println(msg.getFrom());
+		System.out.println(msg.getMessage());
+
+		simpMessagingTemplate.convertAndSendToUser(user, "/queue/messages/history", msg);
+
 	}
 
 	public void sendMultiTopicMessage(WebSocketMessage msg) {

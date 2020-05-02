@@ -33,6 +33,7 @@ public class ProductController {
 	@ResponseBody
 	public JSONObject tsAdd(@RequestParam(value = "form") String form) {
 		// System.out.println(productService.add(form));
+		System.out.println(form);
 		return productService.add(form);
 	}
 
