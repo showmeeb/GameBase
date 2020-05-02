@@ -3,6 +3,9 @@ package com.gamebase.config;
 import java.util.Arrays;
 
 import javax.naming.NamingException;
+import javax.servlet.FilterRegistration.Dynamic;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
@@ -24,8 +27,10 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.WebApplicationInitializer;
 
 import com.gamebase.general.model.BytesToDateConverter;
+import com.gamebase.member.model.filter.CookieFilter;
 
 
 @Configuration
@@ -90,6 +95,5 @@ public class SpringJavaConfig {
 		return new HibernateTransactionManager(sessionFactory());
 
 	}
-	
 	
 }

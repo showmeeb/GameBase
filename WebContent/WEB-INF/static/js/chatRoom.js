@@ -77,6 +77,20 @@ $(document).ready(function () {
   $("#login-str").click(function () {
     $(".login-area").css("height",450).removeClass("hidden-window", 700);
     $("#shadow").fadeIn(700);
+    $.ajax({
+    	url: "loginAjax",
+    	method: "POST",
+    	success: function(data){
+
+    		$("input[type=text]#account").val(data.account);
+    		$("input[type=text]#password").val(data.password);
+    	},
+    	error: function(data){
+    		alert("fail.")
+    		console.log(data)
+    	}
+    })
+    
   });
  
   $("#login-submit-btn").click(function () {
@@ -163,7 +177,7 @@ function userLogin() {
   var userAcc = $("#login-form input[name='account']").val();
   var pwd = $("#login-form input[name='password']").val();
   var saveValue = $("input[name='save']").is(":checked");
-  
+
   $("#login-submit-btn").addClass("disable");
   // empty check
   if (userAcc != "" && pwd != "") {

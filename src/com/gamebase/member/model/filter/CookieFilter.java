@@ -30,23 +30,23 @@ public class CookieFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest)request;
 		Cookie[] cookies = req.getCookies();
 		String name="", acc="",pwd="";
-		System.out.println("Filter is running.");
+		
 		if(cookies!=null&&cookies.length>0) {
 			for(Cookie cookie:cookies) {
 				name = cookie.getName();
-				System.out.println("Filter is running2. " + name + " " + cookie.getName());
+				System.out.println("cookieName: " + name);
 				if("account".equals(name)) {
 					acc = cookie.getValue();
-					System.out.println("Filter is running3.");
+					
 				}else if("password".equals(name)){
 					pwd = cookie.getValue();
-					System.out.println("Filter is running4.");
+					
 				}
 			}
 		}
 		req.setAttribute("account", acc);
 		req.setAttribute("password", pwd);
-		System.out.println("Filter is running5.");
+	
 		chain.doFilter(request, response);
 	}
 

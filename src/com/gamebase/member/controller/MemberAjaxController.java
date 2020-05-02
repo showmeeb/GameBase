@@ -123,7 +123,7 @@ public class MemberAjaxController {
 	@ResponseBody
 	public Map<String, Object> loginAction(@RequestBody UserData logindata,@PathVariable("save") boolean save, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
-//		uService.setCookie(logindata.getAccount(), logindata.getPassword(), save, request, response);
+		uService.setCookie(logindata.getAccount(), logindata.getPassword(), save, request, response);
 		String pwd = uService.encryptString(logindata.getPassword());
 		Map<String, Object> map = uService.getLogin(logindata.getAccount(), pwd);
 		if ((boolean) map.get("status")) {
@@ -148,7 +148,7 @@ public class MemberAjaxController {
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
 				String name = cookie.getName();
-				System.out.println("Cookie的名字: " + name);
+				
 				if ("account".equals(name)) {
 					acc = cookie.getValue();
 					request.getSession().setAttribute("account", acc);
