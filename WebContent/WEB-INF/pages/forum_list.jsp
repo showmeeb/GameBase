@@ -24,13 +24,16 @@
 <%-- <link href="<c:url value="/css/style.css"/>" rel="stylesheet"> --%>
 <!-- forum style -->
 <link href="<c:url value="/css/forumStyle.css"/>" rel="stylesheet">
+<!-- forum list js -->
+<script src="<c:url value="/js/forumList.js"/>"></script>
 <!-- ajax -->
-<script>
+<!-- <script>
 $(document).ready(function(){
 	
 	console.log("document ready");
 	//open forum editor
     $("#publish-btn").click(function(){
+    	
     	console.log("pulish btn");
         if(window.sessionStorage.getItem("loginUser") != ""){
        	 $("#publish-area").removeClass("hidden-window",700);
@@ -189,9 +192,9 @@ $(document).ready(function(){
 			}
 		});
 	});
-	
+ -->	
 	<!-- delete forum -->
-	$(".btn_del_forum").click(del);
+<!-- 	$(".btn_del_forum").click(del);
 	function del(){
 		console.log("delete forum, forum ID : "+$(this).attr("id"));
 		var forumId=$(this).attr("id");
@@ -211,70 +214,56 @@ $(document).ready(function(){
 });
 
 
-</script>
+</script> -->
 </head>
 <body>
 	<!-- top bar -->
 	<%@ include file="topBar.jsp"%>
 	
-	<c:if test="${loginUser.rankId==2}">
+	<c:if test="${loginUser.rankId==2}"><!-- rank = 2 可編輯-->
 	<!-- forum title bar -->
 	<nav class="navbar navbar-expand-sm bg-light forum_topbar">
 		<ul class="nav justify-content-end">
 			<!-- update article button -->
 			<li class="nav-item">
 				<a id="publish-btn" class="nav-link" href="javascript:void(0)">
-					<i class="far fa-edit fa-2x"></i>
+					<i class="far fa-plus-square fa-2x"></i>
 				</a>
 			</li>
-			<li class="nav-item"> hello manager<br/></li>
+<!-- 			<li class="nav-item"> hello manager<br/></li> -->
 		</ul>
 	</nav>
 	</c:if>
 	<!-- forum list -->
-	<div class="forumListAndEditor">
-		<div id="forum_list">
+	<div class="forumListAndForumEditor">
+		<div id="forum_list" class="forum_list">
 
 			<c:forEach items="${forumList}" var="item" varStatus="itemStatus">
-				<!-- 		<tr> -->
-				<%-- 			<td>${itemStatus.count}</td><!-- title count --> --%>
-				<%-- 			<td><a href="<c:url value="/forum/${item.forumName}"/>">${item.forumName}</td> --%>
-				<%-- 			<td><img src="${item.forumFigure}"></td> --%>
-				<!-- 		</tr> -->
 
-				<div class="forum_list" name="${itemStatus.count}">
+				<div class="forum_forum" forumId="${item.forumId}">
 
 					<div class="forum_title_bar">
 						<!-- forum name -->
-						<div class="forum_title_name">
+						<div class="forum_name">
 							<h2>
-								${itemStatus.count}.<a
-									href="<c:url value="/forum_test/${item.forumId}"/>">${item.forumName}</a>
+								${itemStatus.count}.
+								<a href="<c:url value="/forum_test/${item.forumId}"/>">${item.forumName}</a>
 							</h2>
 						</div>
 						<!-- delete forum button -->
-						<div class="forum_btn">
-							<a id="${item.forumId}" class="btn_del_forum"
-								href="javascript:void(0)"><i class="far fa-trash-alt fa-2x"></i></a><br />
-							<!-- 				<i class="fas fa-trash-alt fa-2x"></i><br /> -->
+						<div class="forum_editor_btn" hidden="true">
+							<a forumId="${item.forumId}" class="forum_del_btn" href="javascript:void(0)">
+							<i class="far fa-trash-alt fa-2x"></i>
+							</a>
+							<br />
 						</div>
 						<!-- update forum button -->
-						<div class=forum_btn>
-							<!-- 				<i class="fas fa-edit fa-2x"></i><br />  -->
-							<a id="${item.forumId}" class="btn_update_forum"
-								href="javascript:void(0)"><i class="far fa-edit fa-2x"></i></a><br />
+						<div class="forum_editor_btn" hidden="true">
+							<a forumId="${item.forumId}" class="forum_update_btn" href="javascript:void(0)">
+							<i class="far fa-edit fa-2x"></i>
+							</a>
+							<br />
 						</div>
-						<!-- manager btn update and delete -->
-						<c:if test="">
-							<div class="article_icons">
-								<a id="${item.forumId}" class="btn_del_forum"
-									href="javascript:void(0)"><i class="far fa-trash-alt fa-2x"></i></a><br />
-							</div>
-							<div class="article_icons">
-								<a id="${item.forumId}" class="btn_update_forum"
-									href="javascript:void(0)"><i class="far fa-edit fa-2x"></i></a><br />
-							</div>
-						</c:if>
 					</div>
 
 
@@ -284,17 +273,17 @@ $(document).ready(function(){
 							<img alt="圖片提示字串" src="${item.forumFigure}" height="320">
 						</div>
 						<div class="forum_articles">
-							<span>熱門點閱文章:</span><br /> <a
-								href="<c:url value="/forum_test/${item.forumId}/${item.titleId}"/>">${item.titleName}</a><br />
+							<span>熱門點閱文章:</span><br /> 
+							<a href="<c:url value="/forum_test/${item.forumId}/${item.titleId}"/>">${item.titleName}</a>
+							<br />
 						</div>
 					</div>
-					
-					<div id="forumdata_${item.forumId}" class="hidden">
-					<div id="fname_${item.forumId}">${item.forumName}</div>
-					<div id="ffigure_${item.forumId}">${item.forumFigure}</div>
-					</div>
-				</div>
-				
+									
+					<div class="forumdata" forumId="${item.forumId}" hidden>
+					<div class="fname">${item.forumName}</div>
+					<div class="ffigure">${item.forumFigure}</div>
+					</div>				
+				</div>				
 			</c:forEach>
 		</div>
 
@@ -304,18 +293,18 @@ $(document).ready(function(){
 				<i id="forum_close_btn" class="fas fa-times forum_close_btn"></i>
 				<table>
 					<tr>
-						<td>Forum Name:</td>
+						<td>討論區名稱:</td>
 						<td><input type="text" id="forumName" name="forumName" /></td>
 					</tr>
 					<tr>
-						<td>Forum Figure:</td>
+						<td>討論區圖片:</td>
 						<td><input type="file" id="forumFigure" name="forumFigure" /></td>
 					</tr>
 				</table>
 			</form>
-			<button id="submit">Post New Forum</button>
-			<button id="update" class="hidden">Update Forum</button>
-			<img id="previewImage" alt="預覽圖" height="200px" />
+			<button id="submit" class="buttonL" hidden="true">建立新的討論區</button>
+			<button id="update" class="buttonL" hidden="true">更新討論區</button>			
+			<img id="previewImage" alt="預覽圖" height="315" />
 		</div>
 
 	</div>

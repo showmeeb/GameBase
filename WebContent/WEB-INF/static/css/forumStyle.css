@@ -29,7 +29,6 @@ nav.forum_topbar {
 	width: auto;
 	text-align: center;
 }*/
-
 .fa-thumbs-up {
 	color: #0080ff;
 }
@@ -39,8 +38,8 @@ nav.forum_topbar {
 /* 	margin: auto; */
 /* } */
 .forum_editor {
-	width: 40vw;
-	height: 85vh;
+	width: 675px;
+	height: 600px;
 	margin-top: -40vh;
 	margin-left: -20vw;
 	overflow: auto;
@@ -53,6 +52,10 @@ nav.forum_topbar {
 }
 
 div.forum_list {
+	
+}
+
+div.forum_forum {
 	background-color: lightblue;
 	width: 80%;
 	margin: 10px auto;
@@ -69,7 +72,7 @@ div.forum_title_bar {
 	overflow: hidden;
 }
 
-div.forum_title_name {
+div.forum_name {
 	float: left;
 	width: 50%;
 	margin: auto;
@@ -78,7 +81,7 @@ div.forum_title_name {
 	margin: auto;
 }
 
-div.forum_btn {
+div.forum_editor_btn {
 	float: right;
 	height: 40px;
 	width: 50px;
@@ -108,7 +111,6 @@ div.forum_img {
 	text-align: center;
 	background-image: url("/GameBase/img/bg_gray.jpg");
 	background-repeat: repeat;
-	
 }
 
 div.forum_articles {
@@ -122,14 +124,31 @@ div.forum_articles {
 
 /*=====================================================*/
 /*article style*/
-div.article {
+div.article_window {
 	width: 80%;
-	margin: 5px auto;
-	padding: 10px;
-	border: 1px solid DodgerBlue;
+	margin: auto;
 }
 
-div.article_part {
+div.article_forumName {
+	text-align: center;
+}
+
+div.article_article {
+	background-color: lightblue;
+	margin: 10px auto;
+	padding: 10px;
+	border: 1px solid DodgerBlue; /**/
+	border-radius: 10px;
+	overflow: hidden; /*避免float跑框*/
+}
+
+div.article_name {
+	margin: 5px auto;
+	padding: 10px;
+	border: 1px solid DodgerBlue; /**/
+}
+
+div.article_content {
 	width: 100%;
 	margin: 5px auto;
 	padding: 0;
@@ -137,25 +156,21 @@ div.article_part {
 	overflow: hidden; /*避免float跑框*/
 }
 
-div.article_title {
-	margin: 5px auto;
-	padding: 10px;
+div.article_content_img {
+	float: left;
+	width: 30%;
+	height: 150px;
+	margin: auto;
+	padding: 5px;
 	border: 1px solid DodgerBlue;
 }
 
-div.article_img {
-	float: left;
-	width: 30%;
-	margin: auto;
-	padding: 5px;
-	/* 	border: 1px solid DodgerBlue; */
-}
-
-div.article_content {
+div.article_content_content {
 	float: left;
 	width: 65%;
-	margin: 5px auto;
-	padding: 10px;
+	height: 150px;
+	margin: auto;
+	padding: 5px;
 	border: 1px solid DodgerBlue;
 }
 
@@ -168,15 +183,15 @@ div.article_icons {
 	width: 8%;
 	padding: 1px;
 	margin: auto;
-	/* 	border: 1px solid DodgerBlue; */
+	border: 1px solid DodgerBlue;
 }
 
 div.article_time_record {
 	float: right;
-	width: 36%;
+	width: 25%;
 	padding: 1px;
 	margin: auto;
-	/* 	border: 1px solid DodgerBlue; */
+	border: 1px solid DodgerBlue;
 }
 
 div.article_content_noimg {

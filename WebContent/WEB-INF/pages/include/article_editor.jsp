@@ -12,23 +12,23 @@
 		<!-- User ID and Article Title -->
 		<table>
 			<c:if test="${not empty title.titleName}">
+<!-- 			<tr> -->
+<!-- 				<td><p>your account id:</p></td> -->
+<!-- 				<td><input type="text" id="accountId" name="accountId"></td> -->
+<!-- 			</tr> -->
 			<tr>
-				<td><p>your account id:</p></td>
-				<td><input type="text" id="accountId" name="accountId"></td>
-			</tr>
-			<tr>
-				<td><p>article title:</p></td>
+				<td><p>文章標題:</p></td>
 				<td><input type="text" id="articleTitle" name="articleTitle" value="${title.titleName}" disabled="disabled"></td>
 			</tr>
 			</c:if>
 			<!-- title is empty -->
 			<c:if test="${empty title.titleName}">
+<!-- 			<tr> -->
+<!-- 				<td><p>your account id:</p></td> -->
+<!-- 				<td><input type="text" id="accountId" name="accountId"></td> -->
+<!-- 			</tr> -->
 			<tr>
-				<td><p>your account id:</p></td>
-				<td><input type="text" id="accountId" name="accountId"></td>
-			</tr>
-			<tr>
-				<td><p>article title:</p></td>
+				<td><p>文章標題:</p></td>
 				<td><input type="text" id="articleTitle" name="articleTitle"></td>
 			</tr>
 			</c:if>
@@ -53,6 +53,6 @@
 
    		</script>
 	</form>
-	<button id="submit">Post</button>
-	<button id="update" class="hidden-window">Update</button>
+	<button id="submit">發佈文章</button>
+	<button id="update" class="hidden-window">更新文章</button>
 </div>
