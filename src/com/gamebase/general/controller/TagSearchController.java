@@ -52,4 +52,13 @@ public class TagSearchController {
 		System.out.println(returnString);
 		return returnString;
 	}
+	
+	@RequestMapping(value = "/searchArticleClick", method = RequestMethod.GET)
+	@ResponseBody
+	public String searchArticleClick() {
+		String returnString = tagSearchService.searchArticleClick();
+
+		System.out.println(returnString);
+		return returnString;
+	}
 }
