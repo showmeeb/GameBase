@@ -32,6 +32,11 @@ public class ProductService {
 
 		return productDao.update(b);
 	}
+	
+	public void updateFreq(int i) {
+		
+		productDao.updateFreq(i);
+	}
 
 	public JSONArray search(String a) {
 		return productDao.search(a);

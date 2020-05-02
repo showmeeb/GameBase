@@ -43,6 +43,24 @@ public class MemberAjaxController {
 	@Autowired
 	public GeneralService gService;
 	
+	@PostMapping(value = "/resetPwd",produces = "application/json")
+	@ResponseBody
+	public Map<String,Object> resetPwd(@RequestBody UserData reset){
+		Map<String,Object> map = new HashMap<String,Object>();
+		UserData result = uService.checkAccWithEmail(reset);
+		if(result!=null) {
+			Map<String, String> backmap = uService.randomPwd();
+			result.setPassword(backmap.get("encryptpwd"));
+			uService.saveUserData(result);
+			reset.setPassword(backmap.get("pwd"));
+			uService.sendPwdEmail(reset);
+			map.put("status",true);
+			return map;
+		}
+		map.put("status",false);
+		return map;
+	}
+	
 	@GetMapping(value = "/userInfo/{ID}",produces = "application/json")
 	@ResponseBody
 	public Map<String,Object> gotInfoByUserId(@PathVariable("ID") Integer userId){
@@ -105,26 +123,19 @@ public class MemberAjaxController {
 	@ResponseBody
 	public Map<String, Object> loginAction(@RequestBody UserData logindata,@PathVariable("save") boolean save, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
-		
-		
-		
-		uService.setCookie(logindata.getAccount(), logindata.getPassword(), save, request, response);
+//		uService.setCookie(logindata.getAccount(), logindata.getPassword(), save, request, response);
 		String pwd = uService.encryptString(logindata.getPassword());
-		
 		Map<String, Object> map = uService.getLogin(logindata.getAccount(), pwd);
 		if ((boolean) map.get("status")) {
-			
 			model.addAttribute("loginUser", (UsersInfo) map.get("loginUser"));
-			model.addAttribute("UserData", (UserData) map.get("UserData"));
+//			model.addAttribute("UserData", (UserData) map.get("UserData"));
 			return map;
 		}
-		
 		return map;
 	}
 	
 	@RequestMapping(path = "/loginAjax", method = RequestMethod.GET)
 	public String showLoginPage() {
-	
 		return "LoginViewPageAjax";
 	}
 	

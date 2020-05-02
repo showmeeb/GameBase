@@ -1,8 +1,8 @@
 package com.gamebase.member.model.service;
 
 import java.io.IOException;
-
-
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.security.GeneralSecurityException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gamebase.general.model.Webflow;
+import com.gamebase.general.model.dao.WebflowDAO;
 import com.gamebase.member.model.Friends;
 import com.gamebase.member.model.Rank;
 //import com.gamebase.member.model.Role;
@@ -54,8 +56,33 @@ public class UserDataService {
 	private EncryptDAO eDao;
 	@Autowired
 	private UsersInfoDAO uiDao;
+	@Autowired
+	private WebflowDAO webDAO;
 	
 	private final String GOOGLE_CLIENT_ID = "982957556355-9h99fuvvivi52g599iucre1v04ktheh0.apps.googleusercontent.com";
+	
+	public void sendPwdEmail(UserData userdata) {
+		mDao.password(userdata);
+	}
+	
+	public Map<String,String> randomPwd() {
+		int i = (int) (Math.random() * (99999999 - 1000 + 1) + 150);
+		String pwd = i+"";
+		String encryptpwd=eDao.encryptString(pwd);
+		Map<String,String> map = new HashMap<String,String>();
+		System.out.println("pwd:"+pwd+" , encryptpwd: " + encryptpwd);
+		map.put("pwd", pwd);
+		map.put("encryptpwd",encryptpwd);
+		return map;
+	}
+	
+	public UserData checkAccWithEmail(UserData userdata) {
+		UserData findUserData = udDao.getByAccount(userdata.getAccount());
+		if(findUserData.getEmail().equals(userdata.getEmail())) {
+			return findUserData;
+		}
+		return null;
+	}
 	
 	public UsersInfo googleLogin(String idTokenStr) {
 		// get verifier
@@ -281,5 +308,32 @@ public class UserDataService {
 		List<UserData> list = udDao.getuserbyacinonerank(rank, ac);
 		return list;
 	}
+	
+	public String getIp(HttpServletRequest httpRequest) {
+		String ipAddress = httpRequest.getHeader("x-forwarded-for");
+		if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+			ipAddress = httpRequest.getHeader("Proxy-Client-IP");
+		}
+		if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+			ipAddress = httpRequest.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+			ipAddress = httpRequest.getRemoteAddr();
+			if (ipAddress.equals("127.0.0.1") || ipAddress.equals("0:0:0:0:0:0:0:1")) {
+				// 根據網絡卡取本機配置的IP
+				InetAddress inet = null;
+				try {
+					inet = InetAddress.getLocalHost();
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				}
+				ipAddress = inet.getHostAddress();
+			}
+		}
+		return ipAddress;	
+	}
 
+	public Webflow insertIp(Webflow Webflow) {
+		return webDAO.insertIp(Webflow);		
+	}
 }

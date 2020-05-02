@@ -214,9 +214,12 @@ i {
   margin-left: -200px;
 }
 
+
 .regist-reply-area .fa-user,
 .regist-area .fa-user,
 .login-area .fa-user,
+.forgetPassword-area .fa-envelope,
+.forget-reply-area .fa-dove,
 .auth-code-input-area .fa-keycdn {
   font-size: 80px;
   margin: 20px auto;
@@ -225,6 +228,13 @@ i {
 .admin-broadcast-area {
   width: 400px;
   height: 175px;
+  margin-top: -200px;
+  margin-left: -200px;
+}
+
+.forgetPassword-area {
+  width: 400px;
+  height: 350px;
   margin-top: -200px;
   margin-left: -200px;
 }
@@ -260,6 +270,14 @@ i {
   width: 400px;
   height: 270px;
   margin-top: -135px;
+  margin-left: -200px;
+}
+
+/*forget-reply area*/
+.forget-reply-area {
+  width: 400px;
+  height: 250px;
+  margin-top: -125px;
   margin-left: -200px;
 }
 

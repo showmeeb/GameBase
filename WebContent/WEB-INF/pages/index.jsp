@@ -57,7 +57,7 @@
 		<div class="row column">
 			<div class="col-md-12 column">
 			<h3>熱門商品</h3>
-					<table class="resultCenter" id="resultsTable"></table>
+					<table class="resultCenter" id="resultsHotTable"></table>
 			</div>
 		</div>
 		<hr>
@@ -88,11 +88,11 @@
 		        var txt = "";
 		        for (i = 0; i < 5; i++) {
 		            if (i % 5 == 0) { txt += "<tr>" }
-		            txt += "<td><a href='/GameBase/productDetail?prodId="+jsonResults[i].productId+"'><img class='resultImg' src='" + jsonResults[i].productImg + "'>";  
+		            txt += "<td><a href='/GameBase/tagSearch?looking=forProduct&keyword="+jsonResults[i].productName+"'><img class='resultImg' src='" + jsonResults[i].productImg + "'>";  
 		            txt += "<div>" + jsonResults[i].productName + "</div>";
 		            txt += "<div>" + jsonResults[i].productPrice + "</div></a>";
 		        }
-		        $("#resultsTable").append(txt);
+		        $("#resultsHotTable").append(txt);
 			}
 		});
 
@@ -111,6 +111,17 @@
 		    console.log("ff");	}
 		})
 		 */
+
+		 $(document).ready(function(){
+			console.log("page ready");
+			$.ajax({
+				url : "GameBase/getip",
+				type : "POST",
+				contentType : "application/json",
+				success : function(response) {
+					console.log(response)}
+				})
+			 })
 	</script>
 </body>
 </html>

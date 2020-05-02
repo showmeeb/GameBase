@@ -12,7 +12,9 @@ import org.springframework.stereotype.Repository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gamebase.tradesystem.model.Game;
+import com.gamebase.tradesystem.model.OrderDetail;
 import com.gamebase.tradesystem.model.Product;
+import com.gamebase.tradesystem.model.UserOrder;
 import com.google.gson.Gson;
 
 import net.sf.json.JSONArray;
@@ -121,6 +123,23 @@ public class ProductDao implements IProductDao {
 			result.put("t", false);
 			return result;
 		}
+	}
+	
+	public void updateFreq(int orderId) {
+		Session session = sessionFactory.getCurrentSession();
+		
+		Query<OrderDetail> query = session.createQuery("from OrderDetail where orderId=?1",OrderDetail.class);
+		query.setParameter(1, orderId);
+		List<OrderDetail> list = query.getResultList();
+		
+		for(OrderDetail beans:list) {
+			Product pd=session.get(Product.class, beans.getProductId());
+			System.out.println("1"+pd.getSearchFreq());
+			pd.setSearchFreq(pd.getSearchFreq()+beans.getAmount());
+			System.out.println("2"+pd.getSearchFreq());
+			session.save(pd);
+		}
+		System.out.println("修改銷售度");
 	}
 
 	@Override

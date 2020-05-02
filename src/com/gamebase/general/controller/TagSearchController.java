@@ -18,11 +18,6 @@ public class TagSearchController {
 	@Autowired
 	private TagSearchService tagSearchService;
 
-	@RequestMapping(value = "/indexBackup", method = RequestMethod.GET)
-	public String indexBackup() {
-
-		return "indexBackup";
-	}
 
 	@RequestMapping(value = "/tagSearch", method = RequestMethod.GET)
 	public String tagSearch(@RequestParam("looking") String looking, @RequestParam("keyword") String keyword,
