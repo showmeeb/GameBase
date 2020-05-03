@@ -199,19 +199,83 @@ div.article_content_noimg {
 }
 /*=====================================================*/
 /*content stytle*/
-div.content_content {
-	width: 90%;
-	margin: 5px auto;
-	padding: 10px;
-	border: 3px solid DodgerBlue;
+div.content_list {
+	
 }
 
-div.content_datas {
-	width: 90%;
+div.content_unit {
+/* 	background-color: lightblue; */
+	margin: 10px auto;
+	padding: 10px;
+	border: 1px solid DodgerBlue; /**/
+	border-radius: 10px;
+	overflow: hidden; /*避免float跑框*/
+}
+
+div.content_title {
+/* 	margin: 5px auto; */
+/* 	padding: 10px; */
+	border: 3px solid DodgerBlue;
+	text-align: left;
+	/* 	overflow: hidden; 避免float跑框 */
+}
+
+div.content_author_data {
+	margin: 5px auto;
+/* 	padding: 10px; */
+	border: 3px solid DodgerBlue;
+	text-align: left;
+	overflow: hidden;
+	/* 	避免float跑框 */
+}
+
+div.content_author_img {
+	float: left;
+	width: 150px;
+	height: 125px;
+}
+
+div.content_author_info {
+	float: left;
+	width: 300px;
+	height: 125px;
+}
+
+div.content_time_record {
+	float: left;
+	width: 25%;
+	padding: 1px;
+	margin: auto;
+	border: 1px solid DodgerBlue;
+}
+
+div.content_editor_btn {
+	float: right;
+	height: 40px;
+	width: 50px;
+	padding: 1px;
+	margin: auto;
+	border: 1px solid DodgerBlue;
+	width: 50px;
+	text-align: center;
+}
+
+div.content_content {
+/* 	background-color: lightblue; */
+/* 	margin: 10px auto; */
+/* 	padding: 10px; */
+	border: 1px solid DodgerBlue; /**/
+	border-radius: 10px;
+	overflow: hidden; /*避免float跑框*/
+}
+
+div.content_article_data {
 	margin: 5px auto;
 	padding: 10px;
 	border: 3px solid DodgerBlue;
-	overflow: hidden; /*避免float跑框*/
+	text-align: left;
+	overflow: hidden;
+	/* 	避免float跑框 */
 }
 
 .firends_area {
@@ -223,7 +287,10 @@ div.content_datas {
 }
 
 img.content_head {
+	width: 120px;
+	height: 120px;
 	border-radius: 50%;
+	margin: auto;
 }
 /*=====================================================*/
 /*editor stytle*/

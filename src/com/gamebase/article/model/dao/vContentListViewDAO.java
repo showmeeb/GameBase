@@ -29,7 +29,14 @@ public class vContentListViewDAO {
 				.setParameter("titleId", titleId);
 		List<ContentListView> list = query.list();
 		return list;
-
+	}
+	
+	public ContentListView queryReplyViewByContentId(Integer contentId) {
+		Query<ContentListView> query = sessionFactory.getCurrentSession()
+				.createQuery("from ContentListView where contentId = :contentId", ContentListView.class)
+				.setParameter("contentId", contentId);
+		ContentListView rs = query.uniqueResult();
+		return rs;
 	}
 
 	public List<Friends> queryFriendsByUserId(Integer userId) {
