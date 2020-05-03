@@ -43,16 +43,7 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 	<jsp:include page="topBar.jsp" />
 	
-	<div id="du1">
-		<ul class="nav justify-content-center">
-			<li id="pay" class="nav-item" role="button" tabindex="0"
-				aria-pressed="true"><img src="https://i.imgur.com/3LdR5vh.jpg"></li>
-			<li id="history" class="nav-item"  role="button" tabindex="0"
-				aria-pressed="true"><img src="https://i.imgur.com/rQOseOf.png"></li>
-			<!-- <li class="nav-item"><a class="nav-link disabled" href="#"
-			tabindex="-1" aria-disabled="true">Disabled</a></li> -->
-		</ul>
-	</div>
+	
 	<div id="d1">
 	<h1>訂單紀錄</h1>
 	
