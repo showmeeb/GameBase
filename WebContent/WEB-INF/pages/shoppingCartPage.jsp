@@ -54,11 +54,11 @@ div, tr, td, th {
 </style>
 </head>
 <body>
+	<!-- TOPBAR -->
 	<jsp:include page="topBar.jsp" />
-	<!-- 測試固定圖片 -->
 
 
-
+	<!-- 顯示購物商品區塊 -->
 	<div id="st1">
 
 		<div id="dt1">
@@ -78,7 +78,7 @@ div, tr, td, th {
 			</table>
 		</div>
 
-		<!-- Modal -->
+		<!-- 付款模擬框 -->
 		<div class="modal fade" id="exampleModalCenter" tabindex="-1"
 			role="dialog" aria-labelledby="exampleModalCenterTitle"
 			aria-hidden="true">
@@ -135,13 +135,15 @@ div, tr, td, th {
 			<span style="color: red;">總金額&nbsp;&nbsp;:&nbsp;&nbsp;</span><span
 				id="total" style="color: red;"></span>&nbsp;&nbsp;&nbsp;&nbsp;
 			<button id="paybillF" style="width: 200px;"
-				class="btn btn-primary btn-lg " type="button"
-				data-toggle="modal" data-target="#exampleModalCenter">結&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;帳</button>
+				class="btn btn-primary btn-lg " type="button" data-toggle="modal"
+				data-target="#exampleModalCenter">結&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;帳</button>
 		</div>
 	</div>
 
 	<script type="text/javascript">
+//-----------------*********變數區*********-------------------
 		var t = false;
+//-----------------*********測試區*********-------------------
 		//沒效果 控制model 呼叫前或後的函數
 		$("#exampleModalCenter").on("show.bs.modal", function(e) {
 			console.log('顯示視窗前呼叫');
@@ -154,6 +156,48 @@ div, tr, td, th {
 			console.log('視窗目前是開啟的狀態..');
 		}
 
+//-----------------*********網頁開始函數區*********-------------------
+//-----------------抓取使用者資料-------------------	
+		$(document).ready(
+				function() {
+
+					var user;
+					if (window.sessionStorage.getItem("loginUser") == "") {
+						var response = [];
+						for (var i = 0; i < localStorage.length; i++) {
+							response.push(JSON.parse(localStorage
+									.getItem(localStorage.key(i))));
+						}
+						console.log("response");
+						console.log(response);
+						showtables(response);
+					} else {
+						user = JSON.parse(window.sessionStorage
+								.getItem("loginUser"));
+
+						var id = user.userId;
+						$.ajax({
+							url : "shopping/showCartProduct",
+							dataType : "json",
+							type : "POST",
+							data : {
+								id : id
+							},
+							success : function(response) {
+								console.log("資料回應:" + response);
+								showtables(response);
+							},
+							complete : function() {
+								total();
+
+							}
+						});
+
+					}
+
+					total();
+				})
+//-----------------*********網頁結束函數區*********-------------------
 		$(window).bind('beforeunload', function() {
 			var t = false;
 			if (window.sessionStorage.getItem("loginUser") != "") {
@@ -217,52 +261,9 @@ div, tr, td, th {
 			}
 
 		});
-
-		function total() {
-			var a = 0;
-			$('tr').find("td[id='money']").each(function(i, e) {
-				console.log("e:" + e.innerHTML);
-				a += parseInt(e.innerHTML);
-			})
-			console.log("a:" + a);
-
-			$('#total').html(a);
-			return a;
-		}
-
-		function showtables(response) {
-			var txt = "";
-			for (let i = 0; i < response.length; i++) {
-				var item = {
-					productId : response[i].productId,
-					productName : response[i].productName,
-					productPrice : response[i].productPrice,
-					amount : response[i].amount
-				}
-				console.log(response[i].lsId);
-
-				txt += "<tr><td class='upd' style='display:none'>"
-						+ response[i].shoppingCartId;
-				txt += "<td style='display:none'><span id='item'>"
-						+ JSON.stringify(item);
-				txt += "<td>" + response[i].productId;
-				txt += "<td id='img'><img src='"+response[i].productImg+"'>";
-				txt += "<td>" + response[i].productName;
-				txt += "<td id='oriPrice'>" + response[i].productPrice;
-				txt += "<td>"
-						+ "<span id='sp1'><button id='noplus' type='button' class='btn btn-outline-secondary btn-sm'>-</button>";
-				txt += "<input style='width: 35px;' id='quantity_input' class='upd localupd' type='text' value='"+ response[i].amount+"'>";
-				txt += "<button id='plus' type='button' class='btn btn-outline-secondary btn-sm'>+</button></span>";
-				txt += "<td id='money'>"
-						+ (response[i].productPrice * response[i].amount)
-				txt += "<td id='lsId' class='localupd' style='display:none'>"
-						+ response[i].lsId;
-				txt += "<td><botton id='delete' class='btn btn-danger'>移除</botton>"
-
-			}
-			$('#t1').html(txt);
-		}
-
+		
+//-----------------*********觸發按鈕區*********-------------------
+//-----------------輸入數量改變-------------------	
 		$(document).on('change', '#quantity_input', function() {
 			$tr = $(this).parents("tr");
 			var num = $tr.find("input[id='quantity_input']");
@@ -277,7 +278,7 @@ div, tr, td, th {
 			total()
 
 		})
-
+//-----------------輸入數量改變_加號-------------------	
 		$(document).on('click', '#plus', function() {
 
 			$tr = $(this).parents("tr");
@@ -290,7 +291,7 @@ div, tr, td, th {
 			total()
 
 		})
-
+//-----------------輸入數量改變_減號-------------------	
 		$(document).on('click', '#noplus', function() {
 
 			$tr = $(this).parents("tr");
@@ -306,45 +307,7 @@ div, tr, td, th {
 
 		})
 
-		$(document).ready(
-				function() {
-
-					var user;
-					if (window.sessionStorage.getItem("loginUser") == "") {
-						var response = [];
-						for (var i = 0; i < localStorage.length; i++) {
-							response.push(JSON.parse(localStorage
-									.getItem(localStorage.key(i))));
-						}
-						console.log("response");
-						console.log(response);
-						showtables(response);
-					} else {
-						user = JSON.parse(window.sessionStorage
-								.getItem("loginUser"));
-
-						var id = user.userId;
-						$.ajax({
-							url : "shopping/showCartProduct",
-							dataType : "json",
-							type : "POST",
-							data : {
-								id : id
-							},
-							success : function(response) {
-								console.log("資料回應:" + response);
-								showtables(response);
-							},
-							complete : function() {
-								total();
-
-							}
-						});
-
-					}
-
-					total();
-				})
+//-----------------刪除商品-------------------	
 
 		$(document).on('click', '#delete', function() {
 			var $tr = $(this).parents("tr");
@@ -376,13 +339,14 @@ div, tr, td, th {
 				})
 			}
 		});
-
+//-----------------結帳BAR_確認金額-------------------	
 		$(document).on('click', '#paybillF', function() {
 			var a = total();
 			if (a > 30000) {
 				alert("信用卡刷卡最大金額不得超過3萬元台幣");
 			}
 		})
+//-----------------結帳BAR_結帳資料輸入-------------------	
 		$(document).on('click', '#paybill', function() {
 
 			var items = [];
@@ -426,7 +390,55 @@ div, tr, td, th {
 				});
 			}
 		})
+		
+//-----------------*********函數區*********-------------------
+//-----------------顯示金額-------------------			
+		function total() {
+			var a = 0;
+			$('tr').find("td[id='money']").each(function(i, e) {
+				console.log("e:" + e.innerHTML);
+				a += parseInt(e.innerHTML);
+			})
+			console.log("a:" + a);
 
+			$('#total').html(a);
+			return a;
+		}
+//-----------------顯示商品-------------------	
+		function showtables(response) {
+			var txt = "";
+			for (let i = 0; i < response.length; i++) {
+				var item = {
+					productId : response[i].productId,
+					productName : response[i].productName,
+					productPrice : response[i].productPrice,
+					amount : response[i].amount
+				}
+				console.log(response[i].lsId);
+
+				txt += "<tr><td class='upd' style='display:none'>"
+						+ response[i].shoppingCartId;
+				txt += "<td style='display:none'><span id='item'>"
+						+ JSON.stringify(item);
+				txt += "<td>" + response[i].productId;
+				txt += "<td id='img'><img src='"+response[i].productImg+"'>";
+				txt += "<td>" + response[i].productName;
+				txt += "<td id='oriPrice'>" + response[i].productPrice;
+				txt += "<td>"
+						+ "<span id='sp1'><button id='noplus' type='button' class='btn btn-outline-secondary btn-sm'>-</button>";
+				txt += "<input style='width: 35px;' id='quantity_input' class='upd localupd' type='text' value='"+ response[i].amount+"'>";
+				txt += "<button id='plus' type='button' class='btn btn-outline-secondary btn-sm'>+</button></span>";
+				txt += "<td id='money'>"
+						+ (response[i].productPrice * response[i].amount)
+				txt += "<td id='lsId' class='localupd' style='display:none'>"
+						+ response[i].lsId;
+				txt += "<td><botton id='delete' class='btn btn-danger'>移除</botton>"
+
+			}
+			$('#t1').html(txt);
+		}
+		
+//-----------------序列化轉成Json物件形式-------------------	
 		$.fn.serializeObject = function() {
 			var o = {};
 			var a = this.serializeArray();

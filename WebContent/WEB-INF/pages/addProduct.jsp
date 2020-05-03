@@ -28,7 +28,7 @@
 <div id ="dg">
 	<form id="form1">
 		<div>
-			圖片<input type="text" id="pImg" name="img">
+			圖片<input type="text" id="pImg" name="productImg">
 		</div>
 		<div>
 			影片網址<input type="text" id="pVideo" name="productVideo">
@@ -50,6 +50,9 @@
 		</div>
 		<div>
 			遊戲介紹<input type="text" id="pInfo" name="productInfo">
+		</div>
+		<div>
+			熱銷度<input type="text" id="pInfo" name="searchFreq">
 		</div>
 		<div>
 			遊戲類型 <select id="gType" name="gameType">
