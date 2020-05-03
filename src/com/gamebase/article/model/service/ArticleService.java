@@ -19,6 +19,9 @@ import com.gamebase.article.model.dao.ArticleTitleDAO;
 import com.gamebase.article.model.dao.vArticleListViewDAO;
 import com.gamebase.article.model.dao.vContentListViewDAO;
 import com.gamebase.member.model.Friends;
+import com.gamebase.member.model.UsersInfo;
+import com.gamebase.member.model.dao.FriendsDAO;
+import com.gamebase.member.model.dao.UsersInfoDAO;
 
 @Service
 @Transactional
@@ -34,6 +37,10 @@ public class ArticleService {
 	private vArticleListViewDAO alvDao;
 	@Autowired
 	private vContentListViewDAO clvDao;
+	@Autowired
+	private FriendsDAO fDao;
+	@Autowired
+	private UsersInfoDAO uiDao;
 
 	public List<ArticleTitle> queryTitleByForumId(Integer forumId) {
 		return titleDao.querySomeArticleTitleByForumId(forumId);
@@ -54,16 +61,17 @@ public class ArticleService {
 	public ArticleRecord queryRecordByUserIdAndTitleId(ArticleRecord record) {
 		return recordDao.queryByUserIdAndTitleId(record);
 	}
-	
-	//後臺全部文章列表
-	public List<ArticleTitle> queryAllArticleTitle(){
-		return titleDao.queryAllArticleTitle();		
+
+	// 後臺全部文章列表
+	public List<ArticleTitle> queryAllArticleTitle() {
+		return titleDao.queryAllArticleTitle();
 	}
-	//後臺個人文章列表
-	public List<ArticleListView> queryMyArticle(Integer id){
-		return alvDao.queryArticleListByUserId(id);		
+
+	// 後臺個人文章列表
+	public List<ArticleListView> queryMyArticle(Integer id) {
+		return alvDao.queryArticleListByUserId(id);
 	}
-	
+
 	public List<ArticleRecord> queryRecordsByTitleId(Integer titleId) {
 		return recordDao.queryByTitleId(titleId);
 	}
@@ -120,29 +128,29 @@ public class ArticleService {
 	public Boolean deleteArticleAndReply(Integer titleId) {
 		Iterator<?> it;
 		try {
-			/*drop record*/		
+			/* drop record */
 			List<ArticleRecord> recordList = queryRecordsByTitleId(titleId);
 			it = recordList.iterator();
-			while(it.hasNext()) {
-				ArticleRecord record = (ArticleRecord)it.next();
-				Integer recordId = record.getRecordId();	
-				deleteRcord(recordId);			
+			while (it.hasNext()) {
+				ArticleRecord record = (ArticleRecord) it.next();
+				Integer recordId = record.getRecordId();
+				deleteRcord(recordId);
 			}
-			/*drop content and reply*/
+			/* drop content and reply */
 			List<ContentListView> contentList = queryContentListByTitleId(titleId);
-			it = contentList.iterator();		
-			while(it.hasNext()) {
-				ContentListView contentView = (ContentListView)it.next();
-				Integer contentId = contentView.getContentId();			
-				deleteReply(contentId);			
+			it = contentList.iterator();
+			while (it.hasNext()) {
+				ContentListView contentView = (ContentListView) it.next();
+				Integer contentId = contentView.getContentId();
+				deleteReply(contentId);
 			}
-			/*drop title*/
+			/* drop title */
 			deletetitle(titleId);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-		}		
+		}
 	}
 
 	public Boolean deleteReply(Integer contentId) {
@@ -165,42 +173,56 @@ public class ArticleService {
 		Boolean tStatus = titleDao.deleteOneArticleTitle(title);
 		return tStatus;
 	}
-	
+
 	public List<Friends> queryFriendsByUserId(Integer userId) {
 		return clvDao.queryFriendsByUserId(userId);
 	}
-	
+
 	public Friends queryFriendsByUserIdAndAuthorId(Integer userId, Integer authorId) {
 		return clvDao.queryFriendByUserIdAndAuthorId(userId, authorId);
 	}
-	
-	public Friends updateFriendsByUserIdAndAuthorId(Integer userId, Integer authorId) {
-		return clvDao.updateFriendByUserIdAndAuthorId(userId, authorId);
+
+	public UsersInfo updateFriendsByUserIdAndAuthorId(Integer userId, Integer authorId) {
+		if (fDao.selectByEachId(userId, authorId) != null) {
+			return null;
+		}
+		Friends result = fDao.insert(new Friends(userId, authorId));
+		result = fDao.insert(new Friends(authorId, userId));
+		
+		if (result != null) {
+			return uiDao.selectByNo(authorId);
+		} else {
+			return null;
+		}
 	}
-	
+
 	public FriendsInfoView queryFriendsInfoView(Integer userId) {
 		return clvDao.queryFriendsInfoView(userId);
 	}
-	
-	//後台
+
+	// 後台
 	public List<ArticleContent> queryMemberContentByUserId(int id) {
 		return contentDao.queryMemberContentByUserId(id);
 	}
-	//後台
+
+	// 後台
 	public List<ArticleTitle> querySomeArticleTitleByKeyInOneForum(Integer forumId, String title) {
-		return titleDao.querySomeArticleTitleByKeyInOneForum(forumId,title);
+		return titleDao.querySomeArticleTitleByKeyInOneForum(forumId, title);
 	}
-	//後台
+
+	// 後台
 	public List<ArticleTitle> querySomeArticleTitleByKeyInallForum(String title) {
 		return titleDao.querySomeArticleTitleByKeyInallForum(title);
 	}
-	//後台
-	public List<ArticleListView> queryMemberArticleTitleByKeyInOneForum(Integer userId,Integer forumId, String title){
-		return alvDao.queryMemberArticleTitleByKeyInOneForum(userId, forumId, title);		
+
+	// 後台
+	public List<ArticleListView> queryMemberArticleTitleByKeyInOneForum(Integer userId, Integer forumId, String title) {
+		return alvDao.queryMemberArticleTitleByKeyInOneForum(userId, forumId, title);
 	}
-	//後台
-	public List<ArticleListView> queryMemberArticleTitleByKeyInallForum(Integer userId,String title){
-		return alvDao.queryMemberArticleTitleByKeyInallForum(userId, title);	
+
+	// 後台
+	public List<ArticleListView> queryMemberArticleTitleByKeyInallForum(Integer userId, String title) {
+		return alvDao.queryMemberArticleTitleByKeyInallForum(userId, title);
 	}
-	
+
 }

@@ -13,6 +13,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +38,7 @@ import com.gamebase.article.model.service.ForumService;
 import com.gamebase.general.model.service.GeneralService;
 import com.gamebase.member.model.Friends;
 import com.gamebase.member.model.UserData;
+import com.gamebase.member.model.UsersInfo;
 import com.gamebase.member.model.service.UserDataService;
 
 import net.sf.json.JSONArray;
@@ -138,16 +140,16 @@ public class ArticleController {
 			Iterator<ArticleListView> it = articleList.iterator();
 			while (it.hasNext()) {
 				ArticleListView alv = it.next();
-				String content = alv.getContent(); 
-				System.out.println("before:"+content);
+				String content = alv.getContent();
+				System.out.println("before:" + content);
 				Document doc = Jsoup.parseBodyFragment(content);
 				Element body = doc.body();
 				content = body.text();
-				/*限制字數 超過時加...*/
-				if(content.length() > 280) {
-					content = content.substring(0, 280)+"......";
+				/* 限制字數 超過時加... */
+				if (content.length() > 280) {
+					content = content.substring(0, 280) + "......";
 				}
-				System.out.println("after:"+content);
+				System.out.println("after:" + content);
 				alv.setContent(content);
 			}
 
@@ -196,15 +198,37 @@ public class ArticleController {
 	}
 
 	/* update friend */
-	@RequestMapping(value = "/addfriend", produces = "application/json")
+	@RequestMapping(value = "/addfriend/{userId}", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
-	public JSONObject updateFriends(Integer userId, Integer authorId) {
+	public UsersInfo updateFriends(@PathVariable Integer userId, Integer authorId, Model model) {
 		System.out.println("update or insert friends");
-		JSONObject result = new JSONObject();
-		Friends friend1 = aService.updateFriendsByUserIdAndAuthorId(userId, authorId);
-		Friends friend2 = aService.updateFriendsByUserIdAndAuthorId(authorId, userId);
-		result.put("updatefriend", "true");
-		return result;
+
+		UsersInfo bean = aService.updateFriendsByUserIdAndAuthorId(userId, authorId);
+		// if add friend success , return new user data with new friend list
+		if (bean != null) {
+			UsersInfo userLoginBean = uService.showUserData(userId);
+			model.addAttribute("loginUser", userLoginBean);
+
+			return userLoginBean;
+		} else {
+			return null;
+		}
+	}
+
+	/* update friend */
+	@RequestMapping(value = "/queryUserInfo/{userId}", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public UsersInfo queryUserInfo(@PathVariable Integer userId, Model model) {
+		System.out.println("update or insert friends");
+
+		UsersInfo userLoginBean = uService.showUserData(userId);
+		if (userLoginBean != null) {
+			model.addAttribute("loginUser", userLoginBean);
+			return userLoginBean;
+		} else {
+			return null;
+		}
+
 	}
 
 	/* final */

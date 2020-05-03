@@ -146,30 +146,46 @@ function queryfriend(userId, authorId){
 
 function addfriend(){
 	console.log("add friends");	
-	console.log(userId);
-	console.log(authorId);
+	if(window.sessionStorage.getItem("loginUser") != ""){
 	$.ajax({
-		url:"/GameBase/addfriend",
-		dataType:"json",
+		url:"/GameBase/addfriend/" + JSON.parse(window.sessionStorage.getItem("loginUser")).userId,
 		type:"POST",
-		cache:false,
-		data:{
-			userId:userId,
-			authorId:authorId
-		},
-		success: function(response){
-			console.log("success");
-			
-			friendsStatus[authorId] = response.updatefriend;
+		data:{authorId:$("#spanId").text()},
+		success: function(data){
+			friendsStatus[authorId] = data.updatefriend;
 			$(".firends_area[authorId="+authorId+"]").children(".btn_delete_firends").removeClass("hidden-window");
 			$(".firends_area[authorId="+authorId+"]").children(".btn_add_friends").addClass("hidden-window");
 			
+			$.ajax({
+				url:"/GameBase/queryUserInfo/" + JSON.parse(window.sessionStorage.getItem("loginUser")).userId,
+				type:"POST",
+				success: function(data){
+					if(data){
+						window.sessionStorage.setItem("loginUser",JSON.stringify(data));
+				        
+				        // set new friend list to chat room object
+				        var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
+				        chatRoomObj.friendsList = data.friendsList;
+				        
+				        window.sessionStorage.setItem("chatRoom",JSON.stringify(chatRoomObj));
+				        
+				        var friendsList = Mustache.render(chatRoomFriendsListTemplate, chatRoomObj);
+				        $("#chat-room-friends").html(friendsList);
+				        
+				        // get online list
+				        var data = JSON.parse(window.sessionStorage.getItem("loginUser"));
+				        sendWebSocketMessage({ from: data.userId, to: ['regist'], message: '', time: Date.now() });
+					}
+
+				}
+			});
 		}
 	});
 }
-
+}
 var friendTemplate =
 		'<div authorId="{{userId}}" class="firends_area popup-window hidden-window">'
+		+'<span id="spanId" style="display:none">{{userId}}</span>'
 		+'<i class="fas fa-times close-btn"></i>'
 		+'<h2>好友申請</h2>'
 		+'<div>'
