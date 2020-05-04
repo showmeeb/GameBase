@@ -45,18 +45,35 @@
 <script src="https://apis.google.com/js/api:client.js"></script>
 <!-- chatRoom js -->
 <script src="<c:url value="/js/chatRoom.js"/>"></script>
+<!-- jquery.cookie js -->
+<script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
 <!-- main style -->
 
 <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
 <link href="<c:url value="/css/topBar.css"/>" rel="stylesheet">
 
 <style>
-   .showBar {
+    .foldableBar {
+      background-color: grey;
+      border-radius: 25px;
+      margin-left: 35%;
+      position: absolute;
+      opacity: 1;
+    }
+
+    .foldableBarHide {
+      margin-left: 90%;
+      position: absolute;
+      opacity: 0;
+      display: none;
+    }
+
+    .showBar {
       animation: show 1s 1;
       animation-fill-mode: forwards;
       background-color: grey;
-	  border-radius: 25px;
-	  
+      border-radius: 25px;
     }
 
     @keyframes show {
@@ -73,10 +90,11 @@
       }
     }
 
-   .hideBar {
+    .hideBar {
       animation: hide 1s 1;
       animation-fill-mode: forwards;
-      background-color: grey;      
+      background-color: grey;
+
     }
 
     @keyframes hide {
@@ -91,39 +109,38 @@
         margin-left: 90%;
         position: absolute;
         opacity: 0;
-display: none;
-        }
+        display: none;
+      }
     }
-    
-    .maskBar{
-    	background-color: black;
-    	position: absolute;
-    	width: 16.5%;
-    	height: 50px;
-    	margin-left: 83%;
-    	z-index: 5;  
-  	      }
-    
-    .z-index10{z-index: 10;}
-    
-    .foldBtn{
-        	position: absolute;
-        	margin-left: -5%;
-        	background-color: white;
-        	border-radius: 25px 0 0 25px;  
+
+    .maskBar {
+      background-color: black;
+      position: absolute;
+      width: 16.5%;
+      height: 50px;
+      margin-left: 83%;
+      z-index: 5;
     }
-    
-    .openBtn{
-        	position: absolute;
-        	margin-left: 83%;
-        	background-color: white;
-        	border-radius: 0 25px 25px 0;    
-        	z-index: 12;        	
+
+    .z-index10 {
+      z-index: 10;
     }
-    
-    .hideChildren{
-            opacity: 0.5;
+
+    .foldBtn {
+      position: absolute;
+      margin-left: -5%;
+      background-color: white;
+      border-radius: 25px 0 0 25px;
     }
+
+    .openBtn {
+      position: absolute;
+      margin-left: 83%;
+      background-color: white;
+      border-radius: 0 25px 25px 0;
+      z-index: 12;
+    }
+
 </style>
 </head>
 
@@ -138,7 +155,6 @@ display: none;
 			</a>
 		</div>
 
-
 		<!-- 遮罩片 -->
 		<div class="maskBar"></div>
 
@@ -146,7 +162,7 @@ display: none;
 		<button class="btn openBtn" id="openBarBtn">=</button>
 
 		<!-- 可折疊列 -->
-		<div class="col-md-6 row showBar " id="foldBar">
+		<div class="col-md-6 row foldableBar " id="foldBar">
 			<button class="btn foldBtn" id="foldBarBtn">>></button>			
 			<!--搜尋列-->
 			<div class="col-md-6 column ">
@@ -167,7 +183,7 @@ display: none;
 				<a href="<c:url value="/forum_test"/>">
 					<button class="btn btn-primary topBarBtn " type="submit">討論區</button>
 				</a> <a class=""
-					href="<c:url value=" /tagSearch?looking=forProduct&keyword=ps4" />">
+					href="<c:url value="/tagSearch?looking=forProduct&keyword=ps4" />">
 					<button class="btn btn-primary topBarBtn" type="submit">商城</button>
 				</a> <a href="<c:url value="/orderPage"/>">
 					<button class="btn btn-primary topBarBtn " type="submit">訂單查詢</button>
@@ -175,7 +191,7 @@ display: none;
 					<button class="btn btn-primary topBarBtn " type="submit">購物車</button>
 				</a>
 			</div>
-		</div>
+		</div>	
 		<!-- 會員系統 -->
 		<div class="col-md-2 column">
 			<div >
@@ -208,58 +224,86 @@ display: none;
 		    <div class="loggedin-list-item hidden-window" id="admin-broadcast">管理員廣播</div>
 		    <div class="loggedin-list-item" id="logout-str">登出</div>
 		</div>
-
 	</nav>
-
 
 	<!-- login and regist pop up windows (with shadow) -->
 	<%@ include file="include/loginArea.jsp"%>
 	<!-- Start Chat Room Area -->
 	<%@ include file="include/chatRoom.jsp"%>
 	<!-- End Chat Room Area -->
-
+	
 	<script>
-		//關鍵字自動完成
-		$.ajax({
-			url : '<c:url value="/autoComplete"/>',
-			type : "POST",
-			success : function(data) {
-				window.sessionStorage.setItem("myData", JSON.stringify(data));
-				$(".search-input").autocomplete({
-					source : data
-				});
-			}
-		});
+    //關鍵字自動完成
+    $.ajax({
+      url: '<c:url value="/autoComplete"/>',
+      type: "POST",
+      success: function (data) {
+        window.sessionStorage.setItem("myData", JSON.stringify(data));
+        $(".search-input").autocomplete({
+          source: data
+        });
+      }
+    });
 
-		$("select#lookingFor").change(
-				function() {
-					var autoCompleteData = JSON.parse(window.sessionStorage
-							.getItem("myData"));
-					if ($(this).val() != "forProduct") {
-						$(".search-input").autocomplete({
-							source : ""
-						});
-					} else {
-						$(".search-input").autocomplete({
-							source : autoCompleteData
-						})
-					}
+    $("select#lookingFor").change(
+      function () {
+        var autoCompleteData = JSON.parse(window.sessionStorage
+          .getItem("myData"));
+        if ($(this).val() != "forProduct") {
+          $(".search-input").autocomplete({
+            source: ""
+          });
+        } else {
+          $(".search-input").autocomplete({
+            source: autoCompleteData
+          })
+        }
 
-				});
+      });
 
-		if ("${looking}" == "foForumr") {
-			$("#lookingFor").val("foForumr")
-		}
+    if ("${looking}" == "foForumr") {
+      $("#lookingFor").val("foForumr")
+    }
 
-		$("#foldBarBtn").click(function(){
-			$("#foldBar").toggleClass("showBar");
-			$("#foldBar").toggleClass("hideBar");
-			})
-						
-		$("#openBarBtn").click(function(){
-			$("#foldBar").toggleClass("showBar");
-			$("#foldBar").toggleClass("hideBar");
-			})						
+
+    //以下為foldBar狀態判斷
+    if ($.cookie("foldableBarState") == null) {
+      $.cookie("foldableBarState", "1")
+    }
+
+    $("#foldBarBtn").click(function () {
+      $("#foldBar").removeClass("showBar foldableBar foldableBarHide");
+      $("#foldBar").addClass("hideBar");
+
+      $.cookie("foldableBarState", "0");
+    })
+
+
+    $("#openBarBtn").click(function () {
+      if ($.cookie("foldableBarState") == "0") {
+        $.cookie("foldableBarState", "1");
+      } else { $.cookie("foldableBarState", "0"); }
+
+      if ($("#foldBar").hasClass("showBar") || $("#foldBar").hasClass("foldableBar")) {
+        $("#foldBar").removeClass("showBar foldableBar foldableBarHide");
+        $("#foldBar").addClass("hideBar");
+
+      } else {
+        $("#foldBar").addClass("showBar");
+        $("#foldBar").removeClass("hideBar foldableBar foldableBarHide");
+
+      }
+
+    })
+
+    if (parseInt($.cookie("foldableBarState"))) {
+      $("#foldBar").addClass("foldableBar");
+      $("#foldBar").removeClass("foldableBarHide");
+
+    } else {
+      $("#foldBar").addClass("foldableBarHide");
+      $("#foldBar").removeClass("foldableBar");
+    }
 	</script>
 
 </body>
