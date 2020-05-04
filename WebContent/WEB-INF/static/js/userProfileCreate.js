@@ -1,5 +1,7 @@
 
 		$(document).ready(function() {
+			$("#pwdSpan").hide();
+			$(".pwdUpdate").css("display", "none");
 			$('#nameSpan').hide();
 			$('.nameBut').css("display", "none");
 			$('#nicknameSpan').css("display", "none");
@@ -16,7 +18,66 @@
 
 			$("#member-profile").removeClass("d-none").addClass("d-block");
 
+			
+			$(".pwdBtn").click(function(){
+				$(this).css("display","none");
+				$("#pwdSpan").show();
+				$(".pwdUpdate").css("display", "block");	
+			});
+			
+			$(".pwdUpdate").click(function(){
+				updatePwd();
+			});
+			
+			$("#pwd-form input[name='password']").change(function () {
+			    // empty password check area
+			    $("input[name='pwd2']").val("");
+
+			    var re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d]{8,15}$/;
+
+			    if (re.test($(this).val())) { // accepted format
+			      $(this).removeClass("error-format");
+			      $(this).addClass("accepted-format");
+			    } else if ($(this).val() == "") {
+			      $(this).removeClass("error-format accepted-format");
+			    } else { // not-accepted format
+			      $(this).removeClass("accepted-format");
+			      $(this).addClass("error-format");
+			      alert("密碼格式需求：\n1.開頭第一個字母須為大小寫英文字\n2.長度需8 - 16個字");
+			    };
+			  });
+
 		});
+		
+		function updatePwd(){
+			console.log("got updatePwd");
+			var pwd2 = $("#pwd-form input[name='password']").val();
+			var inputCheck = true;
+			if(pwd2 != $("#pwd-form input[name='password']").val()){
+				inputCheck = false;
+			}
+			if(inputCheck){
+				var form = $("#pwd-form").serializeObject();
+				var data = JSON.stringify(form);
+				console.log("pwd form = "+data);
+				$.ajax({
+					url:"/GameBase/updatePassword",
+					data : data,
+					type : "POST",
+					contentType : "application/json",
+					success : function(data) {
+						if(data.status){
+							console.log("success");
+						}else{
+							console.log("fail");
+						}
+					}
+				})
+			}else{
+				alert("something wrong");
+			}
+		}
+		
 		function showName() {
 			$('#nameSpan').show();
 			$('.nameBut').css("display", "block");

@@ -102,11 +102,11 @@
 			<div >
 				<!-- 這邊放使用者大頭貼-->
 				<c:choose>
-					<c:when test="${empty sessionScope.loginUser}">
+					<c:when test="${empty sessionScope.loginUser }">
 					<!-- before log in --> 
 					<div class="login-btn"><i class="fa fa-user" ></i><span>Login</span></div>
 					<!-- after log in -->
-					<div class="loggedin-icon disable"><img src="<c:url value="/img/userIcon.png"/>" class="shot disable" alt="user icon" data-toggle="popover"/></div>
+					<div class="loggedin-icon disable"><img src="<c:url value="/img/userIcon.png"/>" class="shot disable" alt="user icon" /></div>
 					</c:when>
 					<c:otherwise>
 						<!-- before log in --> 
@@ -114,10 +114,10 @@
 						<!-- after log in -->
 						<c:choose>
 							<c:when test="${empty sessionScope.loginUser.img}">
-								<div class="loggedin-icon"><img src="<c:url value="/img/userIcon.png"/>" class="shot disable" alt="user icon" data-toggle="popover"/></div>
+								<div class="loggedin-icon"><img src="<c:url value="/img/userIcon.png"/>" class="shot disable" alt="user icon" /></div>
 							</c:when>
 							<c:otherwise>
-								<div class="loggedin-icon"><img src="${sessionScope.loginUser.img}" class="shot disable" alt="user icon" data-toggle="popover"/></div>
+								<div class="loggedin-icon"><img src="${sessionScope.loginUser.img}" class="shot disable" alt="user icon"/></div>
 							</c:otherwise>
 							</c:choose>
 					</c:otherwise>

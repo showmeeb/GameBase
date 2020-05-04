@@ -41,14 +41,24 @@
 		<h1 id="yourData">您的資料</h1>
 		<hr>
 		<div class="container">
+		<form id="pwd-form">
+		<div class="form-group form-group-lg">
+				<div id="pwdShow" class="user-data-tag-area">密碼:********</div>
+				<div id="pwdSpan">新密碼<input type="password" class="form-control input-lg" name="password" id="pwd"><br>
+					確認密碼<input type="password" class="form-control input-lg" name="pwd2" id="pwd2">
+				</div>
+			</div>
+			<div >
+				<input type="button" class="btn btn-info pwdBtn" value="修改">
+				<button class="btn btn-primary pwdUpdate">更新</button>
+			</div>
+		</form>
+		<hr>
 		<form id="formData">
-		
 			<div class="form-group form-group-lg">
 				<div id="nameShow" class="user-data-tag-area">姓名:${userProfile.name}</div>
 				<div id="nameSpan"><input type="text" class="form-control input-lg" name="name" id="name"></div>
 			</div>
-			
-			
 			<div >
 				<input type="button" onclick='showName()' class="btn btn-info" id="eName" value="修改">	
 				<button class="btn btn-primary nameBut" id="up" onclick='editName()'>更新</button>
