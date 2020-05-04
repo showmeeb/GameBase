@@ -2,12 +2,17 @@ package com.gamebase.tradesystem.controller;
 
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.gamebase.general.model.service.GeneralService;
 import com.gamebase.tradesystem.model.service.ProductService;
 
 
@@ -16,7 +21,10 @@ import net.sf.json.JSONObject;
 
 @Controller
 public class ProductController {
+	@Autowired
 	private ProductService productService;
+	@Autowired
+	private GeneralService generalService;
 
 
 	public ProductController(ProductService productService) {
@@ -29,10 +37,18 @@ public class ProductController {
 		return "mallHome";
 	}
 	
+	@RequestMapping(path = "/tradesystem/img", method = RequestMethod.POST)
+	@ResponseBody
+	public String img(@RequestPart(value = "img") MultipartFile formData) {
+		System.out.println(formData);
+		return generalService.uploadToImgur(formData);
+	}
+	
 	@RequestMapping(path = "/tradesystem/add", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject tsAdd(@RequestParam(value = "form") String form) {
 		// System.out.println(productService.add(form));
+		
 		System.out.println(form);
 		return productService.add(form);
 	}

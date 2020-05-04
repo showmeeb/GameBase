@@ -3,6 +3,8 @@ package com.gamebase.tradesystem.model.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gamebase.tradesystem.model.Product;
 import com.gamebase.tradesystem.model.dao.ProductDao;

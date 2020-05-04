@@ -1,3 +1,6 @@
+	var img;
+	
+
 	$(document).on('click','#gameMode',function(){
 		$('#gameMode').attr({id:"hostMode",value:"host"}).html("主機");
 		$('#dg').hide();
@@ -10,12 +13,37 @@
 		$('#dh').hide();
 		$('#dg').show();
 		})
+		
+	$(document).on('change','#pImg',function(){
+		var formData = new FormData();
+		formData.append('img', $('#pImg')[0].files[0]);
+		console.log($('#pImg')[0].files[0]);
+		console.log(formData);
+		$.ajax({
+		    url: 'tradesystem/img',
+		    type: 'POST',
+		    cache: false,
+		    data:formData,
+		    processData: false,
+		    contentType: false,
+		    success:function(respose){
+		    	img=respose;
+		    	console.log(img);
+		    }
+		})
+
+	})
 
 	$(document).on('click','#s1',function(){
 		var a=$(this.form).serializeObject();
-		//console.log(a);
+//		var formData = new FormData();
+//		formData.append('img', $('#pImg')[0].files[0]);
+//		console.log($('#pImg')[0].files[0]);
+//		console.log(formData);
+		a.productImg = img;
+		
 		var form = JSON.stringify(a);
-		//console.log(form);
+		console.log(form);
 		$.ajax({
 			url:"tradesystem/add",
 			data : {form : form},

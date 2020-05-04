@@ -6,52 +6,6 @@ function myFunction(a) {
 	  console.log(a)    
 	}
 $(document).ready(function () {
-	//**************popover**************
-	$("[data-toggle='popover']").mouseover(function(){
-		
-		var userId = $(this).attr("id");
-
-		//防止一直存取
-		if(window.sessionStorage.getItem("uid="+userId) != null){
-//			console.log(window.sessionStorage.getItem("uid="+userId));
-			var oldUser = JSON.parse(window.sessionStorage.getItem("uid="+userId));
-//			console.log("oldUser uid = "+oldUser.userId);
-			var ocontent = "Account:"+oldUser.account+"<br>";
-			ocontent += "userId:"+ oldUser.userId+"<br>";
-			if (oldUser.img) {
-				ocontent +="img:<img src='"+oldUser.img+"'><br>";
-			}else{
-				ocontent +="img:<img src='https://i.imgur.com/ke6wdHI.jpg'><br>";
-			}
-			//popover 沒有refresh 所以必須每次都dispose( Hides and destroys the popover )
-			$("[data-toggle='popover']").popover('dispose').popover({title: "會員資料",trigger: "hover",placement: "left",html:true, content: ocontent, delay: {show: 200, hide: 1000}});
-			
-		}else{
-			
-			$.ajax({
-				contentType: "application/json",
-				url: "/GameBase/userInfo/"+userId,
-				type:"GET",
-				success:function(data){
-					var fUInfo = data.fUserInfo;
-					window.sessionStorage.setItem("uid="+userId,JSON.stringify(fUInfo));
-					var ucontent = "Account:"+fUInfo.account+"<br>";
-					ucontent += "userId:"+fUInfo.userId+"<br>";
-					if (fUInfo.img) {
-						ucontent +="img:<img src='"+fUInfo.img+"'><br>";
-					}else{
-						ucontent +="img:<img src='https://i.imgur.com/ke6wdHI.jpg'><br>";
-					}
-					$("[data-toggle='popover']").popover('dispose').popover({title: "會員資料",trigger: "hover",placement: "left" ,html:true, content: ucontent, delay: {show: 200, hide: 1000}});
-				}
-			});
-			
-		}
-
-	});
-	
-
-	
   if (window.sessionStorage.getItem("loginUser") != "") {
     var login = JSON.parse(window.sessionStorage.getItem("loginUser"));
 //    $(".dropdown button[name='dmb-u']").html(login.account);
@@ -62,12 +16,11 @@ $(document).ready(function () {
       $(".shot").removeClass("disable");
       $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg").attr("id",login.userId);;
     }
-    $("[data-toggle='popover']").removeClass("disable");
     if(login.rankId==4){
   	  $("#admin-broadcast").removeClass("hidden-window", 700);
     }
-   
-
+  }else{
+	  $(".loggedin-icon").addClass("disable");
   }
 
   $(".loggedin-icon").click(function () {
@@ -136,7 +89,6 @@ $(document).ready(function () {
     $(".dropdown button[name='dmb-u']").html("會員系統");
     
     $("#admin-broadcast").addClass("hidden-window", 700);
-    $("[data-toggle='popover']").addClass("disable");
     // google logout
     googleSignOut();
 
@@ -211,10 +163,6 @@ function userLogin() {
           $(".login-btn").addClass("disable",700,function(){
   	            $(".loggedin-icon").removeClass("disable",700);
   	      });
-
-          //show userAccount
-//          $(".dropdown button[name='dmb-u']").html(data.loginUser.account);
-          $("[data-toggle='popover']").removeClass("disable");
           
           // close login window
           $("#login-submit-btn").parent().addClass("hidden-window", 700);
@@ -232,8 +180,7 @@ function userLogin() {
           // get user information
           window.sessionStorage.setItem("loginUser", JSON.stringify(data.loginUser));
           console.log(window.sessionStorage.getItem("loginUser"));
-          window.sessionStorage.setItem("UserData", JSON.stringify(data.UserData));
-          console.log(window.sessionStorage.getItem("UserData"));
+          
           // connect and show chat room
           connectChatRoom();
           $(".chat-room-area").show();
@@ -647,8 +594,6 @@ function attachSignin(element) {
             $(".login-btn").addClass("disable", 700, function () {
               $(".loggedin-icon").removeClass("disable", 700);
             });
-
-            $("[data-toggle='popover']").removeClass("disable");
             
             // close login window
             $("#login-submit-btn").parent().addClass("hidden-window", 700);
