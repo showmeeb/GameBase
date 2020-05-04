@@ -96,23 +96,23 @@ div, tr, td, th {
 						<form id="f1">
 							<div class="form-group">
 								<label for="orderName">姓名:</label> <input type="text"
-									class="form-control" name="orderName"
+									class="form-control" name="orderName" id="orderName"
 									aria-describedby="emailHelp">
 							</div>
 							<div class="form-group">
 								<label for="orderPhone">電話:</label> <input type="text"
-									class="form-control" name="orderPhone"
+									class="form-control" name="orderPhone" id="orderPhone"
 									aria-describedby="emailHelp">
 							</div>
 							<div class="form-group">
 								<label for="orderAddress">住址:</label> <input type="text"
-									class="form-control" name="orderAddress"
+									class="form-control" name="orderAddress" id="orderAddress"
 									aria-describedby="emailHelp">
 							</div>
 
 							<div class="form-group">
 								<label for="orderEmail">信箱:</label> <input type="email"
-									class="form-control" name="orderEmail"
+									class="form-control" name="orderEmail" id="orderEmail"
 									placeholder="name@example.com">
 							</div>
 
@@ -143,18 +143,22 @@ div, tr, td, th {
 	<script type="text/javascript">
 //-----------------*********變數區*********-------------------
 		var t = false;
+		var check1=false;
+		var check2=false;
+		var check3=false;
+		var check4=false;
 //-----------------*********測試區*********-------------------
 		//沒效果 控制model 呼叫前或後的函數
-		$("#exampleModalCenter").on("show.bs.modal", function(e) {
-			console.log('顯示視窗前呼叫');
-		});
-		$('#exampleModalCenter').on('hidden.bs.modal fade', function(e) {
-			alert("asd");
-		})
+// 		$("#exampleModalCenter").on("show.bs.modal", function(e) {
+// 			console.log('顯示視窗前呼叫');
+// 		});
+// 		$('#exampleModalCenter').on('hidden.bs.modal fade', function(e) {
+// 			alert("asd");
+// 		})
 
-		if ($('#exampleModalCenter').hasClass('model')) {
-			console.log('視窗目前是開啟的狀態..');
-		}
+// 		if ($('#exampleModalCenter').hasClass('model')) {
+// 			console.log('視窗目前是開啟的狀態..');
+// 		}
 
 //-----------------*********網頁開始函數區*********-------------------
 //-----------------抓取使用者資料-------------------	
@@ -390,6 +394,36 @@ div, tr, td, th {
 				});
 			}
 		})
+//-----------------檢查輸入資料輸入-------------------	
+
+// $(document).on('blur','#orderName',function(){
+// 	var name=$('#orderName').val();
+// 	console.log(name.length);
+// 	if(name!=""||name.length<10){
+// 		  for (var i = 0; i < name.length; i++) {
+			  
+//                   if ((name.charCodeAt(i) >= 33 && name.charCodeAt(i) <= 47) || (name.charCodeAt(i) >= 58 && name.charCodeAt(i) <= 64)) {      //符號
+//                       alert("不能有符號");
+//                       $("#orderName").focus($('#orderName').val(""));
+//                   }
+//                   else if (name.charCodeAt(i) >= 48 && name.charCodeAt(i) <= 57) { //數字
+//                 	  alert("不能有數字");
+//                 	  $("#orderName").focus($('#orderName').val(""));
+//                   }
+
+//               }
+// 		}
+
+// 	})
+	
+// $(document).on('blur','#orderPhone',function(){
+// 	var phone=$('#orderPhone').val();
+
+// 	if(phone==""||phone.length!=10){
+// 			alert("asd");
+// 		}
+
+// 	})
 		
 //-----------------*********函數區*********-------------------
 //-----------------顯示金額-------------------			

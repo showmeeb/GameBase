@@ -67,16 +67,10 @@ body {
 	height: 50px;
 	border-radius: 50%;
 }
-#div-left{
-	width:1000px;
-	line-height: 50px;
-	padding:auto;
-	float:left;
+#phoneErr{
+	color:red;
 }
-#div-right{
-	width:200px;
-	line-height: 50px;
-	padding:auto;
-	float:right;
+#ageErr{
+	color:red;
 }
 

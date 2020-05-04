@@ -59,7 +59,7 @@
 				<div id="nameShow" class="user-data-tag-area">姓名:${userProfile.name}</div>
 				<div id="nameSpan"><input type="text" class="form-control input-lg" name="name" id="name"></div>
 			</div>
-			<div >
+			<div class="user-data-btn-area">
 				<input type="button" onclick='showName()' class="btn btn-info" id="eName" value="修改">	
 				<button class="btn btn-primary nameBut" id="up" onclick='editName()'>更新</button>
 			</div>
@@ -98,23 +98,25 @@
 			</div>
 			<hr>	
 			<div class="form-group form-group-lg">
-				<div id="phoneShow">電話:${userProfile.phone}</div>
-				<div id="phoneSpan"><input type="text" class="form-control input-lg" name="phone" id="phone"></div>
+				<div id="phoneShow">手機號碼:${userProfile.phone}</div>
+				<div id="phoneSpan"><input type="text" class="form-control input-lg" name="phone" id="phone" placeholder="Ex:0955667777" onblur="checkPhone()" maxlength="10"></div>
+				<div id="phoneErr"></div>
 			</div>
 			
 			<div class="user-data-btn-area">
 				<input type="button" onclick='showPhone()' class="btn btn-info" id="ePh" value="修改">
-				<button class="btn btn-primary pBut" onclick='editPhone()'>更新</button>
+				<button id="edP" class="btn btn-primary pBut" onclick='editPhone()'>更新</button>
 			</div>
 			<hr>
 			<div class="form-group form-group-lg">
 				<div id="ageShow">年齡:${userProfile.age}</div>
-				<div id="ageSpan"><input type="text" class="form-control input-lg" name="age" id="age"></div>
+				<div id="ageSpan"><input type="text" class="form-control input-lg" name="age" id="age" placeholder="Ex:25(最小為10歲 最多100歲)" onblur="checkAge()" maxlength="3"></div>
+				<div id="ageErr"></div>
 			</div>
 			
 			<div class="user-data-btn-area">
 				<input type="button" onclick='showAge()' class="btn btn-info" id="eAge" value="修改">
-				<button class="btn btn-primary aBut" onclick='editAge()'>更新</button>
+				<button id="edA" class="btn btn-primary aBut" onclick='editAge()'>更新</button>
 			</div>
 			<hr>
 		</form>	
