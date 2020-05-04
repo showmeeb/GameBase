@@ -151,7 +151,7 @@
 				type : "POST",
 				contentType : "application/json",
 				success : function(data) {
-					$('#phoneShow').html('電話: ' + data.phone);
+					$('#phoneShow').html('手機號碼: ' + data.phone);
 				}
 			});
 			$('#phoneSpan').css("display", "none");
@@ -197,4 +197,36 @@
 			});
 			$('#imgSpan').css("display", "none");
 
+		}
+		
+		function checkPhone(){
+			var phone = document.getElementById('phone').value;
+			var testPhone = /^[09]{2}\d{8}$/.test(phone);
+			console.log(phone);
+			console.log(testPhone);
+	
+			if(!testPhone){
+				document.getElementById('phoneErr').innerHTML = '請輸入正確號碼';
+				$('#edP').attr("disabled",true);
+				return false;
+			}else{
+				document.getElementById('phoneErr').innerHTML = 'ok';
+				$('#edP').attr("disabled",false);
+				return true;
+			}
+			
+		}
+
+		function checkAge(){
+			var age = document.getElementById('age').value;
+
+			if(isNaN(age)||age>100||age<10){
+				document.getElementById('ageErr').innerHTML = '請輸入介於10~100間的數字';
+				$('#edA').attr("disabled",true);
+				return false;
+			}else{
+				document.getElementById('ageErr').innerHTML = 'ok';
+				$('#edA').attr("disabled",false);
+				return true;
+			}
 		}
