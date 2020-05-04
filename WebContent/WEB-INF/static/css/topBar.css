@@ -257,28 +257,32 @@ iframe {
 
 #imgb1 {
 	background:url('https://i.imgur.com/kjCWYlX.jpg');
+	background-size:100%;
 	display:block;
-  	width:250px;
-  	height:800px;
+  	width:300px;
+  	height:900px;
 	background-repeat:no-repeat;
 	position: fixed;
-	bottom: 100px;
+	bottom: 0px;
   	right: 0px;
 	
 	}
 #imgb2 {
 	background:url('https://i.imgur.com/TCZkjNW.jpg');
+	background-size:170%;
 	display:block;
-  	width:250px;
-  	height:800px;
+  	width:370px;
+  	height:900px;
 	background-repeat:no-repeat;
 	position: fixed;
-	bottom: 100px;
+	bottom: 0px;
   	left: 0px;
 	
 	}
+#container{ background-color:rgba(80%, 80%, 80%, 0.2);}
 #switchDiv{
+	
 	width:250px;
   	height:400px;
 }
-div{border:1px solid black}
+#switchDiv div{border:1px solid black ;margin-top: 10px;}

@@ -42,7 +42,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-3 column text-center" style="padding: 0;">
-				<div id="switchBar" style="background-color: #D0D0D0">
+				<div id="switchBar" style="background-color:rgba(80%, 80%, 80%, 0.2);">
 					<ul class="nav justify-content-center">
 						<li id="swp" class="nav-item" role="button" tabindex="0"
 							aria-pressed="true"><img
@@ -54,48 +54,49 @@
 							aria-pressed="true"><img
 							src="https://i.imgur.com/ZfTAY8U.png"></li>
 					</ul>
-<!-- 					<div id="switchDiv"> -->
-<!-- 						<div class="custom-control custom-switch"> -->
-<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch1" value="off"> -->
-<!-- 						  <label class="custom-control-label" for="customSwitch1">動&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作</label> -->
-<!-- 						</div> -->
-<!-- 						<div class="custom-control custom-switch"> -->
-<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch2"> -->
-<!-- 						  <label class="custom-control-label" for="customSwitch2">運&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;動</label> -->
-<!-- 						</div> -->
-<!-- 						<div class="custom-control custom-switch"> -->
-<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch3"> -->
-<!-- 						  <label class="custom-control-label" for="customSwitch3">射&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;擊</label> -->
-<!-- 						</div> -->
-<!-- 						<div class="custom-control custom-switch"> -->
-<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch4"> -->
-<!-- 						  <label class="custom-control-label" for="customSwitch4">冒&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;險</label> -->
-<!-- 						</div> -->
-<!-- 						<div class="custom-control custom-switch"> -->
-<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch5"> -->
-<!-- 						  <label class="custom-control-label" for="customSwitch5">競&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速</label> -->
-<!-- 						</div> -->
-<!-- 						<div class="custom-control custom-switch"> -->
-<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch6"> -->
-<!-- 						  <label class="custom-control-label" for="customSwitch6">驚&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;悚</label> -->
-<!-- 						</div> -->
-<!-- 						<div class="custom-control custom-switch"> -->
-<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch7"> -->
-<!-- 						  <label class="custom-control-label" for="customSwitch7">益&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;智</label> -->
-<!-- 						</div> -->
-<!-- 						<div class="custom-control custom-switch"> -->
-<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch8"> -->
-<!-- 						  <label class="custom-control-label" for="customSwitch8">限&nbsp;&nbsp;制&nbsp;級</label> -->
-<!-- 						</div> -->
-<!-- 						<div class="custom-control custom-switch"> -->
-<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch9"> -->
-<!-- 						  <label class="custom-control-label" for="customSwitch9">策略模擬</label> -->
-<!-- 						</div> -->
-<!-- 						<div class="custom-control custom-switch"> -->
-<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch10"> -->
-<!-- 						  <label class="custom-control-label" for="customSwitch10">角色扮演</label> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
+					<hr>
+					<div id="switchDiv">
+						<div class="custom-control custom-checkbox ">
+						  <input type="checkbox" class="custom-control-input" id="customSwitch1" value="動作">
+						  <label class="custom-control-label" for="customSwitch1">動&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作</label>
+						</div>
+						<div class="custom-control custom-checkbox">
+						  <input type="checkbox" class="custom-control-input" id="customSwitch2" value="運動">
+						  <label class="custom-control-label" for="customSwitch2">運&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;動</label>
+						</div>
+						<div class="custom-control custom-checkbox">
+						  <input type="checkbox" class="custom-control-input" id="customSwitch3" value="射擊">
+						  <label class="custom-control-label" for="customSwitch3">射&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;擊</label>
+						</div>
+						<div class="custom-control custom-checkbox">
+						  <input type="checkbox" class="custom-control-input" id="customSwitch4" value="冒險">
+						  <label class="custom-control-label" for="customSwitch4">冒&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;險</label>
+						</div>
+						<div class="custom-control custom-checkbox">
+						  <input type="checkbox" class="custom-control-input" id="customSwitch5" value="競速">
+						  <label class="custom-control-label" for="customSwitch5">競&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速</label>
+						</div>
+						<div class="custom-control custom-checkbox">
+						  <input type="checkbox" class="custom-control-input" id="customSwitch6" value="驚悚">
+						  <label class="custom-control-label" for="customSwitch6">驚&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;悚</label>
+						</div>
+						<div class="custom-control custom-checkbox">
+						  <input type="checkbox" class="custom-control-input" id="customSwitch7" value="益智">
+						  <label class="custom-control-label" for="customSwitch7">益&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;智</label>
+						</div>
+						<div class="custom-control custom-checkbox">
+						  <input type="checkbox" class="custom-control-input" id="customSwitch8" value="限制級">
+						  <label class="custom-control-label" for="customSwitch8">限&nbsp;&nbsp;制&nbsp;級</label>
+						</div>
+						<div class="custom-control custom-checkbox">
+						  <input type="checkbox" class="custom-control-input" id="customSwitch9" value="策略模擬">
+						  <label class="custom-control-label" for="customSwitch9">策略模擬</label>
+						</div>
+						<div class="custom-control custom-checkbox">
+						  <input type="checkbox" class="custom-control-input" id="customSwitch10" value="角色扮演">
+						  <label class="custom-control-label" for="customSwitch10">角色扮演</label>
+						</div>
+					</div>
 				</div>
 
 			</div>
@@ -121,11 +122,26 @@
 			</div>
 		</div>
 	</div>
+	<span id="popA" class="d-inline-block" data-toggle="popover" data-content="Disabled popover">
+	</span>
 <!-- FOOTER -->
 	<jsp:include page="footer.jsp" />
 
 
 	<script type="text/javascript">
+//-----------------*********變數區*********-------------------
+	var u = window.sessionStorage.getItem("loginUser");
+	var pageItem = 8;
+	var array;
+	var oriArray;
+	var filterType=[];
+	var user = {
+			checkUser : function() {
+				if (u == "") {
+					alert("尚未登入會員");
+				}
+			}
+		}
 //-----------------*********測試區*********-------------------
 //沒效果 控制model 呼叫前或後的函數
 	$("#d1").on("show.bs.modal", function(e) {
@@ -137,27 +153,68 @@
 		console.log('關閉視窗前呼叫');
 	})
 
-	if ($('#d1').hasClass('model')) {
-		console.log('視窗目前是開啟的狀態..');
-	}
+	
+	$(document).on('change','.custom-control-input',function(){
+			  
+			  if ($(this).is(':checked')) {
+			    filterType.push($(this).attr('value'));
+			    filterTypeArray(filterType,array);
+			  } else {
+			    filterType.splice(filterType.indexOf($(this).attr('value')),1);
+			    if(filterType.length==0){
+			    	filterTypeArray(filterType,array);
+				    }else{
+			    filterTypeArray(filterType,array);
+				    }
+			  }
+ 			  
+			console.log("動作");
+			console.log(filterType);
+		})
 
-// 	$(document).on('change','#customSwitch1',function(){
 		
-// 			console.log("動作");
-// 			console.log($('#customSwitch1').val());
-// 		})
-
-//-----------------*********變數區*********-------------------
-		var u = window.sessionStorage.getItem("loginUser");
-		var pageItem = 8;
-		var array;
-		var user = {
-				checkUser : function() {
-					if (u == "") {
-						alert("尚未登入會員");
-					}
-				}
+		
+	function filterTypeArray(filterType,array){	
+// 		console.log(filterType.length);
+// 		console.log(array);
+		oriArray= array;
+		for (var j=0;j<filterType.length;j++){
+			for (var i = 0; i< array.length; i++) {
+				oriArray = oriArray.filter(function(item){
+					console.log(item.productTag);
+					console.log(filterType[j]);
+					if((item.productTag.search(filterType[j]))!=-1){
+						return item;
+						}
+					    
+				});
 			}
+		}
+
+		console.log(oriArray);
+		numPage(oriArray);
+		showCard(oriArray);
+		}
+
+	function resetFilter(){
+		filterType.length=0;
+		$('.custom-control-input').prop("checked",false)
+
+		}
+
+// 	$("#videoDiv").mouseover(function () {
+// 		$("[data-toggle='popover']").popover();
+// 		console.log("移入");
+//     }).mouseout(function () {
+//         $(this).css("background-color",oldColor);
+//     });
+// 	$(document).on("mouseenter","#videoDiv",function(){	
+// 		var x = event.clientX + document.body.scrollLeft + 20;
+// 		var y = event.clientY + document.body.scrollTop - 5; 
+// 		$("#popA").css({"left":x+"px","top":y+"px"}).popover('show');
+// 		console.log("移入");
+// 		});
+
 //-----------------*********初始化區*********-------------------
 		window.onload = function() {
 			console.log(window.sessionStorage.getItem("loginUser"));
@@ -173,45 +230,54 @@
 //-----------------*********觸發按鈕區*********-------------------		
 //-----------------排序按鈕_熱銷-------------------	
 		$(document).on('click', "#hotSale", function() {
+// 			resetFilter();
 			console.log(array);
-			for (var i = 0, l = array.length; i < l; ++i) {
-				array = array.sort(function(a, b) {
+			for (var i = 0, l = oriArray.length; i < l; ++i) {
+				oriArray = oriArray.sort(function(a, b) {
 					return a.searchFreq < b.searchFreq ? 1 : -1;
 				});
 			}
-			console.log(array);
-			showCard(array);
+			console.log(oriArray);
+			showCard(oriArray);
 
 		})
 //-----------------排序按鈕_從高價-------------------	
 		$(document).on('click', "#fromHigher", function() {
+// 			resetFilter();
 			console.log(array);
-			for (var i = 0, l = array.length; i < l; ++i) {
-				array = array.sort(function(a, b) {
+			for (var i = 0, l = oriArray.length; i < l; ++i) {
+				oriArray = oriArray.sort(function(a, b) {
 					return a.productPrice < b.productPrice ? 1 : -1;
 				});
 			}
-			console.log(array);
-			showCard(array);
+			console.log(oriArray);
+			showCard(oriArray);
 
 		})
 //-----------------排序按鈕_從低價-------------------	
 		$(document).on('click', "#fromLower", function() {
+// 			resetFilter();
 			console.log(array);
-			for (var i = 0, l = array.length; i < l; ++i) {
-				array = array.sort(function(a, b) {
+			for (var i = 0, l = oriArray.length; i < l; ++i) {
+				oriArray = oriArray.sort(function(a, b) {
 					return a.productPrice > b.productPrice ? 1 : -1;
 				});
 			}
-			console.log(array);
-			showCard(array);
+			console.log(oriArray);
+			showCard(oriArray);
+			
 
 		})
 //-----------------分頁切換按鈕-------------------	
 		$(document).on('click', ".pageBnt", function() {
 			let toPage = this.id - 1;
+			if(filterType.length>0){
+				$("#resultsTable").html(changePage(oriArray, toPage));
+				}
+			else{
 			$("#resultsTable").html(changePage(array, toPage));
-
+				}
+			
 		})
 //-----------------模擬框  輸入數量改變-------------------	
 		$(document).on('change', '#quantity_input', function() {
@@ -287,12 +353,15 @@
 		})
 //-----------------切換商品類型  (SWITCH/PS4/XBOX)-------------------	
 		$(document).on('click', '#swp', function() {
+			resetFilter();
 			array = swich();
 		})
 		$(document).on('click', '#psp', function() {
+			resetFilter();
 			array = ps();
 		})
 		$(document).on('click', '#xboxp', function() {
+			resetFilter();
 			array = xbox();
 		})
 //-----------------商品加入購物車-------------------	
@@ -522,7 +591,7 @@
 		function showprodetail(response) {
 			var txt = "";
 			txt += "<div ><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>X</span></button></div>"
-			txt += "<div style='width:350px;height:450px; float:left;margin:30px 0px 10px 0px; text-align: center;'>";
+			txt += "<div id='videoDiv' style='width:350px;height:450px; float:left;margin:30px 0px 10px 0px; text-align: center;'>";
 			txt += "<img id='youtube'role='button' tabindex='0' aria-pressed='true' alt='"
 					+ JSON.stringify(response.productVideo)
 					+ "' src='"
