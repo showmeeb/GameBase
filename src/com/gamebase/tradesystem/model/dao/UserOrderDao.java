@@ -217,5 +217,12 @@ public class UserOrderDao {
 //		System.out.println("MerchantTradeNo2=" + MerchantTradeNo2);
 		return MerchantTradeNo2;
 	}
+	
+	public List<UserOrder> allOrders() {
+		Session session = sessionFactory.getCurrentSession();
+		Query<UserOrder> query = session.createQuery("from UserOrder",UserOrder.class);
+		List<UserOrder> list = query.list();
+		return list;
+	}
 
 }
