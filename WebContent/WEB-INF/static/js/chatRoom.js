@@ -797,7 +797,7 @@ $(document).ready(function () {
     var userObj = {};
     userObj.userId = $(this).children(".chat-room-user-id").text();
     userObj.account = $(this).children(".chat-room-friend-name").text();
-    userObj.snapshot = $(this).children(".chat-room-friend-icon").attr("src");
+    userObj.img = $(this).children(".chat-room-friend-icon").attr("src");
 
     // in order to check is the user already in the user list
     var checkFlag = true;
@@ -961,7 +961,7 @@ function showUsersDiaglog(element) {
   var userObj = {};
   userObj.userId = $(element).children(".chat-room-user-id").text();
   userObj.account = $(element).children(".chat-room-friend-name").text();
-  userObj.snapshot = $(element).children(".chat-room-friend-icon").attr("src");
+  userObj.img = $(element).children(".chat-room-friend-icon").attr("src");
 
   // in order to check is the user already in the user list
   var checkFlag = true;
@@ -1016,7 +1016,7 @@ function showUserListFromMessage(msg, isHistory) {
     for (let user of chatRoomObj.friendsList) {
       if (user.userId == userObj.userId) {
         userObj.account = user.account;
-        userObj.snapshot = user.snapshot;
+        userObj.img = user.img;
       }
     }
 
@@ -1388,7 +1388,7 @@ function showMessageOutput(msgOutput, isHistory) {
     // get user snapshot
     for (let friend of JSON.parse(window.sessionStorage.getItem("loginUser")).friendsList) {
       if (friend.userId == msgOutput.from) {
-        msgOutput.snapshot = friend.snapshot;
+        msgOutput.img = friend.img;
       }
     }
 
@@ -1566,7 +1566,7 @@ function displayHistory(sender, receiver) {
 
 var chatRoomFriendsListTemplate = '{{#friendsList}}'
   + '<div class="chat-room-friend" onclick="showUsersDiaglog(this)">'
-  + '<img class="chat-room-friend-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}" />'
+  + '<img class="chat-room-friend-icon" src="{{&img}}{{^img}}/GameBase/img/userIcon.png{{/img}}" />'
   + '<div class="chat-room-friend-name">{{account}}</div>'
   + '<div class="chat-room-user-id">{{userId}}</div>'
   + '<div class="chat-room-friend-online-light"></div>'
@@ -1574,7 +1574,7 @@ var chatRoomFriendsListTemplate = '{{#friendsList}}'
   + '{{/friendsList}}';
 
 var chatRoomUsersTemplate = '<div class="chat-room-user" onclick="showChatContentArea(this)" >'
-  + '<img class="chat-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}" />'
+  + '<img class="chat-user-icon" src="{{&img}}{{^img}}/GameBase/img/userIcon.png{{/img}}" />'
   + '<div class="chat-user-name">{{account}}</div>'
   + '<div class="chat-room-user-id">{{userId}}</div>'
   + '<div class="chat-user-brief-message">{{message}}</div>'
@@ -1595,7 +1595,7 @@ var chatRoomContentTemplate = '<div id="chat-header-area">'
   + '</div>';
 
 var replyMsgTemplate = '<div class="chat-messages">'
-  + '<img class="chat-message-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}"/>'
+  + '<img class="chat-message-user-icon" src="{{&img}}{{^img}}/GameBase/img/userIcon.png{{/img}}"/>'
   + '<div class="chat-message">{{&message}}</div>'
   + '<div class="chat-time">{{time}}</div>'
   + '</div>';
@@ -1606,7 +1606,7 @@ var ownMsgTemplate = '<div class="chat-messages own-messages">'
   + '</div>';
 
 var replyFileTemplate = '<div class="chat-messages">'
-  + '<img class="chat-message-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}"/>'
+  + '<img class="chat-message-user-icon" src="{{&img}}{{^img}}/GameBase/img/userIcon.png{{/img}}"/>'
   + '<img class="chat-file" src="{{&url}}"/>'
   + '<div class="chat-time">{{time}}</div>'
   + '</div>';
