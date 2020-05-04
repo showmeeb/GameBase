@@ -1,6 +1,8 @@
 package com.gamebase.general.model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -54,7 +56,7 @@ public class WebflowDAO {
 	//當天不重複
 	public List<Webflow> IpnoRepeatDay(String date){
 		Query<Webflow> query = sessionFactory.getCurrentSession()
-		.createQuery("select DISTINCT ip from Webflow where DateDiff(day,'"+date+"',getdate())=0");
+		.createQuery("select DISTINCT ip from Webflow where logdate= '"+date+"'");
 		List<Webflow> list = query.list();
 		return list;
 		
@@ -64,17 +66,17 @@ public class WebflowDAO {
 	public List<Webflow> IpnoRepeatWeek(String date){
 		
 		Query<Webflow> query = sessionFactory.getCurrentSession()
-		.createQuery("select DISTINCT ip from Webflow where DateDiff(day,'"+date+"',getdate())<=7");
+		.createQuery("select DISTINCT ip from Webflow where DateDiff(day,'"+date+"',getdate())<=7");		
 		List<Webflow> list = query.list();
 		return list;		
 	}
 	//1天總瀏覽
 	public List<Webflow> IpRepeatDay(String date){
-		Query<Webflow> query = sessionFactory.getCurrentSession()
-		.createQuery("from Webflow where DateDiff(day,'"+date+"',getdate())=0", Webflow.class);
-		List<Webflow> list = query.list();
-		return list;
-		
+		Query<Webflow> query1 = sessionFactory.getCurrentSession()
+		.createQuery("from Webflow where logdate= '"+date+"'", Webflow.class);
+		List<Webflow> list1 = query1.list();
+		return list1;		
+	
 	}
 	
 	//7天總瀏覽

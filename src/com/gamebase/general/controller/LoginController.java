@@ -1,13 +1,18 @@
 package com.gamebase.general.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +21,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -110,13 +114,48 @@ public class LoginController {
 	@ResponseBody
 	public Map<String,Object> getIpWeek() {
 			
-		System.out.println("getNoRepeatIpWeek-----");
+//		System.out.println("getNoRepeatIpWeek-----");
 		String date = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
 		List<Webflow> norepeat = uService.IpnoRepeatWeek(date);
 		List<Webflow> repeat = uService.IpRepeatWeek(date);
 		Map<String,Object> map= new HashMap<String,Object>();
 		map.put("norepeat", norepeat);
 		map.put("totalnum", repeat);
+		
+		return map;
+	}
+	
+	@RequestMapping(path = "/GameBase/getIpDay", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,ArrayList> getIpDay() {
+			
+		System.out.println("getNoRepeatIpDAY-----");
+//		String date = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
+		ArrayList<String> daylist=new ArrayList<>();
+		ArrayList<Integer> timelist=new ArrayList<>();
+		Map<String, ArrayList> map= new HashMap<String, ArrayList>();  
+		for(int i=6;i>=0;i--) {
+			Calendar   cal   =   Calendar.getInstance();
+			cal.add(Calendar.DATE, -i);
+			String day = new SimpleDateFormat( "yyyy/MM/dd").format(cal.getTime());
+			
+			List<Webflow> DayNorepeat = uService.IpRepeatDay(day);
+			System.out.println("day------"+day);
+			Integer times=0;
+			Map<String,Integer> data= new HashMap<String,Integer>();  
+			for(int j=0;j<DayNorepeat.size();j++) {	
+				System.out.println("DayNorepeat.size()"+DayNorepeat.size());
+				times+=DayNorepeat.get(j).getLogtime();
+			}
+			daylist.add(day);
+			timelist.add(times);
+				
+		}
+		
+		map.put("day", daylist);
+		map.put("time", timelist);
+		
+
 		
 		return map;
 	}

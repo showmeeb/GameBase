@@ -400,7 +400,7 @@ public class MemberAjaxController {
 		return map;
 	}
 	
-	@RequestMapping(path = "/GameBase/getNewMemberWeek", method = RequestMethod.POST)
+	@RequestMapping(path = "/GameBase/getNewMemberWeek", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> getNewMemberWeek() {
 		System.out.println("got new users ");
