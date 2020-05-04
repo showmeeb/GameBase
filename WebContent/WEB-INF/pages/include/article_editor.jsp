@@ -12,10 +12,6 @@
 		<!-- User ID and Article Title -->
 		<table>
 			<c:if test="${not empty title.titleName}">
-<!-- 			<tr> -->
-<!-- 				<td><p>your account id:</p></td> -->
-<!-- 				<td><input type="text" id="accountId" name="accountId"></td> -->
-<!-- 			</tr> -->
 			<tr>
 				<td><p>文章標題:</p></td>
 				<td><input type="text" id="articleTitle" name="articleTitle" value="${title.titleName}" disabled="disabled"></td>
@@ -23,10 +19,6 @@
 			</c:if>
 			<!-- title is empty -->
 			<c:if test="${empty title.titleName}">
-<!-- 			<tr> -->
-<!-- 				<td><p>your account id:</p></td> -->
-<!-- 				<td><input type="text" id="accountId" name="accountId"></td> -->
-<!-- 			</tr> -->
 			<tr>
 				<td><p>文章標題:</p></td>
 				<td><input type="text" id="articleTitle" name="articleTitle"></td>
@@ -53,6 +45,7 @@
 
    		</script>
 	</form>
-	<button id="submit">發佈文章</button>
-	<button id="update" class="hidden-window">更新文章</button>
+	<button id="submit" class="buttonL">發佈文章</button>
+	<button id="update_content" class="buttonL" hidden="true">更新文章</button>
+	<button id="reply_content" class="buttonL" hidden="true">回覆文章</button>
 </div>

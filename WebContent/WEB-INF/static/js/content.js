@@ -1,29 +1,58 @@
 
 $("#document").ready(function () {
 	console.log("this is content.js");
+	forumId = $(".article_window").attr("forumId");
+	titleId = $(".article_window").attr("titleId");
+	/* record button clicked */
+	$(".btn_record").click(function(){
+		console.log("record btn clicked");
 
-//	/* record button clicked */
-//	$(".btn_record").click(function(){
-//		console.log("record btn clicked");
-//		/* identify which btn been clicked */
-//		var btn = $(this).attr("id");
-//		console.log(btn);
-//		
-//		update_content(btn);
-//	});
-//	
-//	/* update content button clicked */
-//	$(".btn_update_content").click(function(){
-//		console.log("update content btn clicked");
-//		/* identify which btn been clicked */
-//		var btn = $(this).attr("id")
-//		console.log(btn);
-//		
-//		update_content(btn);
-//	});
+	    if(window.sessionStorage.getItem("loginUser") != ""){
+			/* identify which btn been clicked */
+			userId = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
+			console.log("userId is "+userId);
+			var btn = $(this).attr("id");
+			console.log(btn);
+			update_record(btn);
+	    } else {
+	    	alert("請先登入 !");       	    		
+	    	$(".login-area").removeClass("hidden-window", 700);
+	    	$("#shadow").fadeIn(700);
+	    	/*function find user's record after user login*//*無法登入*/
+//	    	function getRecord(){
+//	    		$.ajax({
+//	    			url:'/GameBase/forum_test/'+forumId+'/'+titleId+'/queryRecord',//XX
+//	    			dataType:"json",
+//	    			type:"POST",
+//	    			cache:false,
+//	    			data:{
+//	    				userId:userId
+//	    			},
+//	    			success: function(response){
+//	    				console.log("success");
+//	    				console.log("response : "+response.record.record)
+//	    			if(response.record.record == null) {
+//	    				
+//	    			}
+//	    			}
+//	    		});
+//	    	}
+	    }
+	});
+	
+	/*update content button clicked*/
+ 	$(".btn_update_content").click(function(){
+ 		console.log("update record btn clicked");
+ 		/*identify which btn been clicked */
+ 		var btn = $(this).attr("btn")
+ 		console.log(btn);
+ 		contentId = $(this).attr("contentId");
+ 		console.log("content ID : "+contentId);
+ 		update_content(btn,contentId);
+ 	});
 	
 	/*author img clicked*/
-	$(".userId").click(function(){
+	$(".content_author_img").click(function(){
 		console.log("author img clicked");
 		
 //		identifyLoginState();
@@ -51,27 +80,101 @@ $("#document").ready(function () {
 var friendsStatus = {};
 var authorId;
 var userId;
-
-function update_content(btn){
-	var forumId = JSON.parse(window.sessionStorage.getItem("forum")).forumId;
-	var titleId = JSON.parse(window.sessionStorage.getItem("title")).titleId;
-	console.log("get btn value :"+btn);
-	console.log('/forum_test/'+forumId+'/'+titleId);
+var forumId;
+var titleId;
+var contentId;
+function update_record(btn){
+	console.log("update record");
+	console.log(forumId);
+	console.log(titleId);
 	$.ajax({
-		url:'/GameBase/forum_test/'+forumId+'/'+titleId+'/btn',//XX
+		url:'/GameBase/forum_test/'+forumId+'/'+titleId+'/record',
 		dataType:"json",
 		type:"POST",
 		cache:false,
 		data:{
-			clcickedBTN:btn
+			clickedBTN:btn,
+			userId:userId
 		},
 		success: function(response){
 			console.log("success");
 			console.log("response : "+response.record.record)
+			$(".btn_record").removeClass("disabled");
+ 			if(response.record.record === "like") {
+ 				$("#like.btn_record").html('<i class="fas fa-thumbs-up fa-2x">'+response.title.likeNum+'</i>');
+ 				$("#unlike.btn_record").addClass("disabled").html('<i class="far fa-thumbs-down fa-2x">'+response.title.unlikeNum+'</i>');
+ 			}else if (response.record.record === "unlike"){
+ 				$("#like.btn_record").addClass("disabled").html('<i class="far fa-thumbs-up fa-2x">'+response.title.likeNum+'</i>');
+ 				$("#unlike.btn_record").html('<i class="fas fa-thumbs-down fa-2x">'+response.title.unlikeNum+'</i>');
+ 			}else{
+ 				$("#like.btn_record").html('<i class="far fa-thumbs-up fa-2x">'+response.title.likeNum+'</i>');
+ 				$("#unlike.btn_record").html('<i class="far fa-thumbs-down fa-2x">'+response.title.unlikeNum+'</i>');
+ 			}
 		}
 	});
 }
 
+/*update or delete content and reply*/
+function update_content(btn,contentId){
+	if(btn==='delete'){
+		console.log("get btn value :"+btn);
+		console.log("/forum_test/${forum.forumId}/${title.titleId}");
+		$.ajax({
+			url:'/GameBase/forum_test/'+forumId+'/'+titleId+'/'+contentId+'/update',
+			dataType:"json",
+			type:"POST",
+			cache:false,
+			data:{
+				clickedBTN:btn,
+				contentId:contentId
+			},
+			success: function(response){
+				console.log("success");	
+				$(".content_content[contentId="+contentId+"] span").html(response.content.content);
+			}
+		})
+	} else if(btn==='update'){
+		console.log("get btn value :"+btn);
+		//get content data
+		var econtent = $(".content_content[contentId="+contentId+"]").html();
+		var	etitle = $(".content_title h2").text();
+		
+		//set editor
+		$("#articleTitle").val(etitle);	
+		editor.setData(econtent);
+		//open editor
+		$(".publish-area").removeClass("hidden-window",700);
+     	$("#shadow").fadeIn(700);
+     	$("#submit").attr("hidden",true);
+     	$("#update_content").attr("hidden",false);
+    	
+		//editor update button clicked
+     	$("#update_content").click(function(){
+     		$.ajax({
+     			url:'/GameBase/forum_test/'+forumId+'/'+titleId+'/'+contentId+'/update',
+     			dataType:"json",
+     			type:"POST",
+     			cache:false,
+     			data:{
+     				clickedBTN:btn,
+     				contentId:contentId,
+     				newContent:editor.getData()
+     			},
+     			success: function(response){
+     				console.log("success");	
+     				$(".content_content[contentId="+contentId+"] span").html(response.content.content);
+                    //clear editor val
+     				$("#articleTitle").val("");	
+     				editor.setData("");
+     				// close window
+                    $(".publish-area").addClass("hidden-window", 700);
+                    $("#shadow").fadeOut(700); 
+     			}
+     		})
+     	});
+
+	}
+}
 // login status identify ?
 function identifyLoginState(){    
     if(window.sessionStorage.getItem("loginUser") != ""){

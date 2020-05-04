@@ -45,7 +45,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Controller
-@SessionAttributes(names = { "userId" })
+@SessionAttributes(names = { "userId", "jforumdata" })
 public class ArticleController {
 
 	@Autowired
@@ -264,13 +264,16 @@ public class ArticleController {
 	public String getArticleListByTitleId_test(@PathVariable(name = "forumId") Integer forumId,
 			@PathVariable(name = "titleId") Integer titleId, ModelMap model) {
 		System.out.println("getArticleListByTitleId_test");
+//		JSONObject j = new JSONObject();
 		/* query forum */
 		Forum forum = fService.queryOneForum(new Forum(forumId));
+//		j.put("jforum", forum);
 		model.addAttribute("forum", forum);
 		/* query title */
 		ArticleTitle title = aService.queryTitleByTitleId(titleId);
+//		j.put("jtitle", title);
 		model.addAttribute("title", title);
-
+//		model.addAttribute("jforumdata", j);
 		/* get user data *//* ?暫時沒用到 */
 		UserData userData = (UserData) model.getAttribute("UserData");
 		if (userData != null) {
@@ -284,20 +287,6 @@ public class ArticleController {
 				model.addAttribute("friends", "");
 			}
 		}
-
-//		/* get user data */
-//		UserData userData = (UserData) model.getAttribute("UserData");
-//		if (userData != null) {
-//			/* query user friends */
-//			List<Friends> friends = aService.queryFriendsByUserId((Integer) userData.getUserId());
-//			if (friends != null && friends.size() != 0) {
-//				model.addAttribute("friends", friends);
-//				System.out.println("friends list found!!");
-//			} else {
-//				System.out.println("friends list not found!!");
-//				model.addAttribute("friends", "");
-//			}
-//		}
 
 		/* click num +1 */
 		Integer clickNum = title.getClickNum() + 1;
@@ -313,10 +302,15 @@ public class ArticleController {
 			model.addAttribute("contentList", "");
 		}
 		/* query user record */
-		model.addAttribute("userId", (Integer) 1);
-		ArticleRecord record = aService
-				.queryRecordByUserIdAndTitleId(new ArticleRecord((Integer) model.getAttribute("userId"), titleId));
-		model.addAttribute("record", record);
+		UsersInfo myUser = (UsersInfo) model.getAttribute("loginUser");
+		if (myUser != null) {
+			ArticleRecord record = aService
+					.queryRecordByUserIdAndTitleId(new ArticleRecord((Integer) model.getAttribute("userId"), titleId));
+			model.addAttribute("record", record);
+		} else {
+//			model.addAttribute("record", "");
+		}
+
 		return "testContentViewPage";
 	}
 
@@ -337,8 +331,10 @@ public class ArticleController {
 			title = aService.updateTitle(title);
 			model.addAttribute("title", title);
 			/* insert new reply content */
-			ArticleContent newContent = aService.insertContent(new ArticleContent(title.getTitleId(), userId, content));
-			result.put("newContent", newContent);
+			ArticleContent newContent = aService.insertContent(new ArticleContent(title.getTitleId(), userId, content));	
+			/*query new reply view*/
+			ContentListView clv = aService.queryReplyViewByContentId(newContent.getContentId());
+			result.put("newContent", clv);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -346,25 +342,42 @@ public class ArticleController {
 	}
 
 	/* final */
-	/* update article data:like,unlike */
-	@RequestMapping(value = "/forum_test/{forumId}/{titleId}/record", produces = "application/json")
+	/* query article data:like,unlike */
+	@RequestMapping(value = "/forum_test/{forumId}/{titleId}/queryRecord", produces = "application/json")
 	@ResponseBody
-	public JSONObject updateRecord(@PathVariable("forumId") Integer forumId, @PathVariable("titleId") Integer titleId,
-			String clickedBTN, ModelMap model) {
-		System.out.println("update article title record");
+	public JSONObject queryRecord(@PathVariable("forumId") Integer forumId, @PathVariable("titleId") Integer titleId,
+			 Integer userId, ModelMap model) {
+		System.out.println("query article title record");
 		JSONObject result = new JSONObject();
 		/* query record */
 		ArticleRecord record = aService
 				.queryRecordByUserIdAndTitleId(new ArticleRecord((Integer) model.getAttribute("userId"), titleId));
+		result.put("record", record);
+		return result;
+	}
+
+	
+	/* final */
+	/* update article data:like,unlike */
+	@RequestMapping(value = "/forum_test/{forumId}/{titleId}/record", produces = "application/json")
+	@ResponseBody
+	public JSONObject updateRecord(@PathVariable("forumId") Integer forumId, @PathVariable("titleId") Integer titleId,
+			String clickedBTN, Integer userId, ModelMap model) {
+		System.out.println("update article title record");
+		System.out.println("user clicked :"+clickedBTN);
+		JSONObject result = new JSONObject();
+		/* query record */
+		ArticleRecord record = aService
+				.queryRecordByUserIdAndTitleId(new ArticleRecord(userId, titleId));
 		/* query title */
 		ArticleTitle title = aService.queryTitleByTitleId(titleId);
 
 		String original = "no";
 		if (record == null) {
-
-			record = aService
-					.insertRecord(new ArticleRecord((Integer) model.getAttribute("userId"), titleId, clickedBTN));
 			System.out.println("record is null");
+			record = aService
+					.insertRecord(new ArticleRecord(userId, titleId, clickedBTN));
+			
 		} else {
 
 			System.out.println("record is not null");
@@ -453,7 +466,7 @@ public class ArticleController {
 	@ResponseBody
 	public JSONObject updateForum(@PathVariable("forumId") Integer forumId, @PathVariable("titleId") Integer titleId,
 			@PathVariable("contentId") Integer contentId, String titleName, String firstFigure, String clickedBTN,
-			ModelMap model) {
+			String newContent, ModelMap model) {
 		System.out.println("update article title");
 		JSONObject result = new JSONObject();
 		ArticleContent content = new ArticleContent();
@@ -471,6 +484,7 @@ public class ArticleController {
 			/* update reply content */
 			content.setContentId(contentId);
 			content = aService.querytOneContentByContentId(content);
+			content.setContent(newContent);
 			content = aService.updateContent(content);
 		}
 

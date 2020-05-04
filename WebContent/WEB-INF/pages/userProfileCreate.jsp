@@ -43,13 +43,13 @@
 		<div class="container">
 		<form id="formData">
 		
-			<div id="div-left" class="form-group form-group-lg">
+			<div class="form-group form-group-lg">
 				<div id="nameShow" class="user-data-tag-area">姓名:${userProfile.name}</div>
 				<div id="nameSpan"><input type="text" class="form-control input-lg" name="name" id="name"></div>
 			</div>
 			
 			
-			<div id="div-right">
+			<div >
 				<input type="button" onclick='showName()' class="btn btn-info" id="eName" value="修改">	
 				<button class="btn btn-primary nameBut" id="up" onclick='editName()'>更新</button>
 			</div>

@@ -107,6 +107,10 @@ public class ArticleService {
 	public List<ContentListView> queryContentListByTitleId(Integer titleId) {
 		return clvDao.queryContentListByContentRN(titleId);
 	}
+	
+	public ContentListView queryReplyViewByContentId(Integer contentId) {
+		return clvDao.queryReplyViewByContentId(contentId);
+	}
 
 	public ArticleTitle updateTitleData(ArticleTitle title, String original, String btn) {
 		if (original.equals(btn)) {

@@ -78,15 +78,20 @@ $(document).ready(function(){
          		success : function(response) {
          			if(lo==="title"){
          				window.location.href=window.location.href+'/'+response.newTitle.titleId;
-         			}else{
-
+         			}else if (lo==="content"){
+         				console.log("newreply");
+         	            var newReply = Mustache.render(createReplyTemplate, response.newContent);
+        	            $(".content_list").append(newReply);
          			}
+         			
          			/* clear input value */
          			$("#articleTitle").val("");        			
                     editor.setData("");
                     // close window
                     $(".publish-area").addClass("hidden-window", 700);
                     $("#shadow").fadeOut(700);  
+                    $(".content_content[contentId="+response.newContent.contentId+"] span")
+                    .html(response.newContent.content);
         		}        			
 			})
 		}
@@ -145,4 +150,33 @@ var createArticleTemplate =
 	+'</div>'
 	+'</div>';
 
-var createReplyTemplate;
+var createReplyTemplate = '<div contentId="{{contentId}}" class="content_unit">'
++'<div class="content_author_data">'				
++'<div id="{{userId}}" class="content_author_img">'
++'<img src={{img}} alt="" class="content_head"/>'
++'</div>'
++'<div class="content_author_info">'
++'<span>'
++'user ID 		: {{userId}}<br/>'
++'user Account 	: {{account}}<br/>'
++'user NickName 	: {{nickName}}<br/>'
++'content Id 		: {{contentId}}<br/>'
++'</span>'
++'</div>'
++'<div class="content_time_record">'
++'<i class="fas fa-pen-alt"></i>發布時間 : {{createTime}}<br />'
++'</div>'
++'<div class="content_time_record">'
++'<i class="fas fa-pen-alt"></i>更新時間 : {{updateTime}}<br />'
++'</div>'
++'<div class="content_editor_btn" >'
++'<a btn="delete" class="btn_update_content" contentId="{{contentId}}" href="javascript:void(0)"><i class="far fa-trash-alt fa-2x"></i></a>'
++'</div>'
++'<div class="content_editor_btn" >'
++'<a btn="update" class="btn_update_content" contentId="{{contentId}}" href="javascript:void(0)"><i class="far fa-edit fa-2x"></i></a>'
++'</div>'
++'</div>'
++'<div contentId="{{contentId}}" class="content_content">'
++'<span></span><br />'
++'</div>'
++'</div>';
