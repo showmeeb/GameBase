@@ -51,51 +51,130 @@
 <link href="<c:url value="/css/topBar.css"/>" rel="stylesheet">
 
 <style>
-</style>
+   .showBar {
+      animation: show 1s 1;
+      animation-fill-mode: forwards;
+      background-color: grey;
+	  border-radius: 25px;
+	  
+    }
 
+    @keyframes show {
+      from {
+        margin-left: 83%;
+        position: absolute;
+        opacity: 0;
+      }
+
+      to {
+        margin-left: 35%;
+        position: absolute;
+        opacity: 1;
+      }
+    }
+
+   .hideBar {
+      animation: hide 1s 1;
+      animation-fill-mode: forwards;
+      background-color: grey;      
+    }
+
+    @keyframes hide {
+      from {
+        margin-left: 35%;
+        position: absolute;
+        opacity: 1;
+
+      }
+
+      to {
+        margin-left: 90%;
+        position: absolute;
+        opacity: 0;
+display: none;
+        }
+    }
+    
+    .maskBar{
+    	background-color: black;
+    	position: absolute;
+    	width: 16.5%;
+    	height: 50px;
+    	margin-left: 83%;
+    	z-index: 5;  
+  	      }
+    
+    .z-index10{z-index: 10;}
+    
+    .foldBtn{
+        	position: absolute;
+        	margin-left: -5%;
+        	background-color: white;
+        	border-radius: 25px 0 0 25px;  
+    }
+    
+    .openBtn{
+        	position: absolute;
+        	margin-left: 83%;
+        	background-color: white;
+        	border-radius: 0 25px 25px 0;    
+        	z-index: 12;        	
+    }
+    
+    .hideChildren{
+            opacity: 0.5;
+    }
+</style>
 </head>
 
 <body>
 	<nav class="navbar navbar-light topBarFixed " id="topBar">
-	
+
 		<!--LOGO-->
-		<div class="col-md-4 column ">
+		<div class="col-md-3 column ">
 			<a class="navbar-brand" href="<c:url value="/"/>"> <img
-				src="https://i.imgur.com/7oJSy01.png" width="400"
+				src="https://i.imgur.com/7oJSy01.png" width="350"
 				class="d-inline-block align-top">
 			</a>
 		</div>
 
-		<!--搜尋列-->
-		<div class="col-md-4 column ">
-			<form action="<c:url value="/tagSearch"/>" method="get"
-				class="form-inline">
-				<select id="lookingFor" name="looking">
-					<option value="forProduct">找商品</option>
-					<option value="foForumr">找文章</option>
-				</select> <input class="form-control search-input" type="search"
-					placeholder="搜尋" aria-label="Search" name="keyword"
-					value="${keyword}" id="searchInput">
-				<button class="btn btn-outline-light search-submit-btn"
-					type="submit">Search</button>
-			</form>
-		</div>
 
-		<!--商城下拉選單-->
-		<div class="col-md-1 column">
-			<button class="btn btn-primary dropdown-toggle topBarBtn"
-				type="button" id="dropdownMenuButton" data-toggle="dropdown"
-				aria-haspopup="true" aria-expanded="true">商城</button>
-			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				<a class="dropdown-item" href="<c:url value="/tagSearch?looking=forProduct&keyword=ps4"/>">商城頁面</a>
+		<!-- 遮罩片 -->
+		<div class="maskBar"></div>
+
+		<!-- 摺疊按鈕 -->
+		<button class="btn openBtn" id="openBarBtn">=</button>
+
+		<!-- 可折疊列 -->
+		<div class="col-md-6 row showBar " id="foldBar">
+			<button class="btn foldBtn" id="foldBarBtn">>></button>			
+			<!--搜尋列-->
+			<div class="col-md-6 column ">
+				<form action="<c:url value="/tagSearch"/>" method="get"
+					class="form-inline">
+					<select id="lookingFor" name="looking">
+						<option value="forProduct">找商品</option>
+						<option value="foForumr">找文章</option>
+					</select> <input class="form-control" type="search" placeholder="搜尋"
+						aria-label="Search" name="keyword" value="${keyword}"
+						id="searchInput" style="width: 200px">
+					<button class="btn btn-outline-light search-submit-btn"
+						type="submit">Search</button>
+				</form>
 			</div>
-		</div>
-
-		<!--討論區連結-->
-		<div class="col-md-1 column">
-			<a href="<c:url value="/forum_test"/>">
-				<button class="btn btn-primary topBarBtn" type="submit">討論區</button>
-			</a>
+			<!--討論區連結-->
+			<div class="col-md-5 column ">
+				<a href="<c:url value="/forum_test"/>">
+					<button class="btn btn-primary topBarBtn " type="submit">討論區</button>
+				</a> <a class=""
+					href="<c:url value=" /tagSearch?looking=forProduct&keyword=ps4" />">
+					<button class="btn btn-primary topBarBtn" type="submit">商城</button>
+				</a> <a href="<c:url value="/orderPage"/>">
+					<button class="btn btn-primary topBarBtn " type="submit">訂單查詢</button>
+				</a> <a href="<c:url value="/shoppingCartPage"/>">
+					<button class="btn btn-primary topBarBtn " type="submit">購物車</button>
+				</a>
+			</div>
 		</div>
 		<!-- 會員系統 -->
 		<div class="col-md-2 column">
@@ -152,21 +231,31 @@
 			}
 		});
 
-		$("select#lookingFor").change(function() {
-			var autoCompleteData = JSON.parse(window.sessionStorage.getItem("myData"));
-			if ($(this).val() != "forProduct") {
-				$(".search-input").autocomplete({
-					source : ""
-				});
-			} else {
-				$(".search-input").autocomplete({
-					source : autoCompleteData
-				})
-			}
+		$("select#lookingFor").change(
+				function() {
+					var autoCompleteData = JSON.parse(window.sessionStorage
+							.getItem("myData"));
+					if ($(this).val() != "forProduct") {
+						$(".search-input").autocomplete({
+							source : ""
+						});
+					} else {
+						$(".search-input").autocomplete({
+							source : autoCompleteData
+						})
+					}
 
-		});
-	
-		if("${looking}"=="foForumr"){$("#lookingFor").val("foForumr")}
+				});
+
+		if ("${looking}" == "foForumr") {
+			$("#lookingFor").val("foForumr")
+		}
+
+		$("#foldBarBtn").click(function(){
+			$("#foldBar").toggleClass("showBar");
+			$("#foldBar").toggleClass("hideBar");
+			})
+						
 	</script>
 
 </body>
