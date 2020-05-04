@@ -48,6 +48,19 @@
 <!-- jquery.cookie js -->
 <script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
+<!-- Font Awesome icons -->
+<script src="https://kit.fontawesome.com/83bb506b46.js" crossorigin="anonymous"></script>
+
+<!-- editor improt -->
+<script	src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
+<!-- ckfinder import -->
+<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+	<!-- forum style -->
+<link href="<c:url value="/css/forumStyle.css"/>" rel="stylesheet">
+<!-- create_article.js import -->
+<script src="<c:url value="/js/create_article.js"/>"></script>
+<script src="<c:url value="/js/content.js"/>"></script>
+
 <!-- main style -->
 
 <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
@@ -204,7 +217,7 @@
 					<div class="loggedin-icon disable"><img src="<c:url value="/img/userIcon.png"/>" class="shot disable" alt="user icon" data-toggle="popover"/></div>
 					</c:when>
 					<c:otherwise>
-						<!-- before log in --> 
+						<!-- before log in --> 						
 						<div class="login-btn disable"><i class="fa fa-user" ></i><span>Login</span></div>
 						<!-- after log in -->
 						<c:choose>
