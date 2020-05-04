@@ -122,6 +122,7 @@ $(document).ready(function () {
     $("#login-submit-btn").removeClass("disable");
     $(".shot").addClass("disable", 700,function(){
     	$(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg");
+    	document.location.href="http://localhost:8080/GameBase/";
     });
     
     $(".dropdown button[name='dmb-u']").html("會員系統");
