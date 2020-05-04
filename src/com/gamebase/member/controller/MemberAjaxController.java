@@ -43,33 +43,47 @@ public class MemberAjaxController {
 	private UserDataService uService;
 	@Autowired
 	public GeneralService gService;
-	
-	@PostMapping(value = "/resetPwd",produces = "application/json")
+
+	@PostMapping(value = "/updatePassword", produces = "application/json")
 	@ResponseBody
-	public Map<String,Object> resetPwd(@RequestBody UserData reset){
-		Map<String,Object> map = new HashMap<String,Object>();
+	public Map<String, Object> pwdchange(@RequestBody UserData pwdupdate, ModelMap model) {
+		System.out.println("pwd" + pwdupdate.getPassword());
+		Map<String, Object> map = new HashMap<String, Object>();
+		String encryptpwd = uService.encryptString(pwdupdate.getPassword());
+		UsersInfo login = (UsersInfo) model.get("loginUser");
+		UserData loginUserData = uService.getByUserId(login.getUserId());
+		loginUserData.setPassword(encryptpwd);
+		uService.saveUserData(loginUserData);
+		map.put("status", true);
+		return map;
+	}
+
+	@PostMapping(value = "/resetPwd", produces = "application/json")
+	@ResponseBody
+	public Map<String, Object> resetPwd(@RequestBody UserData reset) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		UserData result = uService.checkAccWithEmail(reset);
-		if(result!=null) {
+		if (result != null) {
 			Map<String, String> backmap = uService.randomPwd();
 			result.setPassword(backmap.get("encryptpwd"));
 			uService.saveUserData(result);
 			reset.setPassword(backmap.get("pwd"));
 			uService.sendPwdEmail(reset);
-			map.put("status",true);
+			map.put("status", true);
 			return map;
 		}
-		map.put("status",false);
+		map.put("status", false);
 		return map;
 	}
-	
-	@GetMapping(value = "/userInfo/{ID}",produces = "application/json")
+
+	@GetMapping(value = "/userInfo/{ID}", produces = "application/json")
 	@ResponseBody
-	public Map<String,Object> gotInfoByUserId(@PathVariable("ID") Integer userId){
+	public Map<String, Object> gotInfoByUserId(@PathVariable("ID") Integer userId) {
 //		System.out.println(userId);
-		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		UsersInfo fUserInfo = uService.showUserData(userId);
 		System.out.println(fUserInfo.getAccount());
-		map.put("fUserInfo",fUserInfo);
+		map.put("fUserInfo", fUserInfo);
 		return map;
 	}
 
@@ -77,10 +91,10 @@ public class MemberAjaxController {
 	@ResponseBody
 	public UsersInfo googleLogin(String idTokenStr, Model model) {
 		UsersInfo usersLoginBean = uService.googleLogin(idTokenStr);
-		if(usersLoginBean != null) {
+		if (usersLoginBean != null) {
 			model.addAttribute("loginUser", usersLoginBean);
 			return usersLoginBean;
-		}else {
+		} else {
 			return null;
 		}
 	}
@@ -90,7 +104,6 @@ public class MemberAjaxController {
 	public String logoutAction(HttpServletRequest request, SessionStatus sessionStatus) {
 		sessionStatus.setComplete();
 		HttpSession session = request.getSession();
-		session.removeAttribute("UserData");
 		session.removeAttribute("loginUser");
 		return "redirect://indexPage";
 	}
@@ -122,34 +135,33 @@ public class MemberAjaxController {
 
 	@RequestMapping(path = "/loginAjax/{save}", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> loginAction(@RequestBody UserData logindata,@PathVariable("save") boolean save, Model model, HttpServletRequest request,
-			HttpServletResponse response) {
+	public Map<String, Object> loginAction(@RequestBody UserData logindata, @PathVariable("save") boolean save,
+			Model model, HttpServletRequest request, HttpServletResponse response) {
 		uService.setCookie(logindata.getAccount(), logindata.getPassword(), save, request, response);
 		String pwd = uService.encryptString(logindata.getPassword());
 		Map<String, Object> map = uService.getLogin(logindata.getAccount(), pwd);
 		if ((boolean) map.get("status")) {
 			model.addAttribute("loginUser", (UsersInfo) map.get("loginUser"));
-//			model.addAttribute("UserData", (UserData) map.get("UserData"));
 			return map;
 		}
 		return map;
 	}
-	
+
 	@RequestMapping(path = "/loginAjax", method = RequestMethod.GET)
 	public String showLoginPage() {
 		return "LoginViewPageAjax";
 	}
-	
+
 	@RequestMapping(path = "/loginAjax", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> loginPageShow(HttpServletRequest request){
+	public Map<String, Object> loginPageShow(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
-		String acc="",pwd="";
-	
+		String acc = "", pwd = "";
+
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
 				String name = cookie.getName();
-				
+
 				if ("account".equals(name)) {
 					acc = cookie.getValue();
 					request.getSession().setAttribute("account", acc);
@@ -162,12 +174,12 @@ public class MemberAjaxController {
 			}
 		}
 
-		Map<String,Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("account", acc);
-		map.put("password",pwd);
+		map.put("password", pwd);
 		return map;
 	}
-	
+
 	@RequestMapping(path = "/checkAcc", produces = "application/json", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> checkAccount(@RequestParam("account") String account) {
@@ -206,7 +218,6 @@ public class MemberAjaxController {
 		return map;
 	}
 
-
 	@RequestMapping(value = "/registerAjax", method = RequestMethod.GET)
 	public String showRegisterPage() {
 		return "RegisterViewPageAjax";
@@ -226,12 +237,12 @@ public class MemberAjaxController {
 	public String allMembers() {
 		return "allMembers";
 	}
-	
+
 	@RequestMapping(value = "/goOp", method = RequestMethod.GET)
 	public String goop() {
 		return "opPage";
 	}
-	
+
 	@RequestMapping(path = "/GameBase/getuserbyacinallrank", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getuserbyacinallrank(@RequestParam("ac") String ac) {
@@ -242,18 +253,19 @@ public class MemberAjaxController {
 		map.put("members", list);
 		return map;
 	}
+
 	@RequestMapping(path = "/GameBase/getuserbyacinonerank", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getuserbyacinonerank(@RequestParam("ac") String ac, @RequestParam("rank") String rank) {
 		// System.out.println("got chekcAcc "+account.getAccount());
 		System.out.println("b");
-		List<UserData> list = uService.getUserByAcInOneRank(ac,Integer.valueOf(rank));
-		System.out.println("list : "+list);
+		List<UserData> list = uService.getUserByAcInOneRank(ac, Integer.valueOf(rank));
+		System.out.println("list : " + list);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("members", list);
 		return map;
 	}
-	
+
 	@RequestMapping(path = "/GameBase/previewUserProfile", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> previewuserprofile(@RequestParam("id") String id) {
@@ -265,12 +277,12 @@ public class MemberAjaxController {
 		map.put("profile", profile);
 		return map;
 	}
-	
+
 	@RequestMapping(path = "/saveName", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> addName(@RequestBody UserProfile userProfile, HttpServletRequest request) {
 
-		UserProfile up = (UserProfile)request.getSession().getAttribute("userProfile");
+		UserProfile up = (UserProfile) request.getSession().getAttribute("userProfile");
 		System.out.println("upId: " + up.getUserId());
 		String name = userProfile.getName();
 		up.setName(userProfile.getName());
@@ -281,21 +293,20 @@ public class MemberAjaxController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("name", name);
 		return map;
-		
 
 	}
 
 	@RequestMapping(path = "/savenickName", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> addNickName(@RequestBody UserProfile userProfile, HttpServletRequest request) {
-		
-		UserProfile up = (UserProfile)request.getSession().getAttribute("userProfile");
+
+		UserProfile up = (UserProfile) request.getSession().getAttribute("userProfile");
 		String nickName = userProfile.getNickName();
 		up.setNickName(userProfile.getNickName());
 		System.out.println("NName: " + userProfile.getNickName());
 		uService.saveUserPrfile(up);
 		System.out.println("updatenickName=" + userProfile.getNickName());
-		
+
 		request.setAttribute("userProfile", up);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("nickName", nickName);
@@ -306,7 +317,7 @@ public class MemberAjaxController {
 	@RequestMapping(path = "/saveGender", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> addGender(@RequestBody UserProfile userProfile, HttpServletRequest request) {
-		
+
 		UserProfile up = (UserProfile) request.getSession().getAttribute("userProfile");
 		String gender = userProfile.getGender();
 		up.setGender(userProfile.getGender());
@@ -323,8 +334,8 @@ public class MemberAjaxController {
 	@RequestMapping(path = "/saveAddress", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> addAddress(@RequestBody UserProfile userProfile, HttpServletRequest request) {
-		
-		UserProfile up = (UserProfile)request.getSession().getAttribute("userProfile");
+
+		UserProfile up = (UserProfile) request.getSession().getAttribute("userProfile");
 		String address = userProfile.getAddress();
 		up.setAddress(userProfile.getAddress());
 		System.out.println("Address: " + userProfile.getAddress());
@@ -340,8 +351,8 @@ public class MemberAjaxController {
 	@RequestMapping(path = "/savePhone", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> addPhone(@RequestBody UserProfile userProfile, HttpServletRequest request) {
-	
-		UserProfile up = (UserProfile)request.getSession().getAttribute("userProfile");
+
+		UserProfile up = (UserProfile) request.getSession().getAttribute("userProfile");
 		String phone = userProfile.getPhone();
 		up.setPhone(userProfile.getPhone());
 		System.out.println("Phone: " + userProfile.getPhone());
@@ -357,9 +368,9 @@ public class MemberAjaxController {
 	@RequestMapping(path = "/saveAge", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> addAge(@RequestBody UserProfile update, HttpServletRequest request) {
-		
-		UserProfile myUp = (UserProfile)request.getSession().getAttribute("userProfile");
-		String age= String.valueOf(update.getAge());
+
+		UserProfile myUp = (UserProfile) request.getSession().getAttribute("userProfile");
+		String age = String.valueOf(update.getAge());
 		myUp.setAge(update.getAge());
 		System.out.println("Age: " + update.getAge());
 		uService.saveUserPrfile(myUp);
@@ -370,7 +381,6 @@ public class MemberAjaxController {
 		return map;
 
 	}
-	
 
 	@RequestMapping(value = "/userProfileCreate", method = RequestMethod.GET)
 	public String goProfile() {
@@ -379,7 +389,7 @@ public class MemberAjaxController {
 
 	@RequestMapping(value = "/updateProfile", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> updateProfile(ModelMap model,HttpServletRequest request) {
+	public Map<String, Object> updateProfile(ModelMap model, HttpServletRequest request) {
 
 		UsersInfo myUser = (UsersInfo) model.getAttribute("loginUser");
 		UserProfile myUp = uService.getProfileByUserId(myUser.getUserId());
@@ -399,17 +409,16 @@ public class MemberAjaxController {
 		map.put("url", url);
 		return map;
 	}
-	
-	@RequestMapping(path = "/GameBase/getNewMemberWeek", method = RequestMethod.POST)
+
+	@RequestMapping(path = "/GameBase/getNewMemberWeek", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> getNewMemberWeek() {
 		System.out.println("got new users ");
 		List<UserData> data = uService.getAllUserData();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("users", data);
-		System.out.println(map.get("users"));
+		System.out.println("new users: " + map.get("users"));
 		return map;
 	}
 
-	
 }
