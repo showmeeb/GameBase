@@ -73,7 +73,7 @@ var sendPhoto = function(){
         $('#user-photo').attr('src',URL.createObjectURL(blob));
         $('#changeModal').modal('hide');
         $.ajax({
-        	url:'http://localhost:8080/GameBase/uploadImg', 
+        	url:'/GameBase/uploadImg', 
             method: "POST",
             data: formData,
             contentType:false,

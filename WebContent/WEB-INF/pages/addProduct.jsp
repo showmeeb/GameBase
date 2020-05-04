@@ -26,9 +26,10 @@
 <main id="main_back">
 切換註冊商品<button id="gameMode" value="game">遊戲</button>
 <div id ="dg">
+
 	<form id="form1">
 		<div>
-			圖片<input type="text" id="pImg" name="productImg">
+			圖片<input type="file" id="pImg" name="productImg">
 		</div>
 		<div>
 			影片網址<input type="text" id="pVideo" name="productVideo">

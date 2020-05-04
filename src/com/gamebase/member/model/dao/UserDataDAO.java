@@ -65,8 +65,8 @@ public class UserDataDAO implements IUserData {
 		Query<UserData> query = sessionFactory.getCurrentSession().createQuery("From UserData where userId=:uid",
 				UserData.class);
 		query.setParameter("uid", userId);
-
-		return null;
+		
+		return query.uniqueResult();
 	}
 
 	@Override
