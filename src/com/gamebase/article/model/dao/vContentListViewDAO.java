@@ -29,7 +29,14 @@ public class vContentListViewDAO {
 				.setParameter("titleId", titleId);
 		List<ContentListView> list = query.list();
 		return list;
-
+	}
+	
+	public ContentListView queryReplyViewByContentId(Integer contentId) {
+		Query<ContentListView> query = sessionFactory.getCurrentSession()
+				.createQuery("from ContentListView where contentId = :contentId", ContentListView.class)
+				.setParameter("contentId", contentId);
+		ContentListView rs = query.uniqueResult();
+		return rs;
 	}
 
 	public List<Friends> queryFriendsByUserId(Integer userId) {
@@ -48,19 +55,6 @@ public class vContentListViewDAO {
 		return re;
 	}
 	
-	public Friends updateFriendByUserIdAndAuthorId(Integer userId, Integer authorId) {
-		Session session = sessionFactory.getCurrentSession();
-//		Query<Friends> query = session
-//				.createQuery("from Friends where userId = :userId and friendId = :friendId", Friends.class)
-//				.setParameter("userId", userId)
-//				.setParameter("friendId", authorId);
-//		Friends re = query.uniqueResult();
-		Friends re = new Friends();
-		re.setUserId(userId);
-		re.setFriendId(authorId);
-		session.saveOrUpdate(re);
-		return re;
-	}
 	
 	public FriendsInfoView queryFriendsInfoView(Integer userId) {
 		Query<FriendsInfoView> query = sessionFactory.getCurrentSession()

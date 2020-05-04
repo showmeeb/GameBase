@@ -36,4 +36,9 @@ public class TagSearchService {
 		return tagSearchDAO.searchFreq();
 
 	}
+	
+	public String searchArticleClick() {
+		return tagSearchDAO.searchArticleClick();
+
+	}
 }

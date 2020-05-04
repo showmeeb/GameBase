@@ -14,28 +14,28 @@
 
 
 <body>
+<!-- TopBAR -->
 	<jsp:include page="topBar.jsp" />
-	
+<!-- 顯示商品區塊 -->
 	<div id="dt1">
 		<form>
 			<table id="t1">
 			</table>
 		</form>
 	</div>
-
-	<div class="modal fade" id="d1" tabindex="-1"
-		role="dialog" aria-labelledby="d1"
-		aria-hidden="true">
-		<div  class="modal-dialog modal-lg modal-dialog-centered"
+<!-- 模擬框 -->
+	<div class="modal fade" id="d1" tabindex="-1" role="dialog"
+		aria-labelledby="d1" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered"
 			role="document">
-			<div  class="modal-content"
+			<div class="modal-content"
 				style="width: 800px; height: 600px; display: flex; justify-content: flex-start; padding: 3px; margin: auto;">
 				<div id="d4" class="modal-body"></div>
 			</div>
 		</div>
 	</div>
 
-
+<!-- 顯示商品排版區塊 -->
 	<div class="container">
 		<div class="row">
 			<div class="col-3 column text-center" style="padding: 0;">
@@ -76,15 +76,38 @@
 			</div>
 		</div>
 	</div>
-
+<!-- FOOTER -->
 	<jsp:include page="footer.jsp" />
 
 
 	<script type="text/javascript">
+//-----------------*********測試區*********-------------------
+//沒效果 控制model 呼叫前或後的函數
+	$("#d1").on("show.bs.modal", function(e) {
+		console.log('顯示視窗前呼叫');
+	});
+//關閉模擬框  關閉影片
+	$('#d1').on('hidden.bs.modal fade', function(e) {
+		$('#youtubeX').remove();
+		console.log('關閉視窗前呼叫');
+	})
+
+	if ($('#d1').hasClass('model')) {
+		console.log('視窗目前是開啟的狀態..');
+	}
+
+//-----------------*********變數區*********-------------------
 		var u = window.sessionStorage.getItem("loginUser");
 		var pageItem = 8;
 		var array;
-
+		var user = {
+				checkUser : function() {
+					if (u == "") {
+						alert("尚未登入會員");
+					}
+				}
+			}
+//-----------------*********初始化區*********-------------------
 		window.onload = function() {
 			console.log(window.sessionStorage.getItem("loginUser"));
 			//user.checkUser();
@@ -96,13 +119,8 @@
 			// 				ps();
 			//  			console.log("ps");
 		}
-		var user = {
-			checkUser : function() {
-				if (u == "") {
-					alert("尚未登入會員");
-				}
-			}
-		}
+//-----------------*********觸發按鈕區*********-------------------		
+//-----------------排序按鈕_熱銷-------------------	
 		$(document).on('click', "#hotSale", function() {
 			console.log(array);
 			for (var i = 0, l = array.length; i < l; ++i) {
@@ -114,6 +132,7 @@
 			showCard(array);
 
 		})
+//-----------------排序按鈕_從高價-------------------	
 		$(document).on('click', "#fromHigher", function() {
 			console.log(array);
 			for (var i = 0, l = array.length; i < l; ++i) {
@@ -125,6 +144,7 @@
 			showCard(array);
 
 		})
+//-----------------排序按鈕_從低價-------------------	
 		$(document).on('click', "#fromLower", function() {
 			console.log(array);
 			for (var i = 0, l = array.length; i < l; ++i) {
@@ -136,13 +156,13 @@
 			showCard(array);
 
 		})
-
+//-----------------分頁切換按鈕-------------------	
 		$(document).on('click', ".pageBnt", function() {
 			let toPage = this.id - 1;
 			$("#resultsTable").html(changePage(array, toPage));
 
 		})
-
+//-----------------模擬框  輸入數量改變-------------------	
 		$(document).on('change', '#quantity_input', function() {
 			if ($("#quantity_input").val() < 1) {
 				$("#quantity_input").val(1);
@@ -153,7 +173,7 @@
 			$("#tprice").html(price * num);
 
 		})
-
+//-----------------模擬框  輸入數量改變_加號-------------------	
 		$(document).on('click', '#plus', function() {
 			$("#quantity_input").val(parseInt($("#quantity_input").val()) + 1)
 			var num = $("#quantity_input").val();
@@ -162,7 +182,7 @@
 			$("#tprice").html(price * num);
 
 		})
-
+//-----------------模擬框  輸入數量改變_減號-------------------	
 		$(document).on(
 				'click',
 				'#noplus',
@@ -178,39 +198,7 @@
 
 				})
 
-		function showprodetail(response) {
-			var txt = "";
-			txt += "<div ><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>X</span></button></div>"
-			//txt+="<div style='width: 750px; display: flex; justify-content: flex-start; padding: 3px'>";
-			txt += "<div style='width:350px;height:450px; float:left;margin:30px 0px 10px 0px; text-align: center;'>";
-			txt += "<img id='youtube'role='button' tabindex='0' aria-pressed='true' alt='"
-					+ JSON.stringify(response.productVideo)
-					+ "' src='"
-					+ response.productImg + "'></div>";
-			txt += "<div style='float: right;width:400px;height:450px;margin:6px 0px 10px 0px;' ><div class='modal-header'><h5 class='modal-title'>"
-					+ response.productName + "</h5></div>";
-			txt += "<div id='mbody' style='height:330px;'class='modal-body'>";
-			//txt+="<div id='youtube1' ><iframe src='"+url+"'></iframe></div>";
-			txt += "<p class='card-text'>" + response.productInfo + "</p>";
-			txt += "<p class='card-text'>" + response.productTag + "</p>";
-			txt += "</div>";
-			txt += "<div style='margin-bottom:0px;align:left;' class='modal-footer'>";
-			txt += "<span>數量:<button id='noplus' type='button' class='btn btn-outline-secondary btn-sm'>-</button>";
-			txt += "<input style='width: 40px;' id='quantity_input' type='text' value='1'>";
-			txt += "<button id='plus' type='button' class='btn btn-outline-secondary btn-sm'>+</button></span>";
-			txt += "金額:<span id='oriPrice' style='display:none'>"
-					+ response.productPrice + "</span>"
-					+ "<p id='tprice' class='card-text'>"
-					+ response.productPrice + "</p></div>";
-			txt += "</div>";
-			txt += "<div style='width:760px;'class='modal-footer'><span id='itemdetail' style='display:none'>"
-					+ JSON.stringify(response)
-					+ "</span>"
-					+ "<button id='addProduct1' type='button' class='btn btn-primary' data-dismiss='modal'>加入購物車</button></div>";
-			return txt;
-
-		}
-
+//-----------------模擬框  顯示商品細節-------------------	
 		$(document).on('click', '#productDetail', function() {
 			console.log(swich);
 			var $img = $(this).find('img');
@@ -219,6 +207,7 @@
 			$('#d4').html(showprodetail(a));
 
 		})
+//-----------------模擬框  顯示商品影片-------------------	
 		$(document)
 				.on(
 						'click',
@@ -237,6 +226,7 @@
 													+ "<iframe id='video' src='" + video + "' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></div>");
 
 						})
+//-----------------模擬框  切換格式  (影片/介紹)-------------------	
 		$(document).on('click', '#youtube1', function() {
 			$('#youtube1').attr({
 				id : "youtube"
@@ -244,7 +234,7 @@
 			$('#youtubeX').remove();
 
 		})
-
+//-----------------切換商品類型  (SWITCH/PS4/XBOX)-------------------	
 		$(document).on('click', '#swp', function() {
 			array = swich();
 		})
@@ -254,7 +244,7 @@
 		$(document).on('click', '#xboxp', function() {
 			array = xbox();
 		})
-
+//-----------------商品加入購物車-------------------	
 		$(document).on('click', '#addProduct1', function() {
 
 			var a = $('#quantity_input').val();
@@ -299,21 +289,21 @@
 			}
 
 		})
+//-----------------切換頁面_訂單-------------------	
 
 		$(document).on('click', '#order', function() {
 			location.assign("orderPage");
 
 		})
-
+//-----------------切換頁面_購物車-------------------	
 		$(document).on('click', '#shopcart', function() {
 			location.assign("shoppingCartPage");
 
 		})
-		//$('#shopcart').click(function(){
-		//	window.location.href("/shoppingCartPage");
-		//	})
-
-				function swich() {
+		
+//-----------------*********function*********-------------------
+//-----------------切換switch-------------------
+		function swich() {
 									var type = "switch";
 									var array;
 									$.ajax({
@@ -341,7 +331,7 @@
 				
 									return array;
 		}
-
+//-----------------切換PS-------------------
 		function ps() {
 			var type = "PS";
 			var array;
@@ -370,7 +360,7 @@
 					});
 			return array;
 		}
-
+//-----------------切換XBOX-------------------
 		function xbox() {
 			var type = "xbox";
 			var array;
@@ -399,7 +389,7 @@
 			return array;
 
 		}
-
+//-----------------顯示分頁數量-------------------
 		function numPage(response) {
 			var pageNum = Math.ceil(response.length / pageItem);
 
@@ -410,7 +400,7 @@
 			}
 			$("#pageUl").html(pageTxt);
 		}
-
+//-----------------切換分頁-------------------
 		function changePage(array, toPage) {
 
 			console.log(array)
@@ -447,7 +437,7 @@
 			return cardResults;
 
 		}
-
+//-----------------顯示商品 (table模式)-------------------
 		// 		function showtable(response) {
 		//			var txt = "<tr><th>#<th>商品照片<th>商品名稱";
 
@@ -477,7 +467,38 @@
 		//			$('#t1').html(txt);
 
 		//		}
+//-----------------顯示商品細節  (模擬框)-------------------
+		function showprodetail(response) {
+			var txt = "";
+			txt += "<div ><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>X</span></button></div>"
+			txt += "<div style='width:350px;height:450px; float:left;margin:30px 0px 10px 0px; text-align: center;'>";
+			txt += "<img id='youtube'role='button' tabindex='0' aria-pressed='true' alt='"
+					+ JSON.stringify(response.productVideo)
+					+ "' src='"
+					+ response.productImg + "'></div>";
+			txt += "<div style='float: right;width:400px;height:450px;margin:6px 0px 10px 0px;' ><div class='modal-header'><h5 class='modal-title'>"
+					+ response.productName + "</h5></div>";
+			txt += "<div id='mbody' style='height:330px;'class='modal-body'>";
+			txt += "<p class='card-text'>" + response.productInfo + "</p>";
+			txt += "<p class='card-text'>" + response.productTag + "</p>";
+			txt += "</div>";
+			txt += "<div style='margin-bottom:0px;align:left;' class='modal-footer'>";
+			txt += "<span>數量:<button id='noplus' type='button' class='btn btn-outline-secondary btn-sm'>-</button>";
+			txt += "<input style='width: 40px;' id='quantity_input' type='text' value='1'>";
+			txt += "<button id='plus' type='button' class='btn btn-outline-secondary btn-sm'>+</button></span>";
+			txt += "金額:<span id='oriPrice' style='display:none'>"
+					+ response.productPrice + "</span>"
+					+ "<p id='tprice' class='card-text'>"
+					+ response.productPrice + "</p></div>";
+			txt += "</div>";
+			txt += "<div style='width:760px;'class='modal-footer'><span id='itemdetail' style='display:none'>"
+					+ JSON.stringify(response)
+					+ "</span>"
+					+ "<button id='addProduct1' type='button' class='btn btn-primary' data-dismiss='modal'>加入購物車</button></div>";
+			return txt;
 
+		}
+//-----------------顯示商品  (Card模式)-------------------
 		function showCard(response) {
 			var cardResults = "";
 			for (let i = 0; i < response.length; i++) {
@@ -508,7 +529,7 @@
 			}
 			$("#resultsTable").html(cardResults);
 		}
-
+//-----------------??-------------------
 		var jsonResults = JSON.parse(JSON.stringify(${ results }));
 		console.log(jsonResults);
 		showCard(jsonResults);

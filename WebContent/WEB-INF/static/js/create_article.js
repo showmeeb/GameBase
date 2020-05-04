@@ -1,31 +1,33 @@
 let editor;
 
 $(document).ready(function(){
+	console.log("lo :"+lo);
+//	open_editor();	
+	
     $("#publish-btn").click(function(){
     	console.log("pulish btn");
-//		$(".publish-area").removeClass("hidden-window",700);
-//        $("#shadow").fadeIn(700);
+    	
         //login status identify
         if(window.sessionStorage.getItem("loginUser") != ""){
-        	 $(".publish-area").removeClass("hidden-window",700);
-        	 $("#shadow").fadeIn(700);
-        	 } else {
-        	 alert("請先登入 !");       	    		
-        	 $(".login-area").removeClass("hidden-window", 700);
-        	 $("#shadow").fadeIn(700);
-        	 }
+        	userId = userId = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
+        	$(".publish-area").removeClass("hidden-window",700);
+        	$("#shadow").fadeIn(700);
+        	} else {
+        	alert("請先登入 !");       	    		
+        	$(".login-area").removeClass("hidden-window", 700);
+        	$("#shadow").fadeIn(700);
+        	}
+        
         $(".close-btn").click(function(){  
         	console.log("close btn clicked");
             // empty input area
  			$("#articleTitle").val("");
- 			$("#accountId").val("");
-            editor.setData("");
-            
+            editor.setData("");            
             // close window
             $(".publish-area").addClass("hidden-window", 700);
-            $("#shadow").fadeOut(700);     
+            $("#shadow").fadeOut(700);  
         });
-        
+            	
     });
     
 	// editor submit
@@ -67,53 +69,114 @@ $(document).ready(function(){
 				dataType:"json",
 				type:"POST",
 				cache: false,
-	            data:{articleTitle: $("#articleTitle").val(),
-	            	userId: $("#accountId").val(),
+	            data:{
+	            	articleTitle: $("#articleTitle").val(),
+	            	userId: userId,
 	            	firstFigure:imgSrc,
                		content: editor.getData()
                		},
          		success : function(response) {
          			if(lo==="title"){
          				window.location.href=window.location.href+'/'+response.newTitle.titleId;
-         			}else{
-         				console.log("new reply inserted");
-            			/*ajac response*/
-    					var txt = '<div>'+
-    						'<span>'+
-    						'user ID 		: '+response.newContent.userId+'<br/>'+
-    						'user Account 	: '+response.account+'<br/>'+
-    						'user NickName 	: '+response.nickName+'<br/>'+
-    						'</span>'+
-    						'<div class="article_time_record">'+
-    						'<i class="fas fa-pen-alt">Post Time : '+response.newContent.createTime+'</i><br />'+
-    						'</div>'+
-    						'<div class="article_time_record">'+
-    						'<i class="fas fa-pen-alt">Update Time : '+response.newContent.updateTime+'</i><br />'+
-    						'</div>'+
-    						'</div>'+
-    						'<div class="article_icons">'+
-    						'<a id="delete" class="btn_update_content" href="javascript:void(0)"><i class="far fa-trash-alt fa-2x"></i></a>'+
-    						'</div>'+
-    						'<div class="article_icons">'+
-    						'<a id="update" class="btn_update_content" href="javascript:void(0)"><i class="far fa-edit fa-2x"></i></a>'+
-    						'</div>'+
-    						'<br />'+
-    						'<div class="content_content">'+
-    						'<span>'+response.newContent.content+'</span><br />'+
-    						'</div><hr />';
-    					$(".article_part").append(txt);
+         			}else if (lo==="content"){
+         				console.log("newreply");
+         	            var newReply = Mustache.render(createReplyTemplate, response.newContent);
+        	            $(".content_list").append(newReply);
          			}
+         			
          			/* clear input value */
-         			$("#articleTitle").val("");
-         			$("#accountId").val("");
+         			$("#articleTitle").val("");        			
                     editor.setData("");
                     // close window
                     $(".publish-area").addClass("hidden-window", 700);
                     $("#shadow").fadeOut(700);  
+                    $(".content_content[contentId="+response.newContent.contentId+"] span")
+                    .html(response.newContent.content);
         		}        			
 			})
 		}
 		
 	})
 });
+//static function
 
+//user login open editor btn 
+function open_editor() {
+	console.log("open editor");
+    if(window.sessionStorage.getItem("loginUser") != ""){
+    	userId = userId = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
+    	$(".article_create_btn").attr("hidden",false);
+    } else {  
+    	$(".article_create_btn").attr("hidden",true);
+    }
+}
+
+//static  variable
+var userId;
+
+var createArticleTemplate = 
+	'<div class="article_article">'
+	+'<div class="article_name">'
+	+'<h2>'
+	+'<a href="<c:url value="/forum_test/${forumId}/${item.titleId}"/>">${item.titleName}</a>'
+	+'</h2>'
+	+'</div>'
+	+'<div class="article_content">'
+	+'<c:if test="${not empty item.firstFigure}">'
+	+'<div class="article_content_img">'						
+	+'<img alt="圖片提示字串" src="${item.firstFigure}" height="100">'
+	+'</div>'
+	+'</c:if>'
+	+'<div class="article_content_content">'
+	+'<span>${item.content}</span>'
+	+'</div>'
+	+'</div>'
+	+'<div class=" article_datas">'
+	+'<div class="article_icons">'
+	+'<i class="far fa-thumbs-up fa-2x">${item.likeNum}</i>'
+	+'</div>'
+	+'<div class="article_icons">'
+	+'<i class="far fa-thumbs-down fa-2x">${item.unlikeNum}</i>'
+	+'</div>'
+	+'<div class="article_icons">'
+	+'<i class="far fa-eye fa-2x">${item.clickNum}</i>'
+	+'</div>'
+	+'<div class="article_time_record">'
+	+'<i class="fas fa-pen-alt fa-2x"></i>Post Time:${item.createTime}'
+	+'</div>'
+	+'<div class="article_time_record">'
+	+'<i class="far fa-comment-dots fa-2x"></i>Last Reply:${item.lastReplyTime}'
+	+'</div>'
+	+'</div>'
+	+'</div>';
+
+var createReplyTemplate = '<div contentId="{{contentId}}" class="content_unit">'
++'<div class="content_author_data">'				
++'<div id="{{userId}}" class="content_author_img">'
++'<img src={{img}} alt="" class="content_head"/>'
++'</div>'
++'<div class="content_author_info">'
++'<span>'
++'user ID 		: {{userId}}<br/>'
++'user Account 	: {{account}}<br/>'
++'user NickName 	: {{nickName}}<br/>'
++'content Id 		: {{contentId}}<br/>'
++'</span>'
++'</div>'
++'<div class="content_time_record">'
++'<i class="fas fa-pen-alt"></i>發布時間 : {{createTime}}<br />'
++'</div>'
++'<div class="content_time_record">'
++'<i class="fas fa-pen-alt"></i>更新時間 : {{updateTime}}<br />'
++'</div>'
++'<div class="content_editor_btn" >'
++'<a btn="delete" class="btn_update_content" contentId="{{contentId}}" href="javascript:void(0)"><i class="far fa-trash-alt fa-2x"></i></a>'
++'</div>'
++'<div class="content_editor_btn" >'
++'<a btn="update" class="btn_update_content" contentId="{{contentId}}" href="javascript:void(0)"><i class="far fa-edit fa-2x"></i></a>'
++'</div>'
++'</div>'
++'<div contentId="{{contentId}}" class="content_content">'
++'<span></span><br />'
++'</div>'
++'</div>';

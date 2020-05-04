@@ -13,14 +13,14 @@
 <script src="https://kit.fontawesome.com/83bb506b46.js"
 	crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"> -->
 <!-- editor improt -->
 <script
 	src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
 <!-- ckfinder import -->
 <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 <!-- main style -->
-<link href="<c:url value="/css/style.css"/>" rel="stylesheet">
+<%-- <link href="<c:url value="/css/style.css"/>" rel="stylesheet"> --%>
 <!-- forum style -->
 <link href="<c:url value="/css/forumStyle.css"/>" rel="stylesheet">
 <!-- create_article.js import -->
@@ -32,8 +32,9 @@
 	<!-- top bar -->
 	<%@ include file="topBar.jsp"%>
 	
-	<c:if test="${loginUser.rankId==2}">
+
 	<!-- forum title bar -->
+<div class="article_create_btn">
 	<nav class="navbar navbar-expand-sm bg-light forum_topbar">
 		<ul class="nav justify-content-end">
 			<!-- update article button -->
@@ -42,38 +43,49 @@
 					<i class="far fa-edit fa-2x"></i>
 				</a>
 			</li>
-			<li class="nav-item"> hello manager<br/></li>
+
 		</ul>
 	</nav>
-	</c:if>
+</div>
+
+<div class="article_window">
 	
-	<h1>主題：${forum.forumName}</h1>
-	<br />
-	<div id="titleList">
+	<div class="article_forumName">
+	<h1>${forum.forumName}</h1>
+	</div>
+	
+	<div id="titleList" class="article_list">
 		<c:if test="${articleList==null}">
-			<p>there is no article</p>
+		<!-- 沒文章時 顯示甚麼? 可加東西 -->
 		</c:if>
 
 		<c:if test="${articleList!=null}">
-
-			<p>there is articles</p>
 			<c:forEach items="${articleList}" var="item" varStatus="itemStatus">
-				<div class="article">
-					<div class="article_part">
+				<div class="article_article">
+				
+					<div class="article_name">
 						<h2>
 							<a href="<c:url value="/forum_test/${forumId}/${item.titleId}"/>">${item.titleName}</a>
 						</h2>
-						<hr />
-						<div class="article_img">
-						<c:if test="${empty item.firstFigure}"><img alt="圖片提示字串" src="https://i.imgur.com/8g2jFuM.png" height="100" width="100"></c:if>
-						<c:if test="${not empty item.firstFigure}"><img alt="圖片提示字串" src="${item.firstFigure}" height="200"></c:if>
+					</div>
+					
+					<div class="article_content">
+					
+						<!-- has first img -->
+						<c:if test="${not empty item.firstFigure}">
+						<div class="article_content_img">						
+						<img alt="圖片提示字串" src="${item.firstFigure}" height="100">
 						</div>
-						<div class="article_content">
-							<span>${item.content}</span><br />
+						</c:if>
+						
+						<div class="article_content_content">
+							<span>${item.content}</span>
 						</div>
 					</div>
+					
+					
 					<!-- icons input and time record -->
-					<div class="article_part article_datas">
+					<div class=" article_datas">
 						<!-- like -->
 						<div class="article_icons">
 							<i class="far fa-thumbs-up fa-2x">${item.likeNum}</i>
@@ -84,22 +96,26 @@
 						</div>
 						<!-- click -->
 						<div class="article_icons">
-							<i class="far fa-eye fa-2x">${item.clickNum}</i><br/>
+							<i class="far fa-eye fa-2x">${item.clickNum}</i>
 						</div>
 						<!-- create time -->
 						<div class="article_time_record">
-							<i class="fas fa-pen-alt fa-2x">Post Time:${item.createTime}</i><br/>
+							<i class="fas fa-pen-alt fa-2x"></i>Post Time:${item.createTime}
 						</div>
 						<!-- last reply time -->
 						<div class="article_time_record">
-							<i class="far fa-comment-dots fa-2x">Last Reply:${item.lastReplyTime}</i><br/> 
+							<i class="far fa-comment-dots fa-2x"></i>Last Reply:${item.lastReplyTime}
 						</div>
 					</div>
+					
 				</div>
 			</c:forEach>
 
 		</c:if>
+		
 	</div>	
+	
+</div>
 	<!-- update article button -->
 <!-- 	<div class="article_icons"> -->
 <!-- 						<i class="fas fa-edit fa-2x"></i><br />  -->

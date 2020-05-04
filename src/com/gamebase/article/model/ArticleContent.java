@@ -40,6 +40,7 @@ public class ArticleContent {
 		this.userId = userId;
 		this.content = content;
 		this.createTime = new Timestamp(System.currentTimeMillis());
+		this.updateTime = new Timestamp(System.currentTimeMillis());
 	}
 
 	@Id
