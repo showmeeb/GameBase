@@ -38,7 +38,7 @@
 			商品名稱<input type="text" id="pName" name="productName">
 		</div>
 		<div>
-			商品類型<input type="text" id="pType" name="productType" value="game">
+			商品類型<input type="text" id="pType" name="productType" value="game" readonly>
 		</div>
 		<div>
 			庫存<input type="text" id="pInventory" name="inventory">

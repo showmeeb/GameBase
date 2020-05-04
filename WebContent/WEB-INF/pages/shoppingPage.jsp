@@ -16,6 +16,9 @@
 <body>
 <!-- TopBAR -->
 	<jsp:include page="topBar.jsp" />
+	
+	<div id="imgb1"></div>
+	<div id="imgb2"></div>
 <!-- 顯示商品區塊 -->
 	<div id="dt1">
 		<form>
@@ -51,6 +54,48 @@
 							aria-pressed="true"><img
 							src="https://i.imgur.com/ZfTAY8U.png"></li>
 					</ul>
+<!-- 					<div id="switchDiv"> -->
+<!-- 						<div class="custom-control custom-switch"> -->
+<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch1" value="off"> -->
+<!-- 						  <label class="custom-control-label" for="customSwitch1">動&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作</label> -->
+<!-- 						</div> -->
+<!-- 						<div class="custom-control custom-switch"> -->
+<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch2"> -->
+<!-- 						  <label class="custom-control-label" for="customSwitch2">運&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;動</label> -->
+<!-- 						</div> -->
+<!-- 						<div class="custom-control custom-switch"> -->
+<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch3"> -->
+<!-- 						  <label class="custom-control-label" for="customSwitch3">射&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;擊</label> -->
+<!-- 						</div> -->
+<!-- 						<div class="custom-control custom-switch"> -->
+<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch4"> -->
+<!-- 						  <label class="custom-control-label" for="customSwitch4">冒&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;險</label> -->
+<!-- 						</div> -->
+<!-- 						<div class="custom-control custom-switch"> -->
+<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch5"> -->
+<!-- 						  <label class="custom-control-label" for="customSwitch5">競&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速</label> -->
+<!-- 						</div> -->
+<!-- 						<div class="custom-control custom-switch"> -->
+<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch6"> -->
+<!-- 						  <label class="custom-control-label" for="customSwitch6">驚&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;悚</label> -->
+<!-- 						</div> -->
+<!-- 						<div class="custom-control custom-switch"> -->
+<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch7"> -->
+<!-- 						  <label class="custom-control-label" for="customSwitch7">益&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;智</label> -->
+<!-- 						</div> -->
+<!-- 						<div class="custom-control custom-switch"> -->
+<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch8"> -->
+<!-- 						  <label class="custom-control-label" for="customSwitch8">限&nbsp;&nbsp;制&nbsp;級</label> -->
+<!-- 						</div> -->
+<!-- 						<div class="custom-control custom-switch"> -->
+<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch9"> -->
+<!-- 						  <label class="custom-control-label" for="customSwitch9">策略模擬</label> -->
+<!-- 						</div> -->
+<!-- 						<div class="custom-control custom-switch"> -->
+<!-- 						  <input type="checkbox" class="custom-control-input" id="customSwitch10"> -->
+<!-- 						  <label class="custom-control-label" for="customSwitch10">角色扮演</label> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 				</div>
 
 			</div>
@@ -95,6 +140,12 @@
 	if ($('#d1').hasClass('model')) {
 		console.log('視窗目前是開啟的狀態..');
 	}
+
+// 	$(document).on('change','#customSwitch1',function(){
+		
+// 			console.log("動作");
+// 			console.log($('#customSwitch1').val());
+// 		})
 
 //-----------------*********變數區*********-------------------
 		var u = window.sessionStorage.getItem("loginUser");
@@ -484,7 +535,7 @@
 			txt += "</div>";
 			txt += "<div style='margin-bottom:0px;align:left;' class='modal-footer'>";
 			txt += "<span>數量:<button id='noplus' type='button' class='btn btn-outline-secondary btn-sm'>-</button>";
-			txt += "<input style='width: 40px;' id='quantity_input' type='text' value='1'>";
+			txt += "<input style='width: 40px;' id='quantity_input' class='inputNum' readonly type='text' value='1'>";
 			txt += "<button id='plus' type='button' class='btn btn-outline-secondary btn-sm'>+</button></span>";
 			txt += "金額:<span id='oriPrice' style='display:none'>"
 					+ response.productPrice + "</span>"

@@ -253,3 +253,32 @@ iframe {
 #switchBar img {
 	width: 40px
 }
+.inputNum{text-align: center; }
+
+#imgb1 {
+	background:url('https://i.imgur.com/kjCWYlX.jpg');
+	display:block;
+  	width:250px;
+  	height:800px;
+	background-repeat:no-repeat;
+	position: fixed;
+	bottom: 100px;
+  	right: 0px;
+	
+	}
+#imgb2 {
+	background:url('https://i.imgur.com/TCZkjNW.jpg');
+	display:block;
+  	width:250px;
+  	height:800px;
+	background-repeat:no-repeat;
+	position: fixed;
+	bottom: 100px;
+  	left: 0px;
+	
+	}
+#switchDiv{
+	width:250px;
+  	height:400px;
+}
+div{border:1px solid black}

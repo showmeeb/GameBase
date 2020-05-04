@@ -51,6 +51,21 @@ div, tr, td, th {
 	display: flex;
 	vertical-align: middle;
 }
+#nameResult{
+	color: red;
+	display: inline;
+}
+#phoneResult{
+	color: red;
+	display: inline;
+}
+
+#emailResult{
+	color: red;
+	display: inline;
+}
+
+.inputNum{text-align: center; }
 </style>
 </head>
 <body>
@@ -97,12 +112,14 @@ div, tr, td, th {
 							<div class="form-group">
 								<label for="orderName">姓名:</label> <input type="text"
 									class="form-control" name="orderName" id="orderName"
-									aria-describedby="emailHelp">
+									aria-describedby="emailHelp"><span id = "nameResult"></span>
+									<small id="emailHelp" class="form-text text-muted">請輸入中文或英文名子  長度不能超過20  不能包含符號!!</small>
 							</div>
 							<div class="form-group">
 								<label for="orderPhone">電話:</label> <input type="text"
 									class="form-control" name="orderPhone" id="orderPhone"
-									aria-describedby="emailHelp">
+									aria-describedby="emailHelp"><span id = "phoneResult"></span>
+								<small id="emailHelp" class="form-text text-muted">輸入手機電話或家機電話  家機電話需加區碼   不能包含符號!!</small>
 							</div>
 							<div class="form-group">
 								<label for="orderAddress">住址:</label> <input type="text"
@@ -113,7 +130,7 @@ div, tr, td, th {
 							<div class="form-group">
 								<label for="orderEmail">信箱:</label> <input type="email"
 									class="form-control" name="orderEmail" id="orderEmail"
-									placeholder="name@example.com">
+									placeholder="name@example.com"><span id = "emailResult"></span>
 							</div>
 
 						</form>
@@ -268,20 +285,20 @@ div, tr, td, th {
 		
 //-----------------*********觸發按鈕區*********-------------------
 //-----------------輸入數量改變-------------------	
-		$(document).on('change', '#quantity_input', function() {
-			$tr = $(this).parents("tr");
-			var num = $tr.find("input[id='quantity_input']");
-			console.log(num.val());
-			if (num.val() < 1) {
-				num.val(1);
-			}
-			var num1 = $tr.find("#quantity_input").val();
-			var price = $tr.find("td[id='oriPrice']").text();
-			console.log(price);
-			$tr.find("td[id='money']").html(price * num1);
-			total()
+// 		$(document).on('change', '#quantity_input', function() {
+// 			$tr = $(this).parents("tr");
+// 			var num = $tr.find("input[id='quantity_input']");
+// 			console.log(num.val());
+// 			if (num.val() < 1) {
+// 				num.val(1);
+// 			}
+// 			var num1 = $tr.find("#quantity_input").val();
+// 			var price = $tr.find("td[id='oriPrice']").text();
+// 			console.log(price);
+// 			$tr.find("td[id='money']").html(price * num1);
+// 			total()
 
-		})
+// 		})
 //-----------------輸入數量改變_加號-------------------	
 		$(document).on('click', '#plus', function() {
 
@@ -396,34 +413,51 @@ div, tr, td, th {
 		})
 //-----------------檢查輸入資料輸入-------------------	
 
-// $(document).on('blur','#orderName',function(){
-// 	var name=$('#orderName').val();
-// 	console.log(name.length);
-// 	if(name!=""||name.length<10){
-// 		  for (var i = 0; i < name.length; i++) {
+$(document).on('blur','#orderName',function(){
+	var name=$('#orderName').val();
+	console.log(name.length);
+	if(name!=""||name.length<10){
+		  for (var i = 0; i < name.length; i++) {
 			  
-//                   if ((name.charCodeAt(i) >= 33 && name.charCodeAt(i) <= 47) || (name.charCodeAt(i) >= 58 && name.charCodeAt(i) <= 64)) {      //符號
-//                       alert("不能有符號");
-//                       $("#orderName").focus($('#orderName').val(""));
-//                   }
-//                   else if (name.charCodeAt(i) >= 48 && name.charCodeAt(i) <= 57) { //數字
-//                 	  alert("不能有數字");
-//                 	  $("#orderName").focus($('#orderName').val(""));
-//                   }
+                  if ((name.charCodeAt(i) >= 33 && name.charCodeAt(i) <= 47) || (name.charCodeAt(i) >= 58 && name.charCodeAt(i) <= 64)) {      //符號
+                      $('#nameResult').html("不能有符號");
+                      $("#orderName").focus($('#orderName').val(""));
+                  }
+                  else if (name.charCodeAt(i) >= 48 && name.charCodeAt(i) <= 57) { //數字
+                	  $('#nameResult').html("不能有數字");
+                	  $("#orderName").focus($('#orderName').val(""));
+                  }
 
-//               }
-// 		}
+              }
+		}
 
-// 	})
+	})
 	
-// $(document).on('blur','#orderPhone',function(){
-// 	var phone=$('#orderPhone').val();
+$(document).on('blur','#orderPhone',function(){
+	var phone=$('#orderPhone').val();
 
-// 	if(phone==""||phone.length!=10){
-// 			alert("asd");
-// 		}
+	if(phone==""||phone.length!=10){
+		$('#phoneResult').html("長度小於10");
+		$("#orderPhone").focus($('#orderPhone').val(""));
+		
+		}
+	else{
+		console.log("else");
+		for (var i = 0; i < phone.length; i++) {
+			if (phone.charCodeAt(i) >= 48 && phone.charCodeAt(i) <= 57) {      //符號
+				$('#phoneResult').html("OK");
+	            
+	        }
+			else{
+				$('#phoneResult').html("不能為數字以外的字元");
+				break;
+				}
+			}
 
-// 	})
+		}
+	console.log("finish");
+	
+	})
 		
 //-----------------*********函數區*********-------------------
 //-----------------顯示金額-------------------			
@@ -460,7 +494,7 @@ div, tr, td, th {
 				txt += "<td id='oriPrice'>" + response[i].productPrice;
 				txt += "<td>"
 						+ "<span id='sp1'><button id='noplus' type='button' class='btn btn-outline-secondary btn-sm'>-</button>";
-				txt += "<input style='width: 35px;' id='quantity_input' class='upd localupd' type='text' value='"+ response[i].amount+"'>";
+				txt += "<input style='width: 35px;' id='quantity_input' class='upd localupd inputNum' readonly type='text' value='"+ response[i].amount+"'>";
 				txt += "<button id='plus' type='button' class='btn btn-outline-secondary btn-sm'>+</button></span>";
 				txt += "<td id='money'>"
 						+ (response[i].productPrice * response[i].amount)
