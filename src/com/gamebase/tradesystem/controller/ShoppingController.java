@@ -1,6 +1,8 @@
 package com.gamebase.tradesystem.controller;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,6 +126,13 @@ public class ShoppingController {
 	public String shoppingCartPage() {
 		System.out.println("1");
 		return "shoppingCartPage";
+	}
+	
+	@RequestMapping(path = "/orderPage/getMoneyWeek", method = RequestMethod.POST)
+	@ResponseBody
+	public List<UserOrder> getMoneyWeek() {
+		
+		return shoppingService.allOrders();
 	}
 	
 }

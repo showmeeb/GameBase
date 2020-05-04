@@ -33,6 +33,7 @@ import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UserProfile;
 import com.gamebase.member.model.UsersInfo;
 import com.gamebase.member.model.service.UserDataService;
+import com.gamebase.tradesystem.model.UserOrder;
 
 @Controller
 @SessionAttributes(names = { "loginUser", "ProfileId", "UserData" })
@@ -399,6 +400,16 @@ public class MemberAjaxController {
 		return map;
 	}
 	
+	@RequestMapping(path = "/GameBase/getNewMemberWeek", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getNewMemberWeek() {
+		System.out.println("got new users ");
+		List<UserData> data = uService.getAllUserData();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("users", data);
+		System.out.println(map.get("users"));
+		return map;
+	}
 
 	
 }

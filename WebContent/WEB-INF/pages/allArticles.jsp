@@ -53,13 +53,42 @@
 				<!-- <input type="button" id="add" value="新增"> -->
 				<span id="rMsg"></span>
 				<div>
-					<input type="button" id="toDel" class="d-none" value="確定刪除">
+					<input type="button" id="toDel" class="d-none btn" data-toggle="modal" data-target="#myModal" value="確定刪除">
 				</div>
 			</div>
 		</div>
 		<div id="forum" class="float-right w-50">
 		    <iframe id="iframe" class="d-none" style="width:700px;height:800px" onload="dtopBar()"></iframe>
 		</div>
+		
+		
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">確定刪除</h4>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+					</div>
+					<div class="modal-body">
+						<div id="pDiv" class="container-fluid">
+							<div class="prfile">
+								<h5 id="forumname"></h5>
+								<h5 id="articlename"></h5>
+							</div>				
+						
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger"
+								data-dismiss="modal" id="sureToDel">刪除</button>
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+				<!-- /.modal-dialog -->
+			</div>
+			</div>
 	</main>
 
 </body>

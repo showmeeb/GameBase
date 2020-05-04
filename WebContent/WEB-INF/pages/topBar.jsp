@@ -97,36 +97,37 @@
 				<button class="btn btn-primary topBarBtn" type="submit">討論區</button>
 			</a>
 		</div>
-
-
 		<!-- 會員系統 -->
 		<div class="col-md-2 column">
-			<div class="dropdown">
+			<div >
 				<!-- 這邊放使用者大頭貼-->
-				<span>
-					<a href="#" data-toggle="popover" class="disable" >
-						<img src="https://i.imgur.com/ke6wdHI.jpg" width="40" height="40" class="shot disable">
-					</a>
-				</span>
-
-
-				<button class="btn btn-warning dropdown-toggle userNameBtn" name="dmb-u"
-					type="button" id="dropdownMenuButton" data-toggle="dropdown"
-					aria-haspopup="true" aria-expanded="true">
-					會員系統
-				</button>
-				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					<!-- Ajax -->
-					<a class="dropdown-item" id="login-str" href="#">登入</a>
-					<a class="dropdown-item" id="regiest-str" href="#">註冊</a>
-					<a class="dropdown-item hidden-window" id="logout-str" href="#">登出</a>
-					<a class="dropdown-item hidden-window" id="mainCenter"href="<c:url value="/mainProduct"/>">管理中心</a>
-					<a class="dropdown-item hidden-window" id="admin-broadcast" href="#">管理員廣播</a>
-					<a class="dropdown-item" id="order" href="#">訂單查詢</a>
-					<a class="dropdown-item" id="shopcart" href="#">購物車</a>
-					
-				</div>
+				<c:choose>
+					<c:when test="${empty sessionScope.loginUser}">
+					<!-- before log in --> 
+					<div class="login-btn"><i class="fa fa-user" ></i><span>Login</span></div>
+					<!-- after log in -->
+					<div class="loggedin-icon disable"><img src="<c:url value="/img/userIcon.png"/>" class="shot disable" alt="user icon" data-toggle="popover"/></div>
+					</c:when>
+					<c:otherwise>
+						<!-- before log in --> 
+						<div class="login-btn disable"><i class="fa fa-user" ></i><span>Login</span></div>
+						<!-- after log in -->
+						<c:choose>
+							<c:when test="${empty sessionScope.loginUser.img}">
+								<div class="loggedin-icon"><img src="<c:url value="/img/userIcon.png"/>" class="shot disable" alt="user icon" data-toggle="popover"/></div>
+							</c:when>
+							<c:otherwise>
+								<div class="loggedin-icon"><img src="${sessionScope.loginUser.img}" class="shot disable" alt="user icon" data-toggle="popover"/></div>
+							</c:otherwise>
+							</c:choose>
+					</c:otherwise>
+				</c:choose>
 			</div>
+		</div>
+		<div id="loggedin-list">
+		    <div class="loggedin-list-item" id="user-center-btn">會員中心</div>
+		    <div class="loggedin-list-item hidden-window" id="admin-broadcast">管理員廣播</div>
+		    <div class="loggedin-list-item" id="logout-str">登出</div>
 		</div>
 
 	</nav>
