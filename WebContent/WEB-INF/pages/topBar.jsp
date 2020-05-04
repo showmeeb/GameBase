@@ -142,7 +142,7 @@ display: none;
 		<!-- 遮罩片 -->
 		<div class="maskBar"></div>
 
-		<!-- 摺疊按鈕 -->
+		<!-- 開啟摺疊按鈕 -->
 		<button class="btn openBtn" id="openBarBtn">=</button>
 
 		<!-- 可折疊列 -->
@@ -256,6 +256,10 @@ display: none;
 			$("#foldBar").toggleClass("hideBar");
 			})
 						
+		$("#openBarBtn").click(function(){
+			$("#foldBar").toggleClass("showBar");
+			$("#foldBar").toggleClass("hideBar");
+			})						
 	</script>
 
 </body>
