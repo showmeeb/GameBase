@@ -252,26 +252,25 @@
       type: "POST",
       success: function (data) {
         window.sessionStorage.setItem("myData", JSON.stringify(data));
-        $(".search-input").autocomplete({
+        $("#searchInput").autocomplete({
           source: data
-        });
+          });
       }
     });
-
+    
     $("select#lookingFor").change(
       function () {
         var autoCompleteData = JSON.parse(window.sessionStorage
           .getItem("myData"));
         if ($(this).val() != "forProduct") {
-          $(".search-input").autocomplete({
+          $("#searchInput").autocomplete({
             source: ""
           });
         } else {
-          $(".search-input").autocomplete({
+          $("#searchInput").autocomplete({
             source: autoCompleteData
           })
         }
-
       });
 
     if ("${looking}" == "foForumr") {
