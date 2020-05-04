@@ -6,6 +6,7 @@ function myFunction(a) {
 	  console.log(a)    
 	}
 $(document).ready(function () {
+	console.log($.cookie("account"));
 	//**************popover**************
 	$("[data-toggle='popover']").mouseover(function(){
 		
@@ -74,22 +75,30 @@ $(document).ready(function () {
 	  $("#loggedin-list").fadeToggle(500);
   });
   
-//  $("#login-str").click(function () {
-//    $(".login-area").css("height",450).removeClass("hidden-window", 700);
-//    $("#shadow").fadeIn(700);
-//    $.ajax({
-//    	url: "loginAjax",
-//    	method: "POST",
-//    	success: function(data){
-//    		$("input[type=text]#account").val(data.account);
-//    		$("input[type=text]#password").val(data.password);
-//    	},
-//    	error: function(data){
-//    		alert("fail.")
-//    		console.log(data)
-//    	}
-//    })
-//  });
+  $("#login-str").click(function () {
+    $(".login-area").css("height",450).removeClass("hidden-window", 700);
+    $("#shadow").fadeIn(700);
+    console.log("cookie:" + $.cookie("account"));
+    $.ajax({
+    	url: "loginAjax",
+    	method: "POST",
+    	success: function(data){
+    		alert(data);
+    		console.log('rm123'+data.rm);
+    		if(data.rm=="true"){
+    			$("input[type=text]#account").val(data.account);
+        		$("input[type=text]#password").val(data.password);
+        		$('#rm').prop("checked", true);
+        		alert(2);
+    		}
+    		
+    	},
+    	error: function(data){
+    		alert("fail.")
+    		console.log(data)
+    	}
+    })
+  });
  
   $("#login-submit-btn").click(function () {
     userLogin();
@@ -313,18 +322,11 @@ $(document).ready(function () {
   $(".login-btn").click(function () {
 	  $(".login-area").removeClass("hidden-window", 700);
 	  $("#shadow").fadeIn(700);
-	  $.ajax({
-		  url: "loginAjax",
-	      method: "POST",
-	      success: function(data){
-	    	  $("input[type=text]#account").val(data.account);
-	    	  $("input[type=text]#password").val(data.password);
-	    	},
-	      error: function(data){
-	    		alert("fail.")
-	    		console.log(data)
-	    	}
-	   });
+	  if($.cookie("accountRm")!=null && $.cookie("passwordRm")!=null && $.cookie("rm")=="true"){
+		  $("#account").val($.cookie("accountRm"));
+		  $("#password").val($.cookie("passwordRm"));
+		  $('#rm').prop("checked", true);
+	  }
   });
 
   $(".regist-btn").click(function () {

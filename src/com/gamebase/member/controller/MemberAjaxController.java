@@ -92,7 +92,7 @@ public class MemberAjaxController {
 		HttpSession session = request.getSession();
 		session.removeAttribute("UserData");
 		session.removeAttribute("loginUser");
-		return "redirect://indexPage";
+		return "indexPage";
 	}
 
 	@GetMapping(path = { "/Users/{authCode}" })
@@ -135,16 +135,16 @@ public class MemberAjaxController {
 		return map;
 	}
 	
-	@RequestMapping(path = "/loginAjax", method = RequestMethod.GET)
-	public String showLoginPage() {
-		return "LoginViewPageAjax";
-	}
+//	@RequestMapping(path = "/loginAjax", method = RequestMethod.GET)
+//	public String showLoginPage() {
+//		return "LoginViewPageAjax";
+//	}
 	
 	@RequestMapping(path = "/loginAjax", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> loginPageShow(HttpServletRequest request){
 		Cookie[] cookies = request.getCookies();
-		String acc="",pwd="";
+		String acc="",pwd="",rm="";
 	
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
@@ -158,6 +158,9 @@ public class MemberAjaxController {
 					pwd = cookie.getValue();
 					request.getSession().setAttribute("password", pwd);
 					System.out.println("pwd123" + pwd);
+				} else if("rm".equals(name)) {
+					rm = cookie.getValue();
+					System.out.println("rm123" + rm);
 				}
 			}
 		}
@@ -165,6 +168,7 @@ public class MemberAjaxController {
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("account", acc);
 		map.put("password",pwd);
+		map.put("rm",rm);
 		return map;
 	}
 	
