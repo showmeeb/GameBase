@@ -1,7 +1,7 @@
 /* ----------------------------------------------------------- */
 /*  4. LOGIN BUTTON & ICON CONTROL
 /* ----------------------------------------------------------- */
-var userCenterUrl = "/GameBase/UserCenter";
+var userCenterUrl = "/GameBase/mainProduct";
 function myFunction(a) {
 	  console.log(a)    
 	}
@@ -9,7 +9,7 @@ $(document).ready(function () {
 	//**************popover**************
 	$("[data-toggle='popover']").mouseover(function(){
 		
-		var userId = $(this).children("img").attr("id");
+		var userId = $(this).attr("id");
 
 		//防止一直存取
 		if(window.sessionStorage.getItem("uid="+userId) != null){
@@ -24,7 +24,7 @@ $(document).ready(function () {
 				ocontent +="img:<img src='https://i.imgur.com/ke6wdHI.jpg'><br>";
 			}
 			//popover 沒有refresh 所以必須每次都dispose( Hides and destroys the popover )
-			$("[data-toggle='popover']").popover('dispose').popover({title: "會員資料",trigger: "hover",placement: "bottom",html:true, content: ocontent, delay: {show: 200, hide: 1000}});
+			$("[data-toggle='popover']").popover('dispose').popover({title: "會員資料",trigger: "hover",placement: "left",html:true, content: ocontent, delay: {show: 200, hide: 1000}});
 			
 		}else{
 			
@@ -42,7 +42,7 @@ $(document).ready(function () {
 					}else{
 						ucontent +="img:<img src='https://i.imgur.com/ke6wdHI.jpg'><br>";
 					}
-					$("[data-toggle='popover']").popover('dispose').popover({title: "會員資料",trigger: "hover",placement: "bottom" ,html:true, content: ucontent, delay: {show: 200, hide: 1000}});
+					$("[data-toggle='popover']").popover('dispose').popover({title: "會員資料",trigger: "hover",placement: "left" ,html:true, content: ucontent, delay: {show: 200, hide: 1000}});
 				}
 			});
 			
@@ -62,10 +62,6 @@ $(document).ready(function () {
       $(".shot").removeClass("disable");
       $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg").attr("id",login.userId);;
     }
-    $("#login-str").addClass("hidden-window", 700);
-    $("#regiest-str").addClass("hidden-window", 700);
-    $("#mainCenter").removeClass("hidden-window", 700);
-    $("#logout-str").removeClass("hidden-window", 700);
     $("[data-toggle='popover']").removeClass("disable");
     if(login.rankId==4){
   	  $("#admin-broadcast").removeClass("hidden-window", 700);
@@ -74,24 +70,26 @@ $(document).ready(function () {
 
   }
 
-  $("#login-str").click(function () {
-    $(".login-area").css("height",450).removeClass("hidden-window", 700);
-    $("#shadow").fadeIn(700);
-    $.ajax({
-    	url: "loginAjax",
-    	method: "POST",
-    	success: function(data){
-
-    		$("input[type=text]#account").val(data.account);
-    		$("input[type=text]#password").val(data.password);
-    	},
-    	error: function(data){
-    		alert("fail.")
-    		console.log(data)
-    	}
-    })
-    
+  $(".loggedin-icon").click(function () {
+	  $("#loggedin-list").fadeToggle(500);
   });
+  
+//  $("#login-str").click(function () {
+//    $(".login-area").css("height",450).removeClass("hidden-window", 700);
+//    $("#shadow").fadeIn(700);
+//    $.ajax({
+//    	url: "loginAjax",
+//    	method: "POST",
+//    	success: function(data){
+//    		$("input[type=text]#account").val(data.account);
+//    		$("input[type=text]#password").val(data.password);
+//    	},
+//    	error: function(data){
+//    		alert("fail.")
+//    		console.log(data)
+//    	}
+//    })
+//  });
  
   $("#login-submit-btn").click(function () {
     userLogin();
@@ -110,6 +108,12 @@ $(document).ready(function () {
       $("#shadow").fadeIn(700);
   })
   
+  // user center button
+  $("#user-center-btn").click(function(){
+    $("#loggedin-list").fadeToggle(500);
+    location.href = userCenterUrl;
+  });
+  
   // regist button
   $("#regiest-str").click(function () {
     $("#loggedin-list").fadeToggle(500);
@@ -119,6 +123,10 @@ $(document).ready(function () {
 
   // logout button
   $("#logout-str").click(function () {
+	$("#loggedin-list").fadeToggle(500);
+	$(".loggedin-icon").addClass("disable",700,function(){ // hide loggedin icon
+		$(".login-btn").removeClass("disable",700);        // show login button
+	}); 
     $("#login-submit-btn").removeClass("disable");
     $(".shot").addClass("disable", 700,function(){
     	$(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg");
@@ -126,10 +134,6 @@ $(document).ready(function () {
     
     $(".dropdown button[name='dmb-u']").html("會員系統");
     
-    $("#logout-str").addClass("hidden-window", 700);
-    $("#mainCenter").addClass("hidden-window", 700);
-    $("#login-str").removeClass("hidden-window", 700);
-    $("#regiest-str").removeClass("hidden-window", 700);
     $("#admin-broadcast").addClass("hidden-window", 700);
     $("[data-toggle='popover']").addClass("disable");
     // google logout
@@ -195,15 +199,17 @@ function userLogin() {
       contentType: "application/json",
       success: function (data) {
         if (data.status == true) {
-          console.log("img url:" + data.loginUser.img);
-          // if user has snapshot , then use it
-          if (data.loginUser.img) {
-            $(".shot").removeClass("disable");
-            $(".shot").attr("src", data.loginUser.img).attr("id",data.loginUser.userId);
-          } else {
-            $(".shot").removeClass("disable");
-            $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg").attr("id",data.loginUser.userId);;
-          }
+//          console.log("img url:" + data.loginUser.img);
+            // if user has snapshot , then use it
+            if (data.loginUser.img) {
+              $(".loggedin-icon img").attr("src", data.loginUser.img).attr("id",data.loginUser.userId);
+            } else {
+              $(".loggedin-icon img").attr("src", "https://i.imgur.com/ke6wdHI.jpg").attr("id",data.loginUser.userId);;
+            }
+            
+          $(".login-btn").addClass("disable",700,function(){
+  	            $(".loggedin-icon").removeClass("disable",700);
+  	      });
 
           //show userAccount
 //          $(".dropdown button[name='dmb-u']").html(data.loginUser.account);
@@ -239,12 +245,6 @@ function userLogin() {
           var friendsList = Mustache.render(chatRoomFriendsListTemplate, chatRoom);
           $("#chat-room-friends").html(friendsList);
 
-          // hide login-str & regist-str
-          $("#login-str").addClass("hidden-window", 700);
-          $("#regiest-str").addClass("hidden-window", 700);
-          $("#logout-str").removeClass("hidden-window", 700);
-          $("#mainCenter").removeClass("hidden-window", 700)
-          
           if(data.loginUser.rankId==4){
         	  $("#admin-broadcast").removeClass("hidden-window", 700);
           }
@@ -310,10 +310,20 @@ if (window.sessionStorage.getItem("loginUser") == undefined) {
 $(document).ready(function () {
 
   $(".login-btn").click(function () {
-
-    $(".login-area").removeClass("hidden-window", 700);
-    $("#shadow").fadeIn(700);
-
+	  $(".login-area").removeClass("hidden-window", 700);
+	  $("#shadow").fadeIn(700);
+	  $.ajax({
+		  url: "loginAjax",
+	      method: "POST",
+	      success: function(data){
+	    	  $("input[type=text]#account").val(data.account);
+	    	  $("input[type=text]#password").val(data.password);
+	    	},
+	      error: function(data){
+	    		alert("fail.")
+	    		console.log(data)
+	    	}
+	   });
   });
 
   $(".regist-btn").click(function () {
@@ -643,12 +653,6 @@ function attachSignin(element) {
             $("#login-submit-btn").parent().addClass("hidden-window", 700);
             $("#shadow").fadeOut(700);
 
-            // hide login-str & regist-str
-            $("#login-str").addClass("hidden-window", 700);
-            $("#regiest-str").addClass("hidden-window", 700);
-            $("#logout-str").removeClass("hidden-window", 700);
-            $("#mainCenter").removeClass("hidden-window", 700);
-            
             // clear the form
             $(".input-group input").each(function () {
               $(this).val("");
