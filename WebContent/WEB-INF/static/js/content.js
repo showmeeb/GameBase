@@ -91,7 +91,7 @@ function update_record(btn){
 		url:'/GameBase/forum_test/'+forumId+'/'+titleId+'/record',
 		dataType:"json",
 		type:"POST",
-		cache:false,
+		cache:true,
 		data:{
 			clickedBTN:btn,
 			userId:userId
@@ -123,7 +123,7 @@ function update_content(btn,contentId){
 			url:'/GameBase/forum_test/'+forumId+'/'+titleId+'/'+contentId+'/update',
 			dataType:"json",
 			type:"POST",
-			cache:false,
+			cache:true,
 			data:{
 				clickedBTN:btn,
 				contentId:contentId
@@ -154,7 +154,7 @@ function update_content(btn,contentId){
      			url:'/GameBase/forum_test/'+forumId+'/'+titleId+'/'+contentId+'/update',
      			dataType:"json",
      			type:"POST",
-     			cache:false,
+     			cache:true,
      			data:{
      				clickedBTN:btn,
      				contentId:contentId,
@@ -193,7 +193,7 @@ function queryfriend(userId, authorId){
 		url:"/GameBase/queryfriends",
 		dataType:"json",
 		type:"POST",
-		cache:false,
+		cache:true,
 		data:{
 			userId:userId,
 			authorId:authorId

@@ -6,6 +6,8 @@ function myFunction(a) {
 	  console.log(a)    
 	}
 $(document).ready(function () {
+
+
 	//**************popover**************
 	$("[data-toggle='popover']").mouseover(function(){
 		
@@ -52,6 +54,7 @@ $(document).ready(function () {
 	
 
 	
+
   if (window.sessionStorage.getItem("loginUser") != "") {
     var login = JSON.parse(window.sessionStorage.getItem("loginUser"));
 //    $(".dropdown button[name='dmb-u']").html(login.account);
@@ -62,34 +65,41 @@ $(document).ready(function () {
       $(".shot").removeClass("disable");
       $(".shot").attr("src", "https://i.imgur.com/ke6wdHI.jpg").attr("id",login.userId);;
     }
-    $("[data-toggle='popover']").removeClass("disable");
     if(login.rankId==4){
   	  $("#admin-broadcast").removeClass("hidden-window", 700);
     }
-   
-
+  }else{
+	  $(".loggedin-icon").addClass("disable");
   }
 
   $(".loggedin-icon").click(function () {
 	  $("#loggedin-list").fadeToggle(500);
   });
   
-//  $("#login-str").click(function () {
-//    $(".login-area").css("height",450).removeClass("hidden-window", 700);
-//    $("#shadow").fadeIn(700);
-//    $.ajax({
-//    	url: "loginAjax",
-//    	method: "POST",
-//    	success: function(data){
-//    		$("input[type=text]#account").val(data.account);
-//    		$("input[type=text]#password").val(data.password);
-//    	},
-//    	error: function(data){
-//    		alert("fail.")
-//    		console.log(data)
-//    	}
-//    })
-//  });
+  $("#login-str").click(function () {
+    $(".login-area").css("height",450).removeClass("hidden-window", 700);
+    $("#shadow").fadeIn(700);
+    console.log("cookie:" + $.cookie("account"));
+    $.ajax({
+    	url: "loginAjax",
+    	method: "POST",
+    	success: function(data){
+    		alert(data);
+    		console.log('rm123'+data.rm);
+    		if(data.rm=="true"){
+    			$("input[type=text]#account").val(data.account);
+        		$("input[type=text]#password").val(data.password);
+        		$('#rm').prop("checked", true);
+        		alert(2);
+    		}
+    		
+    	},
+    	error: function(data){
+    		alert("fail.")
+    		console.log(data)
+    	}
+    })
+  });
  
   $("#login-submit-btn").click(function () {
     userLogin();
@@ -136,7 +146,6 @@ $(document).ready(function () {
     $(".dropdown button[name='dmb-u']").html("會員系統");
     
     $("#admin-broadcast").addClass("hidden-window", 700);
-    $("[data-toggle='popover']").addClass("disable");
     // google logout
     googleSignOut();
 
@@ -211,10 +220,6 @@ function userLogin() {
           $(".login-btn").addClass("disable",700,function(){
   	            $(".loggedin-icon").removeClass("disable",700);
   	      });
-
-          //show userAccount
-//          $(".dropdown button[name='dmb-u']").html(data.loginUser.account);
-          $("[data-toggle='popover']").removeClass("disable");
           
           // close login window
           $("#login-submit-btn").parent().addClass("hidden-window", 700);
@@ -232,8 +237,7 @@ function userLogin() {
           // get user information
           window.sessionStorage.setItem("loginUser", JSON.stringify(data.loginUser));
           console.log(window.sessionStorage.getItem("loginUser"));
-          window.sessionStorage.setItem("UserData", JSON.stringify(data.UserData));
-          console.log(window.sessionStorage.getItem("UserData"));
+          
           // connect and show chat room
           connectChatRoom();
           $(".chat-room-area").show();
@@ -313,18 +317,11 @@ $(document).ready(function () {
   $(".login-btn").click(function () {
 	  $(".login-area").removeClass("hidden-window", 700);
 	  $("#shadow").fadeIn(700);
-	  $.ajax({
-		  url: "loginAjax",
-	      method: "POST",
-	      success: function(data){
-	    	  $("input[type=text]#account").val(data.account);
-	    	  $("input[type=text]#password").val(data.password);
-	    	},
-	      error: function(data){
-	    		alert("fail.")
-	    		console.log(data)
-	    	}
-	   });
+	  if($.cookie("accountRm")!=null && $.cookie("passwordRm")!=null && $.cookie("rm")=="true"){
+		  $("#account").val($.cookie("accountRm"));
+		  $("#password").val($.cookie("passwordRm"));
+		  $('#rm').prop("checked", true);
+	  }
   });
 
   $(".regist-btn").click(function () {
@@ -647,8 +644,6 @@ function attachSignin(element) {
             $(".login-btn").addClass("disable", 700, function () {
               $(".loggedin-icon").removeClass("disable", 700);
             });
-
-            $("[data-toggle='popover']").removeClass("disable");
             
             // close login window
             $("#login-submit-btn").parent().addClass("hidden-window", 700);
@@ -797,7 +792,7 @@ $(document).ready(function () {
     var userObj = {};
     userObj.userId = $(this).children(".chat-room-user-id").text();
     userObj.account = $(this).children(".chat-room-friend-name").text();
-    userObj.snapshot = $(this).children(".chat-room-friend-icon").attr("src");
+    userObj.img = $(this).children(".chat-room-friend-icon").attr("src");
 
     // in order to check is the user already in the user list
     var checkFlag = true;
@@ -961,7 +956,7 @@ function showUsersDiaglog(element) {
   var userObj = {};
   userObj.userId = $(element).children(".chat-room-user-id").text();
   userObj.account = $(element).children(".chat-room-friend-name").text();
-  userObj.snapshot = $(element).children(".chat-room-friend-icon").attr("src");
+  userObj.img = $(element).children(".chat-room-friend-icon").attr("src");
 
   // in order to check is the user already in the user list
   var checkFlag = true;
@@ -1016,7 +1011,7 @@ function showUserListFromMessage(msg, isHistory) {
     for (let user of chatRoomObj.friendsList) {
       if (user.userId == userObj.userId) {
         userObj.account = user.account;
-        userObj.snapshot = user.snapshot;
+        userObj.img = user.img;
       }
     }
 
@@ -1388,7 +1383,7 @@ function showMessageOutput(msgOutput, isHistory) {
     // get user snapshot
     for (let friend of JSON.parse(window.sessionStorage.getItem("loginUser")).friendsList) {
       if (friend.userId == msgOutput.from) {
-        msgOutput.snapshot = friend.snapshot;
+        msgOutput.img = friend.img;
       }
     }
 
@@ -1566,7 +1561,7 @@ function displayHistory(sender, receiver) {
 
 var chatRoomFriendsListTemplate = '{{#friendsList}}'
   + '<div class="chat-room-friend" onclick="showUsersDiaglog(this)">'
-  + '<img class="chat-room-friend-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}" />'
+  + '<img class="chat-room-friend-icon" src="{{&img}}{{^img}}/GameBase/img/userIcon.png{{/img}}" />'
   + '<div class="chat-room-friend-name">{{account}}</div>'
   + '<div class="chat-room-user-id">{{userId}}</div>'
   + '<div class="chat-room-friend-online-light"></div>'
@@ -1574,7 +1569,7 @@ var chatRoomFriendsListTemplate = '{{#friendsList}}'
   + '{{/friendsList}}';
 
 var chatRoomUsersTemplate = '<div class="chat-room-user" onclick="showChatContentArea(this)" >'
-  + '<img class="chat-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}" />'
+  + '<img class="chat-user-icon" src="{{&img}}{{^img}}/GameBase/img/userIcon.png{{/img}}" />'
   + '<div class="chat-user-name">{{account}}</div>'
   + '<div class="chat-room-user-id">{{userId}}</div>'
   + '<div class="chat-user-brief-message">{{message}}</div>'
@@ -1595,7 +1590,7 @@ var chatRoomContentTemplate = '<div id="chat-header-area">'
   + '</div>';
 
 var replyMsgTemplate = '<div class="chat-messages">'
-  + '<img class="chat-message-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}"/>'
+  + '<img class="chat-message-user-icon" src="{{&img}}{{^img}}/GameBase/img/userIcon.png{{/img}}"/>'
   + '<div class="chat-message">{{&message}}</div>'
   + '<div class="chat-time">{{time}}</div>'
   + '</div>';
@@ -1606,7 +1601,7 @@ var ownMsgTemplate = '<div class="chat-messages own-messages">'
   + '</div>';
 
 var replyFileTemplate = '<div class="chat-messages">'
-  + '<img class="chat-message-user-icon" src="{{&snapshot}}{{^snapshot}}/GameBase/img/userIcon.png{{/snapshot}}"/>'
+  + '<img class="chat-message-user-icon" src="{{&img}}{{^img}}/GameBase/img/userIcon.png{{/img}}"/>'
   + '<img class="chat-file" src="{{&url}}"/>'
   + '<div class="chat-time">{{time}}</div>'
   + '</div>';

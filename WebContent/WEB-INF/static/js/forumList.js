@@ -88,7 +88,7 @@ $(document).ready(function(){
 			url:'/GameBase/forum_test/add/',
 			processData: false,		
 			type:"POST",
-			cache: false,
+			cache: true,
 			contentType : false,
 	        data:forumData,
 			success:function(response) {        	            
@@ -152,7 +152,7 @@ function update_forum(){
 		url:"/GameBase/forum_test/"+selected_forumId+"/update",				
 		processData: false,		
 		type:"POST",
-		cache: false,
+		cache: true,
 		contentType : false,
         data:forumData,
 		success:function(response){
@@ -183,7 +183,7 @@ function del_forum(){
 	$.ajax({
 		url:'/GameBase/forum_test/'+forumId+'/del',
 		type:"POST",
-		cache: false,
+		cache: true,
         data:{
         	forumId:forumId
         },

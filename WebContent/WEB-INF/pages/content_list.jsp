@@ -6,24 +6,6 @@
 
 <head>
 <meta charset="UTF-8">
-<title>welcome to article page</title>
-<!-- jQuery library -->
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<!-- Font Awesome icons -->
-<script src="https://kit.fontawesome.com/83bb506b46.js"
-	crossorigin="anonymous"></script>
-<!-- btn js import -->
-<%-- <script src="<c:url value="/js/content.js"/>"></script> --%>
-<!-- editor improt -->
-<script
-	src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
-<!-- ckfinder import -->
-<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
-<!-- forum style -->
-<link href="<c:url value="/css/forumStyle.css"/>" rel="stylesheet">
-<!-- create_article.js import -->
-<script src="<c:url value="/js/create_article.js"/>"></script>
-<script src="<c:url value="/js/content.js"/>"></script>
 <!-- update record likenum and unlikenum -->
 <script>
 $("#document").ready(function () {
@@ -144,7 +126,7 @@ a.disabled {
 </head>
 <body>
 	<!-- top bar -->
-	<%@ include file="topBar.jsp"%>
+	<jsp:include page="topBar.jsp" />
 	
 	<c:if test="${loginUser.rankId==2}">
 <div class="content_reply_btn">
