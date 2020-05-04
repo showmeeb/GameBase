@@ -5,27 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>welcome to forum page</title>
-<!-- jQuery library -->
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<!-- Font Awesome icons -->
-<script src="https://kit.fontawesome.com/83bb506b46.js"
-	crossorigin="anonymous"></script>
-<!-- Bootstrap -->
-<!-- <link -->
-<!-- 	href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" -->
-<!-- 	rel="stylesheet"> -->
-<!-- editor improt -->
-<script
-	src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
-<!-- ckfinder import -->
-<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
-<!-- main style -->
-<%-- <link href="<c:url value="/css/style.css"/>" rel="stylesheet"> --%>
-<!-- forum style -->
-<link href="<c:url value="/css/forumStyle.css"/>" rel="stylesheet">
-<!-- forum list js -->
-<script src="<c:url value="/js/forumList.js"/>"></script>
+
 <!-- ajax -->
 <!-- <script>
 $(document).ready(function(){
@@ -218,7 +198,7 @@ $(document).ready(function(){
 </head>
 <body>
 	<!-- top bar -->
-	<%@ include file="topBar.jsp"%>
+	<jsp:include page="topBar.jsp" />
 	
 	<c:if test="${loginUser.rankId==2}"><!-- rank = 2 可編輯-->
 	<!-- forum title bar -->

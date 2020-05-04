@@ -21,8 +21,8 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	rel="stylesheet">
 <!-- jQuery library -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 <!-- jQuery UI library -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet"
@@ -47,6 +47,19 @@
 <script src="<c:url value="/js/chatRoom.js"/>"></script>
 <!-- jquery.cookie js -->
 <script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+<!-- Font Awesome icons -->
+<script src="https://kit.fontawesome.com/83bb506b46.js" crossorigin="anonymous"></script>
+
+<!-- editor improt -->
+<script	src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
+<!-- ckfinder import -->
+<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+	<!-- forum style -->
+<link href="<c:url value="/css/forumStyle.css"/>" rel="stylesheet">
+<!-- create_article.js import -->
+<script src="<c:url value="/js/create_article.js"/>"></script>
+<script src="<c:url value="/js/content.js"/>"></script>
 
 <!-- main style -->
 
@@ -204,7 +217,7 @@
 					<div class="loggedin-icon disable"><img src="<c:url value="/img/userIcon.png"/>" class="shot disable" alt="user icon" /></div>
 					</c:when>
 					<c:otherwise>
-						<!-- before log in --> 
+						<!-- before log in --> 						
 						<div class="login-btn disable"><i class="fa fa-user" ></i><span>Login</span></div>
 						<!-- after log in -->
 						<c:choose>
@@ -239,26 +252,25 @@
       type: "POST",
       success: function (data) {
         window.sessionStorage.setItem("myData", JSON.stringify(data));
-        $(".search-input").autocomplete({
+        $("#searchInput").autocomplete({
           source: data
-        });
+          });
       }
     });
-
+    
     $("select#lookingFor").change(
       function () {
         var autoCompleteData = JSON.parse(window.sessionStorage
           .getItem("myData"));
         if ($(this).val() != "forProduct") {
-          $(".search-input").autocomplete({
+          $("#searchInput").autocomplete({
             source: ""
           });
         } else {
-          $(".search-input").autocomplete({
+          $("#searchInput").autocomplete({
             source: autoCompleteData
           })
         }
-
       });
 
     if ("${looking}" == "foForumr") {

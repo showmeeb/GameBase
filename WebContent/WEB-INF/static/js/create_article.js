@@ -68,7 +68,7 @@ $(document).ready(function(){
 				url:url,
 				dataType:"json",
 				type:"POST",
-				cache: false,
+				cache: true,
 	            data:{
 	            	articleTitle: $("#articleTitle").val(),
 	            	userId: userId,
