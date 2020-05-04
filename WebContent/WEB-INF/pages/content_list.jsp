@@ -30,92 +30,93 @@ $("#document").ready(function () {
 	console.log("this is content.js2");
 	
 	/*record button clicked*/
-	$(".btn_record").click(function(){
-		console.log("record btn clicked");
-		/*identify which btn been clicked */
-		var btn = $(this).attr("id");
-		console.log(btn);
+// 	$(".btn_record").click(function(){
+// 		console.log("record btn clicked");
+// 		/*identify which btn been clicked */
+// 		var btn = $(this).attr("id");
+// 		console.log(btn);
 		
-		update_record(btn);
-	});
+// 		update_record(btn);
+// 	});
 	
 	/*update content button clicked*/
-	$(".btn_update_content").click(function(){
-		console.log("update record btn clicked");
-		/*identify which btn been clicked */
-		var btn = $(this).attr("id")
-		console.log(btn);
-		var contentId = $(this).parents(".content_id").attr("id");
-		console.log("content ID : "+contentId);
-		update_content(btn,contentId);
-	});
+// 	$(".btn_update_content").click(function(){
+// 		console.log("update record btn clicked");
+// 		/*identify which btn been clicked */
+// 		var btn = $(this).attr("id")
+// 		console.log(btn);
+// 		var contentId = $(this).parents(".content_id").attr("id");
+// 		console.log("content ID : "+contentId);
+// 		update_content(btn,contentId);
+// 	});
 	
 });
 /*update like unlike number*/
-function update_record(btn){	
-	console.log("get btn value :"+btn);
-	console.log("/forum_test/${forum.forumId}/${title.titleId}");
-	$.ajax({
-		url:'<c:url value="/forum_test/${forum.forumId}/${title.titleId}/record"/>',
-		dataType:"json",
-		type:"POST",
-		cache:false,
-		data:{
-			clickedBTN:btn
-		},
-		success: function(response){
-			console.log("success");
-			console.log("response : "+response.record.record)
-			$(".btn_record").removeClass("disabled");
-			if(response.record.record === "like") {
-				$("#like.btn_record").html('<i class="fas fa-thumbs-up fa-2x">'+response.title.likeNum+'</i>');
-				$("#unlike.btn_record").addClass("disabled").html('<i class="far fa-thumbs-down fa-2x">'+response.title.unlikeNum+'</i>');
-			}else if (response.record.record === "unlike"){
-				$("#like.btn_record").addClass("disabled").html('<i class="far fa-thumbs-up fa-2x">'+response.title.likeNum+'</i>');
-				$("#unlike.btn_record").html('<i class="fas fa-thumbs-down fa-2x">'+response.title.unlikeNum+'</i>');
-			}else{
-				$("#like.btn_record").html('<i class="far fa-thumbs-up fa-2x">'+response.title.likeNum+'</i>');
-				$("#unlike.btn_record").html('<i class="far fa-thumbs-down fa-2x">'+response.title.unlikeNum+'</i>');
-			}
+// function update_record(btn){	
+// 	console.log("get btn value :"+btn);
+// 	console.log("/forum_test/${forum.forumId}/${title.titleId}");
+// 	$.ajax({
+// 		url:'<c:url value="/forum_test/${forum.forumId}/${title.titleId}/record"/>',
+// 		dataType:"json",
+// 		type:"POST",
+// 		cache:false,
+// 		data:{
+// 			clickedBTN:btn
+// 		},
+// 		success: function(response){
+// 			console.log("success");
+// 			console.log("response : "+response.record.record)
+// 			$(".btn_record").removeClass("disabled");
+// 			if(response.record.record === "like") {
+// 				$("#like.btn_record").html('<i class="fas fa-thumbs-up fa-2x">'+response.title.likeNum+'</i>');
+// 				$("#unlike.btn_record").addClass("disabled").html('<i class="far fa-thumbs-down fa-2x">'+response.title.unlikeNum+'</i>');
+// 			}else if (response.record.record === "unlike"){
+// 				$("#like.btn_record").addClass("disabled").html('<i class="far fa-thumbs-up fa-2x">'+response.title.likeNum+'</i>');
+// 				$("#unlike.btn_record").html('<i class="fas fa-thumbs-down fa-2x">'+response.title.unlikeNum+'</i>');
+// 			}else{
+// 				$("#like.btn_record").html('<i class="far fa-thumbs-up fa-2x">'+response.title.likeNum+'</i>');
+// 				$("#unlike.btn_record").html('<i class="far fa-thumbs-down fa-2x">'+response.title.unlikeNum+'</i>');
+// 			}
 			
-		}
-	})
-}
+// 		}
+// 	})
+// }
 /*update or delete content and reply*/
-function update_content(btn,contentId){
+// function update_content(btn,contentId){
 // 	var contentId = $(this).parents(".content_id").attr("id");
 // 	console.log("content ID : "+contentId);
-	if(btn==='delete'){
-		console.log("get btn value :"+btn);
-		console.log("/forum_test/${forum.forumId}/${title.titleId}");
-		$.ajax({
-			url:'<c:url value="/forum_test/${forum.forumId}/${title.titleId}/'+contentId+'/update"/>',
-			dataType:"json",
-			type:"POST",
-			cache:false,
-			data:{
-				clickedBTN:btn,
-				contentId:contentId
-			},
-			success: function(response){
-				console.log("success");	
+// 	if(btn==='delete'){
+// 		console.log("get btn value :"+btn);
+// 		console.log("/forum_test/${forum.forumId}/${title.titleId}");
+// 		$.ajax({
+// 			url:'<c:url value="/forum_test/${forum.forumId}/${title.titleId}/'+contentId+'/update"/>',
+// 			dataType:"json",
+// 			type:"POST",
+// 			cache:false,
+// 			data:{
+// 				clickedBTN:btn,
+// 				contentId:contentId
+// 			},
+// 			success: function(response){
+// 				console.log("success");	
 			
-			}
-		})
-	} else if(btn==='update'){
-		console.log("get btn value :"+btn);
-		console.log("/forum_test/${forum.forumId}/${title.titleId}");
-		//get content
-		var content = $(".content_content").val();
-		//set editor
-		$("#articleTitle").val("");
- 		$("#accountId").val("");
-        editor.setData(content);
-		//open editor
-		$(".publish-area").removeClass("hidden-window",700);
-       	$("#shadow").fadeIn(700);
-       	$("#submit").addClass("hidden-window");
-       	$("#update").removeClass("hidden-window");
+// 			}
+// 		})
+// 	} else if(btn==='update'){
+// 		console.log("get btn value :"+btn);
+// 		console.log("/forum_test/${forum.forumId}/${title.titleId}");
+// 		//get content
+// 		var content = $(".content_content").val();
+// 		//set editor
+// 		$("#articleTitle").val("");
+//  		$("#accountId").val("");
+//         editor.setData(content);
+// 		//open editor
+// 		$(".publish-area").removeClass("hidden-window",700);
+//        	$("#shadow").fadeIn(700);
+//        	$("#submit").addClass("hidden-window");
+//        	$("#update").removeClass("hidden-window");
+       	
 		//editor update button clicked
 // 		$.ajax({
 // 			url:'<c:url value="/forum_test/${forum.forumId}/${title.titleId}/'+contentId+'/update"/>',
@@ -132,8 +133,8 @@ function update_content(btn,contentId){
 // 			}
 // 		})
 		
-		}
-}
+// 		}
+// }
 </script>
 <style type="text/css">
 a.disabled {
@@ -146,7 +147,7 @@ a.disabled {
 	<%@ include file="topBar.jsp"%>
 	
 	<c:if test="${loginUser.rankId==2}">
-	<!-- forum title bar -->
+<div class="content_reply_btn">
 	<nav class="navbar navbar-expand-sm bg-light forum_topbar">
 		<ul class="nav justify-content-end">
 			<!-- update article button -->
@@ -155,40 +156,46 @@ a.disabled {
 					<i class="far fa-edit fa-2x"></i>
 				</a>
 			</li>
-			<li class="nav-item"> hello manager<br/></li>
+
 		</ul>
 	</nav>
+</div>
 	</c:if>
 	
-	<div id="contentList" class="article">
-	<h1>主題：${forum.forumName}</h1>
-	<br />
+	<div class="article_window" forumId="${forum.forumId}" titleId="${title.titleId}">
+	
+	<div class="article_forumName">
+	<h1>${forum.forumName}</h1>
+	</div>
 
 	<c:if test="${empty contentList}">
 		<p>there is no article</p>
 	</c:if>
 
 	<c:if test="${not empty contentList}">
-
-		<p>there is article content and reply</p>
-
-		
-			<div class="article_part">
-				<h2>${title.titleName}</h2>
-
-				<hr />
+			<div class="content_list">
+							
 				<c:forEach items="${contentList}" var="item" varStatus="itemStatus">
-<%-- 					<%@ include file="../include/friendForm.jsp"%> --%>
-					<div id="${item.contentId}" class="content_id">
+					<div contentId="${item.contentId}" class="content_unit">
+					
+					<!-- title -->
+					<c:if test="${itemStatus.count==1 }">
+					<div class="content_title">
+					<h2>${title.titleName}</h2>
+					</div>
+					</c:if>
+					
 					<!-- user data and update/post time -->	
-					<div>				
+					<div class="content_author_data">				
 					<!-- user img -->
-					<div id="${item.userId}" class="userId">
-					<c:if test="${empty item.img}"><img src="<c:url value="/img/userIcon.png"/>" width="60" height="60" class="content_head"/></c:if>
-					<c:if test="${not empty item.img}"><img src=${item.img} alt="" width="60" height="60" class="content_head"/></c:if>
+					<div id="${item.userId}" class="content_author_img">
+					
+					<c:if test="${empty item.img}"><img src="<c:url value="/img/userIcon.png"/>" class="content_head"/></c:if>
+					<c:if test="${not empty item.img}"><img src=${item.img} alt="" class="content_head"/></c:if>
+					
 					</div>
 					<!-- user account -->
-					<div>
+					<div class="content_author_info">
 					<span>
 					user ID 		: ${item.userId}<br/>
 					user Account 	: ${item.account}<br/>
@@ -197,33 +204,34 @@ a.disabled {
 					</span>
 					</div>
 					<!-- time -->
-					<div class="article_time_record">
-						<i class="fas fa-pen-alt">Post Time : ${item.createTime}</i><br />
+					<div class="content_time_record">
+						<i class="fas fa-pen-alt"></i>發布時間 : ${item.createTime}<br />
 					</div>
-					<div class="article_time_record">
-						<i class="fas fa-pen-alt">Update Time : ${item.updateTime}</i><br />
+					<div class="content_time_record">
+						<i class="fas fa-pen-alt"></i>更新時間 : ${item.updateTime}<br />
 					</div>
+					
 					<!-- delete article button -->
-					<div class="article_icons">
-						<a id="delete" class="btn_update_content" href="javascript:void(0)"><i class="far fa-trash-alt fa-2x"></i></a>
+					<div class="content_editor_btn" >
+						<a btn="delete" class="btn_update_content" contentId="${item.contentId}" href="javascript:void(0)"><i class="far fa-trash-alt fa-2x"></i></a>
 					</div>
 					<!-- update article button -->
-					<div class="article_icons">
-						<a id="update" class="btn_update_content" href="javascript:void(0)"><i class="far fa-edit fa-2x"></i></a>
+					<div class="content_editor_btn" >
+						<a btn="update" class="btn_update_content" contentId="${item.contentId}" href="javascript:void(0)"><i class="far fa-edit fa-2x"></i></a>
 					</div>					
 					</div>
-					<hr />
 					
 					<!-- content area -->
 					<div contentId="${item.contentId}" class="content_content">
 						<span>${item.content}</span><br />
 					</div>
-					<hr />
+				
 					<!-- icons input and time record -->
 					<c:if test="${itemStatus.count==1 }">
-					<div class="article_datas">
+					
+					<div class="content_article_data">
 					<!-- ajax link record btns -->
-					<div class="record_btns">
+					
 					<!-- user clicked like -->
 					<c:if test="${record.record == 'like'}">
 						<!-- like -->
@@ -235,6 +243,7 @@ a.disabled {
 							<a id="unlike" class="btn_record disabled" href="javascript:void(0)"><i class="far fa-thumbs-down fa-2x">${title.unlikeNum}</i></a>
 						</div>
 					</c:if>
+					
 					<!-- user clicked unlike -->
 					<c:if test="${record.record == 'unlike'}">
 						<!-- like -->
@@ -246,6 +255,7 @@ a.disabled {
 							<a id="unlike" class="btn_record" href="javascript:void(0)" disabled><i class="fas fa-thumbs-down fa-2x">${title.unlikeNum}</i></a>
 						</div>
 					</c:if>
+					
 					<!-- user cancel clicked or nothing -->
 					<c:if test="${record.record == 'no' || empty record}">
 						<!-- like -->
@@ -257,35 +267,24 @@ a.disabled {
 							<a id="unlike" class="btn_record" href="javascript:void(0)"><i class="far fa-thumbs-down fa-2x">${title.unlikeNum}</i> </a>
 						</div>
 					</c:if>
+					
+					<!-- click -->
+					<div class="article_icons">
+						<i class="far fa-eye fa-2x">${title.clickNum}</i> 
 					</div>
-<!-- 						like -->
-<!-- 						<div class="article_icons"> -->
-<%-- 							<i class="far fa-thumbs-up fa-2x">${title.likeNum}</i>  --%>
-<%-- 							<i class="fas fa-thumbs-up fa-2x">${title.likeNum}</i> --%>
-<!-- 						</div> -->
-<!-- 						unlike -->
-<!-- 						<div class="article_icons"> -->
-<%-- 							<i class="far fa-thumbs-down fa-2x">${title.unlikeNum}</i> <i --%>
-<%-- 								class="fas fa-thumbs-down fa-2x">${title.unlikeNum}</i> --%>
-<!-- 						</div> -->
-
-						<!-- click -->
-						<div class="article_icons">
-							<i class="far fa-eye fa-2x">${title.clickNum}</i> 
-<%-- 							<i class="fas fa-eye fa-2x">${title.clickNum}</i><br /> --%>
-						</div>
+						
 						<!-- create time -->
-						<div class="article_time_record">
-							<i class="fas fa-pen-alt fa-2x">Post Time : ${title.createTime}</i><br />
-						</div>
+<!-- 						<div class="article_time_record"> -->
+<%-- 							<i class="fas fa-pen-alt fa-2x"></i>Post Time : ${title.createTime}<br /> --%>
+<!-- 						</div> -->
 						<!-- last reply time -->
-						<div class="article_time_record">
-							<i class="far fa-comment-dots fa-2x">Last Reply : ${title.lastReplyTime}</i><br /> 
-<%-- 							<i class="fas fa-comment-dots fa-2x">Last Reply : ${title.lastReplyTime}</i><br /> --%>
-						</div>
+<!-- 						<div class="article_time_record"> -->
+<%-- 							<i class="far fa-comment-dots fa-2x"></i>Last Reply : ${title.lastReplyTime}<br />  --%>
+<!-- 						</div> -->
+						
 					</div>
 					</c:if>
-					<hr />
+					
 					</div>
 					<!-- content end -->
 					
