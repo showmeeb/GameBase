@@ -324,7 +324,7 @@
 					source :  function(req, response) {
 					    var results = $.ui.autocomplete.filter(data, req.term);
 
-					    response(results.slice(0, 10));//for getting 5 results
+					    response(results.slice(0, 10));
 					   }
 					
 					
