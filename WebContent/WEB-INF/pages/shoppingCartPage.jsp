@@ -40,7 +40,7 @@ div, tr, td, th {
 }
 
 #nav-div {
-	background: rgba(20%, 20%, 20%, 0.4);
+	background: rgba(15, 15, 15, 0.4);
 	bottom: 0;
 	position: fixed;
 	width: 100%;
@@ -68,7 +68,7 @@ div, tr, td, th {
 .inputNum{text-align: center; }
 </style>
 </head>
-<body>
+<body style="background: rgb(245, 245, 245)">
 	<!-- TOPBAR -->
 	<jsp:include page="topBar.jsp" />
 
@@ -78,7 +78,7 @@ div, tr, td, th {
 
 		<div id="dt1">
 			<h1>購物車</h1>
-			<table style="background: rgba(50%, 50%, 50%, 0.3)">
+			<table style="background: rgba(255, 234, 223, 0.3)">
 				<thead>
 					<tr>
 						<th>商品ID
@@ -152,7 +152,7 @@ div, tr, td, th {
 			<span style="color: red;">總金額&nbsp;&nbsp;:&nbsp;&nbsp;</span><span
 				id="total" style="color: red;"></span>&nbsp;&nbsp;&nbsp;&nbsp;
 			<button id="paybillF" style="width: 200px;"
-				class="btn btn-primary btn-lg " type="button" data-toggle="modal"
+				class="btn btn-outline-success btn-lg"  type="button" data-toggle="modal"
 				data-target="#exampleModalCenter">結&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;帳</button>
 		</div>
 	</div>
