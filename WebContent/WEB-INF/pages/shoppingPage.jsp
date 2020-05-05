@@ -659,8 +659,7 @@ $(document).on("mouseenter","#videoDiv",function(){
 		console.log(jsonResults);
 		showCard(jsonResults);
 		numPage(jsonResults);
-		array = jsonResults;
-		
+		filterTypeArray(filterType,jsonResults);
 	</script>
 
 </body>
