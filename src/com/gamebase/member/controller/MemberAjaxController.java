@@ -28,12 +28,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.gamebase.general.model.service.GeneralService;
+import com.gamebase.member.model.ChangePwd;
 //import com.gamebase.member.model.Role;
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UserProfile;
 import com.gamebase.member.model.UsersInfo;
 import com.gamebase.member.model.service.UserDataService;
-import com.gamebase.tradesystem.model.UserOrder;
 
 @Controller
 @SessionAttributes(names = { "loginUser", "ProfileId", "UserData" })
@@ -46,15 +46,21 @@ public class MemberAjaxController {
 
 	@PostMapping(value = "/updatePassword", produces = "application/json")
 	@ResponseBody
-	public Map<String, Object> pwdchange(@RequestBody UserData pwdupdate, ModelMap model) {
-		System.out.println("pwd" + pwdupdate.getPassword());
+	public Map<String, Object> pwdchange(@RequestBody ChangePwd pwdupdate, ModelMap model) {
+		System.out.println("oldpwd:" + pwdupdate.getOldPwd()+" newpwd:" + pwdupdate.getNewPwd());
 		Map<String, Object> map = new HashMap<String, Object>();
-		String encryptpwd = uService.encryptString(pwdupdate.getPassword());
+		String encryptoldpwd = uService.encryptString(pwdupdate.getOldPwd());
+		String encryptnewpwd = uService.encryptString(pwdupdate.getNewPwd());
 		UsersInfo login = (UsersInfo) model.get("loginUser");
 		UserData loginUserData = uService.getByUserId(login.getUserId());
-		loginUserData.setPassword(encryptpwd);
-		uService.saveUserData(loginUserData);
-		map.put("status", true);
+		if(encryptoldpwd.equals(loginUserData.getPassword())) {
+			loginUserData.setPassword(encryptnewpwd);
+			uService.saveUserData(loginUserData);
+			map.put("status", true);
+			return map;
+		}else {
+			map.put("status",false);
+		}
 		return map;
 	}
 

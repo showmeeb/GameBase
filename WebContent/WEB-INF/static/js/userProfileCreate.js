@@ -29,9 +29,9 @@
 				updatePwd();
 			});
 			
-			$("#pwd-form input[name='password']").change(function () {
+			$("#pwd-form input[name='newPwd']").change(function () {
 			    // empty password check area
-			    $("input[name='pwd2']").val("");
+			    $("input[name='chPwd']").val("");
 
 			    var re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d]{8,15}$/;
 
@@ -51,9 +51,9 @@
 		
 		function updatePwd(){
 			console.log("got updatePwd");
-			var pwd2 = $("#pwd-form input[name='password']").val();
+			var pwd2 = $("#pwd-form input[name='chPwd']").val();
 			var inputCheck = true;
-			if(pwd2 != $("#pwd-form input[name='password']").val()){
+			if(pwd2 != $("#pwd-form input[name='newPwd']").val()){
 				inputCheck = false;
 			}
 			if(inputCheck){
@@ -67,14 +67,16 @@
 					contentType : "application/json",
 					success : function(data) {
 						if(data.status){
-							console.log("success");
+//							console.log("success");
+							alert("更新密碼成功!")
 						}else{
-							console.log("fail");
+//							console.log("fail");
+							alert("出錯了")
 						}
 					}
 				})
 			}else{
-				alert("something wrong");
+				alert("密碼不相同");
 			}
 		}
 		
