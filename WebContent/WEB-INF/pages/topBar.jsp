@@ -182,9 +182,10 @@
     }
 
     .selectLookBtn {
+	  border: 0.5px solid black;
       position: absolute;
       height: 40px;
-      margin-left: -10px;
+      margin-left: -10px;      
     }
 
     .inputMargin {
