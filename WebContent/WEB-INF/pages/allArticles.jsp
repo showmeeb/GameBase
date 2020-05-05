@@ -38,16 +38,11 @@
 
 			<div id="rDiv" class="float-left">
 				<table>
-					<td>
-						<table id="cTable" class="table">
 
-						</table>
-					</td>
 					<td>
 						<table id="rTable" class="table table-hover">
 
 						</table>
-
 					</td>
 				</table>
 				<!-- <input type="button" id="add" value="新增"> -->
@@ -58,7 +53,7 @@
 			</div>
 		</div>
 		<div id="forum" class="float-right w-50">
-		    <iframe id="iframe" class="d-none" style="width:700px;height:800px" onload="dtopBar()"></iframe>
+		    <iframe id="iframe" class="d-none" style="width:700px;height:800px;pointer-events: none;" onload="dtopBar()"></iframe>
 		</div>
 		
 		
@@ -89,6 +84,9 @@
 				<!-- /.modal-dialog -->
 			</div>
 			</div>
+			<button type="button" id="modalbtn" class="btn btn-primary d-none" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button>
 	</main>
 
 </body>

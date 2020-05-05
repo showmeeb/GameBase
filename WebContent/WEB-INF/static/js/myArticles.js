@@ -1,6 +1,6 @@
 		//    sideBar選項
 		$(document).ready(function() {
-			$("#member-content").removeClass("d-none").addClass("d-block");
+			$("#member-article").removeClass("d-none").addClass("d-block");
 		
 
 		//按下所有文章顯示列表

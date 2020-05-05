@@ -1,51 +1,42 @@
 
 		//載入畫面--顯示sidebar選項
 		$(document).ready(function() {
-			$("#admin-mamber").removeClass("d-none").addClass("d-block");
-		})
+			$("#admin-member").removeClass("d-none").addClass("d-block");
+		
 
 		//載入畫面--顯示所有會員列表
-		$(document)
-				.on(
-						"click",
-						"#allmembers",
-						function() {
-							$
-									.ajax({
-										url : "/GameBase/getAllMembers",
-										dataType : "json",
-										type : "POST",
-										success : function(response) {
+		$(document).on("click","#allmembers",function() {
+			$.ajax({
+					url : "/GameBase/getAllMembers",
+					dataType : "json",
+					type : "POST",
+					success : function(response) {
 
-											var a = response.members
+						var a = response.members
 
-											var txt = " <thead><tr><th><th>會員ID<th>帳號<th>email<th>會員等級 </thead><tbody>";
+						var txt = " <thead><tr><th><th>會員ID<th>帳號<th>email<th>會員等級 </thead><tbody>";
 
-											for (let i = 0; i < response.members.length; i++) {
-												txt += '<tr class="tr"><td scope="row"><input type="radio" class="del d-none" name="d" value="a[i].userId">';
-												txt += "<td>" + a[i].userId;
-												txt += "<td>" + a[i].account;
-												txt += "<td>" + a[i].email;
-												if (a[i].rankId == 2) {
-													txt += "<td>" + "一般會員"
-												} else if (a[i].rankId == 3) {
-													txt += "<td>" + "高級會員"
-												} else if (a[i].rankId == 4) {
-													txt += "<td>" + "管理員"
-												}
-												;
-											}
-											txt += "</tbody>";
-											$('#rMsg').html("");
-											$('#rTable').html(txt);
-											$("#del").addClass("d-none")
-													.removeClass("d-block");
-											$("#toDel").addClass("d-none")
-													.removeClass("d-block");
-										}
-									});
-
-						})
+						for (let i = 0; i < response.members.length; i++) {
+							txt += '<tr class="tr"><td scope="row"><input type="radio" class="del d-none" name="d" value="a[i].userId">';
+							txt += "<td>" + a[i].userId;
+							txt += "<td>" + a[i].account;
+							txt += "<td>" + a[i].email;
+							if (a[i].rankId == 2) {
+								txt += "<td>" + "一般會員"
+								} else if (a[i].rankId == 3) {
+								txt += "<td>" + "高級會員"
+								} else if (a[i].rankId == 4) {
+								txt += "<td>" + "管理員"
+							}
+						}
+						txt += "</tbody>";
+						$('#rMsg').html("");
+						$('#rTable').html(txt);
+						$("#del").addClass("d-none").removeClass("d-block");
+						$("#toDel").addClass("d-none").removeClass("d-block");
+					}
+				});
+			})
 
 		//刪除會員
 		$(document).on("click", "#delmember", function() {
@@ -59,116 +50,89 @@
 		})
 
 		//搜尋會員
-		$("#s")
-				.click(
-						function() {
+		
+		$(document).on("click","#s",function(){		
+			var rank = $("#option").val();
+			var ac = $("#sBar").val();
+			console.log(rank);
+				if (rank == 0) {
+					$.ajax({
+						url : "GameBase/getuserbyacinallrank",
+						datatype : "json",
+						type : "POST",
+						data : {
+						ac : $("#sBar").val()
+					    },
+						success : function(response) {
+							console.log("aaa");
+							var a = response.members
 
-							var rank = $("#option").val();
-							var ac = $("#sBar").val();
+							var txt = "<thead><tr><th><th>會員ID<th>帳號<th>email<th>會員等級 </thead><tbody>";
 
-							if (rank == 0) {
-								console.log(rank);
-								$
-										.ajax({
-											url : "GameBase/getuserbyacinallrank",
-											datatype : "json",
-											type : "POST",
-											data : {
-												ac : $("#sBar").val()
-											},
-											success : function(response) {
-												console.log("aaa");
-												var a = response.members
+							for (let i = 0; i < response.members.length; i++) {
+								txt += '<tr class="tr"><td scope="row"><input type="radio"  class="del d-none" name="d" value="a[i].userId">';
+								txt += "<td>" + a[i].userId;
+								txt += "<td>"+ a[i].account;
+								txt += "<td>" + a[i].email;
+								if (a[i].rankId == 2) {
+									txt += "<td>" + "一般會員"
+									} else if (a[i].rankId == 3) {
+									txt += "<td>" + "高級會員"
+									} else if (a[i].rankId == 4) {
+									txt += "<td>" + "管理員"
+									}
+								}
+								txt += "</tbody>";
+								$('#rTable').html(txt);
+								$('#rMsg').html("");
+								$("#del").addClass("d-none").removeClass("d-block");
+								$("#toDel").addClass("d-none").removeClass("d-block");
+							}
 
-												var txt = "<thead><tr><th><th>會員ID<th>帳號<th>email<th>會員等級 </thead><tbody>";
+						})
+					} else if (rank != 0) {
+						$.ajax({
 
-												for (let i = 0; i < response.members.length; i++) {
-													txt += '<tr class="tr"><td scope="row"><input type="radio"  class="del d-none" name="d" value="a[i].userId">';
-													txt += "<td>" + a[i].userId;
-													txt += "<td>"
-															+ a[i].account;
-													txt += "<td>" + a[i].email;
-													if (a[i].rankId == 2) {
-														txt += "<td>" + "一般會員"
-													} else if (a[i].rankId == 3) {
-														txt += "<td>" + "高級會員"
-													} else if (a[i].rankId == 4) {
-														txt += "<td>" + "管理員"
-													}
-													;
-												}
-												txt += "</tbody>";
-												$('#rTable').html(txt);
-												$('#rMsg').html("");
-												$("#del").addClass("d-none")
-														.removeClass("d-block");
-												$("#toDel").addClass("d-none")
-														.removeClass("d-block");
-											}
+							url : "GameBase/getuserbyacinonerank",
+							datatype : "json",
+							type : "POST",
+							data : {
+								rank : $("#option").val(),
+								ac : $("#sBar").val()
+								},
+							success : function(response) {
+								console.log("qqq");
+								var a = response.members
 
-										})
-							} else if (rank != 0) {
-								console.log(rank);
-								$
-										.ajax({
+								if (response.members.length > 0) {
+									var txt = "<thead><tr><th><th>會員ID<th>帳號<th>email<th>會員等級 </thead><tbody>";
 
-											url : "GameBase/getuserbyacinonerank",
-											datatype : "json",
-											type : "POST",
-											data : {
-												rank : $("#option").val(),
-												ac : $("#sBar").val()
-											},
-											success : function(response) {
-												console.log("qqq");
-												var a = response.members
-
-												if (response.members.length > 0) {
-													var txt = "<thead><tr><th><th>會員ID<th>帳號<th>email<th>會員等級 </thead><tbody>";
-
-													for (let i = 0; i < response.members.length; i++) {
-														txt += '<tr class="tr"><td scope="row"><input type="radio"  class="del d-none" name="d" value="a[i].userId">';
-														txt += "<td>"
-																+ a[i].userId;
-														txt += "<td>"
-																+ a[i].account;
-														txt += "<td>"
-																+ a[i].email;
-														if (a[i].rankId == 2) {
-															txt += "<td>"
-																	+ "一般會員"
-														} else if (a[i].rankId == 3) {
-															txt += "<td>"
-																	+ "高級會員"
-														} else if (a[i].rankId == 4) {
-															txt += "<td>"
-																	+ "管理員"
-														}
-														;
-
-													}
-													txt += "</tbody>";
-													$('#rMsg').html("");
-													$('#rTable').html(txt);
-													$("#del")
-															.addClass("d-none")
-															.removeClass(
-																	"d-block");
-													$("#toDel").addClass(
-															"d-none")
-															.removeClass(
-																	"d-block");
-												} else {
-													$('#rTable').html("");
-													$('#rMsg').html("查無結果");
-													$("#toDel").addClass(
-															"d-none")
-															.removeClass(
-																	"d-block");
+									for (let i = 0; i < response.members.length; i++) {
+										txt += '<tr class="tr"><td scope="row"><input type="radio"  class="del d-none" name="d" value="a[i].userId">';
+										txt += "<td>"+ a[i].userId;
+										txt += "<td>"+ a[i].account;
+										txt += "<td>"	+ a[i].email;
+										if (a[i].rankId == 2) {
+												txt += "<td>"+ "一般會員"
+												} else if (a[i].rankId == 3) {
+												txt += "<td>"+ "高級會員"
+												} else if (a[i].rankId == 4) {
+												txt += "<td>"+ "管理員"
 												}
 											}
+											txt += "</tbody>";
+											$('#rMsg').html("");
+											$('#rTable').html(txt);
+											$("#del").addClass("d-none").removeClass("d-block");
+											$("#toDel").addClass("d-none").removeClass("d-block");
+									} else {
+										$('#rTable').html("");
+										$('#rMsg').html("查無結果");
+										$("#toDel").addClass("d-none").removeClass("d-block");
+										}
+									}
 
-										})
+								})
 							}
 						})
 		//點擊會員，彈跳會員資料						
@@ -198,4 +162,4 @@
 			//讓動態視窗顯示
 			$("#mal-btn").click();
 		})
-
+	})

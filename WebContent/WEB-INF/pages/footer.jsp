@@ -11,9 +11,7 @@
 <style type="text/css">
 footer {
 margin-top: 55px;
-z-index: 15;
-
-
+z-index: 24;
 }
 </style>
 

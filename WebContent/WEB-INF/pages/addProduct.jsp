@@ -52,9 +52,9 @@
 		<div>
 			遊戲介紹<input type="text" id="pInfo" name="productInfo">
 		</div>
-		<div>
-			熱銷度<input type="text" id="pInfo" name="searchFreq">
-		</div>
+<!-- 		<div> -->
+<!-- 			熱銷度<input type="text" id="pInfo" name="searchFreq"> -->
+<!-- 		</div> -->
 		<div>
 			遊戲類型 <select id="gType" name="gameType">
 						<option>角色扮演</option>

@@ -39,6 +39,7 @@ public class ProductDao implements IProductDao {
 		JSONObject result = new JSONObject();
 		try {
 			Product pd = new Gson().fromJson(form, Product.class);
+			pd.setSearchFreq(0);
 			getSession().save(pd);
 			if (pd.getProductType().equals("game")) {
 				Game game = new Gson().fromJson(form, Game.class);

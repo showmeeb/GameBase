@@ -454,12 +454,44 @@ public class MemberAjaxController {
 	@RequestMapping(path = "/GameBase/getNewMemberWeek", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> getNewMemberWeek() {
-		System.out.println("got new users ");
+//		System.out.println("-------------------got new users ");
 		List<UserData> data = uService.getAllUserData();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("users", data);
-		System.out.println("new users: " + map.get("users"));
+//		System.out.println("new users: " + map.get("users"));
 		return map;
 	}
 
+	
+	@RequestMapping(path = "/GameBase/MemberUpgradeRank", method = RequestMethod.POST)
+	@ResponseBody
+	public String payBill(@RequestParam("userId") String userId) {
+
+		return uService.processRankOrder(Integer.valueOf(userId));
+	}
+//	@RequestMapping(path = "/shoppingCart/test", method = RequestMethod.POST)
+//	@ResponseBody
+//	public String test(@RequestParam(value ="form") String form,@RequestParam(value = "items1") String items1) {
+//		System.out.println("form:"+form);
+//		System.out.println("items1:"+items1);
+//		return "yes";
+//	}
+	
+	@RequestMapping(path = "/GameBase/rankOrderStatus", method = RequestMethod.POST)
+	@ResponseBody
+	public void orderStatus(HttpServletRequest request) {
+		String rtnCode = request.getParameter("RtnCode");
+		String uuid = request.getParameter("MerchantTradeNo");
+		String userId = request.getParameter("CustomField1");
+		System.out.println("RtnCode:"+rtnCode);
+//		System.out.println("orderPhone:"+orderPhone);
+//		System.out.println("orderAddress:"+orderAddress);
+//		System.out.println("userId:"+userId);
+//		System.out.println("uuId:"+uuId);
+//		System.out.println("orderDate:"+orderDate);
+//		System.out.println("orderPrice:"+orderPrice);
+		
+		uService.rankOrderStatus(Integer.parseInt(rtnCode),Integer.parseInt(userId));
+		System.out.println("付款成功!!");
+	}
 }

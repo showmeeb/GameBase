@@ -70,10 +70,27 @@
 	
 	<script type="text/javascript">
 	$(document).ready(function(){
-			$("#member-profile").removeClass("d-none").addClass("d-block");
+		$("#member-profile").removeClass("d-none").addClass("d-block");
 
+		$("#auth-pm-upgrade-btn").click(function(){			
+			var userId=$("#userId").text();
+			console.log(userId)
 			
+			$.ajax({
+				type : "POST",
+				url : "GameBase/MemberUpgradeRank",
+				dataType : "text",
+				data:{
+					userId:userId
+				},
+				success : function(response) {
+						console.log(response);
+						document.write(response);
+					
+				}
 			})
+		})	
+	})
 
 	</script>
 </body>
