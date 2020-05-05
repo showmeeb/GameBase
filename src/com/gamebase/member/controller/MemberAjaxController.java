@@ -27,6 +27,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.gamebase.article.model.ArticleContent;
+import com.gamebase.article.model.ArticleListView;
+import com.gamebase.article.model.service.ArticleService;
 import com.gamebase.general.model.service.GeneralService;
 import com.gamebase.member.model.ChangePwd;
 //import com.gamebase.member.model.Role;
@@ -43,7 +46,9 @@ public class MemberAjaxController {
 	private UserDataService uService;
 	@Autowired
 	public GeneralService gService;
-
+	@Autowired
+	public ArticleService aService;
+	
 	@PostMapping(value = "/updatePassword", produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> pwdchange(@RequestBody ChangePwd pwdupdate, ModelMap model) {
@@ -286,9 +291,16 @@ public class MemberAjaxController {
 		// System.out.println("got chekcAcc "+account.getAccount());
 		System.out.println("k");
 		UserProfile profile = uService.getProfileByUserId(Integer.valueOf(id));
+		UserData userdata = uService.getByUserId(Integer.valueOf(id));
+		List<ArticleListView> articles = aService.queryMyArticle(Integer.valueOf(id));
+		List<ArticleContent> contents = aService.queryMemberContentByUserId(Integer.valueOf(id));
 		System.out.println(profile);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("profile", profile);
+		map.put("articles", articles);
+		map.put("contents", contents);
+		map.put("userdata", userdata);
+		
 		return map;
 	}
 
@@ -467,5 +479,17 @@ public class MemberAjaxController {
 		
 		uService.rankOrderStatus(Integer.parseInt(rtnCode),Integer.parseInt(userId));
 		System.out.println("付款成功!!");
+	}
+	
+	@RequestMapping(path = "/GameBase/getUserWithRank", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getUserWithRank() {
+		// System.out.println("got chekcAcc "+account.getAccount());
+		System.out.println("查詢管理員以外的會員");
+		List<UserData> list = uService.getUserWithoutAdmin();
+//		System.out.println("list : " + list);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("members", list);
+		return map;
 	}
 }

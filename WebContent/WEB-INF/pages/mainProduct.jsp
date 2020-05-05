@@ -24,7 +24,7 @@
 			<input type="text" id="se1" placeholder="請輸入想搜尋的商品">
 			<button id="search">查詢</button>
 			<input type="button" id="query" value="所有商品">
-		</div>
+		
 		<div>
 			<span id="sp1"></span>
 		</div>
@@ -35,8 +35,10 @@
 
 
 				</table>
+				
 				<!-- <input type="button" id="add" value="新增"> -->
 			</form>
+		</div>
 		</div>
 	</main>
 

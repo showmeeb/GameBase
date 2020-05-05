@@ -364,5 +364,8 @@ public class UserDataService {
 	public void rankOrderStatus(int rtnCode,Integer userid) {
 		rankDao.rankOrderStatus(rtnCode,userid);
 	}
+	public List<UserData> getUserWithoutAdmin(){
+		return udDao.getUserWithoutAdmin();
+	}
 
 }

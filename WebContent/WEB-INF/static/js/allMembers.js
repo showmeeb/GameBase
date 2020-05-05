@@ -67,7 +67,7 @@
 							console.log("aaa");
 							var a = response.members
 
-							var txt = "<thead><tr><th><th>會員ID<th>帳號<th>email<th>會員等級 </thead><tbody>";
+							var txt = "<thead><tr><th><th>會員ID<th>帳號<th>email<th>會員等級</thead><tbody>";
 
 							for (let i = 0; i < response.members.length; i++) {
 								txt += '<tr class="tr"><td scope="row"><input type="radio"  class="del d-none" name="d" value="a[i].userId">';
@@ -105,7 +105,7 @@
 								var a = response.members
 
 								if (response.members.length > 0) {
-									var txt = "<thead><tr><th><th>會員ID<th>帳號<th>email<th>會員等級 </thead><tbody>";
+									var txt = "<thead><tr><th><th>會員ID<th>帳號<th>email<th>會員等級</thead><tbody>";
 
 									for (let i = 0; i < response.members.length; i++) {
 										txt += '<tr class="tr"><td scope="row"><input type="radio"  class="del d-none" name="d" value="a[i].userId">';
@@ -148,18 +148,69 @@
 				},
 				success : function(response) {
 					console.log(response);
-
+					$("#myModalLabel").text(response.userdata.account)
+					if(response.articles.length>0){
+						$("#articleNum").text("文章數 : "+response.articles.length);
+						}else{
+							$("#articleNum").text("文章數 : 0");
+						}
+					if(response.contents.length>0){
+						$("#contentNum").text("回應數 : "+response.contents.length);
+						}else{
+							$("#contentNum").text("回應數 : 0");
+						}
+					
 					if (response.profile!=null) {
 						console.log("has profile");
-						$("#pName").html("名字 :" + response.profile.name);
-
-					} else {
-						console.log("no profile");
+						if(response.profile.nickName==null){
+							$("#pName").html("名字 : 尚未更新");
+							}else {
+							$("#pName").html("暱稱 :" + response.profile.nickName);
+						} 												
+					}else{
 						$("#pName").html("尚未新增個人資訊");
+						console.log("no profile");
+					}					
+					if(response.profile.img!=null){
+						$("#photo").attr("src",response.profile.img);
 					}
 				}
+				
 			})
 			//讓動態視窗顯示
 			$("#mal-btn").click();
 		})
-	})
+		
+		//權限頁面
+		$("#changeRank").click(function(){
+			$("#bar").addClass("d-none");
+			console.log("修改會員權限");
+			$.ajax({
+				url:"GameBase/getUserWithRank",
+				dataType:"json",
+				type:"POST",
+				success:function(response){
+					console.log(response);
+					var a = response.members
+					txt = "<thead><tr><th><th>會員ID<th>帳號<th>會員等級 <th>升級日期</thead><tbody>";
+
+					for (let i = 0; i < response.members.length; i++) {
+						txt += '<tr><td scope="row"><input type="radio"  class="del d-none" name="d" value="a[i].userId">';
+						txt += "<td>"+ a[i].userId;
+						txt += "<td>"+ a[i].account;
+						if (a[i].rankId == 2) {
+							txt += "<td>"+ "一般會員"
+							} else if (a[i].rankId == 3) {
+							txt += "<td>"+ "高級會員"
+							}
+						txt += "<td id='updateDate'>";
+						}
+						txt += "</tbody>";
+						$('#rMsg').html("");
+						$('#rankTable').html(txt);
+						$("#del").addClass("d-none").removeClass("d-block");
+						$("#toDel").addClass("d-none").removeClass("d-block");
+					}
+				})
+			})
+		})

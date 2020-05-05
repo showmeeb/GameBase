@@ -74,17 +74,12 @@ color:#E3DCC2;
 							<li><a id="myFriend" class="tag" href="#">好友</a></li>
 						</ul>
 					</li>
-					<li class="nav-item px-0 text-muted">
-						<a id="12"class="nav-link" href="#">交易管理</a>
-						<ul id="member-trade" class="d-none">
-							<li><a id="myOrders" class="tag" href="#">交易紀錄</a></li>
-						</ul>
-					</li>
+
 					<li class="nav-item px-0 text-muted">
 						<a id="13"class="nav-link" href="#">文章管理</a>
 						<ul id="member-article" class="d-none">
 							<li><a id="myArticles" class="tag" href="myArticles">我的文章</a></li>
-							<li><a class="tag" href="#">刪除文章</a></li>
+							<li><a class="tag" href="#">刪除</a></li>
 							<li><a class="tag" href="#">修改文章</a></li>
 						</ul>
 					</li>
@@ -93,9 +88,8 @@ color:#E3DCC2;
 					<li class="nav-item px-0 text-muted">
 						<a id="21"class="nav-link" href="#">會員管理</a>
 						<ul id="admin-member" class="d-none">
-							<li><a id="allmembers" class="tag" href="allMembers">所有會員</a></li>
-							<li><a id="delmember" class="tag" href="#">刪除</a></li>
-							<li><a id="changeRank" class="tag" href="#">修改權限</a></li>
+							<li><a id="allmembers" class="tag" href="allMembers">會員列表</a></li>
+							<li><a id="changeRank" class="tag" href="#">權限</a></li>
 						</ul>
 					</li>
 					<li class="nav-item px-0 text-muted">
@@ -113,35 +107,21 @@ color:#E3DCC2;
 							<li><a id="delArticle" class="tag" href="#">刪除文章</a></li>
 						</ul>
 					</li>
-					<li class="nav-item px-0 text-muted">
-						<a id="24"class="nav-link" href="#">新聞管理</a>
-						<ul id="admin-news" class="d-none">
-							<li><a class="tag" href="#">刪除新聞</a></li>
-							<li><a class="tag" href="#">新聞總覽</a></li>
-						</ul>
-					</li>
-					<li class="nav-item px-0 text-muted">
-						<a id="25"class="nav-link" href="#">廣告管理</a>
-						<ul id="admin-ads" class="d-none">
-							<li><a class="tag" href="#">廣告總覽</a></li>
-							<li><a class="tag" href="#">刪除廣告</a></li>
-							<li><a class="tag" href="#">新增廣告</a></li>
-						</ul>
-					</li>
 				</ul>
 
 		<div id="back" class="sidebar-header border-top fixed-bottom py-2">
 			<h2>回到首頁</h2>
 		</div>
 	</nav>
-
-
+	
+	<div id="userId" class="d-none">${loginUser.userId}</div>
 	<script>
 	$(document).ready(function(){
 		var loginUser = JSON.parse(window.sessionStorage.getItem("loginUser"));
 		var rankId = loginUser.rankId;
 		$("#openBarBtn").addClass("d-none");
 		$(".shoppingCartBtn").addClass("d-none");
+		$("#foldBar").addClass("d-none");
 		
 
 		if(rankId==4){

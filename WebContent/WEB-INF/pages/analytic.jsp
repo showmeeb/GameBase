@@ -83,7 +83,7 @@
 
 $(document).ready(function(){
 
-	//no-repeat-num第一格數字
+	//第一.二格數字
 	$.ajax({
 		url : "GameBase/getIpWeek",
 		dataType : "json",
