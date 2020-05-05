@@ -66,12 +66,11 @@
 				</section>
 
 			</div>
-			<div id="container" style="width:100%; height:400px;"></div>
-			<div id="charts">
-				<canvas id="chart"></canvas>
-				
-				charts
+			<div id="chart-container" class="container">
+				<div id="chart" style="width:95%; height:400px;"></div>
 			</div>
+			
+			
 			main<br>main<br> main<br> main<br> main<br>
 			main<br> main<br>main<br> main<br> main<br>
 			main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>
@@ -83,83 +82,8 @@
 
 
 $(document).ready(function(){
-// 	$(function () { 
-//         var myChart = Highcharts.chart('container', {
-//             chart: {
-//                 type: 'line'
-//             },
-//             title: {
-//                 text: '流量統計'
-//             },
-//             xAxis: {  
-//                 type: 'category'
-//             },
-//             yAxis: {
-//                 title: {
-//                     text: '單位：張',
-//                 },
-//             },
-//             series: [
-//                 {
-//                     name: '流量',
-//                     colorByPoint: true,
-//                     data: [
-//                         {
-//                             name: '4/10',
-//                             y: 200,
-//                         },
-//                         {
-//                             name: '4/11',
-//                             y: 390,
-//                             color: "#031195",
-//                         },
-//                         {
-//                             name: '4/12',
-//                             y: 180,
-//                             color: "#159818",
-//                         },
-//                         {
-//                             name: '4/13',
-//                             y: 418,
-//                             color: "#24d7d6",
-//                         },
-//                         {
-//                             name: '4/14',
-//                             y: 1,
-//                         },
-//                     ]
-//                 },   
-//             ],
-//         });
-//     });
 
-
-// 	// 圖表配置
-// 	var options = {
-// 	    chart: {
-// 	        type: 'line'      //指定圖表的類型，默認是折線圖（line）
-// 	    },
-// 	    title: {
-// 	        text: '總瀏覽量' // 標題
-// 	    },
-// 	    xAxis: {
-// //	    	categories:[]
-// //	        categories: ['4/28','4/29','4/30','5/1','5/2','5/3','5/4'] // x 軸分類
-// 	    },
-// 	    yAxis: {
-// 	        title: {
-// 	            text: '每日流量'    // y 軸標題
-// 	        }
-// 	    },
-// 	    series: [{                //數據列
-// 	        name: '總人數',          //數據名
-// //	        data:[2,0,0,0,0,6,0]      //數值
-// 			data: []
-// 	    }]
-// 	};
-// 	// 圖表初始化函數
-// 	var chart = Highcharts.chart('container', options);
-	//no-repeat-num第一格數字
+	//第一.二格數字
 	$.ajax({
 		url : "GameBase/getIpWeek",
 		dataType : "json",
@@ -187,7 +111,6 @@ $(document).ready(function(){
 			type : "POST",
 			success : function(response) {
 				var total_num=0;
-				console.log("allmoney"+response)
 				for(var i=0;i<response.length;i++){
 					var num=response[i].orderPrice ;
 					total_num+=num;
@@ -198,19 +121,21 @@ $(document).ready(function(){
 					}
 			})
 
-			$.ajax({
+		$.ajax({
 			url : "GameBase/getNewMemberWeek",
 			dataType : "json",
-			type : "GET",
+			type : "POST",
 			success : function(response) {
-				var member_num=0;
-//				console.log(response)
+			var member_num=0;
+//			console.log(response)
 //				console.log("newuser"+response.users)
-					total_num=response.users.length;
-				$("#new-member-num").html(total_num);					
+			total_num=response.users.length;
+			if(total_num!=0){
+				$("#new-member-num").html(total_num);
 				}
-			
-			})
+			}
+		})
+//折線圖			
 $.ajax({
 	url:"GameBase/getIpDay",
 	dataType : "json",
@@ -237,11 +162,10 @@ $.ajax({
 				data: response.time
 		    }]
 		};
-		var chart = Highcharts.chart('container', options);
-		options.xAxis.categories.push(response.day)
+		var chart = Highcharts.chart('chart', options);
 
 	}
-	})
+})
 
 		
 		

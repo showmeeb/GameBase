@@ -39,6 +39,7 @@ public class ProductDao implements IProductDao {
 		JSONObject result = new JSONObject();
 		try {
 			Product pd = new Gson().fromJson(form, Product.class);
+			pd.setSearchFreq(0);
 			getSession().save(pd);
 			if (pd.getProductType().equals("game")) {
 				Game game = new Gson().fromJson(form, Game.class);
@@ -80,6 +81,7 @@ public class ProductDao implements IProductDao {
 			jobj.put("productPrice", beans.getProductPrice());
 			jobj.put("productTag", beans.getProductTag());
 			jobj.put("productInfo", beans.getProductInfo());
+			jobj.put("searchFreq", beans.getSearchFreq());
 			jsonArray.add(jobj);
 		}
 		System.out.println(jsonArray);

@@ -44,8 +44,9 @@
 		<form id="pwd-form">
 		<div class="form-group form-group-lg">
 				<div id="pwdShow" class="user-data-tag-area">密碼:********</div>
-				<div id="pwdSpan">新密碼<input type="password" class="form-control input-lg" name="password" id="pwd"><br>
-					確認密碼<input type="password" class="form-control input-lg" name="pwd2" id="pwd2">
+				<div id="pwdSpan">舊密碼<input type="password" class="form-control input-lg" name="oldPwd" id="pwd"><br>
+					新密碼<input type="password" class="form-control input-lg" name="newPwd" id="pwd"><br>
+					確認密碼<input type="password" class="form-control input-lg" name="chPwd" id="pwd2">
 				</div>
 			</div>
 			<div >
@@ -54,6 +55,7 @@
 			</div>
 		</form>
 		<hr>
+		
 		<form id="formData">
 			<div class="form-group form-group-lg">
 				<div id="nameShow" class="user-data-tag-area">姓名:${userProfile.name}</div>

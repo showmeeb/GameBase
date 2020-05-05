@@ -60,9 +60,9 @@ public class ShoppingService {
 		
 	}
 	
-	public void orderStatus(int rtnCode,int orderId) {
+	public JSONObject orderStatus(int rtnCode,int orderId) {
 		
-		 userOrderDao.orderStatus(rtnCode,orderId);
+		 return userOrderDao.orderStatus(rtnCode,orderId);
 		
 	}
 	
@@ -77,6 +77,10 @@ public class ShoppingService {
 	
 	public List<UserOrder> allOrders(){
 		return userOrderDao.allOrders();
+	}
+	
+	public boolean checkRank(int userId) {
+		return userOrderDao.checkRank(userId);
 	}
 	
 	}

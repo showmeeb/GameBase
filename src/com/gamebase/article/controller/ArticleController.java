@@ -653,5 +653,16 @@ public class ArticleController {
 	public String showMyArticles() {
 		return "myArticles";
 	}
-
+	
+	@RequestMapping(path = "/GameBase/delArticleFromBack", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> delArticleFromBack(@RequestParam("forumid") String forumid,@RequestParam("titleid") String titleid) {
+		System.out.println("getMyArticles");
+		aService.deleteArticleAndReply(Integer.valueOf(titleid));
+		aService.deletetitle(Integer.valueOf(titleid));
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<ArticleTitle> articles = aService.queryAllArticleTitle();
+		map.put("articles", articles);
+		return map;
+	}
 }

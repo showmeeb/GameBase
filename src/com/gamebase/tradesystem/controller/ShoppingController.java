@@ -7,11 +7,15 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gamebase.member.model.UserData;
+import com.gamebase.member.model.UsersInfo;
+import com.gamebase.member.model.service.UserDataService;
 import com.gamebase.tradesystem.model.OrderDetail;
 import com.gamebase.tradesystem.model.UserOrder;
 import com.gamebase.tradesystem.model.service.ProductService;
@@ -27,6 +31,8 @@ public class ShoppingController {
 	private ShoppingService  shoppingService;
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private UserDataService userDataService;
 	
 
 	
@@ -84,7 +90,8 @@ public class ShoppingController {
 	
 	@RequestMapping(path = "/shoppingCart/orderStatus", method = RequestMethod.POST)
 	@ResponseBody
-	public void orderStatus(HttpServletRequest request) {
+	public void orderStatus(HttpServletRequest request,Model model) {
+
 		String rtnCode = request.getParameter("RtnCode");
 		String orderId = request.getParameter("CustomField4");
 		String uuid = request.getParameter("MerchantTradeNo");
@@ -98,8 +105,16 @@ public class ShoppingController {
 //		System.out.println("orderPrice:"+orderPrice);
 		
 		shoppingService.sendOrderDetail(Integer.parseInt(orderId));
-		shoppingService.orderStatus(Integer.parseInt(rtnCode),Integer.parseInt(orderId));
+		JSONObject jobj=shoppingService.orderStatus(Integer.parseInt(rtnCode),Integer.parseInt(orderId));
+//		if((boolean)jobj.get("t")==true) {
+//			UserData ud=userDataService.getByUserId((int)jobj.get("userId"));
+//			ud.setRankId(3);
+//			userDataService.saveUserData(ud);
+//			UsersInfo uinfo = userDataService.showUserData(ud.getAccount());
+//			model.addAttribute("loginUser", uinfo);
+//		}
 		productService.updateFreq(Integer.parseInt(orderId));
+		
 		System.out.println("付款成功!!");
 	}
 	

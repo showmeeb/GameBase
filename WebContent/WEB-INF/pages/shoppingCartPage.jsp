@@ -40,7 +40,7 @@ div, tr, td, th {
 }
 
 #nav-div {
-	background: rgba(20%, 20%, 20%, 0.4);
+	background: rgba(15, 15, 15, 0.2);
 	bottom: 0;
 	position: fixed;
 	width: 100%;
@@ -64,11 +64,44 @@ div, tr, td, th {
 	color: red;
 	display: inline;
 }
+#rankDiv{
+	width:120px;
+	position:relative; 
+	left:30px;top:20px;
 
+}
+#discountDiv{
+
+	position:relative; 
+	left:1300px;
+	bottom:60px;
+	width:80px;
+	height:80px;
+
+}
+
+#discountDiv img{
+	float:
+	width:120px;
+	height:120px;
+}
+.totalMoney{
+color: red;
+font-size: 30px;
+
+}
+/* .totalMoney1{ */
+/* color: red; */
+/* font-size: 30px; */
+
+/* } */
+/* .totalMoney::before{ */
+/* content:url(https://i.imgur.com/FL3PHII.png); */
+/* } */
 .inputNum{text-align: center; }
 </style>
 </head>
-<body>
+<body style="background: rgb(245, 245, 245)">
 	<!-- TOPBAR -->
 	<jsp:include page="topBar.jsp" />
 
@@ -78,7 +111,7 @@ div, tr, td, th {
 
 		<div id="dt1">
 			<h1>購物車</h1>
-			<table style="background: rgba(50%, 50%, 50%, 0.3)">
+			<table style="background: rgba(255, 234, 223, 0.3)">
 				<thead>
 					<tr>
 						<th>商品ID
@@ -148,11 +181,19 @@ div, tr, td, th {
 		<!-- 結帳的BAR -->
 	</div>
 	<div id="nav-div">
-		<div style="position: fixed; bottom: 10px; right: 80px">
-			<span style="color: red;">總金額&nbsp;&nbsp;:&nbsp;&nbsp;</span><span
-				id="total" style="color: red;"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+		<div id="rankDiv"  data-container="body" data-toggle="popover" data-placement="right" data-html="true" data-content="訪客與未認證會員=>無 <br/>一般會員 =>9折<br/>高級會員=>8折">
+			<button id="rank" type="button" class="btn btn-warning btn-lg" style="width:120px; height:50px;" ></button>
+			
+		</div>
+		<div id="discountDiv">
+			<img id="discountImg" >
+		</div>
+		<div style="position:fixed; bottom: 20px; right: 300px"><span class="totalMoney" >總金額&nbsp;&nbsp;:&nbsp;&nbsp;</span><span
+				id="total" class="totalMoney"></span></div>
+		<div style="position: fixed; bottom: 20px; right: 80px">
+			
 			<button id="paybillF" style="width: 200px;"
-				class="btn btn-primary btn-lg " type="button" data-toggle="modal"
+				class="btn btn-outline-success btn-lg"  type="button" data-toggle="modal"
 				data-target="#exampleModalCenter">結&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;帳</button>
 		</div>
 	</div>
@@ -164,6 +205,7 @@ div, tr, td, th {
 		var check2=false;
 		var check3=false;
 		var check4=false;
+		var discount;
 //-----------------*********測試區*********-------------------
 		//沒效果 控制model 呼叫前或後的函數
 // 		$("#exampleModalCenter").on("show.bs.modal", function(e) {
@@ -177,6 +219,17 @@ div, tr, td, th {
 // 			console.log('視窗目前是開啟的狀態..');
 // 		}
 
+$(document).on("mouseenter","#rank",function(){	
+		$("[data-toggle='popover']").popover('show'); 
+	
+// 		console.log("移入");
+		});
+	$(document).on("mouseout","#rank",function(){	
+		$("[data-toggle='popover']").popover('hide'); 
+	
+// 		console.log("移出");
+		});
+
 //-----------------*********網頁開始函數區*********-------------------
 //-----------------抓取使用者資料-------------------	
 		$(document).ready(
@@ -184,19 +237,44 @@ div, tr, td, th {
 
 					var user;
 					if (window.sessionStorage.getItem("loginUser") == "") {
+						$('#rank').html("訪客");
+						discount=1;
+						console.log("訪客");
 						var response = [];
 						for (var i = 0; i < localStorage.length; i++) {
 							response.push(JSON.parse(localStorage
 									.getItem(localStorage.key(i))));
 						}
-						console.log("response");
-						console.log(response);
+// 						console.log("response");
+// 						console.log(response);
 						showtables(response);
 					} else {
 						user = JSON.parse(window.sessionStorage
 								.getItem("loginUser"));
 
 						var id = user.userId;
+
+						switch (user.rankId) {
+						  case 0:
+							  $('#rank').html("管理員");
+							  discount=0;
+						    	break;
+						  case 1:
+							  $('#rank').html("未認證會員");
+							  discount=1;
+						    	break;
+						  case 2:
+							  $('#rank').html("一般會員");
+							  $('#discountImg').attr("src","https://i.imgur.com/FL3PHII.png");
+							  discount=0.9;
+							    break;
+						  case 3:
+							  $('#rank').html("高級會員");
+							  $('#discountImg').attr("src","https://i.imgur.com/MSBsDtM.png");
+							  discount=0.8;
+							    break;
+					}
+						
 						$.ajax({
 							url : "shopping/showCartProduct",
 							dataType : "json",
@@ -205,7 +283,7 @@ div, tr, td, th {
 								id : id
 							},
 							success : function(response) {
-								console.log("資料回應:" + response);
+// 								console.log("資料回應:" + response);
 								showtables(response);
 							},
 							complete : function() {
@@ -215,6 +293,7 @@ div, tr, td, th {
 						});
 
 					}
+					
 
 					total();
 				})
@@ -308,7 +387,7 @@ div, tr, td, th {
 			var num1 = num.val();
 			var price = $tr.find("td[id='oriPrice']").text();
 
-			$tr.find("td[id='money']").html(price * num1);
+			$tr.find("td[id='money']").html(price * num1*discount);
 			total()
 
 		})
@@ -323,7 +402,7 @@ div, tr, td, th {
 			var num1 = num.val();
 			var price = $tr.find("td[id='oriPrice']").text();
 
-			$tr.find("td[id='money']").html(price * num1);
+			$tr.find("td[id='money']").html(price * num1*discount);
 			total()
 
 		})
@@ -407,6 +486,8 @@ div, tr, td, th {
 					success : function(response) {
 						console.log(response);
 						document.write(response);
+// 						window.open()
+// 						window.sessionStorage.setItem("page",response);
 					}
 				});
 			}
@@ -497,7 +578,7 @@ $(document).on('blur','#orderPhone',function(){
 				txt += "<input style='width: 35px;' id='quantity_input' class='upd localupd inputNum' readonly type='text' value='"+ response[i].amount+"'>";
 				txt += "<button id='plus' type='button' class='btn btn-outline-secondary btn-sm'>+</button></span>";
 				txt += "<td id='money'>"
-						+ (response[i].productPrice * response[i].amount)
+						+ Math.floor(response[i].productPrice * response[i].amount*discount)
 				txt += "<td id='lsId' class='localupd' style='display:none'>"
 						+ response[i].lsId;
 				txt += "<td><botton id='delete' class='btn btn-danger'>移除</botton>"

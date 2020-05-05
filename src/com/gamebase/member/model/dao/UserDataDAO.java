@@ -170,7 +170,11 @@ public class UserDataDAO implements IUserData {
 		return list;
 	}
 
-
+	public List<UserData> getUserWithoutAdmin() {
+		Query<UserData> allQuery = sessionFactory.getCurrentSession().createQuery("From UserData Where RankId=2 or RankId=3 ", UserData.class);
+		List<UserData> list = allQuery.list();
+		return list;
+	}
 
 
 

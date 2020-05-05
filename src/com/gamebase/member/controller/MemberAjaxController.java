@@ -27,13 +27,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.gamebase.article.model.ArticleContent;
+import com.gamebase.article.model.ArticleListView;
+import com.gamebase.article.model.service.ArticleService;
 import com.gamebase.general.model.service.GeneralService;
+import com.gamebase.member.model.ChangePwd;
 //import com.gamebase.member.model.Role;
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UserProfile;
 import com.gamebase.member.model.UsersInfo;
 import com.gamebase.member.model.service.UserDataService;
-import com.gamebase.tradesystem.model.UserOrder;
 
 @Controller
 @SessionAttributes(names = { "loginUser", "ProfileId", "UserData" })
@@ -44,17 +47,46 @@ public class MemberAjaxController {
 	@Autowired
 	public GeneralService gService;
 
+	@Autowired
+	public ArticleService aService;
+
+
+	@PostMapping(value = "/changePwd", produces = "application/json")
+	@ResponseBody
+	public Map<String,Object> pwdChange2(@RequestBody ChangePwd pwddata, ModelMap model){
+//		System.out.println("new pwd="+pwddata.getNewPwd()+", check pwd="+pwddata.getChPwd());
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(pwddata.getNewPwd().equals(pwddata.getChPwd())) {			
+			UsersInfo login = (UsersInfo) model.get("loginUser");
+			UserData loginUserData = uService.getByUserId(login.getUserId());
+			String encryptPwd = uService.encryptString(pwddata.getNewPwd());
+			loginUserData.setPassword(encryptPwd);
+			uService.saveUserData(loginUserData);
+			map.put("status", true);
+			return map;
+		}
+		map.put("status", true);
+		return map;
+		
+	}
+	
 	@PostMapping(value = "/updatePassword", produces = "application/json")
 	@ResponseBody
-	public Map<String, Object> pwdchange(@RequestBody UserData pwdupdate, ModelMap model) {
-		System.out.println("pwd" + pwdupdate.getPassword());
+	public Map<String, Object> pwdchange(@RequestBody ChangePwd pwdupdate, ModelMap model) {
+		System.out.println("oldpwd:" + pwdupdate.getOldPwd()+" newpwd:" + pwdupdate.getNewPwd());
 		Map<String, Object> map = new HashMap<String, Object>();
-		String encryptpwd = uService.encryptString(pwdupdate.getPassword());
+		String encryptoldpwd = uService.encryptString(pwdupdate.getOldPwd());
+		String encryptnewpwd = uService.encryptString(pwdupdate.getNewPwd());
 		UsersInfo login = (UsersInfo) model.get("loginUser");
 		UserData loginUserData = uService.getByUserId(login.getUserId());
-		loginUserData.setPassword(encryptpwd);
-		uService.saveUserData(loginUserData);
-		map.put("status", true);
+		if(encryptoldpwd.equals(loginUserData.getPassword())) {
+			loginUserData.setPassword(encryptnewpwd);
+			uService.saveUserData(loginUserData);
+			map.put("status", true);
+			return map;
+		}else {
+			map.put("status",false);
+		}
 		return map;
 	}
 
@@ -140,6 +172,13 @@ public class MemberAjaxController {
 		uService.setCookie(logindata.getAccount(), logindata.getPassword(), save, request, response);
 		String pwd = uService.encryptString(logindata.getPassword());
 		Map<String, Object> map = uService.getLogin(logindata.getAccount(), pwd);
+		int numpwd = 0;
+		try {
+			numpwd = Integer.parseInt(logindata.getPassword());
+			map.put("resetPwd",true);
+		}catch(Exception e) {
+			
+		}
 		if ((boolean) map.get("status")) {
 			model.addAttribute("loginUser", (UsersInfo) map.get("loginUser"));
 			return map;
@@ -280,9 +319,16 @@ public class MemberAjaxController {
 		// System.out.println("got chekcAcc "+account.getAccount());
 		System.out.println("k");
 		UserProfile profile = uService.getProfileByUserId(Integer.valueOf(id));
+		UserData userdata = uService.getByUserId(Integer.valueOf(id));
+		List<ArticleListView> articles = aService.queryMyArticle(Integer.valueOf(id));
+		List<ArticleContent> contents = aService.queryMemberContentByUserId(Integer.valueOf(id));
 		System.out.println(profile);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("profile", profile);
+		map.put("articles", articles);
+		map.put("contents", contents);
+		map.put("userdata", userdata);
+		
 		return map;
 	}
 
@@ -422,12 +468,56 @@ public class MemberAjaxController {
 	@RequestMapping(path = "/GameBase/getNewMemberWeek", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> getNewMemberWeek() {
-		System.out.println("got new users ");
+//		System.out.println("-------------------got new users ");
 		List<UserData> data = uService.getAllUserData();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("users", data);
-		System.out.println("new users: " + map.get("users"));
+//		System.out.println("new users: " + map.get("users"));
 		return map;
 	}
 
+	
+	@RequestMapping(path = "/GameBase/MemberUpgradeRank", method = RequestMethod.POST)
+	@ResponseBody
+	public String payBill(@RequestParam("userId") String userId) {
+
+		return uService.processRankOrder(Integer.valueOf(userId));
+	}
+//	@RequestMapping(path = "/shoppingCart/test", method = RequestMethod.POST)
+//	@ResponseBody
+//	public String test(@RequestParam(value ="form") String form,@RequestParam(value = "items1") String items1) {
+//		System.out.println("form:"+form);
+//		System.out.println("items1:"+items1);
+//		return "yes";
+//	}
+	
+	@RequestMapping(path = "/GameBase/rankOrderStatus", method = RequestMethod.POST)
+	@ResponseBody
+	public void orderStatus(HttpServletRequest request) {
+		String rtnCode = request.getParameter("RtnCode");
+		String uuid = request.getParameter("MerchantTradeNo");
+		String userId = request.getParameter("CustomField1");
+		System.out.println("RtnCode:"+rtnCode);
+//		System.out.println("orderPhone:"+orderPhone);
+//		System.out.println("orderAddress:"+orderAddress);
+//		System.out.println("userId:"+userId);
+//		System.out.println("uuId:"+uuId);
+//		System.out.println("orderDate:"+orderDate);
+//		System.out.println("orderPrice:"+orderPrice);
+		
+		uService.rankOrderStatus(Integer.parseInt(rtnCode),Integer.parseInt(userId));
+		System.out.println("付款成功!!");
+	}
+	
+	@RequestMapping(path = "/GameBase/getUserWithRank", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getUserWithRank() {
+		// System.out.println("got chekcAcc "+account.getAccount());
+		System.out.println("查詢管理員以外的會員");
+		List<UserData> list = uService.getUserWithoutAdmin();
+//		System.out.println("list : " + list);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("members", list);
+		return map;
+	}
 }

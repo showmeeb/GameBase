@@ -2,7 +2,7 @@
 body{background-color: rgb(245, 245, 245);}
 
 .topBarFixed {
-	background-color: black;
+	background-color: black;  
 	position: sticky;
 	top: 0;
 	left: 0;
@@ -10,6 +10,7 @@ body{background-color: rgb(245, 245, 245);}
 	height: 120px;
 	z-index: 25;
 	margin-bottom: 10px;
+	overflow: hidden;
 }
 
 .shot {
@@ -54,7 +55,7 @@ body{background-color: rgb(245, 245, 245);}
 
 .carouselImg {
 	width: 90%; 
-	height: 310px;
+	height: 350px;
 }
 
 .search-input {
@@ -169,14 +170,16 @@ iframe {
 }
 
 #t1 {
-	border: 1px solid green;
+
 	width: 600px;
 }
 
 #dt1 {
+	position:relative;
 	width: 600px;
 	margin: auto;
 	right: 250px;
+	z-index: 20;
 }
 
 #dt1 img {
@@ -213,6 +216,7 @@ iframe {
 
 .card-img-top {
 	height: 250px;
+	cursor: pointer;
 }
 
 .selectBarBtn {
@@ -256,33 +260,48 @@ iframe {
 .inputNum{text-align: center; }
 
 #imgb1 {
-	background:url('https://i.imgur.com/kjCWYlX.jpg');
+
+	background:url('https://i.imgur.com/0cBMCTp.jpg');
 	background-size:100%;
-	display:block;
-  	width:300px;
-  	height:900px;
+
+  	width:20%;
+  	height:100%;
 	background-repeat:no-repeat;
 	position: fixed;
-	bottom: 0px;
+	bottom: -120px;
   	right: 0px;
-	
+  	z-index:13;
+	cursor: pointer;
 	}
 #imgb2 {
-	background:url('https://i.imgur.com/TCZkjNW.jpg');
-	background-size:170%;
-	display:block;
-  	width:370px;
-  	height:900px;
+	
+	background:url('https://i.imgur.com/OwEQdsL.jpg');
+	background-size:100%;
+  	width:20%;
+  	height:100%;
 	background-repeat:no-repeat;
 	position: fixed;
-	bottom: 0px;
+	bottom: -120px;
   	left: 0px;
-	
+	z-index:13;
+	cursor: pointer;
 	}
-#container{ background-color:rgba(80%, 80%, 80%, 0.2);}
+#container{ 
+	position:relative;
+	background-color:rgba(80%, 80%, 80%, 0.2);
+	z-index: 20;
+}
 #switchDiv{
 	
 	width:250px;
   	height:400px;
 }
 #switchDiv div{margin-top: 10px;}
+#videoDiv {
+	width:320px;height:450px; 
+	float:left;
+	margin:30px 0px 10px 0px;
+	text-align: center;
+	display:block;
+	cursor: pointer;
+}

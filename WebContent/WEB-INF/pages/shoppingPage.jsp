@@ -17,8 +17,8 @@
 <!-- TopBAR -->
 	<jsp:include page="topBar.jsp" />
 	
-	<div id="imgb1"></div>
-	<div id="imgb2"></div>
+	<div id="imgb1" onclick="window.open('https://www.unchartedthegame.com/en-us/','asd','_blank')"></div>
+	<div id="imgb2" onclick="window.open('https://www.playstation.com/cht-tw/games/death-stranding-ps4/','asd','_blank')"></div>
 <!-- 顯示商品區塊 -->
 	<div id="dt1">
 		<form>
@@ -122,8 +122,7 @@
 			</div>
 		</div>
 	</div>
-	<span id="popA" class="d-inline-block" data-toggle="popover" data-content="Disabled popover">
-	</span>
+	
 <!-- FOOTER -->
 	<jsp:include page="footer.jsp" />
 
@@ -143,6 +142,26 @@
 			}
 		}
 //-----------------*********測試區*********-------------------
+
+
+	
+
+
+
+//-----------------*********初始化區*********-------------------
+		window.onload = function() {
+			console.log(window.sessionStorage.getItem("loginUser"));
+			//user.checkUser();
+			// 			 user.getRankId();
+			// 			 user.getUserId();
+			//swich();
+			//  			console.log("switch");
+
+			// 				ps();
+			//  			console.log("ps");
+		}
+//-----------------******************觸發按鈕區******************-------------------	
+//-----------------控制模擬框顯示函數-------------------
 //沒效果 控制model 呼叫前或後的函數
 	$("#d1").on("show.bs.modal", function(e) {
 		console.log('顯示視窗前呼叫');
@@ -153,7 +172,7 @@
 		console.log('關閉視窗前呼叫');
 	})
 
-	
+//-----------------控制過濾器-------------------
 	$(document).on('change','.custom-control-input',function(){
 			  
 			  if ($(this).is(':checked')) {
@@ -172,63 +191,19 @@
 			console.log(filterType);
 		})
 
-		
-		
-	function filterTypeArray(filterType,array){	
-// 		console.log(filterType.length);
-// 		console.log(array);
-		oriArray= array;
-		for (var j=0;j<filterType.length;j++){
-			for (var i = 0; i< array.length; i++) {
-				oriArray = oriArray.filter(function(item){
-					console.log(item.productTag);
-					console.log(filterType[j]);
-					if((item.productTag.search(filterType[j]))!=-1){
-						return item;
-						}
-					    
-				});
-			}
-		}
-
-		console.log(oriArray);
-		numPage(oriArray);
-		showCard(oriArray);
-		}
-
-	function resetFilter(){
-		filterType.length=0;
-		$('.custom-control-input').prop("checked",false)
-
-		}
-
-// 	$("#videoDiv").mouseover(function () {
-// 		$("[data-toggle='popover']").popover();
-// 		console.log("移入");
-//     }).mouseout(function () {
-//         $(this).css("background-color",oldColor);
-//     });
-// 	$(document).on("mouseenter","#videoDiv",function(){	
-// 		var x = event.clientX + document.body.scrollLeft + 20;
-// 		var y = event.clientY + document.body.scrollTop - 5; 
-// 		$("#popA").css({"left":x+"px","top":y+"px"}).popover('show');
-// 		console.log("移入");
-// 		});
-
-//-----------------*********初始化區*********-------------------
-		window.onload = function() {
-			console.log(window.sessionStorage.getItem("loginUser"));
-			//user.checkUser();
-			// 			 user.getRankId();
-			// 			 user.getUserId();
-			//swich();
-			//  			console.log("switch");
-
-			// 				ps();
-			//  			console.log("ps");
-		}
-//-----------------*********觸發按鈕區*********-------------------		
+//-----------------滑鼠移入移出_點擊圖片跑出影片-------------------	
+$(document).on("mouseenter","#videoDiv",function(){	
+		$("[data-toggle='popover']").popover('show'); 
+	
+		console.log("移入");
+		});
+	$(document).on("mouseout","#videoDiv",function(){	
+		$("[data-toggle='popover']").popover('hide'); 
+	
+		console.log("移出");
+		});
 //-----------------排序按鈕_熱銷-------------------	
+
 		$(document).on('click', "#hotSale", function() {
 // 			resetFilter();
 			console.log(array);
@@ -591,7 +566,7 @@
 		function showprodetail(response) {
 			var txt = "";
 			txt += "<div ><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>X</span></button></div>"
-			txt += "<div id='videoDiv' style='width:350px;height:450px; float:left;margin:30px 0px 10px 0px; text-align: center;'>";
+			txt += "<div id='videoDiv' data-container='body' data-toggle='popover' data-placement='bottom' data-content='點擊照片能顯示遊戲影片'>";
 			txt += "<img id='youtube'role='button' tabindex='0' aria-pressed='true' alt='"
 					+ JSON.stringify(response.productVideo)
 					+ "' src='"
@@ -649,13 +624,43 @@
 			}
 			$("#resultsTable").html(cardResults);
 		}
+		
+//-----------------過濾條件-------------------		
+		function filterTypeArray(filterType,array){	
+//	 		console.log(filterType.length);
+//	 		console.log(array);
+			oriArray= array;
+			for (var j=0;j<filterType.length;j++){
+				for (var i = 0; i< array.length; i++) {
+					oriArray = oriArray.filter(function(item){
+						console.log(item.productTag);
+						console.log(filterType[j]);
+						if((item.productTag.search(filterType[j]))!=-1){
+							return item;
+							}
+						    
+					});
+				}
+			}
+
+			console.log(oriArray);
+			numPage(oriArray);
+			showCard(oriArray);
+			}
+//-----------------清空過濾器選項-------------------
+		function resetFilter(){
+			filterType.length=0;
+			$('.custom-control-input').prop("checked",false)
+
+			}
+			
 //-----------------??-------------------
 		var jsonResults = JSON.parse(JSON.stringify(${ results }));
 		console.log(jsonResults);
 		showCard(jsonResults);
 		numPage(jsonResults);
 		array = jsonResults;
-		
+		filterTypeArray(filterType,jsonResults)
 	</script>
 
 </body>

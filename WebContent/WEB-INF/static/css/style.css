@@ -220,6 +220,7 @@ i {
 .login-area .fa-user,
 .forgetPassword-area .fa-envelope,
 .forget-reply-area .fa-dove,
+.change-Pwd-area .fa-address-card,
 .auth-code-input-area .fa-keycdn {
   font-size: 80px;
   margin: 20px auto;
@@ -233,6 +234,13 @@ i {
 }
 
 .forgetPassword-area {
+  width: 400px;
+  height: 350px;
+  margin-top: -200px;
+  margin-left: -200px;
+}
+
+.change-Pwd-area {
   width: 400px;
   height: 350px;
   margin-top: -200px;

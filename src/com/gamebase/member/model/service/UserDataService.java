@@ -356,5 +356,16 @@ public class UserDataService {
 	public List<Webflow> IpRepeatWeek(String date){
 		return webDAO.IpRepeatWeek(date);
 	}
+	
+	public String processRankOrder(Integer userid) {
+		return rankDao.processRankOrder(userid);
+	}
+	
+	public void rankOrderStatus(int rtnCode,Integer userid) {
+		rankDao.rankOrderStatus(rtnCode,userid);
+	}
+	public List<UserData> getUserWithoutAdmin(){
+		return udDao.getUserWithoutAdmin();
+	}
 
 }
