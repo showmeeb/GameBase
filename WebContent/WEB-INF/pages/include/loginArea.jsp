@@ -105,10 +105,25 @@
 </div>
 <!-- End admin-broadcast area -->
 
-<!-- Start regist-reply area -->
+<!-- Start repwd-reply area -->
 <div class="forget-reply-area popup-window hidden-window">
 	<i class="fas fa-times close-btn"></i> <i class="fas fa-dove"></i> <br />
 	<div id="forget-msg">密碼重置成功！</div>
 	<button class="buttonL" id="return-login-btn">返回登入</button>
 </div>
-<!-- End regist-reply area -->
+<!-- End repwd-reply area -->
+
+<!-- Start dochangePwd-reply area -->
+<div class="change-Pwd-area popup-window hidden-window">
+	<i class="fas fa-times close-btn"></i> <i class="fas fa-address-card"></i> <br />
+	<form id="changePwd-form">
+		<div class="input-group">
+			<input type="password" name="newPwd" required /><span>新密碼</span>
+		</div>
+		<div class="input-group">
+			<input type="password" name="chPwd" required /><span>檢查密碼</span>
+		</div>
+	</form>
+	<button class="buttonL" id="change-Pwd-btn">修改</button>
+</div>
+<!-- End dochangePwd-reply area -->
