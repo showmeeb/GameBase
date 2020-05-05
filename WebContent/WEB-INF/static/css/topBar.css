@@ -175,9 +175,11 @@ iframe {
 }
 
 #dt1 {
+	position:relative;
 	width: 600px;
 	margin: auto;
 	right: 250px;
+	z-index: 20;
 }
 
 #dt1 img {
@@ -257,33 +259,36 @@ iframe {
 .inputNum{text-align: center; }
 
 #imgb1 {
-	border:1px solid green;
+
 	background:url('https://i.imgur.com/0cBMCTp.jpg');
 	background-size:100%;
-	display:block;
-  	width:380px;
-  	height:900px;
+
+  	width:20%;
+  	height:100%;
 	background-repeat:no-repeat;
 	position: fixed;
-	bottom: -140px;
+	bottom: -120px;
   	right: 0px;
-  	z-index: 13;
+  	z-index:13;
 	
 	}
 #imgb2 {
 	
 	background:url('https://i.imgur.com/OwEQdsL.jpg');
 	background-size:100%;
-	display:block;
-  	width:380px;
-  	height:900px;
+  	width:20%;
+  	height:100%;
 	background-repeat:no-repeat;
 	position: fixed;
-	bottom: -140px;
+	bottom: -120px;
   	left: 0px;
-	z-index: 13;
+	z-index:13;
 	}
-#container{ background-color:rgba(80%, 80%, 80%, 0.2);}
+#container{ 
+	position:relative;
+	background-color:rgba(80%, 80%, 80%, 0.2);
+	z-index: 20;
+}
 #switchDiv{
 	
 	width:250px;
