@@ -6,7 +6,7 @@ $(document).ready(function(){
 	
     $("#publish-btn").click(function(){
     	console.log("pulish btn");
-    	
+    	var replyTitle;
         //login status identify
         if(window.sessionStorage.getItem("loginUser") != ""){
         	userId = userId = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
@@ -21,7 +21,9 @@ $(document).ready(function(){
         $(".close-btn").click(function(){  
         	console.log("close btn clicked");
             // empty input area
- 			$("#articleTitle").val("");
+        	if(lo === "title"){
+        		$("#articleTitle").val("");
+        	}			
             editor.setData("");            
             // close window
             $(".publish-area").addClass("hidden-window", 700);
@@ -82,6 +84,16 @@ $(document).ready(function(){
          				console.log("newreply");
          	            var newReply = Mustache.render(createReplyTemplate, response.newContent);
         	            $(".content_list").append(newReply);
+        	            console.log(response.newContent.contentId);
+        	            $(".btn_update_content[contentId="+response.newContent.contentId+"]").on("click",function(){
+        	         		console.log("update record btn clicked");
+        	         		/*identify which btn been clicked */
+        	         		var btn = $(this).attr("btn")
+        	         		console.log(btn);
+        	         		contentId = $(this).attr("contentId");
+        	         		console.log("content ID : "+contentId);
+        	         		update_content(btn,contentId);
+        	         	});
          			}
          			
          			/* clear input value */

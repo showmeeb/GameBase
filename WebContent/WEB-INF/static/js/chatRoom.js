@@ -217,6 +217,12 @@ function userLogin() {
         	  $("#admin-broadcast").removeClass("hidden-window", 700);
           }
           
+          //query user like unlike record
+          if(lo === "content"){
+        	  queryRecord();
+        	  open_btn()
+          }
+                    
         } else {
           $("#login-submit-btn").removeClass("disable",function(){
         	  alert("帳號或密碼不符合");

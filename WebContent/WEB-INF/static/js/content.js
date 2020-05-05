@@ -1,8 +1,17 @@
 
 $("#document").ready(function () {
-	console.log("this is content.js");
+	titleContentId = $(".content_content:first").attr("contentId");
 	forumId = $(".article_window").attr("forumId");
 	titleId = $(".article_window").attr("titleId");
+	console.log("title content id is "+titleContentId);
+    if(window.sessionStorage.getItem("loginUser") != ""){
+		/* identify which btn been clicked */
+		userId = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
+		console.log("userId is "+userId);
+		queryRecord();
+		open_btn()
+    }
+	
 	/* record button clicked */
 	$(".btn_record").click(function(){
 		console.log("record btn clicked");
@@ -18,25 +27,7 @@ $("#document").ready(function () {
 	    	alert("請先登入 !");       	    		
 	    	$(".login-area").removeClass("hidden-window", 700);
 	    	$("#shadow").fadeIn(700);
-	    	/*function find user's record after user login*//*無法登入*/
-//	    	function getRecord(){
-//	    		$.ajax({
-//	    			url:'/GameBase/forum_test/'+forumId+'/'+titleId+'/queryRecord',//XX
-//	    			dataType:"json",
-//	    			type:"POST",
-//	    			cache:false,
-//	    			data:{
-//	    				userId:userId
-//	    			},
-//	    			success: function(response){
-//	    				console.log("success");
-//	    				console.log("response : "+response.record.record)
-//	    			if(response.record.record == null) {
-//	    				
-//	    			}
-//	    			}
-//	    		});
-//	    	}
+//	    	queryRecord();/*需在登入後ajax 加 fun*/
 	    }
 	});
 	
@@ -83,10 +74,16 @@ var userId;
 var forumId;
 var titleId;
 var contentId;
+var titleContentId;
+
+function open_btn(){
+	console.log("open btn");
+	userId = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
+	$(".content_unit[userId="+userId+"] .btn_update_content").attr("hidden",false);
+}
+
 function update_record(btn){
 	console.log("update record");
-	console.log(forumId);
-	console.log(titleId);
 	$.ajax({
 		url:'/GameBase/forum_test/'+forumId+'/'+titleId+'/record',
 		dataType:"json",
@@ -185,6 +182,30 @@ function identifyLoginState(){
     	 $(".login-area").removeClass("hidden-window", 700);
     	 $("#shadow").fadeIn(700);
     	 }
+}
+
+function queryRecord(){
+	/*function find user's record after user login*//*無法登入*/
+	userId = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
+	$.ajax({
+		url:'/GameBase/forum_test/'+forumId+'/'+titleId+'/queryRecord',
+		dataType:"json",
+		type:"POST",
+		cache:false,
+		data:{
+			userId:userId,
+			titleContentId,titleContentId
+		},
+		success: function(response){
+			if(response.record.record === "like") {
+				$("#like i").removeClass("far").addClass("fas");
+				$("#unlike" ).addClass("disabled");
+			} else if(response.record.record === "unlike"){
+				$("#unlike i").removeClass("far").addClass("fas");
+				$("#like" ).addClass("disabled");
+			}
+		}
+	});
 }
 
 function queryfriend(userId, authorId){

@@ -6,118 +6,6 @@
 
 <head>
 <meta charset="UTF-8">
-<!-- update record likenum and unlikenum -->
-<script>
-$("#document").ready(function () {
-	console.log("this is content.js2");
-	
-	/*record button clicked*/
-// 	$(".btn_record").click(function(){
-// 		console.log("record btn clicked");
-// 		/*identify which btn been clicked */
-// 		var btn = $(this).attr("id");
-// 		console.log(btn);
-		
-// 		update_record(btn);
-// 	});
-	
-	/*update content button clicked*/
-// 	$(".btn_update_content").click(function(){
-// 		console.log("update record btn clicked");
-// 		/*identify which btn been clicked */
-// 		var btn = $(this).attr("id")
-// 		console.log(btn);
-// 		var contentId = $(this).parents(".content_id").attr("id");
-// 		console.log("content ID : "+contentId);
-// 		update_content(btn,contentId);
-// 	});
-	
-});
-/*update like unlike number*/
-// function update_record(btn){	
-// 	console.log("get btn value :"+btn);
-// 	console.log("/forum_test/${forum.forumId}/${title.titleId}");
-// 	$.ajax({
-// 		url:'<c:url value="/forum_test/${forum.forumId}/${title.titleId}/record"/>',
-// 		dataType:"json",
-// 		type:"POST",
-// 		cache:false,
-// 		data:{
-// 			clickedBTN:btn
-// 		},
-// 		success: function(response){
-// 			console.log("success");
-// 			console.log("response : "+response.record.record)
-// 			$(".btn_record").removeClass("disabled");
-// 			if(response.record.record === "like") {
-// 				$("#like.btn_record").html('<i class="fas fa-thumbs-up fa-2x">'+response.title.likeNum+'</i>');
-// 				$("#unlike.btn_record").addClass("disabled").html('<i class="far fa-thumbs-down fa-2x">'+response.title.unlikeNum+'</i>');
-// 			}else if (response.record.record === "unlike"){
-// 				$("#like.btn_record").addClass("disabled").html('<i class="far fa-thumbs-up fa-2x">'+response.title.likeNum+'</i>');
-// 				$("#unlike.btn_record").html('<i class="fas fa-thumbs-down fa-2x">'+response.title.unlikeNum+'</i>');
-// 			}else{
-// 				$("#like.btn_record").html('<i class="far fa-thumbs-up fa-2x">'+response.title.likeNum+'</i>');
-// 				$("#unlike.btn_record").html('<i class="far fa-thumbs-down fa-2x">'+response.title.unlikeNum+'</i>');
-// 			}
-			
-// 		}
-// 	})
-// }
-/*update or delete content and reply*/
-// function update_content(btn,contentId){
-// 	var contentId = $(this).parents(".content_id").attr("id");
-// 	console.log("content ID : "+contentId);
-// 	if(btn==='delete'){
-// 		console.log("get btn value :"+btn);
-// 		console.log("/forum_test/${forum.forumId}/${title.titleId}");
-// 		$.ajax({
-// 			url:'<c:url value="/forum_test/${forum.forumId}/${title.titleId}/'+contentId+'/update"/>',
-// 			dataType:"json",
-// 			type:"POST",
-// 			cache:false,
-// 			data:{
-// 				clickedBTN:btn,
-// 				contentId:contentId
-// 			},
-// 			success: function(response){
-// 				console.log("success");	
-			
-// 			}
-// 		})
-// 	} else if(btn==='update'){
-// 		console.log("get btn value :"+btn);
-// 		console.log("/forum_test/${forum.forumId}/${title.titleId}");
-// 		//get content
-// 		var content = $(".content_content").val();
-// 		//set editor
-// 		$("#articleTitle").val("");
-//  		$("#accountId").val("");
-//         editor.setData(content);
-// 		//open editor
-// 		$(".publish-area").removeClass("hidden-window",700);
-//        	$("#shadow").fadeIn(700);
-//        	$("#submit").addClass("hidden-window");
-//        	$("#update").removeClass("hidden-window");
-       	
-		//editor update button clicked
-// 		$.ajax({
-// 			url:'<c:url value="/forum_test/${forum.forumId}/${title.titleId}/'+contentId+'/update"/>',
-// 			dataType:"json",
-// 			type:"POST",
-// 			cache:false,
-// 			data:{
-// 				clickedBTN:btn,
-// 				contentId:contentId
-// 			},
-// 			success: function(response){
-// 				console.log("success");	
-			
-// 			}
-// 		})
-		
-// 		}
-// }
-</script>
 <style type="text/css">
 a.disabled {
     pointer-events: none;
@@ -128,7 +16,7 @@ a.disabled {
 	<!-- top bar -->
 	<jsp:include page="topBar.jsp" />
 	
-	<c:if test="${loginUser.rankId==2}">
+<%-- 	<c:if test="${loginUser.rankId>=2}"> --%>
 <div class="content_reply_btn">
 	<nav class="navbar navbar-expand-sm bg-light forum_topbar">
 		<ul class="nav justify-content-end">
@@ -142,7 +30,7 @@ a.disabled {
 		</ul>
 	</nav>
 </div>
-	</c:if>
+<%-- 	</c:if> --%>
 	
 	<div class="article_window" forumId="${forum.forumId}" titleId="${title.titleId}">
 	
@@ -158,7 +46,7 @@ a.disabled {
 			<div class="content_list">
 							
 				<c:forEach items="${contentList}" var="item" varStatus="itemStatus">
-					<div contentId="${item.contentId}" class="content_unit">
+					<div contentId="${item.contentId}" userId="${item.userId}" class="content_unit">
 					
 					<!-- title -->
 					<c:if test="${itemStatus.count==1 }">
@@ -179,10 +67,10 @@ a.disabled {
 					<!-- user account -->
 					<div class="content_author_info">
 					<span>
-					user ID 		: ${item.userId}<br/>
-					user Account 	: ${item.account}<br/>
-					user NickName 	: ${item.nickName}<br/>
-					content Id 		: ${item.contentId}<br/>
+					帳號ID   : ${item.userId}<br/>
+					帳號名稱     : ${item.account}<br/>
+					暱稱 	    : ${item.nickName}<br/>
+					文章ID   : ${item.contentId}<br/>
 					</span>
 					</div>
 					<!-- time -->
@@ -195,11 +83,11 @@ a.disabled {
 					
 					<!-- delete article button -->
 					<div class="content_editor_btn" >
-						<a btn="delete" class="btn_update_content" contentId="${item.contentId}" href="javascript:void(0)"><i class="far fa-trash-alt fa-2x"></i></a>
+						<a btn="delete" class="btn_update_content" contentId="${item.contentId}" href="javascript:void(0)" hidden><i class="far fa-trash-alt fa-2x"></i></a>
 					</div>
 					<!-- update article button -->
 					<div class="content_editor_btn" >
-						<a btn="update" class="btn_update_content" contentId="${item.contentId}" href="javascript:void(0)"><i class="far fa-edit fa-2x"></i></a>
+						<a btn="update" class="btn_update_content" contentId="${item.contentId}" href="javascript:void(0)" hidden><i class="far fa-edit fa-2x"></i></a>
 					</div>					
 					</div>
 					
