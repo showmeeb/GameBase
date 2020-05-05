@@ -55,6 +55,7 @@
 			</div>
 		</form>
 		<hr>
+		
 		<form id="formData">
 			<div class="form-group form-group-lg">
 				<div id="nameShow" class="user-data-tag-area">姓名:${userProfile.name}</div>
