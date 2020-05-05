@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	
+	forum_bg_set();
 	console.log("document ready");
 	
 	selected_forumId;
@@ -192,6 +192,16 @@ function del_forum(){
         	$(".forum_forum[forumId="+forumId+"]").remove();
         }
 	});
+}
+
+function forum_bg_set(){
+	$(".forum_img").each(function(){
+		var img = $(this).children("img").attr("src");
+		console.log(img);
+		$(this).parents(".forum_forum").css("background-image",["url("+img+")","linear-gradient(to right, blue, red)"]);
+	});
+	
+	
 }
 
 var newForumTemplate =

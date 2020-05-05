@@ -9,7 +9,7 @@ $("#document").ready(function () {
 		userId = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
 		console.log("userId is "+userId);
 		queryRecord();
-		open_btn()
+		open_btn();
     }
 	
 	/* record button clicked */
@@ -193,8 +193,7 @@ function queryRecord(){
 		type:"POST",
 		cache:false,
 		data:{
-			userId:userId,
-			titleContentId,titleContentId
+			userId:userId
 		},
 		success: function(response){
 			if(response.record.record === "like") {
