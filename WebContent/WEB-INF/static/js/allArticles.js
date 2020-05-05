@@ -1,5 +1,5 @@
 		$(document).ready(function() {
-			$("#admin-content").removeClass("d-none").addClass("d-block");
+			$("#admin-article").removeClass("d-none").addClass("d-block");
 
 			$(document).on("click","#s",function() {
 				var forum = $("#option").val();
