@@ -221,6 +221,7 @@ i {
 .forgetPassword-area .fa-envelope,
 .forget-reply-area .fa-dove,
 .change-Pwd-area .fa-address-card,
+.upgrade-notification-area .fa-gift,
 .auth-code-input-area .fa-keycdn {
   font-size: 80px;
   margin: 20px auto;
@@ -289,6 +290,14 @@ i {
   margin-left: -200px;
 }
 
+/*forget-reply area*/
+.upgrade-notification-area {
+  width: 400px;
+  height: 275px;
+  margin-top: -125px;
+  margin-left: -200px;
+}
+
 /* regist-reply area */
 
 .regist-reply-area {
@@ -298,13 +307,13 @@ i {
   margin-left: -200px;
 }
 
-.regist-reply-area #regist-msg {
+/*.regist-reply-area #regist-msg {
   width: 100%;
   height: 60px;
   font-size: 20px;
   line-height: 60px;
   text-align: center;
-}
+}*/
 
 
 /* chat room area */

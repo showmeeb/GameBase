@@ -78,9 +78,11 @@ public class UserDataService {
 	
 	public UserData checkAccWithEmail(UserData userdata) {
 		UserData findUserData = udDao.getByAccount(userdata.getAccount());
-		if(findUserData.getEmail().equals(userdata.getEmail())) {
-			return findUserData;
-		}
+		if(findUserData!=null) {
+			if(findUserData.getEmail().equals(userdata.getEmail())) {
+				return findUserData;
+			}
+		}		
 		return null;
 	}
 	
@@ -161,10 +163,28 @@ public class UserDataService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		UserData userData = udDao.getByLogin(account, password);
 		if (userData != null) {
-			map.put("loginUser", showUserData(userData.getAccount()));
-			map.put("UserData", userData);
-			map.put("status", true);
-			return map;
+			UsersInfo userInfo = showUserData(userData.getAccount());
+			if(userInfo.getTotal()!=null) {
+				if(userInfo.getTotal()>=10000 && userInfo.getRankId()==2) {
+					userData.setRankId(3);
+					saveUserData(userData);
+					UsersInfo newuserInfo = showUserData(userData.getAccount());
+					System.out.println("rank:"+newuserInfo.getRankId());
+					map.put("upgrade", true);
+					map.put("loginUser",newuserInfo);
+					map.put("status",true);
+					return map;
+				}else {
+					map.put("loginUser", userInfo);
+					map.put("status", true);
+					return map;
+				}
+			}else {
+				map.put("loginUser", userInfo);
+//				map.put("UserData", userData);
+				map.put("status", true);
+				return map;
+			}			
 		}
 		map.put("status", false);
 		return map;

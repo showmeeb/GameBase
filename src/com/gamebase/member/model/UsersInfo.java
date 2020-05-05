@@ -19,6 +19,7 @@ public class UsersInfo {
 	private List<UsersInfo> friendsList;
 	private String img;
 	private Integer rankId;
+	private Integer total;
 
 	@Id
 	public Integer getUserId() {
@@ -60,6 +61,14 @@ public class UsersInfo {
 
 	public void setRankId(Integer rankId) {
 		this.rankId = rankId;
+	}
+
+	public Integer getTotal() {
+		return total;
+	}
+
+	public void setTotal(Integer total) {
+		this.total = total;
 	}
 
 }

@@ -61,7 +61,7 @@ $(document).ready(function () {
       userLogin();
     }
   });
-
+  
 //**************Admin broadcast******************
   $("#admin-broadcast").click(function(){
   	console.log("got admin bro");
@@ -149,12 +149,12 @@ function userLogin() {
   var pwd = $("#login-form input[name='password']").val();
   var saveValue = $("input[name='save']").is(":checked");
 
-  $("#login-submit-btn").addClass("disable");
+  
   // empty check
   if (userAcc != "" && pwd != "") {
     var formdata = $("#login-form").serializeObject();
     var UserData = JSON.stringify(formdata);
-
+    
     //console.log("UserData:"+UserData);	 
     // for login AJAX operation use
     $.ajax({
@@ -164,6 +164,7 @@ function userLogin() {
       contentType: "application/json",
       success: function (data) {
         if (data.status == true) {
+        	$("#login-submit-btn").addClass("disable");
 //          console.log("img url:" + data.loginUser.img);
             // if user has snapshot , then use it
             if (data.loginUser.img) {
@@ -184,9 +185,12 @@ function userLogin() {
         	  });        	  
           }else{
         	  $("#login-submit-btn").parent().addClass("hidden-window", 700);
-              $("#shadow").fadeOut(700);
+        	  if(data.upgrade == true){
+        		  $(".upgrade-notification-area").removeClass("hidden-window", 700);
+        	  }else{
+        		  $("#shadow").fadeOut(700); 
+        	  }             
           }
-          
 
           // clear the form
           $(".input-group input").each(function () {
@@ -241,8 +245,8 @@ function userLogin() {
 }
 
 function sendPwd(){
-	var facc = $("#forgetPwd-form input[name='account']");
-	var femail = $("#forgetPwd-form input[name='email']");
+	var facc = $("#forgetPwd-form input[name='account']").val();
+	var femail = $("#forgetPwd-form input[name='email']").val();
 	if (facc != "" && femail != ""){
 		var forgetform = $("#forgetPwd-form").serializeObject();
 		var forgetData = JSON.stringify(forgetform);
@@ -269,6 +273,8 @@ function sendPwd(){
 		    	}
 		    } 
 		});
+	}else{
+		alert("欄位不得為空");
 	}
 }
 
@@ -358,28 +364,40 @@ $(document).ready(function () {
   
   $("#forgetPwd-form .input-group input").keypress(function (e) {
 	    if (e.key == "Enter") {
-	      userRegist();
+	    	sendPwd();
 	    }
   });
   
   $("#changePwd-form .input-group input").keypress(function (e) {
 	    if (e.key == "Enter") {
-	      userRegist();
+	    	changePwd();
 	    }
   });
 
+  // regist autocomplete 
   $("#regist-form .input-group input").keydown(function (e) {
     if (e.key == "F2") {
       // console.log("F2!!!");
-      var account = "Yixuan168589";
-      var email = "xuans8589@gmail.com";
+      var account = "Eeit11214";
+      var email = "z0963372536@gmail.com";
 
       $("#regist-form .input-group input[name='account']").val(account);
       $("#regist-form .input-group input[name='email']").val(email);
 
       $("#regist-form .input-group input[name='account']").parent().addClass("accepted-format");
       $("#regist-form .input-group input[name='email']").parent().addClass("accepted-format");
+    }
+  });
+  
+  //forgetPwd autocomplete 
+  $("#forgetPwd-form .input-group input").keydown(function (e) {
+    if (e.key == "F2") {
+      // console.log("F2!!!");
+      var account = "Eeit11214";
+      var email = "z0963372536@gmail.com";
 
+      $("#forgetPwd-form .input-group input[name='account']").val(account);
+      $("#forgetPwd-form .input-group input[name='email']").val(email);
     }
   });
 
@@ -422,11 +440,16 @@ $(document).ready(function () {
 
     history.pushState({ foo: "main" }, "", currentUrl);
   });
-
+  
+  //auto upgrade close button
+  $("#upgrade-close-btn").click(function(){
+	  $(this).parent().addClass("hidden-window", 700);
+	  $("#shadow").fadeOut(700);
+  });
 
   // regist data format check
   $("#regist-form .input-group input[name='account']").change(function () {
-    var re = /^[a-zA-Z]{1}[a-zA-Z0-9]{7,15}$/;
+    var re = /^[a-zA-Z]{1}[a-zA-Z0-9]{8,16}$/;
 
     if (re.test($(this).val())) { // accepted format
       $(this).parent().removeClass("error-format");
@@ -444,7 +467,7 @@ $(document).ready(function () {
     // empty password check area
     $("input[name='ck-pwd']").val("");
 
-    var re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d]{8,15}$/;
+    var re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d]{8,16}$/;
 
     if (re.test($(this).val())) { // accepted format
       $(this).parent().removeClass("error-format");
@@ -485,6 +508,7 @@ $(document).ready(function () {
     } else { // not-accepted format
       $(this).parent().removeClass("accepted-format");
       $(this).parent().addClass("error-format");
+      alert("信箱格式錯誤，需要有@");
     };
   });
   

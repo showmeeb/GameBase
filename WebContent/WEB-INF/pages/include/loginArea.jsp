@@ -63,13 +63,13 @@
 		</div>
 	</form>
 
-	<button class="buttonL" id="auth-code-submit-btn">送出驗證碼</button>
+	<button class="buttonL" id="auth-code-submit-btn">檢查驗證碼</button>
 </div>
 <!-- End auth code input area -->
 
 <!-- Start regist-reply area -->
 <div class="regist-reply-area popup-window hidden-window">
-	<i class="fas fa-times close-btn"></i> <i class="fa fa-user"></i> <br />
+	<i class="fas fa-times close-btn"></i> <i class="fas fa-user"></i> <br />
 	<div id="regist-msg">恭喜您，註冊成功！</div>
 	<button class="buttonL" id="return-login-btn">返回登入</button>
 </div>
@@ -125,5 +125,13 @@
 		</div>
 	</form>
 	<button class="buttonL" id="change-Pwd-btn">修改</button>
+</div>
+<!-- End dochangePwd-reply area -->
+
+<!-- Start dochangePwd-reply area -->
+<div class="upgrade-notification-area popup-window hidden-window">
+	<i class="fas fa-times close-btn"></i> <i class="fas fa-gift"></i> <br />
+	<div id="forget-msg">感謝您在本網站購物滿萬元！<br>系統已經將您升級高級會員!</div>
+	<button class="buttonL" id="upgrade-close-btn">關閉視窗</button>
 </div>
 <!-- End dochangePwd-reply area -->
