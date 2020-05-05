@@ -56,7 +56,7 @@
 						<!-- has first img -->
 						<c:if test="${not empty item.firstFigure}">
 						<div class="article_content_img">						
-						<img alt="圖片提示字串" src="${item.firstFigure}" height="100">
+						<img alt="圖片提示字串" src="${item.firstFigure}" height="150">
 						</div>
 						</c:if>
 						

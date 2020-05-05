@@ -353,7 +353,6 @@ public class ArticleController {
 		ArticleRecord record = aService
 				.queryRecordByUserIdAndTitleId(new ArticleRecord(userId, titleId));
 		result.put("record", record);
-		System.out.println("query article title record :"+record.getRecord());
 		return result;
 	}
 
