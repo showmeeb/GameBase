@@ -46,8 +46,29 @@ public class MemberAjaxController {
 	private UserDataService uService;
 	@Autowired
 	public GeneralService gService;
+
 	@Autowired
 	public ArticleService aService;
+
+
+	@PostMapping(value = "/changePwd", produces = "application/json")
+	@ResponseBody
+	public Map<String,Object> pwdChange2(@RequestBody ChangePwd pwddata, ModelMap model){
+//		System.out.println("new pwd="+pwddata.getNewPwd()+", check pwd="+pwddata.getChPwd());
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(pwddata.getNewPwd().equals(pwddata.getChPwd())) {			
+			UsersInfo login = (UsersInfo) model.get("loginUser");
+			UserData loginUserData = uService.getByUserId(login.getUserId());
+			String encryptPwd = uService.encryptString(pwddata.getNewPwd());
+			loginUserData.setPassword(encryptPwd);
+			uService.saveUserData(loginUserData);
+			map.put("status", true);
+			return map;
+		}
+		map.put("status", true);
+		return map;
+		
+	}
 	
 	@PostMapping(value = "/updatePassword", produces = "application/json")
 	@ResponseBody
@@ -151,6 +172,13 @@ public class MemberAjaxController {
 		uService.setCookie(logindata.getAccount(), logindata.getPassword(), save, request, response);
 		String pwd = uService.encryptString(logindata.getPassword());
 		Map<String, Object> map = uService.getLogin(logindata.getAccount(), pwd);
+		int numpwd = 0;
+		try {
+			numpwd = Integer.parseInt(logindata.getPassword());
+			map.put("resetPwd",true);
+		}catch(Exception e) {
+			
+		}
 		if ((boolean) map.get("status")) {
 			model.addAttribute("loginUser", (UsersInfo) map.get("loginUser"));
 			return map;

@@ -6,55 +6,6 @@ function myFunction(a) {
 	  console.log(a)    
 	}
 $(document).ready(function () {
-
-
-	//**************popover**************
-	$("[data-toggle='popover']").mouseover(function(){
-		
-		var userId = $(this).attr("id");
-
-		//防止一直存取
-		if(window.sessionStorage.getItem("uid="+userId) != null){
-//			console.log(window.sessionStorage.getItem("uid="+userId));
-			var oldUser = JSON.parse(window.sessionStorage.getItem("uid="+userId));
-//			console.log("oldUser uid = "+oldUser.userId);
-			var ocontent = "Account:"+oldUser.account+"<br>";
-			ocontent += "userId:"+ oldUser.userId+"<br>";
-			if (oldUser.img) {
-				ocontent +="img:<img src='"+oldUser.img+"'><br>";
-			}else{
-				ocontent +="img:<img src='https://i.imgur.com/ke6wdHI.jpg'><br>";
-			}
-			//popover 沒有refresh 所以必須每次都dispose( Hides and destroys the popover )
-			$("[data-toggle='popover']").popover('dispose').popover({title: "會員資料",trigger: "hover",placement: "left",html:true, content: ocontent, delay: {show: 200, hide: 1000}});
-			
-		}else{
-			
-			$.ajax({
-				contentType: "application/json",
-				url: "/GameBase/userInfo/"+userId,
-				type:"GET",
-				success:function(data){
-					var fUInfo = data.fUserInfo;
-					window.sessionStorage.setItem("uid="+userId,JSON.stringify(fUInfo));
-					var ucontent = "Account:"+fUInfo.account+"<br>";
-					ucontent += "userId:"+fUInfo.userId+"<br>";
-					if (fUInfo.img) {
-						ucontent +="img:<img src='"+fUInfo.img+"'><br>";
-					}else{
-						ucontent +="img:<img src='https://i.imgur.com/ke6wdHI.jpg'><br>";
-					}
-					$("[data-toggle='popover']").popover('dispose').popover({title: "會員資料",trigger: "hover",placement: "left" ,html:true, content: ucontent, delay: {show: 200, hide: 1000}});
-				}
-			});
-			
-		}
-
-	});
-	
-
-	
-
   if (window.sessionStorage.getItem("loginUser") != "") {
     var login = JSON.parse(window.sessionStorage.getItem("loginUser"));
 //    $(".dropdown button[name='dmb-u']").html(login.account);
@@ -186,6 +137,10 @@ $(document).ready(function () {
 	 sendPwd(); 
   });
   
+  $("#change-Pwd-btn").click(function(){
+	  changePwd();
+  })
+  
 });
 
 function userLogin() {
@@ -200,7 +155,7 @@ function userLogin() {
     var formdata = $("#login-form").serializeObject();
     var UserData = JSON.stringify(formdata);
 
-    //		 console.log("UserData:"+UserData);	 
+    //console.log("UserData:"+UserData);	 
     // for login AJAX operation use
     $.ajax({
       url: "/GameBase/loginAjax/" + saveValue,
@@ -223,8 +178,15 @@ function userLogin() {
   	      });
           
           // close login window
-          $("#login-submit-btn").parent().addClass("hidden-window", 700);
-          $("#shadow").fadeOut(700);
+          if(data.resetPwd){
+        	  $("#login-submit-btn").parent().addClass("hidden-window", 700,function(){
+        		  $(".change-Pwd-area").removeClass("hidden-window",700);
+        	  });        	  
+          }else{
+        	  $("#login-submit-btn").parent().addClass("hidden-window", 700);
+              $("#shadow").fadeOut(700);
+          }
+          
 
           // clear the form
           $(".input-group input").each(function () {
@@ -291,6 +253,10 @@ function sendPwd(){
 		                $(".forget-reply-area").removeClass("hidden-window", 700);
 		              });
 		    		$("#sendPwd img").css({ "opacity": "0" });
+		    		
+		    		$(".input-group input").each(function () {
+		                $(this).val("");
+		              });
 		    	}else{
 		    		$("#sendPwd img").css({ "opacity": "0" });
 		    		alert("帳號或信箱錯誤");
@@ -298,7 +264,48 @@ function sendPwd(){
 		    } 
 		});
 	}
-	
+}
+
+function changePwd(){
+	var inputEmptyCheck=true;
+	$("#changePwd-form .input-group input").each(function () {
+	    if ($(this).val() == "") {
+	      inputEmptyCheck = false;
+	    }
+	  });
+	if (inputEmptyCheck) {
+		 // input value format check
+		 var inputCheck = true;
+		 // check each input-group
+		 $("#changePwd-form .input-group").each(function () {
+			 if (!($(this).hasClass("accepted-format"))) {
+			    inputCheck = false;
+			 }
+		 });
+	}
+	if(inputCheck){
+		var form = $("#changePwd-form").serializeObject();
+	    // console.log("form="+form);
+	    var data = JSON.stringify(form);
+	    $.ajax({
+	    	url:"/GameBase/changePwd",
+	    	type: "POST",
+	        data: data,
+	        contentType: "application/json",
+	        success: function (data) {
+	        	if(data.status){
+	        		alert("密碼更新成功!");
+	        		$("#change-Pwd-btn").parent().addClass("hidden-window", 700);
+	        		$("#shadow").fadeOut(700);
+	        		$(".input-group input").each(function () {
+		                $(this).val("");
+		              });
+	        	}else{
+	        		alert("密碼更新失敗");
+	        	}
+	        }
+	    })
+	}
 }
 
 /* ----------------------------------------------------------- */
@@ -332,7 +339,6 @@ $(document).ready(function () {
     $("#shadow").fadeIn(700);
   });
 
-
   // regist
   $("#regist-submit-btn").click(function() {
     userRegist();
@@ -342,6 +348,18 @@ $(document).ready(function () {
     if (e.key == "Enter") {
       userRegist();
     }
+  });
+  
+  $("#forgetPwd-form .input-group input").keypress(function (e) {
+	    if (e.key == "Enter") {
+	      userRegist();
+	    }
+  });
+  
+  $("#changePwd-form .input-group input").keypress(function (e) {
+	    if (e.key == "Enter") {
+	      userRegist();
+	    }
   });
 
   $("#regist-form .input-group input").keydown(function (e) {
@@ -463,6 +481,39 @@ $(document).ready(function () {
       $(this).parent().addClass("error-format");
     };
   });
+  
+  //change pwd check
+  $("#changePwd-form .input-group input[name='newPwd']").change(function () {
+	    // empty password check area
+	    $("input[name='chPwd']").val("");
+
+	    var re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d]{8,15}$/;
+
+	    if (re.test($(this).val())) { // accepted format
+	      $(this).parent().removeClass("error-format");
+	      $(this).parent().addClass("accepted-format");
+	    } else if ($(this).val() == "") {
+	      $(this).parent().removeClass("error-format accepted-format");
+	    } else { // not-accepted format
+	      $(this).parent().removeClass("accepted-format");
+	      $(this).parent().addClass("error-format");
+	      alert("密碼格式需求：\n1.開頭第一個字母須為大小寫英文字\n2.長度需8 - 16個字");
+	    };
+	  });
+
+	  $("#changePwd-form .input-group input[name='chPwd']").change(function () {
+	    var pwd = $(this).parent().prev().children("input[name='newPwd']").val();
+	    console.log("pwd="+pwd+", ck-pwd="+$(this).val());
+	    if (pwd == $(this).val()) { // accepted format
+	      $(this).parent().removeClass("error-format");
+	      $(this).parent().addClass("accepted-format");
+	    } else if ($(this).val() == "") {
+	      $(this).parent().removeClass("error-format accepted-format");
+	    } else { // not-accepted format
+	      $(this).parent().removeClass("accepted-format");
+	      $(this).parent().addClass("error-format");
+	    };
+	  });
 
 });
 
@@ -647,7 +698,7 @@ function attachSignin(element) {
 
             // get user information
             window.sessionStorage.setItem("loginUser", JSON.stringify(data));
-
+           
             // connect and show chat room
             connectChatRoom();
             $(".chat-room-area").show();

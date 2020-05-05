@@ -15,7 +15,9 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="<c:url value="/js/mainProduct.js"/>"></script>
+<style>
 
+</style>
 </head>
 <body>
 <jsp:include page="include/backEndHomePage.jsp"></jsp:include>
@@ -32,6 +34,7 @@
 		<div id="d1">
 			<form id="f1">
 				<table id="t1">
+				<thead><tr><th>商品ID</th><th>商品影片</th><th>商品照片</th><th>商品名稱</th><th>商品類型</th><th>商品庫存</th><th>商品價錢</th><th>商品標籤</th><th>商品介紹</th><th>商品熱銷度</th><th colspan='2'>設定</th></tr></thead>
 
 
 				</table>

@@ -85,20 +85,29 @@ public class UserOrderDao {
 	}
 	
 	
-	public void orderStatus(int rtnCode,int orderId) {
+	public JSONObject orderStatus(int rtnCode,int orderId) {
 		Session session = sessionFactory.getCurrentSession();
-		System.out.println("orderId:"+orderId);
-		if(rtnCode==1) {
-			System.out.println("999");
-			UserOrder uo = (UserOrder)session.get(UserOrder.class,orderId);
-			System.out.println("99");
-			uo.setPayStatus(1);
-			System.out.println("9");
-			session.update(uo);
-			System.out.println("訂單建立成功");
-		}else {
-			System.out.println("訂單建立失敗");
+		JSONObject jobj = new JSONObject();
+		UserOrder uo = (UserOrder)session.get(UserOrder.class,orderId);
+		jobj.put("userId", uo.getUserId());
+		try {
+			System.out.println("orderId:"+orderId);
+			if(rtnCode==1) {
+				System.out.println("999");
+				
+				System.out.println("99");
+				uo.setPayStatus(1);
+				System.out.println("9");
+				session.update(uo);
+				System.out.println("訂單建立成功");
+//				jobj.put("t",this.checkRank(uo.getUserId()));
+			}else {
+				System.out.println("訂單建立失敗");
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
+		return jobj;
 	}
 
 	public JSONArray orderQuery(int id) {
@@ -187,15 +196,28 @@ public class UserOrderDao {
 //		}
 //	}
 
-	public JSONArray search(String a) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean checkRank(int userId) {
+		Session session = sessionFactory.getCurrentSession();
+		int total=0;
+		try {
+			Query<UserOrder> query = session.createQuery("from UserOrder where userId=?1",UserOrder.class);
+			query.setParameter(1,userId);
+			List<UserOrder> list = query.getResultList();
+				for(UserOrder beans:list) {
+					
+					total+=beans.getOrderPrice();
+				}
+				if(total>10000) {
+					return true;
+				}
+				return false;
+			}
+		catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
-	public JSONArray getSearch(String a) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public String makeUUID() {
 

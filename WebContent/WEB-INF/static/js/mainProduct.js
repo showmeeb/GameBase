@@ -10,7 +10,7 @@
 							$('#t1').html("");
 						},
 						success : function(response) {
-							var txt = "<tr><th>商品ID<th>商品影片<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th colspan='2'>設定";
+							var txt = "<tr><th>商品ID<th>商品影片<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th>商品熱銷度<th colspan='2'>設定";
 							for (let i = 0; i < response.length; i++) {
 								txt += "<tr><td>" + response[i].productId;
 								txt += "<td>" + response[i].productVideo;
@@ -21,6 +21,7 @@
 								txt += "<td>" + response[i].productPrice;
 								txt += "<td>" + response[i].productTag;
 								txt += "<td>" + response[i].productInfo;
+								txt += "<td>" + response[i].searchFreq;
 								txt += '<td><input type="button" id="update" value="修改">';
 								txt += '<td><input type="button" id="delete" value="刪除">';
 							}

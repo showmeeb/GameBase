@@ -660,7 +660,7 @@ $(document).on("mouseenter","#videoDiv",function(){
 		showCard(jsonResults);
 		numPage(jsonResults);
 		array = jsonResults;
-		
+		filterTypeArray(filterType,jsonResults)
 	</script>
 
 </body>
