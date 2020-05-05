@@ -207,6 +207,7 @@ $(document).on("mouseenter","#videoDiv",function(){
 		$(document).on('click', "#hotSale", function() {
 // 			resetFilter();
 			console.log(array);
+			oriArray=array;
 			for (var i = 0, l = oriArray.length; i < l; ++i) {
 				oriArray = oriArray.sort(function(a, b) {
 					return a.searchFreq < b.searchFreq ? 1 : -1;
@@ -220,6 +221,7 @@ $(document).on("mouseenter","#videoDiv",function(){
 		$(document).on('click', "#fromHigher", function() {
 // 			resetFilter();
 			console.log(array);
+			oriArray=array;
 			for (var i = 0, l = oriArray.length; i < l; ++i) {
 				oriArray = oriArray.sort(function(a, b) {
 					return a.productPrice < b.productPrice ? 1 : -1;
@@ -233,6 +235,7 @@ $(document).on("mouseenter","#videoDiv",function(){
 		$(document).on('click', "#fromLower", function() {
 // 			resetFilter();
 			console.log(array);
+			oriArray=array;
 			for (var i = 0, l = oriArray.length; i < l; ++i) {
 				oriArray = oriArray.sort(function(a, b) {
 					return a.productPrice > b.productPrice ? 1 : -1;
