@@ -218,7 +218,8 @@ function userLogin() {
             }
             
           $(".login-btn").addClass("disable",700,function(){
-  	            $(".loggedin-icon").removeClass("disable",700);
+  	          $(".loggedin-icon").removeClass("disable",700);
+  	          $(".loggedin-icon img").removeClass("disable",700);
   	      });
           
           // close login window
@@ -435,7 +436,7 @@ $(document).ready(function () {
 
   $("#regist-form .input-group input[name='ck-password']").change(function () {
     var pwd = $(this).parent().prev().children("input[name='password']").val();
-
+    console.log("pwd="+pwd+", ck-pwd="+$(this).val());
     if (pwd == $(this).val()) { // accepted format
       $(this).parent().removeClass("error-format");
       $(this).parent().addClass("accepted-format");
@@ -446,20 +447,6 @@ $(document).ready(function () {
       $(this).parent().addClass("error-format");
     };
   });
-  /*
- * $("#regist-form .input-group input[name='name']").change(function(){ var
- * reC = /^[\u4E00-\u9FA5]{2,7}$/; var reE =
- * /^[A-Z]+\s{1}[A-Z]+(\s{0,1}[A-Z]+)*$/;
- * 
- * if(reC.test($(this).val()) || reE.test($(this).val())){ // accepted
- * format $(this).parent().removeClass("error-format");
- * $(this).parent().addClass("accepted-format"); } else if($(this).val() ==
- * ""){ $(this).parent().removeClass("error-format accepted-format"); } else { //
- * not-accepted format $(this).parent().removeClass("accepted-format");
- * $(this).parent().addClass("error-format");
- * alert("名稱格式需求：\n1.中文名字需2個字以上\n2.英文名字需比照護照格式全部大寫\n3.英文名字需兩個字節或三個字節"); };
- * });
- */
 
   $("#regist-form .input-group input[name='email']").change(function () {
     var reShort = /^[a-zA-Z]{1}[\w-]+@[a-z0-9]+\.[a-z]+$/;

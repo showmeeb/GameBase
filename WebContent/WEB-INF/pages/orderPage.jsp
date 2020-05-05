@@ -33,8 +33,11 @@
 #du1 img {
 	width: 70px
 }
-#d1{width: 70%; margin:auto; padding:0}
+#orderDiv{
+width: 1200px;height:700px; margin:auto; padding:0;
+background: rgb(255, 234, 223,0.6)
 
+}
 
 #total{color:red}
 </style>
@@ -44,7 +47,7 @@
 	<jsp:include page="topBar.jsp" />
 	
 	
-	<div id="d1">
+	<div id="orderDiv">
 	<h1>訂單紀錄</h1>
 	
 		<table class="table table-hover">
@@ -113,13 +116,10 @@
 			</div>
 		</div>
 	</div>
+<!-- FOOTER -->
+	<jsp:include page="footer.jsp" />
 <script type="text/javascript">
 
-//[{ a: 1},{ b: 2},{ c: 3}].reduce(function(result, item) {
-//	  var key = Object.keys(item)[0]; //first property: a, b, c
-//	  result[key] = item[key];
-//	  return result;
-//	}, {});
 
 function showOrder(response){
 	
