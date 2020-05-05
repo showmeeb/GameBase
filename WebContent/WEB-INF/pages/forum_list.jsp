@@ -200,7 +200,7 @@ $(document).ready(function(){
 	<!-- top bar -->
 	<jsp:include page="topBar.jsp" />
 	
-	<c:if test="${loginUser.rankId==2}"><!-- rank = 2 可編輯-->
+	<c:if test="${loginUser.rankId>=2}"><!-- rank = 2 可編輯-->
 	<!-- forum title bar -->
 	<nav class="navbar navbar-expand-sm bg-light forum_topbar">
 		<ul class="nav justify-content-end">

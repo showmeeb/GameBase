@@ -274,11 +274,12 @@ public class ArticleController {
 //		j.put("jtitle", title);
 		model.addAttribute("title", title);
 //		model.addAttribute("jforumdata", j);
-		/* get user data *//* ?暫時沒用到 */
-		UserData userData = (UserData) model.getAttribute("UserData");
-		if (userData != null) {
+		/* get user data *//* 無法抓到loginUser */
+		UsersInfo myUser = (UsersInfo) model.get("loginUser");
+		System.out.println("myUser:"+myUser);
+		if (myUser != null) {
 			/* query user friends */
-			List<Friends> friends = aService.queryFriendsByUserId((Integer) userData.getUserId());
+			List<Friends> friends = aService.queryFriendsByUserId((Integer) myUser.getUserId());
 			if (friends != null && friends.size() != 0) {
 				model.addAttribute("friends", friends);
 				System.out.println("friends list found!!");
@@ -302,7 +303,6 @@ public class ArticleController {
 			model.addAttribute("contentList", "");
 		}
 		/* query user record */
-		UsersInfo myUser = (UsersInfo) model.getAttribute("loginUser");
 		if (myUser != null) {
 			ArticleRecord record = aService
 					.queryRecordByUserIdAndTitleId(new ArticleRecord((Integer) model.getAttribute("userId"), titleId));
@@ -351,8 +351,9 @@ public class ArticleController {
 		JSONObject result = new JSONObject();
 		/* query record */
 		ArticleRecord record = aService
-				.queryRecordByUserIdAndTitleId(new ArticleRecord((Integer) model.getAttribute("userId"), titleId));
+				.queryRecordByUserIdAndTitleId(new ArticleRecord(userId, titleId));
 		result.put("record", record);
+		System.out.println("query article title record :"+record.getRecord());
 		return result;
 	}
 
