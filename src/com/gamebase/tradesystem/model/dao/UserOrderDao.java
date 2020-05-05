@@ -71,10 +71,10 @@ public class UserOrderDao {
 		order.setMerchantTradeDate(String.valueOf(sdFormat.format(date)));
 		order.setPaymentType("aio");
 		order.setTotalAmount(String.valueOf(uo.getOrderPrice()));//前端引入
-		order.setTradeDesc("Game");//不能中文
-		order.setItemName("Game1");//不能中文前端引入
-		order.setReturnURL("http://1363db3d.ngrok.io/GameBase/shoppingCart/orderStatus");
-		order.setClientBackURL("http://1363db3d.ngrok.io/GameBase/shoppingPage");
+		order.setTradeDesc("GameBase");//不能中文
+		order.setItemName("Please check your payment's detail in  Emailbox");//不能中文前端引入
+		order.setReturnURL("http://88557c63.ngrok.io/GameBase/shoppingCart/orderStatus");
+		order.setClientBackURL("http://88557c63.ngrok.io/GameBase/shoppingPage");
 		String str = Ecpay.aioCheckOut(order, invoice);
 		System.out.println(str);
 		return str;
@@ -123,8 +123,9 @@ public class UserOrderDao {
 				jobj.put("orderPhone", beans.getOrderPhone());
 				jobj.put("orderAddress", beans.getOrderAddress());
 				jobj.put("orderPrice", beans.getOrderPrice());
-				jobj.put("orderDate", beans.getOrderDate());
+				jobj.put("orderDate", String.valueOf(beans.getOrderDate()));
 				jobj.put("payStatus", beans.getPayStatus());
+				jobj.put("orderEmail", beans.getOrderEmail());
 				System.out.println("orderId:"+beans.getOrderId());
 				Query<OrderDetail> query1 = session.createQuery("from OrderDetail where orderId=?1",OrderDetail.class);
 				query1.setParameter(1,(int)beans.getOrderId());

@@ -34,7 +34,7 @@
 	width: 70px
 }
 #orderDiv{
-width: 1200px;height:700px; margin:auto; padding:0;
+width: 1400px;height:700px; margin:auto; padding:0;
 background: rgb(255, 234, 223,0.6)
 
 }
@@ -54,14 +54,15 @@ background: rgb(255, 234, 223,0.6)
 			  <thead class="thead-dark">
 			    <tr>
 			      <th scope="col">No.</th>
-			      <th scope="col">orderId</th>
-			      <th scope="col">uuId</th>
-				  <th scope="col">orderName</th>
-				  <th scope="col">orderPhone</th>
-				  <th scope="col">orderAddress</th>
-				  <th scope="col">orderPrice</th>
-				  <th scope="col">orderDate</th>
-				  <th scope="col">payStatus</th>
+			      <th scope="col">OrderId</th>
+			      <th scope="col">UuId</th>
+				  <th scope="col">OrderName</th>
+				  <th scope="col">OrderPhone</th>
+				  <th scope="col">OrderAddress</th>
+				  <th scope="col">OrderPrice</th>
+				  <th scope="col">OrderDate</th>
+				  <th scope="col">PayStatus</th>
+				  <th scope="col">OrderEmail</th>
 			    </tr>
 			  </thead>
 			  <tbody id="tb1">
@@ -145,7 +146,7 @@ function showOrder(response){
 		
 	var txt = "<tr id='orderDetail' data-toggle='modal' data-target='#exampleModalCenter'>";
 	txt += "<th scope='row'>"+i+1+"</th>";
-	txt += "<td><span id='orderDetail1' style='display:none'>"+arrayS;
+	txt += "<td style='display:none'><span id='orderDetail1' >"+arrayS;
 	txt += "<td>"+response[i].orderId;
 	txt += "<td>"+response[i].uuId;
 	txt += "<td>"+response[i].orderName;
@@ -154,6 +155,7 @@ function showOrder(response){
 	txt += "<td>"+response[i].orderPrice;
 	txt += "<td>"+response[i].orderDate;
 	txt += "<td>"+response[i].payStatus;
+	txt += "<td>"+response[i].orderEmail;
 	$('#tb1').append(txt);
 	}
 	

@@ -17,8 +17,8 @@
 <!-- TopBAR -->
 	<jsp:include page="topBar.jsp" />
 	
-	<div id="imgb1"></div>
-	<div id="imgb2"></div>
+	<div id="imgb1" onclick="window.open('https://www.unchartedthegame.com/en-us/','asd','_blank')"></div>
+	<div id="imgb2" onclick="window.open('https://www.playstation.com/cht-tw/games/death-stranding-ps4/','asd','_blank')"></div>
 <!-- 顯示商品區塊 -->
 	<div id="dt1">
 		<form>
