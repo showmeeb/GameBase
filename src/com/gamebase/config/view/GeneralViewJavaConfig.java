@@ -24,20 +24,12 @@ public class GeneralViewJavaConfig {
 	}
 
 	@Bean
-	public View indexBackup() {
+	public View searchForum() {
 		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/indexBackup.jsp");
+		view.setUrl("/WEB-INF/pages/searchForum.jsp");
 		return view;
 	}
 
-	@Bean
-	public View searchResults() {
-		InternalResourceView view = new InternalResourceView();
-		view.setUrl("/WEB-INF/pages/searchResults.jsp");
-		return view;
-	}
-
-	
 	@Bean
 	public View analytic() {
 		InternalResourceView view = new InternalResourceView();

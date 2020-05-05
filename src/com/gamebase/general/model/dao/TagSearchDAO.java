@@ -29,7 +29,7 @@ public class TagSearchDAO {
 
 		if (looking.equals("forProduct")) {
 			jsonString = searchProduct(keyword);
-		} else if (looking.equals("")) {
+		} else if (looking.equals("forArticle")) {
 		}
 
 		return jsonString;

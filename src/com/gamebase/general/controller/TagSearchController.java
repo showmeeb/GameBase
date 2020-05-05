@@ -18,22 +18,25 @@ public class TagSearchController {
 	@Autowired
 	private TagSearchService tagSearchService;
 
-
 	@RequestMapping(value = "/tagSearch", method = RequestMethod.GET)
 	public String tagSearch(@RequestParam("looking") String looking, @RequestParam("keyword") String keyword,
 			Model model) {
 
-		//String jsonStr = tagSearchService.tagSearch(looking, keyword);
-		
-		if(!keyword.equals(null) && keyword!="") {
-		String jsonStr = tagSearchService.tagSearchByFuzzy("Product", "productName productTag productInfo", keyword);
+		String jsonStr = "", returnView = "indexPage";
+
+		if (!keyword.equals(null) && keyword != "" && looking.equals("forProduct")) {
+			jsonStr = tagSearchService.tagSearchByFuzzy("Product", "productName productTag", keyword);
+			returnView="shoppingPage";
+		}else if (!keyword.equals(null) && keyword != "" && looking.equals("foForumr")) {
+			jsonStr = tagSearchService.tagSearchByFuzzy("ArticleListView", "titleName content", keyword);
+			returnView="searchForum";			
+		}
 
 		model.addAttribute("results", jsonStr);
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("looking", looking);
-		}
-		
-		return "shoppingPage";
+
+		return returnView;
 	}
 
 	@RequestMapping(value = "/autoComplete", method = RequestMethod.POST)
@@ -42,8 +45,7 @@ public class TagSearchController {
 		Set<String> returnSet = tagSearchService.autoComplete();
 		return returnSet;
 	}
-	
-	
+
 	@RequestMapping(value = "/searchFreq", method = RequestMethod.GET)
 	@ResponseBody
 	public String searchFreq() {
@@ -52,7 +54,7 @@ public class TagSearchController {
 		System.out.println(returnString);
 		return returnString;
 	}
-	
+
 	@RequestMapping(value = "/searchArticleClick", method = RequestMethod.GET)
 	@ResponseBody
 	public String searchArticleClick() {
