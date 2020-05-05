@@ -54,7 +54,7 @@ div.forum_forum {
 	width: 80%;
 	margin: 10px auto;
 	padding: 10px;
-	border: 1px solid DodgerBlue;
+/* 	border: 1px solid DodgerBlue; */
 	border-radius: 10px;
 	overflow: hidden; /*避免float跑框*/
 	background-image: url(""),
