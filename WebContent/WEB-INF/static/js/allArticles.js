@@ -4,44 +4,44 @@
 			$(document).on("click","#s",function() {
 				var forum = $("#option").val();
 				var title = $("#sBar").val();
-
-			$.ajax({
-				type : "POST",
-				url : "GameBase/getSomeArticles",
-				dataType : "json",
-				data : {
-					forum : forum,
-					title : title
+				$.ajax({
+					type : "POST",
+					url : "GameBase/getSomeArticles",
+					dataType : "json",
+					beforesend : function() {
+						$('#rTable').html("");
+						},
+					data:{
+						forum:forum,
+						title:title
 					},
-				beforesend : function() {
-					$('#rTable').html("");
-					$('#cTable').html("");
-					},
-				success : function(response) {
-					console.log("hh");
-					var rTable = "<thead><tr><th><th>文章ID<th>主題<th>文章標題<th>發文時間</thead><tbody>";
-					
-					for (let i = 0; i < response.articles.length; i++) {
-					rTable += '<tr class="tr"><td><input type="radio" id="radio" class="del d-none" name="d" value="response.articles[i].titleId">';
-					rTable += '<td scope="row">'+ (i+1);
-					if (response.articles[i].forumId == 1) {
-						rTable += "<td>英雄聯盟"
-						} else if (response.articles[i].forumId == 2) {
-						rTable += "<td>魔獸世界"
-						} else if (response.articles[i].forumId == 3) {
-						rTable += "<td>魔物獵人"
+					success : function(response) {
+						console.log("hh");
+						var rTable = "<thead><tr><th><th>文章ID<th>主題<th>文章標題<th>發文時間</thead><tbody>";
+						
+						for (let i = 0; i < response.articles.length; i++) {
+						rTable += '<tr class="tr"><td><input type="radio" class="radio del d-none" name="d" value="response.articles[i].titleId">';
+						rTable += '<td scope="row">'+ (i+1);
+						if (response.articles[i].forumId == 1) {
+							rTable += "<td>英雄聯盟"
+							} else if (response.articles[i].forumId == 2) {
+							rTable += "<td>魔獸世界"
+							} else if (response.articles[i].forumId == 3) {
+							rTable += "<td>魔物獵人"
+								}
+						rTable += "<td>"+ response.articles[i].titleName;
+						rTable += "<td>"+ response.articles[i].createTime;
+						rTable += "<td>"+ response.articles[i].titleId;
+						rTable += "<td>"+ response.articles[i].forumId;
 							}
-					rTable += "<td>"+ response.articles[i].titleName;
-					rTable += "<td>"+ response.articles[i].createTime;
-					rTable += "<td>"+ response.articles[i].titleId;
-					rTable += "<td>"+ response.articles[i].forumId;
+						rTable +="<tbody>"
+						$('#rTable').html(rTable);
+						$("#del").addClass("d-none").removeClass("d-block");
+						$("#toDel").addClass("d-none").removeClass("d-block");
+						
 						}
-					$('#rTable').html(rTable);
-					$("#del").addClass("d-none").removeClass("d-block");
-					$("#toDel").addClass("d-none").removeClass("d-block");
-					
-					}
-				});
+					});
+			
 			})
 			
 			
@@ -52,45 +52,45 @@
 						dataType : "json",
 						beforesend : function() {
 							$('#rTable').html("");
-							$('#cTable').html("");
 							},
 						success : function(response) {
 							console.log("hh");
-							var rTable = "<thead><tr><th>文章ID<th>主題<th>文章標題<th>發文時間</thead><tbody>";
-							var cTable = "<thead><tr><th></thead><tbody>"
+							var rTable = "<thead><tr><th><th>文章ID<th>主題<th>文章標題<th>發文時間</thead><tbody>";
+							
 							for (let i = 0; i < response.articles.length; i++) {
-								rTable += '<tr class="tr"><td scope="row">'+ (i+1);
-									if (response.articles[i].forumId == 1) {
-										rTable += "<td>英雄聯盟"
-										} else if (response.articles[i].forumId == 2) {
-										rTable += "<td>魔獸世界"
-										} else if (response.articles[i].forumId == 3) {
-										rTable += "<td>魔物獵人"
+								rTable += '<tr class="tr"><td><input type="radio" class="radio del d-none" name="d">';
+								rTable += '<td scope="row">'+ (i+1);
+								if (response.articles[i].forumId == 1) {
+									rTable += "<td>英雄聯盟"
+									} else if (response.articles[i].forumId == 2) {
+									rTable += "<td>魔獸世界"
+									} else if (response.articles[i].forumId == 3) {
+									rTable += "<td>魔物獵人"
 										}
-										rTable += "<td>"+ response.articles[i].titleName;
-										rTable += "<td>"+ response.articles[i].createTime;
-										rTable += "<td>"+ response.articles[i].titleId;
-										rTable += "<td>"+ response.articles[i].forumId;
-										cTable += '<tr><td><input type="radio" class="del d-none" name="d" value="a[i].userId">'
-										}
-										$('#rTable').html(rTable);
-										$('#cTable').html(cTable);
-										$("#del").addClass("d-none").removeClass("d-block");
-										$("#toDel").addClass("d-none").removeClass("d-block");
-										},
-											});
-								})
+								rTable += "<td>"+ response.articles[i].titleName;
+								rTable += "<td>"+ response.articles[i].createTime;
+								rTable += "<td>"+ response.articles[i].titleId;
+								rTable += "<td>"+ response.articles[i].forumId;
+									}
+								rTable +="<tbody>"
+								$('#rTable').html(rTable);
+								$("#del").addClass("d-none").removeClass("d-block");
+								$("#toDel").addClass("d-none").removeClass("d-block");
 								
-							//按下文章可在旁邊顯示文章畫面(iframe)	
-							$(document).on("click", ".tr", function() {
-								var forumid = $(this).children().eq(5).text();
-								var articleid = $(this).children().eq(6).text();
+								}
+							});
+					})
 								
-								console.log(forumid+"~"+articleid);
-								$("#iframe").attr("src","http://localhost:8080/GameBase/forum_test/"+forumid+"/"+articleid);
-								iframe(forumid,articleid);
-																})
-		})
+		//按下文章可在旁邊顯示文章畫面(iframe)	
+		$(document).on("click", ".tr", function() {
+			var forumid = $(this).children().eq(6).text();
+			var articleid = $(this).children().eq(5).text();
+								
+			console.log(forumid+"~"+articleid);
+			$("#iframe").attr("src","http://localhost:8080/GameBase/forum_test/"+forumid+"/"+articleid);
+
+		})										
+		
 
 
 		//sideBar刪除文章增加刪除選項
@@ -103,24 +103,69 @@
 		})
 		
 		//radio選取
-		$("#radio").change(function(){
-			var checked=$("[name=d]:checked");
-			console.log($(this));
-			console.log(checked.val());
-			console.log("aaaaaaaaaaaaaaaaaaaaaaa");
+		$(document).on("change",".radio",function(){
+			var forumname=$(this).parent().siblings().eq(1).text();
+			var titlename=$(this).parent().siblings().eq(2).text();
+			var forumid=$(this).parent().siblings().eq(5).text();
+			var titleid=$(this).parent().siblings().eq(4).text();
+			var userId=$("#userId");
 			
-			
-		})
-		
-		//按下確定刪除
-		$(document).on("click", "#sureToDel", function() {
+			if(forumid==""){
+				alert("請選擇要刪除的文章")
+			}else{
+				//顯示組態框確認刪除
+				$("#forumname").text("文章主題 : "+forumname);
+				$("#articlename").text("文章標題 : "+titlename);
+				$("#modalbtn").click();
+				$("#sureToDel").click(function(){
+					console.log("點擊確定刪除");
+				//刪除文章(ArticleContent-->[ArticleRecord]-->ArticleTitle)
+					$.ajax({
+						type : "POST",
+						url : "GameBase/delArticleFromBack",
+						dataType : "json",
+						beforesend : function() {
+							$('#rTable').html("");
+							},
+						data:{
+							forumid:forumid,
+							titleid:titleid							
+							},
+						success : function(response) {																							
+								var rTable = "<thead><tr><th><th>文章ID<th>主題<th>文章標題<th>發文時間</thead><tbody>";
+								
+								for (let i = 0; i < response.articles.length; i++) {
+									rTable += '<tr class="tr"><td><input type="radio" class="radio del d-none" name="d">';
+									rTable += '<td scope="row">'+ (i+1);
+									if (response.articles[i].forumId == 1) {
+										rTable += "<td>英雄聯盟"
+										} else if (response.articles[i].forumId == 2) {
+										rTable += "<td>魔獸世界"
+										} else if (response.articles[i].forumId == 3) {
+										rTable += "<td>魔物獵人"
+											}
+									rTable += "<td>"+ response.articles[i].titleName;
+									rTable += "<td>"+ response.articles[i].createTime;
+									rTable += "<td>"+ response.articles[i].titleId;
+									rTable += "<td>"+ response.articles[i].forumId;
+										}
+									rTable +="<tbody>"
+									$('#rTable').html(rTable);
+									$("#del").addClass("d-none").removeClass("d-block");
+									$("#toDel").addClass("d-none").removeClass("d-block");
+									$("#iframe").removeAttr("src");
+									
+						}							
 						
-		})		
-		
+					})					
+				});								
+			}
+		})					
+	})		
 
 		//可以去掉 顯示順序還有問題
 		function dtopBar(){
-				console.log("delete----------------------");
+//				console.log("delete----------------------");
 				$("#iframe").contents().find('#topBar').addClass("d-none");
 				showIframe();
 			}
@@ -128,4 +173,4 @@
  			$("#iframe").addClass("d-block").delay(5000).queue(function(){
  				$(this).removeClass("d-none").dequeue()});
 			}
-		
+					
