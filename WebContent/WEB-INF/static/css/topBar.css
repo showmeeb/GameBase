@@ -216,6 +216,7 @@ iframe {
 
 .card-img-top {
 	height: 250px;
+	cursor: pointer;
 }
 
 .selectBarBtn {
@@ -270,7 +271,7 @@ iframe {
 	bottom: -120px;
   	right: 0px;
   	z-index:13;
-	
+	cursor: pointer;
 	}
 #imgb2 {
 	
@@ -283,6 +284,7 @@ iframe {
 	bottom: -120px;
   	left: 0px;
 	z-index:13;
+	cursor: pointer;
 	}
 #container{ 
 	position:relative;
@@ -295,6 +297,11 @@ iframe {
   	height:400px;
 }
 #switchDiv div{margin-top: 10px;}
-#videoDiv {width:320px;height:450px; float:left;margin:30px 0px 10px 0px; text-align: center;
+#videoDiv {
+	width:320px;height:450px; 
+	float:left;
+	margin:30px 0px 10px 0px;
+	text-align: center;
 	display:block;
+	cursor: pointer;
 }

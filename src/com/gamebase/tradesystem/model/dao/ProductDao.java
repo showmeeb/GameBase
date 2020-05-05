@@ -81,6 +81,7 @@ public class ProductDao implements IProductDao {
 			jobj.put("productPrice", beans.getProductPrice());
 			jobj.put("productTag", beans.getProductTag());
 			jobj.put("productInfo", beans.getProductInfo());
+			jobj.put("searchFreq", beans.getSearchFreq());
 			jsonArray.add(jobj);
 		}
 		System.out.println(jsonArray);

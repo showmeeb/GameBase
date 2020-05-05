@@ -81,6 +81,7 @@ div, tr, td, th {
 }
 
 #discountDiv img{
+	float:
 	width:120px;
 	height:120px;
 }
@@ -254,6 +255,10 @@ $(document).on("mouseenter","#rank",function(){
 						var id = user.userId;
 
 						switch (user.rankId) {
+						  case 0:
+							  $('#rank').html("管理員");
+							  discount=0;
+						    	break;
 						  case 1:
 							  $('#rank').html("未認證會員");
 							  discount=1;
@@ -481,6 +486,8 @@ $(document).on("mouseenter","#rank",function(){
 					success : function(response) {
 						console.log(response);
 						document.write(response);
+// 						window.open()
+// 						window.sessionStorage.setItem("page",response);
 					}
 				});
 			}
