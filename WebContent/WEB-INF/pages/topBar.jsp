@@ -72,11 +72,10 @@
 
 <style>
     #foldBar {
-      background-color: rgb(190, 190, 190);
+      background-color: rgb(255,255,221);
       height: 47.5px;
-
     }
-
+    
     .foldableBar {
       border-radius: 25px;
       margin-left: 35%;
@@ -141,6 +140,7 @@
       z-index: 5;
     }
 
+
     .z-index10 {
       z-index: 10;
     }
@@ -148,7 +148,7 @@
     .foldBtn {
       height: 48px;
       margin-left: -6%;
-      background-color: white;
+      background-color: rgb(255,255,221);
       border-radius: 25px 0 0 25px;
       border: 0.5px black solid;
     }
@@ -157,7 +157,7 @@
       height: 48px;
       position: absolute;
       margin-left: 81%;
-      background-color: white;
+      background-color: rgb(255,255,221);
       border-radius: 0 25px 25px 0;
       z-index: 12;
       border: 0.5px black solid;
@@ -185,12 +185,19 @@
 	  border: 0.5px solid black;
       position: absolute;
       height: 40px;
-      margin-left: -10px;      
-    }
+      margin-left: -10px; 
+   	  background-color: rgb(200,240,115);
+      }
 
     .inputMargin {
       margin-left: 70px;
       margin-right: 5px;
+    border: 1px solid black;
+    }
+    
+    .btnColor{
+    background-color: rgb(255,255,221);
+    border: 1px solid black;
     }
 </style>
 </head>
@@ -221,7 +228,7 @@
 			<!--搜尋列-->
 			<div class="col-md-6 column ">
 
-				<button class="btn btn-info selectLookBtn">找商品</button>
+				<button class="btn selectLookBtn">找商品</button>
 
 				<form action="<c:url value="/tagSearch"/>" method="get"
 					class="form-inline">
@@ -231,26 +238,26 @@
 					</select> <input class="form-control inputMargin" type="search"
 						placeholder="搜尋" aria-label="Search" name="keyword"
 						value="${keyword}" id="searchInput" style="width: 200px">
-					<button class="btn btn-outline-dark search-submit-btn"
+					<button class="btn btnColor search-submit-btn"
 						type="submit">Search</button>
 				</form>
 			</div>
 			<!--討論區連結-->
 			<div class="col-md-5 column ">
 				<a href="<c:url value="/forum_test"/>">
-					<button class="btn btn-success topBarBtn " type="submit">討論區</button>
+					<button class="btn btnColor topBarBtn " type="submit">討論區</button>
 				</a> <a class=""
 					href="<c:url value="/tagSearch?looking=forProduct&keyword=ps4" />">
-					<button class="btn btn-success topBarBtn" type="submit">商城</button>
+					<button class="btn btnColor topBarBtn" type="submit">商城</button>
 				</a> <a href="<c:url value="/orderPage"/>">
-					<button class="btn btn-success topBarBtn " type="submit">訂單查詢</button>
+					<button class="btn btnColor topBarBtn " type="submit">訂單查詢</button>
 				</a>
 
 			</div>
 		</div>
 
 		<!-- 購物車 -->
-		<button class="btn btn-warning shoppingCartBtn" type="submit">
+		<button class="btn btnColor shoppingCartBtn" type="submit">
 			<i class="fas fa-shopping-cart fa-2x"></i>
 		</button>
 
@@ -338,6 +345,8 @@
 		if ("${looking}" == "foForumr") {
 			$("#lookingFor").val("foForumr")
 			$(".selectLookBtn").html("找文章")
+			$(this).css("background-color","rgb(255,174,200)")
+			
 		}
 
 		//以下為foldBar狀態判斷
@@ -400,7 +409,9 @@
 						$("#lookingFor").val("foForumr");
 						$("#searchInput").autocomplete({
 							source : ""
+								
 						});
+						$(this).css("background-color","rgb(255,174,200)")
 
 					} else {
 						$(this).html("找商品");
@@ -408,7 +419,8 @@
 						$("#searchInput").autocomplete({
 							source : autoCompleteData
 						})
-
+						$(this).css("background-color","rgb(200,240,115)")
+						
 					}
 				})
 	</script>

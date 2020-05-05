@@ -1,7 +1,7 @@
 
 		//載入畫面--顯示sidebar選項
 		$(document).ready(function() {
-			$("#admin-mamber").removeClass("d-none").addClass("d-block");
+			$("#admin-member").removeClass("d-none").addClass("d-block");
 		
 
 		//載入畫面--顯示所有會員列表
