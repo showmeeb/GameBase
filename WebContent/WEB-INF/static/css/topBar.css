@@ -2,7 +2,7 @@
 body{background-color: rgb(245, 245, 245);}
 
 .topBarFixed {
-	background-color: black;
+	background-color: black;  
 	position: sticky;
 	top: 0;
 	left: 0;
@@ -10,6 +10,7 @@ body{background-color: rgb(245, 245, 245);}
 	height: 120px;
 	z-index: 25;
 	margin-bottom: 10px;
+	overflow: hidden;
 }
 
 .shot {
