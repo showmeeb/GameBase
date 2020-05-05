@@ -110,6 +110,8 @@ body{background-color: rgb(245, 245, 245);}
 .pageBnt {
 	height: 99%;
 	border: none;
+	width: 40px;
+	
 }
 
 .pageLi {

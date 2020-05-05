@@ -9,6 +9,11 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+<style>
+#pageUl{overflow: hidden;}
+
+</style>
 </head>
 
 
@@ -111,7 +116,7 @@
 
 						</div>
 						<div class="col-6 align-self-center">
-							<ul class="pagination justify-content-center" id="pageUl"></ul>
+							<ul class="pagination" id="pageUl"></ul>
 						</div>
 					</div>
 				</div>
@@ -207,6 +212,7 @@ $(document).on("mouseenter","#videoDiv",function(){
 		$(document).on('click', "#hotSale", function() {
 // 			resetFilter();
 			console.log(array);
+			oriArray=array;
 			for (var i = 0, l = oriArray.length; i < l; ++i) {
 				oriArray = oriArray.sort(function(a, b) {
 					return a.searchFreq < b.searchFreq ? 1 : -1;
@@ -220,6 +226,7 @@ $(document).on("mouseenter","#videoDiv",function(){
 		$(document).on('click', "#fromHigher", function() {
 // 			resetFilter();
 			console.log(array);
+			oriArray=array;
 			for (var i = 0, l = oriArray.length; i < l; ++i) {
 				oriArray = oriArray.sort(function(a, b) {
 					return a.productPrice < b.productPrice ? 1 : -1;
@@ -233,6 +240,7 @@ $(document).on("mouseenter","#videoDiv",function(){
 		$(document).on('click', "#fromLower", function() {
 // 			resetFilter();
 			console.log(array);
+			oriArray=array;
 			for (var i = 0, l = oriArray.length; i < l; ++i) {
 				oriArray = oriArray.sort(function(a, b) {
 					return a.productPrice > b.productPrice ? 1 : -1;
@@ -487,14 +495,48 @@ $(document).on("mouseenter","#videoDiv",function(){
 //-----------------顯示分頁數量-------------------
 		function numPage(response) {
 			var pageNum = Math.ceil(response.length / pageItem);
-
+			var maxPage=pageNum;
+			if (pageNum>9){maxPage=9}
+			
 			var pageTxt = "";
-			for (i = 1; i <= pageNum; i++) {
+			
+			for (i = 1; i <= maxPage; i++) {
 				pageTxt += '<li class="pageLi"><button id="'+i+'" class="btn btn-light pageBnt">'
 						+ i + '</button></li>'
 			}
 			$("#pageUl").html(pageTxt);
+			
+			window.sessionStorage.setItem("pageNum", pageNum);
+			window.sessionStorage.setItem("maxPage", maxPage);
 		}
+		
+		
+		$(document).on('click','.pageBnt',function(){
+			var pageNum=window.sessionStorage.getItem("pageNum");
+			var maxPage=window.sessionStorage.getItem("maxPage");
+			
+			var pageTxt = "";
+			
+			if(pageNum>9 && this.id>5){
+				for (i = this.id-4; i <= this.id+5; i++) {
+					if(i<=pageNum){
+					pageTxt += '<li class="pageLi"><button id="'+i+'" class="btn btn-light pageBnt">'
+							+ i + '</button></li>'
+					
+				}}
+				$("#pageUl").html(pageTxt);
+			}
+			
+			if(pageNum>9 && this.id<=5){
+				for (i = 1; i <= maxPage; i++) {
+					pageTxt += '<li class="pageLi"><button id="'+i+'" class="btn btn-light pageBnt">'
+							+ i + '</button></li>'
+				$("#pageUl").html(pageTxt);
+			}}
+		})
+		
+		
+		
 //-----------------切換分頁-------------------
 		function changePage(array, toPage) {
 
@@ -654,7 +696,7 @@ $(document).on("mouseenter","#videoDiv",function(){
 
 			}
 			
-//-----------------??-------------------
+//----------------topbar搜尋資料處理-------------------
 		var jsonResults = JSON.parse(JSON.stringify(${ results }));
 		console.log(jsonResults);
 		showCard(jsonResults);

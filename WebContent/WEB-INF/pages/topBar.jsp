@@ -320,25 +320,26 @@
 			url : '<c:url value="/autoComplete"/>',
 			type : "POST",
 			success : function(data) {
-				window.sessionStorage.setItem("myData", JSON.stringify(data));
 				$("#searchInput").autocomplete({
-					source : data
+					source :  function(req, response) {
+					    var results = $.ui.autocomplete.filter(data, req.term);
+
+					    response(results.slice(0, 10));
+					   }
+					
+					
 				});
 			}
 		});
 
 		$("select#lookingFor").change(
 				function() {
-					var autoCompleteData = JSON.parse(window.sessionStorage
-							.getItem("myData"));
+				
 					if ($(this).val() != "forProduct") {
-						$("#searchInput").autocomplete({
-							source : ""
-						});
+						$("#searchInput").autocomplete("disable");
+						
 					} else {
-						$("#searchInput").autocomplete({
-							source : autoCompleteData
-						})
+						$("#searchInput").autocomplete("enable");
 					}
 				});
 
@@ -346,7 +347,7 @@
 			$("#lookingFor").val("foForumr")
 			$(".selectLookBtn").html("找文章")
 			$(this).css("background-color","rgb(255,174,200)")
-			
+			$("#searchInput").autocomplete("disable");
 		}
 
 		//以下為foldBar狀態判斷
@@ -401,26 +402,17 @@
 		//找什麼的按鈕
 		$(".selectLookBtn").click(
 				function() {
-
-					var autoCompleteData = JSON.parse(window.sessionStorage
-							.getItem("myData"));
 					if ($(this).html() == "找商品") {
 						$(this).html("找文章");
 						$("#lookingFor").val("foForumr");
-						$("#searchInput").autocomplete({
-							source : ""
-								
-						});
+						$("#searchInput").autocomplete("disable");
 						$(this).css("background-color","rgb(255,174,200)")
 
 					} else {
 						$(this).html("找商品");
 						$("#lookingFor").val("forProduct")
-						$("#searchInput").autocomplete({
-							source : autoCompleteData
-						})
+						$("#searchInput").autocomplete("enable");
 						$(this).css("background-color","rgb(200,240,115)")
-						
 					}
 				})
 	</script>
