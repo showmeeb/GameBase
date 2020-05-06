@@ -79,10 +79,6 @@
 		</div>
 		<hr>
 
-		<div class="row clearfix">
-			<div class="col-md-12 column">新聞爬蟲</div>
-		</div>
-		<hr>
 	</div>
 	<div id="snackbar"></div>
 
