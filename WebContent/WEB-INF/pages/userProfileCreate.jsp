@@ -44,7 +44,7 @@
 			</div>
 			<div >
 				<input type="button" class="btn btn-info pwdBtn" value="修改">
-				<button class="btn btn-primary pwdUpdate">更新</button>
+				<button id="ePwd" class="btn btn-primary pwdUpdate">更新</button>
 			</div>
 		</form>
 		<hr>
@@ -95,7 +95,6 @@
 			<div class="form-group form-group-lg">
 				<div id="phoneShow">手機號碼:${userProfile.phone}</div>
 				<div id="phoneSpan"><input type="text" class="form-control input-lg" name="phone" id="phone" placeholder="Ex:0955667777" onblur="checkPhone()" maxlength="10"></div>
-				<div id="phoneErr"></div>
 			</div>
 			
 			<div class="user-data-btn-area">
@@ -106,7 +105,6 @@
 			<div class="form-group form-group-lg">
 				<div id="ageShow">年齡:${userProfile.age}</div>
 				<div id="ageSpan"><input type="text" class="form-control input-lg" name="age" id="age" placeholder="Ex:25(最小為10歲 最多100歲)" onblur="checkAge()" maxlength="3"></div>
-				<div id="ageErr"></div>
 			</div>
 			
 			<div class="user-data-btn-area">

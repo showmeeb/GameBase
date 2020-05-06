@@ -49,7 +49,7 @@
 						<div class="article_name">
 							<h2>
 								<a
-									href="<c:url value="/forum_test/${forumId}/${item.titleId}"/>">${item.titleName}</a>
+									href="<c:url value="/forum_test/${item.forumId}/${item.titleId}"/>">${item.titleName}</a>
 							</h2>
 						</div>
 
@@ -117,10 +117,10 @@
 	<script type="text/javascript">
 		var url = '<c:url value="/forum_test/${forum.forumId}/add"/>';
 		var lo = 'title';
-		var forumId = $
-		{
-			forum.forumId
-		};
+// 		var forumId = $
+// 		{
+// 			forum.forumId
+// 		};
 	</script>
 </body>
 </html>

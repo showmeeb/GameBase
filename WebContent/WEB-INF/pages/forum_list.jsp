@@ -29,7 +29,7 @@
 		<div id="forum_list" class="forum_list">
 
 			<c:forEach items="${forumList}" var="item" varStatus="itemStatus">
-
+				<c:if test="${item.clickRN == 1}">
 				<div class="forum_forum" forumId="${item.forumId}" forumRank="${item.forumRank}">
 
 					<div class="forum_title_bar">
@@ -64,8 +64,12 @@
 						</div>
 						<div class="forum_articles">
 							<span>熱門點閱文章:</span><br /> 
-							<a href="<c:url value="/forum_test/${item.forumId}/${item.titleId}"/>">${item.titleName}</a>
+							<c:forEach items="${forumList}" var="topArticle">
+							<c:if test="${item.forumId==topArticle.forumId}">
+							<a href="<c:url value="/forum_test/${topArticle.forumId}/${topArticle.titleId}"/>">${topArticle.titleName}</a>
 							<br />
+							</c:if>
+							</c:forEach>
 						</div>
 					</div>
 									
@@ -73,7 +77,8 @@
 					<div class="fname">${item.forumName}</div>
 					<div class="ffigure">${item.forumFigure}</div>
 					</div>				
-				</div>				
+				</div>
+				</c:if>				
 			</c:forEach>
 		</div>
 
