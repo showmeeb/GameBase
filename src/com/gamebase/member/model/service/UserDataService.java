@@ -70,7 +70,7 @@ public class UserDataService {
 		String pwd = i+"";
 		String encryptpwd=eDao.encryptString(pwd);
 		Map<String,String> map = new HashMap<String,String>();
-		System.out.println("pwd:"+pwd+" , encryptpwd: " + encryptpwd);
+//		System.out.println("pwd:"+pwd+" , encryptpwd: " + encryptpwd);
 		map.put("pwd", pwd);
 		map.put("encryptpwd",encryptpwd);
 		return map;

@@ -50,7 +50,18 @@ public class MemberAjaxController {
 	@Autowired
 	public ArticleService aService;
 
-
+	@PostMapping(value = "/regetrank", produces = "application/json")
+	@ResponseBody
+	public Map<String,Object> reget(ModelMap model){
+		Map<String, Object> map = new HashMap<String, Object>();
+		UsersInfo login = (UsersInfo) model.get("loginUser");
+		UsersInfo regetlogininfo = uService.showUserData(login.getAccount());
+//		System.out.println(regetlogininfo.getRankId());
+		model.addAttribute("loginUser", regetlogininfo);
+		map.put("loginUser", regetlogininfo);
+		return map;
+	}
+	
 	@PostMapping(value = "/changePwd", produces = "application/json")
 	@ResponseBody
 	public Map<String,Object> pwdChange2(@RequestBody ChangePwd pwddata, ModelMap model){

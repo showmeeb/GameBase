@@ -72,8 +72,11 @@ public class MailSenderDAO {
 		map.put("registerId",registerId);
 		String url = "http://localhost:8080/GameBase/Users/" + registerId;
 		map.put("url",url);
-		String content = "新會員"+acc + "(" + email + "),您好<br/>感谢您註冊GameBase!<br/>" + "<b>驗證您的註冊信箱</b><br/>請輸入下面的驗證碼來確認您的註冊<br/>"
-				+"<h3><a href='" + url + "'>"+registerId+"</a></h3>"+"<br/>如果您認為這是垃圾郵件，請忽略此郵件。";
+//		String content = "新會員"+acc + "(" + email + "),您好<br/>感谢您註冊GameBase!<br/>" + "<b>驗證您的註冊信箱</b><br/>請輸入下面的驗證碼來確認您的註冊<br/>"
+//				+registerId+"<br/><h3><a href='" + url + "'>"+url+"</a></h3>"+"<br/>如果您認為這是垃圾郵件，請忽略此郵件。";
+		
+		String content = "新會員"+acc + "(" + email + "),您好<br/>感谢您註冊GameBase!<br/>" + "<b>為了驗證您的註冊信箱</b><br/>請輸入下面的驗證碼來確認您的註冊<br/><h2>"
+				+registerId+"</h2><br>※此信件為系統自動發出，請勿直接回信。<br>※如果您認為這是垃圾郵件，請忽略此郵件。";
 		
 		MailInfo mailInfo = new MailInfo();
 		mailInfo.setMailSmtpHost("smtp.gmail.com");

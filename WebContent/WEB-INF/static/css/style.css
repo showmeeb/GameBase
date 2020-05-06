@@ -222,6 +222,7 @@ i {
 .forget-reply-area .fa-dove,
 .change-Pwd-area .fa-address-card,
 .upgrade-notification-area .fa-gift,
+.admin-broadcast-area .fa-bullhorn,	/*廣播大圖*/
 .auth-code-input-area .fa-keycdn {
   font-size: 80px;
   margin: 20px auto;
@@ -229,7 +230,7 @@ i {
 
 .admin-broadcast-area {
   width: 400px;
-  height: 175px;
+  height: 275px;	/*小圖視窗高175px*/
   margin-top: -200px;
   margin-left: -200px;
 }

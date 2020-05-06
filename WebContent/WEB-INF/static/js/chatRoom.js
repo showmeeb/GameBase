@@ -67,6 +67,30 @@ $(document).ready(function () {
     }
   });
   
+  //login-form autocomplete
+  $("#login-form .input-group input").keydown(function(e){
+//	  console.log(e.key);
+	  if(e.key == "ArrowUp"){
+		  var acc = "Adminjohn";
+	      var pwd = "test123";
+	      
+	      $("#login-form .input-group input[name='account']").val(acc);
+	      $("#login-form .input-group input[name='password']").val(pwd);
+	  }else if(e.key == "ArrowLeft"){
+		  var acc = "devinlin";
+	      var pwd = "test123";
+	      
+	      $("#login-form .input-group input[name='account']").val(acc);
+	      $("#login-form .input-group input[name='password']").val(pwd);
+	  }else if(e.key == "ArrowRight"){
+		  var acc = "marywang";
+	      var pwd = "test123";
+	      
+	      $("#login-form .input-group input[name='account']").val(acc);
+	      $("#login-form .input-group input[name='password']").val(pwd);
+	  }
+  });
+  
 //**************Admin broadcast******************
   $("#admin-broadcast").click(function(){
   	console.log("got admin bro");
@@ -158,7 +182,6 @@ function userLogin() {
   var pwd = $("#login-form input[name='password']").val();
   var saveValue = $("input[name='save']").is(":checked");
 
-  
   // empty check
   if (userAcc != "" && pwd != "") {
     var formdata = $("#login-form").serializeObject();
@@ -195,6 +218,16 @@ function userLogin() {
           }else{
         	  $("#login-submit-btn").parent().addClass("hidden-window", 700);
         	  if(data.upgrade == true){
+//====================================================================     		  
+        		  $.ajax({
+        			  url: "/GameBase/regetrank",
+				      type: "POST",
+				      contentType: "application/json",
+				      success: function (data) {
+				    	  window.sessionStorage.setItem("loginUser", JSON.stringify(data.loginUser));
+				      }
+        		  })
+//====================================================================         		  
         		  $(".upgrade-notification-area").removeClass("hidden-window", 700);
         	  }else{
         		  $("#shadow").fadeOut(700); 
@@ -211,7 +244,12 @@ function userLogin() {
           });
 
           // get user information
-          window.sessionStorage.setItem("loginUser", JSON.stringify(data.loginUser));
+//====================================================================  
+          if(data.upgrade != true){
+//====================================================================  	  
+        	  window.sessionStorage.setItem("loginUser", JSON.stringify(data.loginUser));
+          }
+//====================================================================            
           console.log(window.sessionStorage.getItem("loginUser"));
           
           // connect and show chat room
@@ -752,28 +790,6 @@ function attachSignin(element) {
             // set friend list to chat room
             var friendsList = Mustache.render(chatRoomFriendsListTemplate, chatRoom);
             $("#chat-room-friends").html(friendsList);
-
-            // if user at product post page then update form's action attribute
-            //        				var productPostUrlTest = /^.*ProductPost.*$/;
-            //        				
-            //        				if(productPostUrlTest.test(location.href)){
-            //        					// update AutoBuy productPost page
-            //        		    		updateProductPostAttr(data.uNo,data.uName);
-            //        				}
-
-            // if user at AutoBuy publish page then update form's attribute
-            //        				var autoBuyUrlTest = /^.*AutoBuy.*$/;
-            //        				
-            //        				if(autoBuyUrlTest.test(location.href)){
-            //        					// update AutoBuy publish
-            //        					updateAutoBuyPublishAttr(data.uNo);
-            //        				}
-
-            // show shopping cart
-            //        				if(autoBuyFlag){
-            //        					$("#shoppingCart").show(700);
-            //        					updateCartLink(data.uNo);
-            //        				}
 
           } else {
             alert("Google登入失敗");
