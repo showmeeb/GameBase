@@ -215,7 +215,7 @@ div.content_unit {
 	/* 	background-color: lightblue; */
 	margin: 10px auto;
 	padding: 10px;
-	/* 	border: 1px solid DodgerBlue; */
+	border: 1px solid black; 
 	border-radius: 10px;
 	overflow: hidden; /*避免float跑框*/
 	background-image: linear-gradient(#e0e0e0, transparent, transparent, transparent,
@@ -278,6 +278,10 @@ div.content_content {
 
 div.content_content figure {
 	text-align: center;
+}
+
+div.content_content figure.media{
+	display: block;
 }
 
 div.content_article_data {
