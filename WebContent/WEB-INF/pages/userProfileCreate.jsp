@@ -8,30 +8,32 @@
 <meta charset="UTF-8">
 <title>UserProfileCreate</title>
 
-<link href="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.css"
-	rel="stylesheet">
-<link
-	href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	rel="stylesheet">
+<!-- <link href="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.css" -->
+<!-- 	rel="stylesheet"> -->
+<!-- <link -->
+<!-- 	href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" -->
+<!-- 	rel="stylesheet"> -->
 <script
 	src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.12/dist/sweetalert2.all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
-<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.5.0.js"></script> -->
+
+<!-- <link rel="stylesheet" -->
+<!-- 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"> -->
+
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 
-<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.js"></script>
-<script
-	src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link rel="stylesheet"
-	href="<c:url value="/css/userProfileCreate.css"/>">
-<script src="<c:url value="/js/userProfileCreate.js"/>"></script>
+<!-- <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script> -->
+<!-- <script src="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.js"></script> -->
+<!-- <script -->
+<!-- 	src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<!-- <link rel="stylesheet" -->
+<%-- 	href="<c:url value="/css/userProfileCreate.css"/>"> --%>
+<%-- <script src="<c:url value="/js/userProfileCreate.js"/>"></script> --%>
 
 
 </head>
