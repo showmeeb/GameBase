@@ -68,7 +68,7 @@ public class ArticleController {
 	public String goForumTest(ModelMap model) {
 		System.out.println("Welcome to Forum");
 		/* 選取點閱數最高前N個 */
-		List<ForumListView> forumList = fService.queryForumListByClickNum(3);
+		List<ForumListView> forumList = fService.queryForumListByClickNum(5);
 
 		JSONObject j = new JSONObject();
 		HashMap<String, ForumListView> hashMap = new HashMap<String, ForumListView>();

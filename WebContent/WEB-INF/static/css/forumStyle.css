@@ -54,13 +54,12 @@ div.forum_forum {
 	width: 80%;
 	margin: 10px auto;
 	padding: 10px;
-/* 	border: 1px solid DodgerBlue; */
+	/* 	border: 1px solid DodgerBlue; */
 	border-radius: 10px;
 	overflow: hidden; /*避免float跑框*/
-	background-image: url(""),
-		linear-gradient(to right, blue, red);
+	background-image: url(""), linear-gradient(to right, blue, red);
 	background-position: center;
-/* 	background-repeat: no-repeat; */
+	/* 	background-repeat: no-repeat; */
 	background-size: contain;
 	background-blend-mode: soft-light;
 }
@@ -73,7 +72,7 @@ div.forum_title_bar {
 	/*border-color: rgba(0, 0, 0, 0.3);*/
 	overflow: hidden;
 	background-image: linear-gradient(45deg, #ffffffad, #6d45bb59);
- 	background-color: #ffffffad  
+	background-color: #ffffffad
 }
 
 div.forum_name {
@@ -81,7 +80,7 @@ div.forum_name {
 	width: 50%;
 	margin: auto;
 	padding: 5px;
-/* 	border: 1px solid DodgerBlue; */
+	/* 	border: 1px solid DodgerBlue; */
 	margin: auto;
 }
 
@@ -91,7 +90,7 @@ div.forum_editor_btn {
 	width: 50px;
 	padding: 1px;
 	margin: auto;
-/* 	border: 1px solid DodgerBlue; */
+	/* 	border: 1px solid DodgerBlue; */
 	width: 50px;
 	text-align: center;
 }
@@ -99,7 +98,7 @@ div.forum_editor_btn {
 div.forum_content {
 	margin: auto;
 	padding: 5px;
-/* 	border: 1px solid DodgerBlue; */
+	/* 	border: 1px solid DodgerBlue; */
 	overflow: hidden;
 }
 
@@ -109,7 +108,7 @@ div.forum_img {
 	width: 180px;
 	margin: auto;
 	padding: 5px;
-/* 	border: 1px solid DodgerBlue; */
+	/* 	border: 1px solid DodgerBlue; */
 	border-radius: 10px;
 	width: 45%;
 	text-align: center;
@@ -120,7 +119,8 @@ div.forum_articles {
 	width: 45%;
 	margin: auto;
 	padding: 5px;
-/* 	border: 1px solid DodgerBlue; */
+	/* 	border: 1px solid DodgerBlue; */
+	background-color: #ffffffcc;
 }
 /*forum's article*/
 
@@ -215,7 +215,7 @@ div.content_unit {
 	/* 	background-color: lightblue; */
 	margin: 10px auto;
 	padding: 10px;
-	border: 1px solid black; 
+	border: 1px solid black;
 	border-radius: 10px;
 	overflow: hidden; /*避免float跑框*/
 	background-image: linear-gradient(#e0e0e0, transparent, transparent, transparent,
@@ -280,7 +280,12 @@ div.content_content figure {
 	text-align: center;
 }
 
-div.content_content figure.media{
+div.content_content figure img {
+	max-width: 1000px;
+	max-height: 1000px;
+}
+
+div.content_content figure.media {
 	display: block;
 }
 
