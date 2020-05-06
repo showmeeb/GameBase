@@ -207,14 +207,15 @@ public class MemberAjaxController {
 				if ("account".equals(name)) {
 					acc = cookie.getValue();
 					request.getSession().setAttribute("account", acc);
-					System.out.println("acc123" + acc);
+
 				} else if ("password".equals(name)) {
 					pwd = cookie.getValue();
 					request.getSession().setAttribute("password", pwd);
-					System.out.println("pwd123" + pwd);
+
 				} else if("rm".equals(name)) {
 					rm = cookie.getValue();
-					System.out.println("rm123" + rm);
+
+					
 				}
 			}
 		}
