@@ -207,6 +207,7 @@
 </style>
 </head>
 <body>
+<%-- <h1>${sessionScope.loginUser.rankId}<br></h1> --%>
 	<nav class="navbar navbar-light topBarFixed " id="topBar">
 
 		<!--LOGO-->
@@ -308,7 +309,12 @@
 			</div>
 		</div>
 		<div id="loggedin-list">
-			<div class="loggedin-list-item" id="user-center-btn">會員中心</div>
+			<c:if test="${sessionScope.loginUser.rankId==4}">
+			<div class="loggedin-list-item" id="admin-center-btn">後臺系統</div>
+			</c:if>
+			<c:if test="${sessionScope.loginUser.rankId!=4}">
+			<div class="loggedin-list-item" id="user-center-btn">會員中心</div>			
+			</c:if>
 			<div class="loggedin-list-item hidden-window" id="admin-broadcast">管理員廣播</div>
 			<div class="loggedin-list-item" id="logout-str">登出</div>
 		</div>

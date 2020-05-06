@@ -36,7 +36,13 @@ public class GeneralViewJavaConfig {
 		view.setUrl("/WEB-INF/pages/analytic.jsp");
 		return view;
 	}
-
+	
+	@Bean
+	public View memberCenter() {
+		InternalResourceView view = new InternalResourceView();
+		view.setUrl("/WEB-INF/pages/memberCenter.jsp");
+		return view;
+	}
 
 	
 }

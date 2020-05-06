@@ -82,5 +82,10 @@ public class ShoppingService {
 	public boolean checkRank(int userId) {
 		return userOrderDao.checkRank(userId);
 	}
-	
+	public List<UserOrder> notMemberOrders(){
+		return userOrderDao.notMemberOrders();
 	}
+	public List<UserOrder> MemberOrders(){
+		return userOrderDao.MemberOrders();
+	}
+}

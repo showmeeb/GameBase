@@ -228,5 +228,9 @@ public class ArticleService {
 	public List<ArticleListView> queryMemberArticleTitleByKeyInallForum(Integer userId, String title) {
 		return alvDao.queryMemberArticleTitleByKeyInallForum(userId, title);
 	}
+	
+//	public List queryEverydayArticle() {
+//		return alvDao.queryEverydayArticle();
+//	}
 
 }

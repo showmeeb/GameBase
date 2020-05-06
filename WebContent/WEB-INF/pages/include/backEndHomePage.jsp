@@ -56,7 +56,8 @@ color:#E3DCC2;
 	<nav id="sidebar" class="container py-3 fixed-left">
 		<div id="sidebar-header" class="sidebar-header border-bottom ">
 			<h2>
-				<b>後臺系統</b>
+				<b id="backEnd">後臺系統</b>
+				<b id="memberCenter">會員中心</b>
 			</h2>
 		</div>
 		<table id="analytic-tag" class="border-bottom py-3 d-block"
@@ -70,6 +71,7 @@ color:#E3DCC2;
 						<a id="11"class="nav-link" href="#">個人資訊</a>
 						<ul id="member-self" class="d-none">
 							<li><a id="update-up" href="#">個人資料</a></li>
+							<li><a class="tag" href="<c:url value="/goOp"/>">升級</a></li>
 							<li><a id="myFriend" class="tag" href="#">好友</a></li>
 						</ul>
 					</li>
@@ -114,11 +116,16 @@ color:#E3DCC2;
 	</nav>
 	
 	<div id="userId" class="d-none">${loginUser.userId}</div>
-	<script>
+	<script>	
+	var homePage="/GameBase"
 	$(document).ready(function(){
+		if (window.sessionStorage.getItem("loginUser") == ""){
+			 location.href = homePage;
+			}
 		var loginUser = JSON.parse(window.sessionStorage.getItem("loginUser"));
 		var rankId = loginUser.rankId;
 
+			
 		$("#openBarBtn").addClass("d-none");
 		$(".shoppingCartBtn").addClass("d-none");
 		$("#foldBar").addClass("d-none");
@@ -126,8 +133,11 @@ color:#E3DCC2;
 
 		if(rankId==4){
 			$("#member-bar").addClass("d-none");
+			$("#memberCenter").addClass("d-none");
 			}else{
 			$("#admin-bar").addClass("d-none");
+			$("#backEnd").addClass("d-none");
+			$("#analytic-tag").addClass("d-none").removeClass("d-block");
 			}
 		
 		$(".nav-link").click(function() {

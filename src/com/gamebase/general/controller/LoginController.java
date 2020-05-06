@@ -25,17 +25,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.gamebase.article.model.ArticleTitle;
+import com.gamebase.article.model.service.ArticleService;
 import com.gamebase.general.model.Webflow;
 import com.gamebase.member.model.UserData;
 import com.gamebase.member.model.UsersInfo;
 import com.gamebase.member.model.service.UserDataService;
+import com.gamebase.tradesystem.model.UserOrder;
+import com.gamebase.tradesystem.model.service.ShoppingService;
 
 @Controller
 @SessionAttributes(names = "loginUser")
 public class LoginController {
 	private UserDataService uService;
-
-
+	
+	@Autowired
+	public ShoppingService sService;
+	@Autowired
+	public ArticleService aService;
 	
 	@Autowired
 	public LoginController(UserDataService uService) {
@@ -161,6 +168,27 @@ public class LoginController {
 		map.put("time", timelist);
 		map.put("noTimes", notimelist);
 
+		
+		return map;
+	}
+	
+	@RequestMapping(path = "/GameBase/analizeData", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> analizeData() {
+		// System.out.println("got chekcAcc "+account.getAccount());
+		System.out.println("取得數據們");
+		List<UserData> dataList = uService.getUserWithoutAdmin();//全部會員
+		List<ArticleTitle> ArticleTitleList = aService.queryAllArticleTitle();//全部文章標題(文章量)
+//		List aa = aService.queryEverydayArticle();  SQL先統計完再傳回(失敗) 
+//		System.out.println("list : " + list);
+		List<UserOrder> notMemOrList = sService.notMemberOrders();//非會員購買數
+		List<UserOrder> MemOrList = sService.MemberOrders();//會員訂單數
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("members", dataList.size());
+		map.put("ArticleTitle", ArticleTitleList.size());
+		map.put("notMemOr", notMemOrList.size());
+		map.put("MemOr", MemOrList.size());
+//		map.put("members", dataList.size());
 		
 		return map;
 	}

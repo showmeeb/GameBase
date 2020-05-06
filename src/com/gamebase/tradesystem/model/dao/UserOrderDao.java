@@ -248,5 +248,16 @@ public class UserOrderDao {
 		List<UserOrder> list = query.list();
 		return list;
 	}
-
+	public List<UserOrder> notMemberOrders() {
+		Session session = sessionFactory.getCurrentSession();
+		Query<UserOrder> query = session.createQuery("from UserOrder where userId=1",UserOrder.class);
+		List<UserOrder> list = query.list();
+		return list;
+	}
+	public List<UserOrder> MemberOrders() {
+		Session session = sessionFactory.getCurrentSession();
+		Query<UserOrder> query = session.createQuery("from UserOrder where userId!=1",UserOrder.class);
+		List<UserOrder> list = query.list();
+		return list;
+	}
 }

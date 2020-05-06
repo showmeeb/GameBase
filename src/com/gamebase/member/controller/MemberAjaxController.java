@@ -29,6 +29,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import com.gamebase.article.model.ArticleContent;
 import com.gamebase.article.model.ArticleListView;
+import com.gamebase.article.model.ArticleTitle;
 import com.gamebase.article.model.service.ArticleService;
 import com.gamebase.general.model.service.GeneralService;
 import com.gamebase.member.model.ChangePwd;
@@ -46,7 +47,6 @@ public class MemberAjaxController {
 	private UserDataService uService;
 	@Autowired
 	public GeneralService gService;
-
 	@Autowired
 	public ArticleService aService;
 
@@ -285,6 +285,11 @@ public class MemberAjaxController {
 	public String allMembers() {
 		return "allMembers";
 	}
+	
+	@RequestMapping(value = "/memberCenter", method = RequestMethod.GET)
+	public String memberCenter() {
+		return "memberCenter";
+	}
 
 	@RequestMapping(value = "/goOp", method = RequestMethod.GET)
 	public String goop() {
@@ -470,14 +475,44 @@ public class MemberAjaxController {
 	@ResponseBody
 	public Map<String, Object> getNewMemberWeek() {
 //		System.out.println("-------------------got new users ");
-		List<UserData> data = uService.getAllUserData();
+		List<UserData> data = uService.getAllUserData();//要改!!!!!!!!!!!!!!!
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("users", data);
 //		System.out.println("new users: " + map.get("users"));
 		return map;
 	}
 	
+	@RequestMapping(path = "/GameBase/MemberUpgradeRank", method = RequestMethod.POST)
+	@ResponseBody
+	public String payBill(@RequestParam("userId") String userId) {
+
+		return uService.processRankOrder(Integer.valueOf(userId));
+	}
+//	@RequestMapping(path = "/shoppingCart/test", method = RequestMethod.POST)
+//	@ResponseBody
+//	public String test(@RequestParam(value ="form") String form,@RequestParam(value = "items1") String items1) {
+//		System.out.println("form:"+form);
+//		System.out.println("items1:"+items1);
+//		return "yes";
+//	}
 	
+	@RequestMapping(path = "/GameBase/rankOrderStatus", method = RequestMethod.POST)
+	@ResponseBody
+	public void orderStatus(HttpServletRequest request) {
+		String rtnCode = request.getParameter("RtnCode");
+		String uuid = request.getParameter("MerchantTradeNo");
+		String userId = request.getParameter("CustomField1");
+		System.out.println("RtnCode:"+rtnCode);
+//		System.out.println("orderPhone:"+orderPhone);
+//		System.out.println("orderAddress:"+orderAddress);
+//		System.out.println("userId:"+userId);
+//		System.out.println("uuId:"+uuId);
+//		System.out.println("orderDate:"+orderDate);
+//		System.out.println("orderPrice:"+orderPrice);
+		
+		uService.rankOrderStatus(Integer.parseInt(rtnCode),Integer.parseInt(userId));
+		System.out.println("付款成功!!");
+	}
 	
 	@RequestMapping(path = "/GameBase/getUserWithRank", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody
@@ -490,4 +525,6 @@ public class MemberAjaxController {
 		map.put("members", list);
 		return map;
 	}
+	
+
 }

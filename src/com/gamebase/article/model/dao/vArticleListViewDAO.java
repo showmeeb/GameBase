@@ -65,5 +65,14 @@ public class vArticleListViewDAO {
 		List<ArticleListView> list=query.list();
 		return list;
 	}
+	
+//	//每天文章數
+//	public List queryEverydayArticle() {
+//      Query query = sessionFactory.getCurrentSession()
+//				.createQuery("select convert(varchar(10),createTime,111),count(*) from ArticleListView where contentRN=1 group by convert(varchar(10),createTime,111)");
+//
+//      List list = query.list();
+//		return list;
+//	}
 
 }

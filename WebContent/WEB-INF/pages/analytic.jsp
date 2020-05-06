@@ -25,6 +25,8 @@
 #Analytics{
 	background-color: #FFFFFF;
 	border-radius:10px;
+	width:94%;
+	margin:0 auto ;
 
 }
 .Analytic {
@@ -47,22 +49,29 @@
 #chartArea{
 	background-color: #FFFFFF;
 	border-radius:10px;
-	margin:2% 0 0 0;
+	width:94%;
+	margin:2% auto ;
 }
 
-#articleArea,#productArea{
+#articleArea,#productArea,#memberArea{
 	background-color: #FFFFFF;
 	display:inline-block;
-	width:46%;
+	width:25%;
 	margin:2% 0;
 	border-radius:10px;
 }
+
 
  </style>
 </head>
 <jsp:include page="include/backEndHomePage.jsp"></jsp:include>
 <body>
-	<div id="main_back">
+<div id="main_back">
+		<h2>分析</h2>
+		<h4>網站各種類數據</h4>
+		<br>
+		<br>
+		<br>
 	
 		<div id="Analytics" >
 			<div id="total" class="h5 Analytic ">
@@ -91,16 +100,34 @@
 			<h5 id="chartName" class="name border-bottom p-4">網站瀏覽次數</h5>
 			<div id="chart" style="height:400px;"></div>
 		</div>	
-		
-		<div id="articleArea" class="d=inline-block">
+	<div class="row justify-content-around align-items-center" >	
+		<div id="articleArea" class="d=inline-block float-left">
 			<h5 id="articleName" class="name border-bottom p-4">下面要放文章分析</h5>
+			<ul class="list-group list-group-flush">
+  				 <li id="totalArticle" class="list-group-item">總文章量 : </li>
+ 				 <li id="avgArticle" class="list-group-item">每日平均發文量 : </li>
+ 				 <li id="avgContent" class="list-group-item">每日平均回應數 :</li>
+ 				 <li id="avgContentRate" class="list-group-item">平均回應率 :</li>
+			</ul>
 		</div>
 		
-		<div id="productArea" class="d=inline-block float-right">
+		<div id="memberArea" class="d=inline-block ">
+			<h5 id="memberName" class="name border-bottom p-4">下面要放會員分析</h5>
+			<ul class="list-group list-group-flush">
+  				 <li id="totalMember" class="list-group-item">會員人數 : </li>
+ 				 <li id="postMember" class="list-group-item">發文人數 : </li>
+ 				 <li id="payByMember" class="list-group-item">購買人數 : </li>
+ 				 <li id="payByguest" class="list-group-item">非會員購買人數 : </li>
+			</ul>
+		</div>
+		
+		<div id="productArea" class="d=inline-blockt float-right">
 			<h5 id="productName" class="name border-bottom p-4">下面要放商品分析</h5>
+			<div id="productChart" style=""></div>
+			這裡會有圓餅圖
 		</div>
-		
-	</div>
+	</div>	
+</div>
 	
 <script type="text/javascript">
 
@@ -200,8 +227,34 @@ $.ajax({
 
 	}
 })
+ 
+var totalMember=$("#totalMember").text();
+var postMember=$("#postMember").text();
+var payByMember=$("#payByMember").text();
+var payByguest=$("#payByguest").text();
 
-		
+	$.ajax({
+		url:"GameBase/analizeData",
+		dataType : "json",
+		type : "POST",
+		success : function(response){
+			console.log(response);
+			console.log(totalMember);
+			console.log(postMember);
+			console.log(payByMember);
+			console.log(payByguest);
+			totalMember+=response.members;
+			postMember+="還沒寫好";
+			payByMember+=response.MemOr;
+			payByguest+=response.notMemOr;
+	
+			$("#totalMember").text(totalMember);
+			$("#postMember").text(postMember);
+			$("#payByMember").text(payByMember);
+			$("#payByguest").text(payByguest);	
+					
+			} 
+		})	
 		
 		   
 

@@ -1,7 +1,8 @@
 /* ----------------------------------------------------------- */
 /*  4. LOGIN BUTTON & ICON CONTROL
 /* ----------------------------------------------------------- */
-var userCenterUrl = "/GameBase/mainProduct";
+var userCenterUrl = "/GameBase/memberCenter";
+var adminCenterUrl = "/GameBase/analytic";
 function myFunction(a) {
 	  console.log(a)    
 	}
@@ -72,7 +73,11 @@ $(document).ready(function () {
   	$(".admin-broadcast-area").removeClass("hidden-window", 700);
       $("#shadow").fadeIn(700);
   })
-  
+  // admin center button
+  $("#admin-center-btn").click(function(){
+    $("#loggedin-list").fadeToggle(500);
+    location.href = adminCenterUrl;
+  });
   // user center button
   $("#user-center-btn").click(function(){
     $("#loggedin-list").fadeToggle(500);
