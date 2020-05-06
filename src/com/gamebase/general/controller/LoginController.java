@@ -133,20 +133,25 @@ public class LoginController {
 //		String date = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
 		ArrayList<String> daylist=new ArrayList<>();
 		ArrayList<Integer> timelist=new ArrayList<>();
+		ArrayList<Integer> notimelist=new ArrayList<>();
 		Map<String, ArrayList> map= new HashMap<String, ArrayList>();  
 		for(int i=6;i>=0;i--) {
-			Calendar   cal   =   Calendar.getInstance();
+			Calendar cal =   Calendar.getInstance();
 			cal.add(Calendar.DATE, -i);
-			String day = new SimpleDateFormat( "yyyy/MM/dd").format(cal.getTime());
+			String day = new SimpleDateFormat("yyyy/MM/dd").format(cal.getTime());
 			
-			List<Webflow> DayNorepeat = uService.IpRepeatDay(day);
+			List<Webflow> Dayrepeat = uService.IpRepeatDay(day);
 			System.out.println("day------"+day);
 			Integer times=0;
-			Map<String,Integer> data= new HashMap<String,Integer>();  
-			for(int j=0;j<DayNorepeat.size();j++) {	
-				System.out.println("DayNorepeat.size()"+DayNorepeat.size());
-				times+=DayNorepeat.get(j).getLogtime();
+			Integer noTimes=0;
+			List<Webflow> dayNoRepeat = uService.IpnoRepeatDay(day);
+			
+			for(int j=0;j<Dayrepeat.size();j++) {	
+				System.out.println("DayNorepeat.size()"+Dayrepeat.size());
+				times+=Dayrepeat.get(j).getLogtime();
+				noTimes+=1;
 			}
+			notimelist.add(noTimes);
 			daylist.add(day);
 			timelist.add(times);
 				
@@ -154,7 +159,7 @@ public class LoginController {
 		
 		map.put("day", daylist);
 		map.put("time", timelist);
-		
+		map.put("noTimes", notimelist);
 
 		
 		return map;

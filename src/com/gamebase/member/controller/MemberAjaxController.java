@@ -476,39 +476,8 @@ public class MemberAjaxController {
 //		System.out.println("new users: " + map.get("users"));
 		return map;
 	}
-
 	
-	@RequestMapping(path = "/GameBase/MemberUpgradeRank", method = RequestMethod.POST)
-	@ResponseBody
-	public String payBill(@RequestParam("userId") String userId) {
-
-		return uService.processRankOrder(Integer.valueOf(userId));
-	}
-//	@RequestMapping(path = "/shoppingCart/test", method = RequestMethod.POST)
-//	@ResponseBody
-//	public String test(@RequestParam(value ="form") String form,@RequestParam(value = "items1") String items1) {
-//		System.out.println("form:"+form);
-//		System.out.println("items1:"+items1);
-//		return "yes";
-//	}
 	
-	@RequestMapping(path = "/GameBase/rankOrderStatus", method = RequestMethod.POST)
-	@ResponseBody
-	public void orderStatus(HttpServletRequest request) {
-		String rtnCode = request.getParameter("RtnCode");
-		String uuid = request.getParameter("MerchantTradeNo");
-		String userId = request.getParameter("CustomField1");
-		System.out.println("RtnCode:"+rtnCode);
-//		System.out.println("orderPhone:"+orderPhone);
-//		System.out.println("orderAddress:"+orderAddress);
-//		System.out.println("userId:"+userId);
-//		System.out.println("uuId:"+uuId);
-//		System.out.println("orderDate:"+orderDate);
-//		System.out.println("orderPrice:"+orderPrice);
-		
-		uService.rankOrderStatus(Integer.parseInt(rtnCode),Integer.parseInt(userId));
-		System.out.println("付款成功!!");
-	}
 	
 	@RequestMapping(path = "/GameBase/getUserWithRank", produces = "application/json", method = RequestMethod.POST)
 	@ResponseBody

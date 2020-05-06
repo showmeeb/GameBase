@@ -21,62 +21,87 @@
 <script src="<c:url value="/js/analytic.js"/>"></script>
  -->
  <style type="text/css">
- body {
-	background-color: #EDF7F7;
-}
-#Analytics {
-	margin: 10% 10% ;
+
+#Analytics{
+	background-color: #FFFFFF;
+	border-radius:10px;
+
 }
 .Analytic {
-	width: 24%;
-	height: 280px;
-	float: left;
-	border:1px black solid;
+	width: 24.7%;
+	display:inline-block;
+	background-color: #FFFFFF;
+	border-radius:10px;
 }
 .num {
-	height: 100px;
-	border:1px black solid;
+
+	height: 120px;
+	text-align:center;
+	line-height:120px;
 }
+
+.h5{
+	text-align:center;
+}
+
+#chartArea{
+	background-color: #FFFFFF;
+	border-radius:10px;
+	margin:2% 0 0 0;
+}
+
+#articleArea,#productArea{
+	background-color: #FFFFFF;
+	display:inline-block;
+	width:46%;
+	margin:2% 0;
+	border-radius:10px;
+}
+
  </style>
 </head>
 <jsp:include page="include/backEndHomePage.jsp"></jsp:include>
 <body>
 	<div id="main_back">
-		<div id="main" class="container">
-			<div id="Analytics mt-2">
-				<section id="no-repeat" class="Analytic mt-3">
-					<h5>不重複瀏覽量</h5>
-					<h1 id="no-repeat-num" class="num">-</h1>
-					today
-				</section>
-				<section id="total" class="Analytic mt-3 ">
-					<h5 class="mx-auto ">總瀏覽量</h5>
-					<h1 id="total-num" class="num ">-</h1>
-					total
-				</section>
-				<section id="all-money" class="Analytic mt-3">
-					<h5>售出總金額</h5>
-					<h1 id="all-money-num" class="num">-</h1>
-					bounce_rate
-				</section>
-				<section id="new-member" class="Analytic mt-3">
-					<h5>新會員</h5>
-					<h1 id="new-member-num" class="num">-</h1>
-					new_member
-				</section>
-
+	
+		<div id="Analytics" >
+			<div id="total" class="h5 Analytic ">
+				<h1 id="total-num" class="num ">-</h1>
+				<h5>拜訪次數</h5>
+				
 			</div>
-			<div id="chart-container" class="container">
-				<div id="chart" style="width:95%; height:400px;"></div>
+			<div id="no-repeat" class="h5 Analytic">
+				<h1 id="no-repeat-num" class="num border-left ">-</h1>
+				<h5>不重複訪客</h5>
+			
 			</div>
-			
-			
-			main<br>main<br> main<br> main<br> main<br>
-			main<br> main<br>main<br> main<br> main<br>
-			main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>main<br>
-			n main
+			<div id="all-money" class="h5 Analytic">					
+				<h1 id="all-money-num" class="num border-left">-</h1>
+				<h5>總金額</h5>
+				
+			</div>
+			<div id="new-member" class="h5 Analytic">					
+				<h1 id="new-member-num" class="num border-left ">-</h1>
+				<h5>新會員</h5>
+				
+			</div>
+		</div>		
+		
+		<div id="chartArea">	
+			<h5 id="chartName" class="name border-bottom p-4">網站瀏覽次數</h5>
+			<div id="chart" style="height:400px;"></div>
+		</div>	
+		
+		<div id="articleArea" class="d=inline-block">
+			<h5 id="articleName" class="name border-bottom p-4">下面要放文章分析</h5>
 		</div>
+		
+		<div id="productArea" class="d=inline-block float-right">
+			<h5 id="productName" class="name border-bottom p-4">下面要放商品分析</h5>
+		</div>
+		
 	</div>
+	
 <script type="text/javascript">
 
 
@@ -113,8 +138,10 @@ $(document).ready(function(){
 				var total_num=0;
 				for(var i=0;i<response.length;i++){
 					var num=response[i].orderPrice ;
+					if(response[i].payStatus==1){
 					total_num+=num;
 					}
+				}
 				if(total_num!=0){
 				$("#all-money-num").html(total_num);
 				}
@@ -144,23 +171,30 @@ $.ajax({
 		// 圖表配置
 		var options = {
 		    chart: {
-		        type: 'line'      //指定圖表的類型，默認是折線圖（line）
-		    },
+		        type: 'line',//指定圖表的類型，默認是折線圖（line）
+		        backgroundColor:'#FFFFFF',
+		        borderRadius:10,
+		        renderTo:"chartArea"
+			},
 		    title: {
-		        text: '總瀏覽量' // 標題
+		        text: '' // 標題
 		    },
 		    xAxis: {
-		    	categories:response.day
+		    	categories:response.day,
 		    },
 		    yAxis: {
+		        gridLineColor: '#ffffff',
 		        title: {
-		            text: '每日流量'    // y 軸標題
-		        }
+		            text: '每日流量',    // y 軸標題
+			    }
 		    },
 		    series: [{                //數據列
-		        name: '總人數',          //數據名
+		        name: '重複次數',          //數據名
 				data: response.time
-		    }]
+		    },{
+		    	name: '不重複人數',          //數據名
+				data: response.noTimes
+			    }]
 		};
 		var chart = Highcharts.chart('chart', options);
 

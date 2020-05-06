@@ -70,7 +70,6 @@ color:#E3DCC2;
 						<a id="11"class="nav-link" href="#">個人資訊</a>
 						<ul id="member-self" class="d-none">
 							<li><a id="update-up" href="#">個人資料</a></li>
-							<li><a class="tag" href="<c:url value="/goOp"/>">升級</a></li>
 							<li><a id="myFriend" class="tag" href="#">好友</a></li>
 						</ul>
 					</li>
