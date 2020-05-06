@@ -14,7 +14,7 @@
 			<c:if test="${not empty title.titleName}">
 			<tr>
 				<td><p>文章標題:</p></td>
-				<td><input type="text" id="articleTitle" name="articleTitle" value="${title.titleName}" size="50" disabled="disabled"></td>
+				<td><input type="text" id="articleTitle" name="articleTitle" value="${title.titleName}" size="100" disabled="disabled"></td>
 			</tr>
 			</c:if>
 			<!-- title is empty -->

@@ -204,6 +204,15 @@ function forum_bg_set(){
 	
 }
 
+function open_create_forum_btn() {
+	console.log("open_create_forum_btn");
+	userId = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
+	var rankId = JSON.parse(window.sessionStorage.getItem("loginUser")).rankId;
+	if(rankId>=4){
+		$(".forum_create-btn").attr("hidden",false);
+	};
+}
+
 var newForumTemplate =
 	'<div class="forum_forum" forumId="{{forumId}}">'
 	+'<div class="forum_title_bar">'

@@ -82,7 +82,13 @@ $(document).ready(function(){
          				window.location.href=window.location.href+'/'+response.newTitle.titleId;
          			}else if (lo==="content"){
          				console.log("newreply");
-         	            var newReply = Mustache.render(createReplyTemplate, response.newContent);
+         				var newContent = response.newContent;
+         				if(newContent["img"] == null || newContent["img"] == undefined || newContent["img"] == ""){
+         					
+         					newContent["img"] = "/GameBase/img/userIcon.png";
+         					console.log(newContent["img"]);
+         				}
+         	            var newReply = Mustache.render(createReplyTemplate, newContent);
         	            $(".content_list").append(newReply);
         	            console.log(response.newContent.contentId);
         	            $(".btn_update_content[contentId="+response.newContent.contentId+"]").on("click",function(){
@@ -97,7 +103,7 @@ $(document).ready(function(){
          			}
          			
          			/* clear input value */
-         			$("#articleTitle").val("");        			
+//         			$("#articleTitle").val("");        			
                     editor.setData("");
                     // close window
                     $(".publish-area").addClass("hidden-window", 700);

@@ -99,8 +99,9 @@ public class ChatController {
 	@PostMapping(path = "/File", produces = "application/json")
 	@ResponseBody
 	public Map<String, String> fileUpload(@RequestParam(name = "sender") String sender,
-			@RequestParam(name = "receiver") String receiver, @RequestPart(name = "file") MultipartFile file) {
-
+			@RequestParam(name = "receiver") String receiver, @RequestPart(name = "file") MultipartFile file, HttpServletRequest request) {
+		String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+		+ request.getContextPath() + "/";
 		String fileName = file.getOriginalFilename();
 		String type = fileName.substring(fileName.lastIndexOf(".") + 1);
 		System.out.println(type);
@@ -109,7 +110,7 @@ public class ChatController {
 			bean.setFrom(sender);
 			bean.setTo(new String[] { receiver });
 			bean.setType(type);
-			bean.setURL("img/PDF_file_icon.jpg");
+			bean.setURL(basePath + "img/PDF_file_icon.jpg");
 			bean.setTime(new Timestamp(System.currentTimeMillis()));
 			sendMultiFile(bean, bean.getFrom(), bean.getTo()[0]);
 		} else if (type.contentEquals("xlsx")) {
@@ -117,7 +118,7 @@ public class ChatController {
 			bean.setFrom(sender);
 			bean.setTo(new String[] { receiver });
 			bean.setType(type);
-			bean.setURL("img/EXCEL_file_icon.jpg");
+			bean.setURL(basePath + "img/EXCEL_file_icon.jpg");
 			bean.setTime(new Timestamp(System.currentTimeMillis()));
 			sendMultiFile(bean, bean.getFrom(), bean.getTo()[0]);
 		} else if (type.contentEquals("csv")) {
@@ -125,7 +126,7 @@ public class ChatController {
 			bean.setFrom(sender);
 			bean.setTo(new String[] { receiver });
 			bean.setType(type);
-			bean.setURL("img/EXCEL_file_icon.jpg");
+			bean.setURL(basePath + "img/EXCEL_file_icon.jpg");
 			bean.setTime(new Timestamp(System.currentTimeMillis()));
 			sendMultiFile(bean, bean.getFrom(), bean.getTo()[0]);
 		} else {
