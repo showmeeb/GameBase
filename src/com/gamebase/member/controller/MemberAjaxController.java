@@ -321,7 +321,7 @@ public class MemberAjaxController {
 		UserProfile profile = uService.getProfileByUserId(Integer.valueOf(id));
 		UserData userdata = uService.getByUserId(Integer.valueOf(id));
 		List<ArticleListView> articles = aService.queryMyArticle(Integer.valueOf(id));
-		List<ArticleContent> contents = aService.queryMemberContentByUserId(Integer.valueOf(id));
+		List<ArticleListView> contents = aService.queryMyContent(Integer.valueOf(id));
 		System.out.println(profile);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("profile", profile);

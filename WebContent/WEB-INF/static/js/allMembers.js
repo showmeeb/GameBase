@@ -5,7 +5,6 @@
 		
 
 		//載入畫面--顯示所有會員列表
-		$(document).on("click","#allmembers",function() {
 			$.ajax({
 					url : "/GameBase/getAllMembers",
 					dataType : "json",
@@ -36,7 +35,7 @@
 						$("#toDel").addClass("d-none").removeClass("d-block");
 					}
 				});
-			})
+			
 
 		//刪除會員
 		$(document).on("click", "#delmember", function() {
@@ -148,34 +147,61 @@
 				},
 				success : function(response) {
 					console.log(response);
-					$("#myModalLabel").text(response.userdata.account)
+					var pArticle="";
+					var pContent="";
+					$("#myModalLabel").text(response.userdata.account);
+					$("#regDate").text("註冊時間 : "+response.userdata.regiestdate);
+					//近期文章
 					if(response.articles.length>0){
 						$("#articleNum").text("文章數 : "+response.articles.length);
-						}else{
-							$("#articleNum").text("文章數 : 0");
+						if(response.articles.length>5){
+							for(var j=0;j<3;j++){
+								pArticle +="<li>"+response.articles[j].content+"</li>";
+							}}else{
+							for(var j=0;j<response.articles.length;j++){
+								pArticle +="<li>"+response.articles[j].content+"</li>"
+							}}
+						$("#pArticle").html(pArticle);
+					}else{
+						$("#articleNum").text("文章數 : 0");
+						$("#pArticle").text("無近期文章");
 						}
+					
+					//近期回應
 					if(response.contents.length>0){
 						$("#contentNum").text("回應數 : "+response.contents.length);
-						}else{
-							$("#contentNum").text("回應數 : 0");
+						if(response.contents.length>5){
+							for(var j=0;j<3;j++){
+								pContent +="<li>"+response.contents[j].content+"</li>";
+							}}else{
+							for(var j=0;j<response.contents.length;j++){
+								pContent +="<li>"+response.contents[j].content+"</li>"
+							}}
+						$("#pContent").html(pContent);
+					}else{
+						$("#contentNum").text("文章數 : 0");
+						$("#pContent").text("無近期文章");
 						}
+					
 					
 					if (response.profile!=null) {
 						console.log("has profile");
 						if(response.profile.nickName==null){
-							$("#pName").html("名字 : 尚未更新");
+							$("#pName").html("暱稱 : 尚未更新");
 							}else {
-							$("#pName").html("暱稱 :" + response.profile.nickName);
-						} 												
+							$("#pName").html("暱稱 :" + response.profile.nickName);			
+						}
+						if(response.profile.img==null){
+							$("#photo").attr("src","https://i.imgur.com/ke6wdHI.jpg");
+							}else{
+								$("#photo").attr("src",response.profile.img);
+							}
 					}else{
 						$("#pName").html("尚未新增個人資訊");
+						$("#photo").attr("src","https://i.imgur.com/ke6wdHI.jpg");
 						console.log("no profile");
 					}					
-					if(response.profile.img!=null){
-						$("#photo").attr("src",response.profile.img);
-					}
-				}
-				
+				}		
 			})
 			//讓動態視窗顯示
 			$("#mal-btn").click();

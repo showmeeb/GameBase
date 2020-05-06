@@ -89,7 +89,7 @@ color:#E3DCC2;
 						<a id="21"class="nav-link" href="#">會員管理</a>
 						<ul id="admin-member" class="d-none">
 							<li><a id="allmembers" class="tag" href="allMembers">會員列表</a></li>
-							<li><a id="changeRank" class="tag" href="#">權限</a></li>
+						<!-- 	<li><a id="changeRank" class="tag" href="#">權限</a></li>   -->
 						</ul>
 					</li>
 					<li class="nav-item px-0 text-muted">
@@ -119,10 +119,11 @@ color:#E3DCC2;
 	$(document).ready(function(){
 		var loginUser = JSON.parse(window.sessionStorage.getItem("loginUser"));
 		var rankId = loginUser.rankId;
+
 		$("#openBarBtn").addClass("d-none");
 		$(".shoppingCartBtn").addClass("d-none");
 		$("#foldBar").addClass("d-none");
-		
+
 
 		if(rankId==4){
 			$("#member-bar").addClass("d-none");
