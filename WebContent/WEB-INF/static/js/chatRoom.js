@@ -21,6 +21,7 @@ $(document).ready(function () {
     }
   }else{
 	  $(".loggedin-icon").addClass("disable");
+	  $(".login-btn").removeClass("disable");
   }
 
   $(".loggedin-icon").click(function () {
