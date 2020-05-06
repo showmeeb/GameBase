@@ -270,9 +270,10 @@
 		<!-- 會員系統 -->
 		<div class="col-md-2 column">
 			<div>
+				
 				<!-- 這邊放使用者大頭貼-->
 				<c:choose>
-					<c:when test="${empty sessionScope.loginUser }">
+					<c:when test="${empty sessionScope.loginUser.account}">
 						<!-- before log in -->
 						<div class="login-btn">
 							<i class="fa fa-user"></i><span>Login</span>
@@ -352,8 +353,9 @@
 		if ("${looking}" == "foForumr") {
 			$("#lookingFor").val("foForumr")
 			$(".selectLookBtn").html("找文章")
-			$(this).css("background-color","rgb(255,174,200)")
+			$(".selectLookBtn").css("background-color","rgb(255,174,200)")
 			$("#searchInput").autocomplete("disable");
+
 		}
 
 		//以下為foldBar狀態判斷
