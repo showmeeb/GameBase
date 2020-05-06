@@ -352,8 +352,9 @@
 		if ("${looking}" == "foForumr") {
 			$("#lookingFor").val("foForumr")
 			$(".selectLookBtn").html("找文章")
-			$(this).css("background-color","rgb(255,174,200)")
+			$(".selectLookBtn").css("background-color","rgb(255,174,200)")
 			$("#searchInput").autocomplete("disable");
+
 		}
 
 		//以下為foldBar狀態判斷
