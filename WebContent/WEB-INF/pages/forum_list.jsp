@@ -10,8 +10,9 @@
 	<!-- top bar -->
 	<jsp:include page="topBar.jsp" />
 	
-	<c:if test="${loginUser.rankId>=2}"><!-- rank = 2 可編輯-->
-	<!-- forum title bar -->
+	<c:if test="${loginUser.rankId>=4}"><!-- rank = 2 可編輯-->
+		<!-- forum title bar -->
+	<div class="forum_create-btn">
 	<nav class="navbar navbar-expand-sm bg-light forum_topbar">
 		<ul class="nav justify-content-end">
 			<!-- update article button -->
@@ -20,10 +21,26 @@
 					<i class="far fa-plus-square fa-2x"></i>
 				</a>
 			</li>
-<!-- 			<li class="nav-item"> hello manager<br/></li> -->
 		</ul>
 	</nav>
+	</div>
 	</c:if>
+	<c:if test="${loginUser.rankId<3}">
+	<!-- forum title bar -->
+	<div class="forum_create-btn" hidden>
+	<nav class="navbar navbar-expand-sm bg-light forum_topbar">
+		<ul class="nav justify-content-end">
+			<!-- update article button -->
+			<li class="nav-item">
+				<a id="publish-btn" class="nav-link" href="javascript:void(0)">
+					<i class="far fa-plus-square fa-2x"></i>
+				</a>
+			</li>
+		</ul>
+	</nav>
+	</div>
+	</c:if>
+
 	<!-- forum list -->
 	<div class="forumListAndForumEditor">
 		<div id="forum_list" class="forum_list">
@@ -89,7 +106,7 @@
 				<table>
 					<tr>
 						<td>討論區名稱:</td>
-						<td><input type="text" id="forumName" name="forumName" /></td>
+						<td><input type="text" id="forumName" name="forumName" size="40"/></td>
 					</tr>
 					<tr>
 						<td>討論區圖片:</td>
@@ -103,5 +120,8 @@
 		</div>
 
 	</div>
+<script type="text/javascript">
+var lo = 'forum';
+</script>
 </body>
 </html>

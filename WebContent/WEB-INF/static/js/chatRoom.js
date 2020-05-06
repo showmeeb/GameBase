@@ -228,7 +228,10 @@ function userLogin() {
           //query user like unlike record
           if(lo === "content"){
         	  queryRecord();
-        	  open_btn()
+        	  open_btn();
+        	  
+          }else if(lo ==="forum"){
+        	  open_create_forum_btn();
           }
                     
         } else {
