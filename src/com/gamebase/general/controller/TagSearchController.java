@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gamebase.article.model.ArticleListView;
+import com.gamebase.article.model.Forum;
 import com.gamebase.general.model.service.TagSearchService;
 
 @Controller
@@ -23,16 +25,24 @@ public class TagSearchController {
 			Model model) {
 
 		String jsonStr = "", returnView = "indexPage";
+		Set<ArticleListView> aLView=null;
 
 		if (!keyword.equals(null) && keyword != "" && looking.equals("forProduct")) {
 			jsonStr = tagSearchService.tagSearchByFuzzy("Product", "productName productTag", keyword);
 			returnView="shoppingPage";
+			model.addAttribute("results", jsonStr);
+			
 		}else if (!keyword.equals(null) && keyword != "" && looking.equals("foForumr")) {
-			jsonStr = tagSearchService.tagSearchByFuzzy("ArticleListView", "titleName content", keyword);
-			returnView="searchForum";			
+			aLView = (Set<ArticleListView>) tagSearchService.tagSearch(looking, keyword);
+			returnView="testTitleViewPage";		
+			model.addAttribute("articleList", aLView);
+			model.addAttribute("forum", new Forum("搜尋結果",""));
 		}
 
-		model.addAttribute("results", jsonStr);
+		//articleList
+		
+		
+		
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("looking", looking);
 

@@ -17,7 +17,7 @@ public class TagSearchService {
 		this.tagSearchDAO = tagSearchDAO;
 	}
 
-	public String tagSearch(String looking, String keyword) {
+	public Object tagSearch(String looking, String keyword) {
 		return tagSearchDAO.tagSearch(looking, keyword);
 
 	}

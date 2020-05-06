@@ -93,7 +93,7 @@ a.disabled {
 					
 					<!-- content area -->
 					<div contentId="${item.contentId}" class="content_content">
-						<span>${item.content}</span><br />
+						${item.content}
 					</div>
 				
 					<!-- icons input and time record -->

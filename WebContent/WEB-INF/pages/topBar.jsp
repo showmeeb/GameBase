@@ -71,7 +71,11 @@
 <!-- main style -->
 <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
 <link href="<c:url value="/css/topBar.css"/>" rel="stylesheet">
+<!-- jcrop -->
+<link href="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.js"></script>
 
+<script src="<c:url value="/js/userProfileCreate.js"/>"></script>
 <style>
     #foldBar {
       background-color: rgb(255,255,221);

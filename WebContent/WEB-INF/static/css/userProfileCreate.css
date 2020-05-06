@@ -12,20 +12,12 @@
 	font-size: 25px;
 
 }
-button{
-	margin:auto;
-	width:100px;
-	height:40px;
-	font-size:23px;
-}
+
 input{
 	margin:auto;
 	width:100px;
 	height:40px;
 	font-size:23px;
-}
-body {
-	text-align: center;
 }
 
 #user-photo {

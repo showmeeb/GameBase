@@ -32,7 +32,7 @@
 		<script>
 		editor = ClassicEditor
             	.create( document.querySelector( '#testeditor' ),{
-            	    mediaEmbed:{previewsInData:true	},
+            	    mediaEmbed:{previewsInData:true},
             	    removePlugins: ['Heading'],
     	        	ckfinder: {uploadUrl: "/GameBase/figureupload"}
          		} )
