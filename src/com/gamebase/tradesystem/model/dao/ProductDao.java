@@ -210,7 +210,7 @@ public class ProductDao implements IProductDao {
 		p1.setProductPrice((Integer.valueOf((String) jobj.get("6"))));
 		p1.setProductTag((String) jobj.get("7"));
 		p1.setProductInfo((String) jobj.get("8"));
-		
+		p1.setSearchFreq((Integer.valueOf((String) jobj.get("9"))));
 		return p1;
 	}
 

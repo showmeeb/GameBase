@@ -73,8 +73,8 @@ public class UserOrderDao {
 		order.setTotalAmount(String.valueOf(uo.getOrderPrice()));//前端引入
 		order.setTradeDesc("GameBase");//不能中文
 		order.setItemName("Please check your payment's detail in  Emailbox");//不能中文前端引入
-		order.setReturnURL("http://88557c63.ngrok.io/GameBase/shoppingCart/orderStatus");
-		order.setClientBackURL("http://88557c63.ngrok.io/GameBase/shoppingPage");
+		order.setReturnURL("http://d7553eb7.ngrok.io/GameBase/shoppingCart/orderStatus");
+		order.setClientBackURL("http://d7553eb7.ngrok.io/GameBase/epay");
 		String str = Ecpay.aioCheckOut(order, invoice);
 		System.out.println(str);
 		return str;
@@ -100,13 +100,14 @@ public class UserOrderDao {
 				System.out.println("9");
 				session.update(uo);
 				System.out.println("訂單建立成功");
-//				jobj.put("t",this.checkRank(uo.getUserId()));
+				jobj.put("t",this.checkRank(uo.getUserId()));
 			}else {
 				System.out.println("訂單建立失敗");
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println(jobj);
 		return jobj;
 	}
 

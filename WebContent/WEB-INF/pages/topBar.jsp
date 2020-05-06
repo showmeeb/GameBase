@@ -270,9 +270,10 @@
 		<!-- 會員系統 -->
 		<div class="col-md-2 column">
 			<div>
+				
 				<!-- 這邊放使用者大頭貼-->
 				<c:choose>
-					<c:when test="${empty sessionScope.loginUser }">
+					<c:when test="${empty sessionScope.loginUser.account}">
 						<!-- before log in -->
 						<div class="login-btn">
 							<i class="fa fa-user"></i><span>Login</span>

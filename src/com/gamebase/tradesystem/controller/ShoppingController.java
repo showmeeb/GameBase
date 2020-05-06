@@ -89,8 +89,8 @@ public class ShoppingController {
 //	}
 	
 	@RequestMapping(path = "/shoppingCart/orderStatus", method = RequestMethod.POST)
-	@ResponseBody
-	public void orderStatus(HttpServletRequest request,Model model) {
+	
+	public String orderStatus(HttpServletRequest request,Model model) {
 
 		String rtnCode = request.getParameter("RtnCode");
 		String orderId = request.getParameter("CustomField4");
@@ -106,16 +106,21 @@ public class ShoppingController {
 		
 		shoppingService.sendOrderDetail(Integer.parseInt(orderId));
 		JSONObject jobj=shoppingService.orderStatus(Integer.parseInt(rtnCode),Integer.parseInt(orderId));
-//		if((boolean)jobj.get("t")==true) {
-//			UserData ud=userDataService.getByUserId((int)jobj.get("userId"));
-//			ud.setRankId(3);
-//			userDataService.saveUserData(ud);
-//			UsersInfo uinfo = userDataService.showUserData(ud.getAccount());
-//			model.addAttribute("loginUser", uinfo);
-//		}
+		if((boolean)jobj.get("t")==true) {
+			UserData ud=userDataService.getByUserId((int)jobj.get("userId"));
+			if(ud.getRankId().equals(2)) {
+			ud.setRankId(3);
+			userDataService.saveUserData(ud);
+			UsersInfo uinfo = userDataService.showUserData(ud.getAccount());
+			model.addAttribute("loginUserEpay", uinfo);
+			System.out.println("123");
+			}
+			System.out.println("456");
+		}
 		productService.updateFreq(Integer.parseInt(orderId));
 		
 		System.out.println("付款成功!!");
+		return "indexPage";
 	}
 	
 	@RequestMapping(path = "/orderPage/showOrder", method = RequestMethod.POST)
@@ -123,6 +128,14 @@ public class ShoppingController {
 	public JSONArray showOrder(@RequestParam(value = "id") String id) {
 		System.out.println(id);
 		return shoppingService.orderQuery(Integer.valueOf(id));
+	}
+	
+	@RequestMapping(path = "/epay", method ={RequestMethod.POST,RequestMethod.GET} )
+	public String epay(HttpServletRequest request,Model model) {
+		String orderId = request.getParameter("CustomField4");
+		System.out.print(orderId);
+		
+		return "indexPage";
 	}
 	
 	@RequestMapping(path = "/shoppingPage", method = RequestMethod.GET)
