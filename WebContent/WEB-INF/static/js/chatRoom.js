@@ -6,9 +6,9 @@ function myFunction(a) {
 	  console.log(a)    
 	}
 $(document).ready(function () {
-	if(${loginUserEpay}!=""){
-		window.sessionStorage.setItem("loginUser",${loginUserEpay});
-	}
+//	if(${loginUserEpay}!=""){
+//		window.sessionStorage.setItem("loginUser",${loginUserEpay});
+//	}
   if (window.sessionStorage.getItem("loginUser") != "") {
     var login = JSON.parse(window.sessionStorage.getItem("loginUser"));
 //    $(".dropdown button[name='dmb-u']").html(login.account);
