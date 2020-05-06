@@ -4,7 +4,7 @@ $("#document").ready(function () {
 	forumId = $(".article_window").attr("forumId");
 	titleId = $(".article_window").attr("titleId");
 	console.log("title content id is "+titleContentId);
-    if(window.sessionStorage.getItem("loginUser") != ""){
+    if(window.sessionStorage.getItem("loginUser") != "" && forumId != undefined && titleId != undefined){
 		/* identify which btn been clicked */
 		userId = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
 		console.log("userId is "+userId);

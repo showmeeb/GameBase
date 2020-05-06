@@ -6,9 +6,12 @@ function myFunction(a) {
 	  console.log(a)    
 	}
 $(document).ready(function () {
+	if(${loginUserEpay}!=""){
+		window.sessionStorage.setItem("loginUser",${loginUserEpay});
+	}
   if (window.sessionStorage.getItem("loginUser") != "") {
     var login = JSON.parse(window.sessionStorage.getItem("loginUser"));
-//    $(".dropdown button[name='dmb-u']").html(login.account);
+// $(".dropdown button[name='dmb-u']").html(login.account);
     if (login.img) {
       $(".shot").removeClass("disable");
       $(".shot").attr("src", login.img).attr("id",login.userId);
@@ -21,6 +24,7 @@ $(document).ready(function () {
     }
   }else{
 	  $(".loggedin-icon").addClass("disable");
+	  $(".login-btn").removeClass("disable");
   }
 
   $(".loggedin-icon").click(function () {
@@ -62,7 +66,7 @@ $(document).ready(function () {
     }
   });
   
-//**************Admin broadcast******************
+// **************Admin broadcast******************
   $("#admin-broadcast").click(function(){
   	console.log("got admin bro");
   	$(".admin-broadcast-area").removeClass("hidden-window", 700);
@@ -85,7 +89,8 @@ $(document).ready(function () {
   // logout button
   $("#logout-str").click(function () {
 	$("#loggedin-list").fadeToggle(500);
-	$(".loggedin-icon").addClass("disable",700,function(){ // hide loggedin icon
+	$(".loggedin-icon").addClass("disable",700,function(){ // hide loggedin
+															// icon
 		$(".login-btn").removeClass("disable",700);        // show login button
 	}); 
     $("#login-submit-btn").removeClass("disable");
@@ -114,20 +119,20 @@ $(document).ready(function () {
         window.sessionStorage.setItem("loginUser", "");
         window.sessionStorage.setItem("chatRoom", "");
         window.sessionStorage.setItem("UserData", "");
-        //console.log('success');
+        // console.log('success');
 
         // hide and clean chat room
         hideChatRoom(true);
         cleanChatRoom();
         disconnectChatRoom();
-        //reset chatHistroy
+        // reset chatHistroy
         chatHistoryPage=1;
 
       }
     });
   });
   
-  //forgetPwd button
+  // forgetPwd button
   $("#forgetPwd").click(function(){
 	  $(".login-area").addClass("hidden-window", 700);
 	  $(".forgetPassword-area").removeClass("hidden-window",700);
@@ -155,7 +160,7 @@ function userLogin() {
     var formdata = $("#login-form").serializeObject();
     var UserData = JSON.stringify(formdata);
     
-    //console.log("UserData:"+UserData);	 
+    // console.log("UserData:"+UserData);
     // for login AJAX operation use
     $.ajax({
       url: "/GameBase/loginAjax/" + saveValue,
@@ -165,7 +170,7 @@ function userLogin() {
       success: function (data) {
         if (data.status == true) {
         	$("#login-submit-btn").addClass("disable");
-//          console.log("img url:" + data.loginUser.img);
+// console.log("img url:" + data.loginUser.img);
             // if user has snapshot , then use it
             if (data.loginUser.img) {
               $(".loggedin-icon img").attr("src", data.loginUser.img).attr("id",data.loginUser.userId);
@@ -221,7 +226,7 @@ function userLogin() {
         	  $("#admin-broadcast").removeClass("hidden-window", 700);
           }
           
-          //query user like unlike record
+          // query user like unlike record
           if(lo === "content"){
         	  queryRecord();
         	  open_btn()
@@ -374,7 +379,7 @@ $(document).ready(function () {
 	    }
   });
 
-  // regist autocomplete 
+  // regist autocomplete
   $("#regist-form .input-group input").keydown(function (e) {
     if (e.key == "F2") {
       // console.log("F2!!!");
@@ -389,7 +394,7 @@ $(document).ready(function () {
     }
   });
   
-  //forgetPwd autocomplete 
+  // forgetPwd autocomplete
   $("#forgetPwd-form .input-group input").keydown(function (e) {
     if (e.key == "F2") {
       // console.log("F2!!!");
@@ -441,7 +446,7 @@ $(document).ready(function () {
     history.pushState({ foo: "main" }, "", currentUrl);
   });
   
-  //auto upgrade close button
+  // auto upgrade close button
   $("#upgrade-close-btn").click(function(){
 	  $(this).parent().addClass("hidden-window", 700);
 	  $("#shadow").fadeOut(700);
@@ -512,7 +517,7 @@ $(document).ready(function () {
     };
   });
   
-  //change pwd check
+  // change pwd check
   $("#changePwd-form .input-group input[name='newPwd']").change(function () {
 	    // empty password check area
 	    $("input[name='chPwd']").val("");
@@ -675,9 +680,10 @@ if (!!window.performance && window.performance.navigation.type === 2) {
 var googleUser = {};
 var startApp = function () {
   gapi.load('auth2', function () {
-    //		Retrieve the singleton for the GoogleAuth library and set up the client.
+    // Retrieve the singleton for the GoogleAuth library and set up the client.
     auth2 = gapi.auth2.init({
-      //      client_id: '703647999598-mtjqtb9jrnp6banoqnialqlhbppjc64h.apps.googleusercontent.com',
+      // client_id:
+		// '703647999598-mtjqtb9jrnp6banoqnialqlhbppjc64h.apps.googleusercontent.com',
       client_id: '982957556355-9h99fuvvivi52g599iucre1v04ktheh0.apps.googleusercontent.com',
       cookiepolicy: 'single_host_origin',
       scope: 'profile email'
@@ -701,7 +707,7 @@ function attachSignin(element) {
         data: { idTokenStr: id_token },
         success: function (data) {
           if (data) {
-        	//console.log("goo userid:"+data.userId);
+        	// console.log("goo userid:"+data.userId);
             // if user has snapshot , then use it
             if (data.img) {
               $(".shot").removeClass("disable", 700);
@@ -742,26 +748,26 @@ function attachSignin(element) {
             $("#chat-room-friends").html(friendsList);
 
             // if user at product post page then update form's action attribute
-            //        				var productPostUrlTest = /^.*ProductPost.*$/;
+            // var productPostUrlTest = /^.*ProductPost.*$/;
             //        				
-            //        				if(productPostUrlTest.test(location.href)){
-            //        					// update AutoBuy productPost page
-            //        		    		updateProductPostAttr(data.uNo,data.uName);
-            //        				}
+            // if(productPostUrlTest.test(location.href)){
+            // // update AutoBuy productPost page
+            // updateProductPostAttr(data.uNo,data.uName);
+            // }
 
             // if user at AutoBuy publish page then update form's attribute
-            //        				var autoBuyUrlTest = /^.*AutoBuy.*$/;
+            // var autoBuyUrlTest = /^.*AutoBuy.*$/;
             //        				
-            //        				if(autoBuyUrlTest.test(location.href)){
-            //        					// update AutoBuy publish
-            //        					updateAutoBuyPublishAttr(data.uNo);
-            //        				}
+            // if(autoBuyUrlTest.test(location.href)){
+            // // update AutoBuy publish
+            // updateAutoBuyPublishAttr(data.uNo);
+            // }
 
             // show shopping cart
-            //        				if(autoBuyFlag){
-            //        					$("#shoppingCart").show(700);
-            //        					updateCartLink(data.uNo);
-            //        				}
+            // if(autoBuyFlag){
+            // $("#shoppingCart").show(700);
+            // updateCartLink(data.uNo);
+            // }
 
           } else {
             alert("Google登入失敗");
@@ -889,7 +895,7 @@ $(document).ready(function () {
     initChatRoom();
   }
   
-  //broadcast
+  // broadcast
 
   $("#broadcast-submit-btn").click(function () {
 	broadSend();
@@ -902,15 +908,15 @@ $(document).ready(function () {
 function broadSend(){
 		
     var userId = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
-//    var formData = $("#admin-broadcast-form").serializeObject();
-//    var broad = JSON.stringify(formData);
-//    console.log('broadcastData: ' + broadcastData);
+// var formData = $("#admin-broadcast-form").serializeObject();
+// var broad = JSON.stringify(formData);
+// console.log('broadcastData: ' + broadcastData);
     var broadcast = $("#admin-broadcast-form input[name='broadcast']").val();
-//    console.log('broad: ' + broad);
+// console.log('broad: ' + broad);
     let formData = new FormData();
     formData.append('broadcast' , broadcast);
-//    if(broadcast != undefined){
-//    	console.log('broadcastMessage');
+// if(broadcast != undefined){
+// console.log('broadcastMessage');
         $.ajax({
             url: "/GameBase/Broadcast/" + userId,
             type: "POST",
@@ -940,7 +946,7 @@ function initChatRoom() {
     $("#chat-room-users").append(Mustache.render(chatRoomUsersTemplate, user));
   }
   console.log('initChatRoom');
-  //console.log(chatRoomObj);
+  // console.log(chatRoomObj);
 }
 
 // user list click event
@@ -986,7 +992,7 @@ function showChatContentArea(element) {
     for (let content of chatContent) {
       if (content.from == loginUserObj.userId) {
         console.log('content.url: ' + content.url);
-        //            	console.log('content.time: ' + content.time);
+        // console.log('content.time: ' + content.time);
         if (content.url != undefined) {// from me
           $("#chat-message-area").append(Mustache.render(ownFileTemplate, content));
         }
@@ -1058,12 +1064,12 @@ function showUserListFromMessage(msg, isHistory) {
   // in order to check is the user already in the user list
   var checkFlag = true;
   for (let user of chatRoomObj.usersList) {
-    //receiver 的好友清單ID == msg.from
+    // receiver 的好友清單ID == msg.from
     if (user.userId == msg.from) {
       checkFlag = false;
 
       // receiver update brief message
-      //console.log('update brief message');
+      // console.log('update brief message');
       user.message = msg.message;
       user.time = msg.time;
     }
@@ -1102,7 +1108,7 @@ function showUserListFromMessage(msg, isHistory) {
 }
 
 function hideChatRoom(flag) {
-  //console.log('hideChatRoom.hide0');
+  // console.log('hideChatRoom.hide0');
   // close friend list
   $(".chat-room-friend-list-area").removeClass("friend-list-show", 700, function () {
     // change button icon
@@ -1131,7 +1137,7 @@ function sendMessage(event) {
     var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
 
     var className = $("#chat-message-area").attr("class");
-    //userNo is 幾號聊天室
+    // userNo is 幾號聊天室
     var userNo = className.substring(className.indexOf("-") + 1);
 
     // get data from message input area
@@ -1147,11 +1153,11 @@ function sendMessage(event) {
       from: JSON.parse(window.sessionStorage.getItem("loginUser")).userId,
       to: [userNo],
       message: $("#chat-room-input").val(),
-      //url: $("btn-file").val(),
+      // url: $("btn-file").val(),
       time: Date.now()
     }
-    //console.log('msgObj.message: ' + msgObj.message);
-    //console.log('msgObj.url: ' + msgObj.url);
+    // console.log('msgObj.message: ' + msgObj.message);
+    // console.log('msgObj.url: ' + msgObj.url);
     // set object for sending use
     sendWebSocketMessage(msgObj);
 
@@ -1173,7 +1179,7 @@ function sendMessage(event) {
         singleChat.chatContent[singleChat.chatContent.length] = msgObj;
         flag = false;
       }
-      //console.log('sender flag: ' + flag);
+      // console.log('sender flag: ' + flag);
     }
 
     if (flag) {
@@ -1181,8 +1187,8 @@ function sendMessage(event) {
         userNo: userNo,
         chatContent: [msgObj]
       }
-      //console.log('sender flag: ' + flag);
-      //console.log(chatContent)
+      // console.log('sender flag: ' + flag);
+      // console.log(chatContent)
 
       chatRoomObj.chatHistory[chatRoomObj.chatHistory.length] = chatContent;
     }
@@ -1217,9 +1223,9 @@ function sendMyFile(msgOutput, isHistory) {
   // get chat room object from sessionStorage
   var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
 
-//  var className = $("#chat-message-area").attr("class");
-  //userNo is 幾號聊天室
-//  var userNo = className.substring(className.indexOf("-") + 1);
+// var className = $("#chat-message-area").attr("class");
+  // userNo is 幾號聊天室
+// var userNo = className.substring(className.indexOf("-") + 1);
   var userNo = msgOutput.to
 
   // update brief message in users list
@@ -1231,26 +1237,26 @@ function sendMyFile(msgOutput, isHistory) {
   });
 
   // update chat history in session (sender)
-//  var flag = true;
-//  for (let singleChat of chatRoomObj.chatHistory) {
-//    if (singleChat.userNo == userNo) {
-//  	  if(isHistory){
-//		  singleChat.chatContent.unshift(msgOutput); 
-//	  }else{
-//		  singleChat.chatContent[singleChat.chatContent.length] = msgOutput; 
-//	  }
-//      flag = false;
-//    }
-//  }
+// var flag = true;
+// for (let singleChat of chatRoomObj.chatHistory) {
+// if (singleChat.userNo == userNo) {
+// if(isHistory){
+// singleChat.chatContent.unshift(msgOutput);
+// }else{
+// singleChat.chatContent[singleChat.chatContent.length] = msgOutput;
+// }
+// flag = false;
+// }
+// }
 //
-//  if (flag) {
-//    var chatContent = {
-//      userNo: userNo,
-//      chatContent: [msgOutput]
-//    }
+// if (flag) {
+// var chatContent = {
+// userNo: userNo,
+// chatContent: [msgOutput]
+// }
 //
-//    chatRoomObj.chatHistory[chatRoomObj.chatHistory.length] = chatContent;
-//  }
+// chatRoomObj.chatHistory[chatRoomObj.chatHistory.length] = chatContent;
+// }
 
   // update user list
   for (let i = 0, len = chatRoomObj.usersList.length; i < len; i++) {
@@ -1272,25 +1278,25 @@ if(isHistory){
   
 
   // move the scroll bar to the end
-//  $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
+// $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
   // clean message input area
   $("#chat-room-input").val("");
 }
 
 function sendMyMessage(msgOutput, isHistory) {
 
-//	console.log('sendMyMessage_msgOutput: ' + msgOutput);
+// console.log('sendMyMessage_msgOutput: ' + msgOutput);
 	
   // get chat room object from sessionStorage
   var chatRoomObj = JSON.parse(window.sessionStorage.getItem("chatRoom"));
 
-//  var className = $("#chat-message-area").attr("class");
-  //userNo is 幾號聊天室
-//  var userNo = className.substring(className.indexOf("-") + 1);
+// var className = $("#chat-message-area").attr("class");
+  // userNo is 幾號聊天室
+// var userNo = className.substring(className.indexOf("-") + 1);
   var userNo = msgOutput.to[0];
-//  console.log("userNo[0] = " + userNo[0]);
+// console.log("userNo[0] = " + userNo[0]);
   console.log("userNo = " + userNo);
-//  console.log("userNo[0] == 1 = " + (userNo[0] == '1'));
+// console.log("userNo[0] == 1 = " + (userNo[0] == '1'));
   console.log("userNo == 1 = " + (userNo == '1'));
 
   // update brief message in users list
@@ -1304,14 +1310,14 @@ function sendMyMessage(msgOutput, isHistory) {
   // update chat history in session (sender)
   var flag = true;
   for (let singleChat of chatRoomObj.chatHistory) {
-//	  console.log("in loop");
+// console.log("in loop");
 	  
 	  if (singleChat.userNo == userNo) {
-//		  console.log("XXXXXXXXXXXXX");
+// console.log("XXXXXXXXXXXXX");
 		  
 	  	  if(isHistory){
 			  singleChat.chatContent.unshift(msgOutput); 
-//			  console.log("test123456");
+// console.log("test123456");
 		  }else{
 			  singleChat.chatContent[singleChat.chatContent.length] = msgOutput; 
 		  }
@@ -1352,18 +1358,18 @@ function sendMyMessage(msgOutput, isHistory) {
 
 
   // move the scroll bar to the end
-//  $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
+// $("#chat-message-area").scrollTop($("#chat-message-area").prop("scrollHeight"));
 
   // clean message input area
   $("#chat-room-input").val("");
 }
 
 function showSnackbarMessage(msg) {
-//	  console.log('showsnack');
+// console.log('showsnack');
 	  $("#snackbar").html(msg.message);
-//	  console.log('html');
+// console.log('html');
 	  $("#snackbar").attr("class","show");
-//	  console.log(setTimeout);
+// console.log(setTimeout);
 	  setTimeout(function () {  $("#snackbar").removeClass("show") }, 5000);
 	}
 
@@ -1402,7 +1408,7 @@ function connectChatRoom() {
     });
     stompClient.subscribe('/topic/messages/broadcast', function (msgOutput) {
     console.log('subscribe_broadcast');
-    	//  showMessageOutput(JSON.parse(msgOutput.body), false);
+    	// showMessageOutput(JSON.parse(msgOutput.body), false);
     	showSnackbarMessage(JSON.parse(msgOutput.body));
       });
     // /user原始碼-->/queue/message-{websocket session id}
@@ -1459,7 +1465,7 @@ function showMessageOutput(msgOutput, isHistory) {
     $(".chat-room-user").each(function () {
       if ($(this).children(".chat-room-user-id").text() == msgOutput.from) {
         $(this).children(".chat-user-brief-message").text(msgOutput.message);
-        //$(this).children(".chat-user-brief-file").text(msgOutput.url);
+        // $(this).children(".chat-user-brief-file").text(msgOutput.url);
         $(this).children(".chat-user-message-time").text(msgOutput.time);
 
       }
@@ -1476,7 +1482,7 @@ function showMessageOutput(msgOutput, isHistory) {
     	  }
         flag = false;
       }
-      //console.log('receiver flag: ' + flag);
+      // console.log('receiver flag: ' + flag);
     }
 
     if (flag) {
@@ -1484,15 +1490,15 @@ function showMessageOutput(msgOutput, isHistory) {
         userNo: msgOutput.from,
         chatContent: [msgOutput]
       }
-      //console.log('receiver flag: ' + flag);
-      //console.log(chatContent)
+      // console.log('receiver flag: ' + flag);
+      // console.log(chatContent)
 
       chatRoomObj.chatHistory[chatRoomObj.chatHistory.length] = chatContent;
     }
 
     // show data from message input area
     // msgOutput.from<---userId
-    //    console.log('msgOutput.time: ' + msgOutput.time);
+    // console.log('msgOutput.time: ' + msgOutput.time);
     if ($("#chat-message-area").hasClass("id-" + msgOutput.from)) {
       if (msgOutput.url == undefined) {
     	  if(isHistory){
@@ -1538,15 +1544,15 @@ function showOnlineUsers(userList) {
 function hideOfflineUser(user) {
   // hide specific online mark
   $(".chat-room-friend").each(function () {
-    //console.log(this);
+    // console.log(this);
     var userNo = $(this).children(".chat-room-user-id").text();
 
-    //console.log(userNo);
-    //console.log(user);
+    // console.log(userNo);
+    // console.log(user);
 
     if (userNo == user) {
       $(this).children(".chat-room-friend-online-light").hide(500);
-      //console.log('This is hideOffineUser');
+      // console.log('This is hideOffineUser');
     }
   });
 }
@@ -1577,14 +1583,14 @@ function upfile() {
   });
 }
 
-//scroll to load history
-//for chat history loading use
-//true for execute loading
-//false for denied loading
+// scroll to load history
+// for chat history loading use
+// true for execute loading
+// false for denied loading
 var chatHistoryLoadLock = true;
 var chatHistoryInit = true;
 
-//chat history page start from page 2
+// chat history page start from page 2
 var chatHistoryPage = 1;
 
 function scrollMyMessage() {
@@ -1594,7 +1600,7 @@ function scrollMyMessage() {
      var sender = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
      var className = $("#chat-message-area").attr("class");
      var receiver = className.substring(className.indexOf("-") + 1);
-     //disable loading
+     // disable loading
      chatHistoryLoadLock = false;
 
      // show next page
