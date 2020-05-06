@@ -66,6 +66,8 @@
 <script src="<c:url value="/js/create_article.js"/>"></script>
 <script src="<c:url value="/js/content.js"/>"></script>
 <script src="<c:url value="/js/forumList.js"/>"></script>
+<!-- mainProduct.js import -->
+<script src="<c:url value="/js/mainProduct.js"/>"></script>
 <!-- main style -->
 <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
 <link href="<c:url value="/css/topBar.css"/>" rel="stylesheet">

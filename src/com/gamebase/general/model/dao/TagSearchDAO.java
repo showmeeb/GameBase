@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gamebase.article.model.ArticleListView;
 import com.gamebase.tradesystem.model.Product;
 
 import net.sf.json.JSONArray;
@@ -23,18 +24,41 @@ public class TagSearchDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	public String tagSearch(String looking, String keyword) {
+	public Object tagSearch(String looking, String keyword) {
 
-		String jsonString = null;
 
 		if (looking.equals("forProduct")) {
-			jsonString = searchProduct(keyword);
-		} else if (looking.equals("forArticle")) {
+			return searchProduct(keyword);
+		} else if (looking.equals("foForumr")) {
+			return searchArticle(keyword);		
 		}
 
-		return jsonString;
+		return null;
 	}
 
+	private Set<ArticleListView> searchArticle(String keyword) {
+
+		Session session = sessionFactory.getCurrentSession();
+
+		Set<ArticleListView> searchSet = new LinkedHashSet<ArticleListView>();
+
+		String[] keywordArray = keyword.split("\\s+");
+
+		for (int i = 0; i < keywordArray.length; i++) {
+			keyword = keywordArray[i];
+			List<ArticleListView> list = session.createQuery("From ArticleListView where (titleName like '%" + keyword + "%'"
+					+ " or content like '%" + keyword + "%') and contentRN = 1", ArticleListView.class).list();
+			for (int j = 0; j < list.size(); j++) {
+				searchSet.add(list.get(j));
+			}
+		}
+
+
+		return searchSet;
+
+	}
+	
+	
 	private String searchProduct(String keyword) {
 
 		Session session = sessionFactory.getCurrentSession();

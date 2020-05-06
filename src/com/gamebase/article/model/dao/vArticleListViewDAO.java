@@ -38,6 +38,14 @@ public class vArticleListViewDAO {
 		
 	}
 	
+	public List<ArticleListView> queryContentListByUserId(Integer Id) {
+		Query<ArticleListView> query = sessionFactory.getCurrentSession().createQuery("from ArticleListView where contentRN != 1 and UserId = :id", ArticleListView.class)
+				.setParameter("id", Id);
+		List<ArticleListView> list = query.list();
+		return list;
+		
+	}
+	
 	//myArticles
 	public List<ArticleListView> queryMemberArticleTitleByKeyInOneForum(Integer userId, Integer forumId, String title) {
 		System.out.println("querySomeArticleTitleByKeyInOneForum : "+forumId);	

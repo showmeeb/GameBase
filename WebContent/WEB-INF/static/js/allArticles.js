@@ -1,6 +1,37 @@
 		$(document).ready(function() {
 			$("#admin-article").removeClass("d-none").addClass("d-block");
-
+			
+			$.ajax({
+				type : "POST",
+				url : "/GameBase/getAllArticles",
+				dataType : "json",
+				success : function(response) {
+					console.log("hh");
+					var rTable = "<thead><tr><th><th>文章ID<th>主題<th>文章標題<th>發文時間</thead><tbody>";
+					
+					for (let i = 0; i < response.articles.length; i++) {
+						rTable += '<tr class="tr"><td><input type="radio" class="radio del d-none" name="d">';
+						rTable += '<td scope="row">'+ (i+1);
+						if (response.articles[i].forumId == 1) {
+							rTable += "<td>英雄聯盟"
+							} else if (response.articles[i].forumId == 2) {
+							rTable += "<td>魔獸世界"
+							} else if (response.articles[i].forumId == 3) {
+							rTable += "<td>魔物獵人"
+								}
+						rTable += "<td>"+ response.articles[i].titleName;
+						rTable += "<td>"+ response.articles[i].createTime;
+						rTable += "<td>"+ response.articles[i].titleId;
+						rTable += "<td>"+ response.articles[i].forumId;
+							}
+						rTable +="<tbody>"
+						$('#rTable').html(rTable);
+						$("#del").addClass("d-none").removeClass("d-block");
+						$("#toDel").addClass("d-none").removeClass("d-block");
+						
+					}
+				});
+			
 			$(document).on("click","#s",function() {
 				var forum = $("#option").val();
 				var title = $("#sBar").val();
@@ -45,41 +76,8 @@
 			})
 			
 			
-			$(document).on("click",	"#allArticles",	function() {
-					$.ajax({
-						type : "POST",
-						url : "/GameBase/getAllArticles",
-						dataType : "json",
-						beforesend : function() {
-							$('#rTable').html("");
-							},
-						success : function(response) {
-							console.log("hh");
-							var rTable = "<thead><tr><th><th>文章ID<th>主題<th>文章標題<th>發文時間</thead><tbody>";
-							
-							for (let i = 0; i < response.articles.length; i++) {
-								rTable += '<tr class="tr"><td><input type="radio" class="radio del d-none" name="d">';
-								rTable += '<td scope="row">'+ (i+1);
-								if (response.articles[i].forumId == 1) {
-									rTable += "<td>英雄聯盟"
-									} else if (response.articles[i].forumId == 2) {
-									rTable += "<td>魔獸世界"
-									} else if (response.articles[i].forumId == 3) {
-									rTable += "<td>魔物獵人"
-										}
-								rTable += "<td>"+ response.articles[i].titleName;
-								rTable += "<td>"+ response.articles[i].createTime;
-								rTable += "<td>"+ response.articles[i].titleId;
-								rTable += "<td>"+ response.articles[i].forumId;
-									}
-								rTable +="<tbody>"
-								$('#rTable').html(rTable);
-								$("#del").addClass("d-none").removeClass("d-block");
-								$("#toDel").addClass("d-none").removeClass("d-block");
-								
-								}
-							});
-					})
+					
+			
 								
 		//按下文章可在旁邊顯示文章畫面(iframe)	
 		$(document).on("click", ".tr", function() {
