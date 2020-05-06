@@ -53,7 +53,7 @@
 			</div>
 		</div>
 		<div id="forum" class="float-right w-50">
-		    <iframe id="iframe" class="d-none" style="width:700px;height:600px;pointer-events: none;" onload="dtopBar()"></iframe>
+		    <iframe id="iframe" class="d-none w-100" style="height:600px;pointer-events: none;" onload="dtopBar()"></iframe>
 		</div>
 		
 		

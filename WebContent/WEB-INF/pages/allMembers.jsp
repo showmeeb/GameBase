@@ -63,22 +63,23 @@
 						<div id="pDiv" class="container-fluid">
 							<div class="prfile">
 								<h5 class="border-bottom">會員資訊</h5>
-								<img id="photo" src="https://i.imgur.com/wZBlO1x.jpg"
+								<img id="photo" src="https://i.imgur.com/ke6wdHI.jpg"
 									class="w-25 ml.auto float-left">
 								<div id="pName" class="d-block "></div>
 								<div id="regDate" class="d-block "></div>
 								<div id="contentNum" class="d-block "></div>
 								<div id="articleNum" class="d-block "></div>
-								<div id="contentNum" class="d-block "></div>
+								</br>
+								</br>
 								
 							</div>
 							<div class="article clearfix">
 								<h5 class="border-bottom">近期文章</h5>
-								<table id="pArticle"></table>
+								<ol id="pArticle"></ol>
 							</div>
 							<div class="context clearfix">
 								<h5 class="border-bottom">近期回應</h5>
-								<table id="pArticle"></table>
+								<ol id="pContent"></ol>
 							</div>
 							<!-- <input type="button" id="add" value="新增"> -->
 							<span id="pMsg"></span>

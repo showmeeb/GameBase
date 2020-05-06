@@ -1,4 +1,5 @@
 
+
 		$(document).ready(function() {
 			$("#pwdSpan").hide();
 			$(".pwdUpdate").css("display", "none");
@@ -67,16 +68,16 @@
 					contentType : "application/json",
 					success : function(data) {
 						if(data.status){
-//							console.log("success");
 							alert("更新密碼成功!")
 						}else{
-//							console.log("fail");
-							alert("出錯了")
+							alert("出錯了");
+							$('#ePwd').attr("disabled",true);
 						}
 					}
 				})
 			}else{
 				alert("密碼不相同");
+				$('#ePwd').attr("disabled",true);
 			}
 		}
 		
@@ -269,11 +270,12 @@
 			console.log(testPhone);
 	
 			if(!testPhone){
-				document.getElementById('phoneErr').innerHTML = '請輸入正確號碼';
+//				document.getElementById('phoneErr').innerHTML = '請輸入正確號碼';
+				alert('請輸入正確號碼');
 				$('#edP').attr("disabled",true);
 				return false;
 			}else{
-				document.getElementById('phoneErr').innerHTML = 'ok';
+//				document.getElementById('phoneErr').innerHTML = 'ok';
 				$('#edP').attr("disabled",false);
 				return true;
 			}
@@ -284,11 +286,13 @@
 			var age = document.getElementById('age').value;
 
 			if(isNaN(age)||age>100||age<10){
-				document.getElementById('ageErr').innerHTML = '請輸入介於10~100間的數字';
+//				document.getElementById('ageErr').innerHTML = '請輸入介於10~100間的數字';
+				alert('請輸入介於10~100間的數字');
 				$('#edA').attr("disabled",true);
 				return false;
+				
 			}else{
-				document.getElementById('ageErr').innerHTML = 'ok';
+//				document.getElementById('ageErr').innerHTML = 'ok';
 				$('#edA').attr("disabled",false);
 				return true;
 			}

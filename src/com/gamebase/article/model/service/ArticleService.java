@@ -71,6 +71,11 @@ public class ArticleService {
 	public List<ArticleListView> queryMyArticle(Integer id) {
 		return alvDao.queryArticleListByUserId(id);
 	}
+	
+	// 後臺個人回應列表
+	public List<ArticleListView> queryMyContent(Integer id) {
+		return alvDao.queryContentListByUserId(id);
+	}
 
 	public List<ArticleRecord> queryRecordsByTitleId(Integer titleId) {
 		return recordDao.queryByTitleId(titleId);
@@ -202,11 +207,6 @@ public class ArticleService {
 
 	public FriendsInfoView queryFriendsInfoView(Integer userId) {
 		return clvDao.queryFriendsInfoView(userId);
-	}
-
-	// 後台
-	public List<ArticleContent> queryMemberContentByUserId(int id) {
-		return contentDao.queryMemberContentByUserId(id);
 	}
 
 	// 後台
