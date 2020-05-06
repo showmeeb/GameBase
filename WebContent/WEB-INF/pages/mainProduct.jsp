@@ -7,6 +7,9 @@
 <meta charset="UTF-8">
 
 <style>
+#myd1 thead{
+background-color: 
+}
 
 </style>
 </head>
@@ -25,11 +28,29 @@
 
 		<div id="myd1">
 			<form id="myf1">
-				<table id="myt1">
+				<table >
+				<thead ><tr>
+					<th>商品ID</th>
+					<th>商品影片</th>
+					<th>商品照片</th>
+					<th>商品名稱</th>
+					<th>商品類型</th>
+					<th>商品庫存</th>
+					<th>商品價錢</th>
+					<th>商品標籤</th>
+					<th>商品介紹</th>
+					<th>商品熱銷度</th>
+					<th colspan='2'>設定</th>
+					</tr>
+				</thead>
+				<tbody id="myt1">
+				
+				</tbody>
+					
 				</table>
 				
 				
-				<!-- <input type="button" id="add" value="新增"> -->
+				
 			</form>
 		</div>
 		</div>
@@ -49,9 +70,9 @@ function showtable(response) {
 					$('#myt1').html("");
 				},
 				success : function(response) {
-					var txt = "<tr><th>商品ID<th>商品影片<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th>商品熱銷度<th colspan='2'>設定";
+					var txt = "";
 					for (let i = 0; i < response.length; i++) {
-						txt += "<tr><td>" + response[i].productId;
+						txt += "<tr> <th scope='row'>"+i+1+"</th><td>" + response[i].productId;
 						txt += "<td>" + response[i].productVideo;
 						txt += "<td id='img'>"+ response[i].productImg;
 						txt += "<td>" + response[i].productName;
@@ -83,7 +104,7 @@ $(document)
 								type : "POST",
 								success : function(response) {
 									console.log(response);
-									var txt = "<tr><th>商品ID<th>商品影片<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th colspan='2'>設定";
+									var txt = "";
 									for (let i = 0; i < response.length; i++) {
 										txt += "<tr><td>"
 												+ response[i].productId;
@@ -101,6 +122,8 @@ $(document)
 												+ response[i].productTag;
 										txt += "<td>"
 												+ response[i].productInfo;
+										txt += "<td>"
+											+ 	response[i].searchFreq;
 										txt += '<td><input type="button" id="update" value="修改">';
 										txt += '<td><input type="button" id="delete" value="刪除">';
 									}
@@ -202,6 +225,7 @@ $(document).on('click', '#add', function() {
 	txt += "<td><input type='text'>";
 	txt += "<td><input type='text'>";
 	txt += "<td><input type='text'>";
+	txt += "<td><input type='text'>";
 	txt += '<td><input type="button" id="add1" value="送出">';
 	txt += '<td><input type="button" id="delete" value="刪除">';
 	$('#myt1').append(txt);
@@ -280,10 +304,12 @@ $(document)
 										console.log("yes1");
 										console.log(response);
 										console.log(response.length);
-										var txt = "<tr><th>商品ID<th>商品照片<th>商品名稱<th>商品類型<th>商品庫存<th>商品價錢<th>商品標籤<th>商品介紹<th colspan='2'>設定";
+										var txt = "";
 										for (let i = 0; i < response.length; i++) {
 											txt += "<tr><td>"
 													+ response[i].productId;
+											txt += "<td>"
+												+ response[i].productVideo;
 											txt += "<td id='img'>"
 													+ response[i].productImg;
 											txt += "<td>"
@@ -298,6 +324,8 @@ $(document)
 													+ response[i].productTag;
 											txt += "<td>"
 													+ response[i].productInfo;
+											txt += "<td>"
+												+ 	response[i].searchFreq;
 											txt += '<td><input type="button" id="add1" value="送出">';
 											txt += '<td><input type="button" id="delete" value="刪除">';
 										}
