@@ -117,10 +117,10 @@
 	<script type="text/javascript">
 		var url = '<c:url value="/forum_test/${forum.forumId}/add"/>';
 		var lo = 'title';
-		var forumId = $
-		{
-			forum.forumId
-		};
+// 		var forumId = $
+// 		{
+// 			forum.forumId
+// 		};
 	</script>
 </body>
 </html>
