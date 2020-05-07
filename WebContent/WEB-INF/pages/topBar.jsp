@@ -214,7 +214,7 @@
 	<nav class="navbar navbar-light topBarFixed " id="topBar">
 
 		<!--LOGO-->
-		<div class="col-md-3 column logoC">
+		<div class="col-md-3 column">
 			<a class="navbar-brand" href="<c:url value="/"/>"> <img
 				src="https://i.imgur.com/7oJSy01.png" width="350"
 				class="d-inline-block align-top logoImg">
@@ -437,8 +437,15 @@
 		$(document).ready(function(){
 		    $(window).resize(function() {
 		        if($(window).width()<1650){
-					$(".logoC").siblings().addClass("hideSome");
-			  }else{$(".logoC").siblings().removeClass("hideSome");}
+			        console.log("AA");
+					$("#foldBar").addClass("hideSome");
+					$("#openBarBtn").addClass("hideSome");
+					$(".shoppingCartBtn").addClass("hideSome");
+			  }else{
+				  $("#foldBar").removeClass("hideSome");
+				  $("#openBarBtn").removeClass("hideSome");
+				  $(".shoppingCartBtn").removeClass("hideSome");
+				  			  }
 		    });
 		});
 	</script>
