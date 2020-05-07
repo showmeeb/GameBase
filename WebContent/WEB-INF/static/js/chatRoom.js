@@ -114,6 +114,11 @@ $(document).ready(function () {
     $("#loggedin-list").fadeToggle(500);
     location.href = adminCenterUrl;
   });
+//admin center button-l
+  $("#admin-center-btn-l").click(function(){
+    $("#loggedin-list").fadeToggle(500);
+    location.href = adminCenterUrl;
+  });
   // user center button
   $("#user-center-btn").click(function(){
     $("#loggedin-list").fadeToggle(500);

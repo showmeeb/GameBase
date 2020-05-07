@@ -37,14 +37,15 @@
 		<form id="pwd-form">
 		<div class="form-group form-group-lg">
 				<div id="pwdShow" class="user-data-tag-area">密碼:********</div>
-				<div id="pwdSpan">舊密碼<input type="password" class="form-control input-lg" name="oldPwd" id="pwd"><br>
+				<div id="pwdSpan" class="pwdCh">
+					舊密碼<input type="password" class="form-control input-lg" name="oldPwd" id="pwd"><br>
 					新密碼<input type="password" class="form-control input-lg" name="newPwd" id="pwd"><br>
 					確認密碼<input type="password" class="form-control input-lg" name="chPwd" id="pwd2">
 				</div>
 			</div>
 			<div >
 				<input type="button" class="btn btn-info pwdBtn" value="修改">
-				<button id="ePwd" class="btn btn-primary pwdUpdate">更新</button>
+				<button class="btn btn-primary pwdUpdate">更新</button>
 			</div>
 		</form>
 		<hr>
