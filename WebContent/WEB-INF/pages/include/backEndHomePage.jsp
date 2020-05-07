@@ -43,15 +43,15 @@ color:#E3DCC2;
 }
 #main_back {
 	position: relative;
-	top: 57px;
-	left: 20%;
+	top: 50px;
+	left: 15%;
 	width: 75%;
 
 }
 </style>
-<jsp:include page="../topBar.jsp"></jsp:include>
-<body>
 
+<body>
+<jsp:include page="../topBar.jsp"></jsp:include>
 	<!-- Sidebar -->
 	<nav id="sidebar" class="container py-3 fixed-left">
 		<div id="sidebar-header" class="sidebar-header border-bottom ">

@@ -12,13 +12,8 @@
 //				 jsonData = result.articles;//所有文章
 //				 console.log(jsonData);  
 //				 pagination(jsonData, 1);
-//			  });
-			  
-			
-			
-			
-			
-			
+//			  });			  
+		
 			
 			$.ajax({
 				type : "POST",
@@ -28,7 +23,7 @@
 					console.log("hh");
 					var rTable = "<thead><tr><th><th>文章ID<th>主題<th>文章標題<th>發文時間</thead><tbody>";
 					
-					for (let i = 0; i < response.articles.length; i++) {
+					for (let i = 0; i < 7; i++) {
 						rTable += '<tr class="tr"><td><input type="radio" class="radio del d-none" name="d">';
 						rTable += '<td scope="row">'+ (i+1);
 						if (response.articles[i].forumId == 1) {
@@ -70,7 +65,7 @@
 						var rTable = "<thead><tr><th><th>文章ID<th>主題<th>文章標題<th>發文時間</thead><tbody>";
 						
 						
-						for (let i = 0; i < response.articles.length; i++) {
+						for (let i = 0; i < 7; i++) {
 						rTable += '<tr class="tr"><td><input type="radio" class="radio del d-none" name="d" value="response.articles[i].titleId">';
 						rTable += '<td scope="row">'+ (i+1);
 						if (response.articles[i].forumId == 1) {
@@ -152,7 +147,7 @@
 						success : function(response) {																							
 								var rTable = "<thead><tr><th><th>文章ID<th>主題<th>文章標題<th>發文時間</thead><tbody>";
 								
-								for (let i = 0; i < response.articles.length; i++) {
+								for (let i = 0; i < 7; i++) {
 									rTable += '<tr class="tr"><td><input type="radio" class="radio del d-none" name="d">';
 									rTable += '<td scope="row">'+ (i+1);
 									if (response.articles[i].forumId == 1) {
