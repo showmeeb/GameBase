@@ -48,6 +48,19 @@
 			    };
 			  });
 
+
+			$("#pwd-form input").keydown(function(e){
+				console.log(e.key);
+				if(e.key == "F2"){
+					var oPwd="Test1234";
+					var nPwd1="Test1234";
+					var nPwd2="Test1234";
+					$("#pwd-form .pwdCh input[name='oldPwd']").val(oPwd);
+					$("#pwd-form .pwdCh input[name='newPwd']").val(nPwd1);
+					$("#pwd-form .pwdCh input[name='chPwd']").val(nPwd2);
+				}
+			})
+			
 		});
 		
 		function updatePwd(){
@@ -295,3 +308,4 @@
 				return true;
 			}
 		}
+		
