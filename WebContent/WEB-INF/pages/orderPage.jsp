@@ -54,15 +54,15 @@ background: rgb(255, 234, 223,0.6)
 			  <thead class="thead-dark">
 			    <tr>
 			      <th scope="col">No.</th>
-			      <th scope="col">OrderId</th>
-			      <th scope="col">UuId</th>
-				  <th scope="col">OrderName</th>
-				  <th scope="col">OrderPhone</th>
-				  <th scope="col">OrderAddress</th>
-				  <th scope="col">OrderPrice</th>
-				  <th scope="col">OrderDate</th>
-				  <th scope="col">PayStatus</th>
-				  <th scope="col">OrderEmail</th>
+			      <th scope="col">訂單ID</th>
+			      <th scope="col">訂單編號</th>
+				  <th scope="col">消費者</th>
+				  <th scope="col">電話</th>
+				  <th scope="col">地址</th>
+				  <th scope="col">訂單價格</th>
+				  <th scope="col">日期</th>
+				  <th scope="col">付款狀態</th>
+				  <th scope="col">信箱</th>
 			    </tr>
 			  </thead>
 			  <tbody id="tb1">

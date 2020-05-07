@@ -24,7 +24,8 @@
 <body>
     <jsp:include page="include/backEndHomePage.jsp"></jsp:include>
 <main id="main_back">
-切換註冊商品<button id="gameMode" value="game">遊戲</button>
+<!-- 切換註冊商品<button id="gameMode" value="game">遊戲</button> -->
+<h1>新增商品</h1>
 <div id ="dg">
 
 	<form id="form1">
