@@ -45,10 +45,10 @@
 				<i class="fas fa-user-tie"></i>
 				<div>高級會員</div>
 				<ul>
-					<li>新增文章區發文</li>
-					<li>新增會員文章修改</li>
-					<li class="auth-content-area">xxx</li>
-					<li class="auth-content-area">xxx</li>
+					<li>新增修改討論區主題</li>
+					<li>新增修改討論區文章</li>
+					<li>商城購物八折</li>
+<!-- 					<li>xxx</li> -->
 					<li><b>升級費用：500 元</b></li>
 				</ul>
 				<button class="buttonL" id="auth-pm-upgrade-btn">申請</button>
