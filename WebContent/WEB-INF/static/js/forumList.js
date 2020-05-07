@@ -6,30 +6,23 @@ $(document).ready(function(){
 	selected_forumName;
 	selected_forumFigure;
 	userId = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
+	rankId = JSON.parse(window.sessionStorage.getItem("loginUser")).rankId;
+	if(rankId >=4){
+		$(".forum_editor_btn").attr("hidden",false);
+	}
 	
-	$(".forum_editor_btn").attr("hidden",false);
 	
-	//open forum editor
-    $("#publish-btn").click(function(){
-    	console.log("pulish btn");
-    	//判斷登入狀況
-        if(window.sessionStorage.getItem("loginUser") != ""){
-        	console.log("test");
-       	 $("#forum_publish-area").removeClass("hidden-window",700);
-       	 $("#shadow").fadeIn(700);
-       	 $("#forum_submit").attr("hidden",false);
-       	 } else {
-       	 alert("請先登入 !");       	    		
-       	 $(".login-area").removeClass("hidden-window", 700);
-       	 $("#shadow").fadeIn(700);
-       	 }       
+	// open forum editor
+    $(".forum_publish_btn").click(function(){
+    	open_create_forum();
+        // forum editor close btn
+        $(".forum_close_btn").click(close_window);
+
     });
     
-    //forum editor close btn
-    $(".forum_close_btn").click(close_window);
 
     
-	//editor forum btn clciked
+	// editor forum btn clciked
     $(".forum_update_btn").click(function(){
     	console.log("forum_update_btn");
 		$(".forum_editor").removeClass("hidden-window",700);
@@ -37,7 +30,7 @@ $(document).ready(function(){
         $("#forum_submit").attr("hidden",true);
         $("#forum_update").attr("hidden",false);
         
-        //find select value id, name, figure 
+        // find select value id, name, figure
         selected_forumId = $(this).attr("forumId");
         console.log(selected_forumId);
         selected_forumName = $(".forumdata[forumid='"+selected_forumId+"'] .fname").text();
@@ -48,16 +41,15 @@ $(document).ready(function(){
         $("#forumName").val(selected_forumName);		        
         $("#previewImage").attr('src',selected_forumFigure);
         
-        //test
+        // test
         var test = $(".forum_forum[forumid="+selected_forumId+"] .forum_name a").text();
-        console.log("test2");
-        console.log(test);
+
     });
 	    
-	//update figure btn clicked 
+	// update figure btn clicked
 	$("#forum_update").click(update_forum);
 	
-	//figure preview
+	// figure preview
 	$("#forumFigure").change(function() {
 		
     	var fileReader = new FileReader();
@@ -70,10 +62,10 @@ $(document).ready(function(){
         fileReader.readAsDataURL(imageFile);
 	});
 	
-	//form editor submit
+	// form editor submit
 	$("#forum_submit").click(function(){
 		console.log("submit");
-		//forumData
+		// forumData
 		var forumData = new FormData();
 		var forumFigure = "";
 		if( $("#forumFigure")[0].files[0] != null ){
@@ -84,7 +76,7 @@ $(document).ready(function(){
 		forumData.append("forumName", forumName);
 		forumData.append("forumFigure",forumFigure);
 		
-		//ajax
+		// ajax
 		$.ajax({
 			url:'/GameBase/forum_test/add/',
 			processData: false,		
@@ -101,11 +93,11 @@ $(document).ready(function(){
 				.on("click",".forum_update_btn",update_forum);
 				
 			
-				var img = response.newForum.img;
+				var img = response.newForum.forumFigure;
 				console.log(img);
 				$(".forum_forum[forumid="+response.newForum.forumId+"] ").css("background-image",["url("+img+")","linear-gradient(to right, blue, red)"]);
 			
-				//reset create forum form value
+				// reset create forum form value
 				$("#forumFigure").val("");
 				$("#forumName").val("");
 				$("#previewImage").attr('src','');
@@ -115,18 +107,18 @@ $(document).ready(function(){
 		});
 	});
 	
-	// delete forum 
+	// delete forum
 	$(".forum_del_btn").click(del_forum);
 
 });
 
-//variable
+// variable
 var selected_forumId;
 var selected_forumName;
 var selected_forumFigure;
 var userId;
-
-//close forum editor
+var rankId;
+// close forum editor
 function close_window(){  
 	console.log("close btn clicked");
     // empty input area
@@ -140,13 +132,13 @@ function close_window(){
     $("#forum_update").attr("hidden",true);
 }
 
-//update forum
+// update forum
 function update_forum(){
-	//forumData
+	// forumData
 	var forumData = new FormData();
 	var forumFigure = null;
 	var forumName = $("#forumName").val();	
-
+	
 	if( $("#forumFigure")[0].files[0] != null ){
 		forumFigure = $("#forumFigure")[0].files[0];
 		console.log(forumFigure);
@@ -164,26 +156,28 @@ function update_forum(){
         data:forumData,
 		success:function(response){
 	        console.log("update success");
-			//update data to js
+			// update data to js
 			selected_forumName = response.forum.forumName;
 			selected_forumFigure = response.forum.forumFigure;
 	        console.log(selected_forumName);
 	        console.log(selected_forumFigure);
-	        // empty input area				
+	        // empty input area
 	        $("#forumName").val("");
 	        $("#forumFigure").val("");
 	        $("#previewImage").attr('src','');
 	        // close window
 			close_window();
-	        //update data
+	        // update data
 			$(".forum_forum[forumid="+selected_forumId+"] .forum_name a").text(selected_forumName);
 	        $(".forum_forum[forumid="+selected_forumId+"] .forum_img img").attr("src",selected_forumFigure);
 	        $(".forumdata[forumid='"+selected_forumId+"'] .fname").text(selected_forumName);
 	        $(".forumdata[forumid='"+selected_forumId+"'] .ffigure").text(selected_forumFigure);
+	        $(".forum_forum[forumid="+selected_forumId+"]").css("background-image",["url("+selected_forumFigure+")","linear-gradient(to right, blue, red)"]);
 		}
 	});
 }
-//delete forum 
+
+// delete forum
 function del_forum(){
 	console.log("delete forum, forum ID : "+$(this).attr("id"));
 	var forumId=$(this).attr("forumId");
@@ -212,12 +206,27 @@ function forum_bg_set(){
 function open_create_forum_btn() {
 	console.log("open_create_forum_btn");
 	userId = JSON.parse(window.sessionStorage.getItem("loginUser")).userId;
-	var rankId = JSON.parse(window.sessionStorage.getItem("loginUser")).rankId;
+	rankId = JSON.parse(window.sessionStorage.getItem("loginUser")).rankId;
 	if(rankId>=4){
-		$(".forum_create-btn").attr("hidden",false);
+		$(".forum_create_btn").attr("hidden",false);
+		$(".forum_publish_btn").on('click',open_create_forum);
 	};
 }
 
+function open_create_forum(){
+	console.log("publish btn");
+	// 判斷登入狀況
+    if(window.sessionStorage.getItem("loginUser") != ""){
+    	console.log("test");
+   	 $("#forum_publish-area").removeClass("hidden-window",700);
+   	 $("#shadow").fadeIn(700);
+   	 $("#forum_submit").attr("hidden",false);
+   	 } else {
+   	 alert("請先登入 !");       	    		
+   	 $(".login-area").removeClass("hidden-window", 700);
+   	 $("#shadow").fadeIn(700);
+   	 }
+}
 var newForumTemplate =
 	'<div class="forum_forum" forumId="{{forumId}}">'
 	+'<div class="forum_title_bar">'
