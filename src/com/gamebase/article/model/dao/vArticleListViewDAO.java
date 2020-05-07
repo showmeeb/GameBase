@@ -74,5 +74,13 @@ public class vArticleListViewDAO {
 //      List list = query.list();
 //		return list;
 //	}
+	 
+	//發文會員數
+	public List<ArticleListView> getNumOfUserPosteed() {
+		Query<ArticleListView> query = sessionFactory.getCurrentSession()
+				.createQuery("select distinct userId from ArticleListView where userId!=0");
+		List<ArticleListView> list=query.list();
+		return list;
+	}				 
 
 }

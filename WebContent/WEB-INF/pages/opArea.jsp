@@ -9,9 +9,9 @@
 	href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
 	integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
 	crossorigin="anonymous">
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
-	rel="stylesheet">
+<!-- <link -->
+<!-- 	href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" -->
+<!-- 	rel="stylesheet"> -->
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -39,31 +39,19 @@
 					<li>聊天室</li>
 					<li>網頁瀏覽</li>
 				</ul>
-				<button style="visibility: hidden">申請</button>
+				<button class="buttonL" style="visibility: hidden">申請</button>
 			</div>
 			<div class="auth-fa-user">
 				<i class="fas fa-user-tie"></i>
-				<div>白金會員</div>
+				<div>高級會員</div>
 				<ul>
-					<li>新增文章區發文</li>
-					<li>新增會員文章修改</li>
-					<li class="auth-content-area">xxx</li>
-					<li class="auth-content-area">xxx</li>
+					<li>新增修改討論區主題</li>
+					<li>新增修改討論區文章</li>
+					<li>商城購物八折</li>
+<!-- 					<li>xxx</li> -->
 					<li><b>升級費用：500 元</b></li>
 				</ul>
-				<button id="auth-pm-upgrade-btn">申請</button>
-			</div>
-			<div class="auth-fa-user hidden">
-				<i class="fas fa-user-secret"></i>
-				<div>鑽石會員</div>
-				<ul>
-					<li>新增購物商城刊登商品</li>
-					<li>新增會員商品管理</li>
-					<li class="auth-content-area">xxx</li>
-					<li class="auth-content-area">xxx</li>
-					<li><b>升級費用：2000 元</b></li>
-				</ul>
-				<button id="auth-dm-upgrade-btn">申請</button>
+				<button class="buttonL" id="auth-pm-upgrade-btn">申請</button>
 			</div>
 		</div>
 	</div>

@@ -25,7 +25,7 @@
 	</nav>
 	</div>
 	</c:if>
-	<c:if test="${loginUser.rankId<3}">
+	<c:if test="${loginUser.rankId<3 || empty loginUser}">
 	<!-- forum title bar -->
 	<div class="forum_create-btn" hidden>
 	<nav class="navbar navbar-expand-sm bg-light forum_topbar">
@@ -100,7 +100,7 @@
 		</div>
 
 
-		<div id="publish-area" class="forum_editor popup-window hidden-window">
+		<div id="forum_publish-area" class="forum_editor popup-window hidden-window">
 			<form id="forumData" enctype="multipart/form-data">
 				<i id="forum_close_btn" class="fas fa-times forum_close_btn"></i>
 				<table>
@@ -114,8 +114,8 @@
 					</tr>
 				</table>
 			</form>
-			<button id="submit" class="buttonL" hidden="true">建立新的討論區</button>
-			<button id="update" class="buttonL" hidden="true">更新討論區</button>			
+			<button id="forum_submit" class="buttonL" hidden="true">建立新的討論區</button>
+			<button id="forum_update" class="buttonL" hidden="true">更新討論區</button>			
 			<img id="previewImage" alt="預覽圖" height="315" />
 		</div>
 

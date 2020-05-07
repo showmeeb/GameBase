@@ -14,9 +14,10 @@ $(document).ready(function(){
     	console.log("pulish btn");
     	//判斷登入狀況
         if(window.sessionStorage.getItem("loginUser") != ""){
-       	 $("#publish-area").removeClass("hidden-window",700);
+        	console.log("test");
+       	 $("#forum_publish-area").removeClass("hidden-window",700);
        	 $("#shadow").fadeIn(700);
-       	 $("#submit").attr("hidden",false);
+       	 $("#forum_submit").attr("hidden",false);
        	 } else {
        	 alert("請先登入 !");       	    		
        	 $(".login-area").removeClass("hidden-window", 700);
@@ -33,8 +34,8 @@ $(document).ready(function(){
     	console.log("forum_update_btn");
 		$(".forum_editor").removeClass("hidden-window",700);
         $("#shadow").fadeIn(700);   
-        $("#submit").attr("hidden",true);
-        $("#update").attr("hidden",false);
+        $("#forum_submit").attr("hidden",true);
+        $("#forum_update").attr("hidden",false);
         
         //find select value id, name, figure 
         selected_forumId = $(this).attr("forumId");
@@ -54,7 +55,7 @@ $(document).ready(function(){
     });
 	    
 	//update figure btn clicked 
-	$("#update").click(update_forum);
+	$("#forum_update").click(update_forum);
 	
 	//figure preview
 	$("#forumFigure").change(function() {
@@ -70,7 +71,7 @@ $(document).ready(function(){
 	});
 	
 	//form editor submit
-	$("#submit").click(function(){
+	$("#forum_submit").click(function(){
 		console.log("submit");
 		//forumData
 		var forumData = new FormData();
@@ -98,6 +99,12 @@ $(document).ready(function(){
 				$(".forum_forum[forumid="+response.newForum.forumId+"]")
 				.on("click",".forum_del_btn",del_forum)
 				.on("click",".forum_update_btn",update_forum);
+				
+			
+				var img = response.newForum.img;
+				console.log(img);
+				$(".forum_forum[forumid="+response.newForum.forumId+"] ").css("background-image",["url("+img+")","linear-gradient(to right, blue, red)"]);
+			
 				//reset create forum form value
 				$("#forumFigure").val("");
 				$("#forumName").val("");
@@ -129,8 +136,8 @@ function close_window(){
     // close window
     $(".forum_editor").addClass("hidden-window", 700);
     $("#shadow").fadeOut(700);
-    $("#submit").attr("hidden",false);
-    $("#update").attr("hidden",true);
+    $("#forum_submit").attr("hidden",false);
+    $("#forum_update").attr("hidden",true);
 }
 
 //update forum
@@ -199,9 +206,7 @@ function forum_bg_set(){
 		var img = $(this).children("img").attr("src");
 		console.log(img);
 		$(this).parents(".forum_forum").css("background-image",["url("+img+")","linear-gradient(to right, blue, red)"]);
-	});
-	
-	
+	});	
 }
 
 function open_create_forum_btn() {
