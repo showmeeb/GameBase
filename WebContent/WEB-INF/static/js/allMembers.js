@@ -154,12 +154,12 @@
 					//近期文章
 					if(response.articles.length>0){
 						$("#articleNum").text("文章數 : "+response.articles.length);
-						if(response.articles.length>5){
+						if(response.articles.length>3){
 							for(var j=0;j<3;j++){
-								pArticle +="<li>"+response.articles[j].content+"</li>";
-							}}else{
+								pArticle +="<li>"+response.articles[j].titleName+"</li>";
+						}}else{
 							for(var j=0;j<response.articles.length;j++){
-								pArticle +="<li>"+response.articles[j].content+"</li>"
+								pArticle +="<li>"+response.articles[j].titleName+"</li>"
 							}}
 						$("#pArticle").html(pArticle);
 					}else{
@@ -170,7 +170,7 @@
 					//近期回應
 					if(response.contents.length>0){
 						$("#contentNum").text("回應數 : "+response.contents.length);
-						if(response.contents.length>5){
+						if(response.contents.length>3){
 							for(var j=0;j<3;j++){
 								pContent +="<li>"+response.contents[j].content+"</li>";
 							}}else{

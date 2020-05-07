@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gamebase.member.model.UserData;
 import com.gamebase.tradesystem.model.Game;
 import com.gamebase.tradesystem.model.OrderDetail;
 import com.gamebase.tradesystem.model.Product;
@@ -229,4 +230,26 @@ public class ProductDao implements IProductDao {
 
 		return jsonString;
 	}
+	public int getNumOfProduct() {
+		Query<Product> query = sessionFactory.getCurrentSession().createQuery("from Product",Product.class);
+		 int getNumOfProduct = query.list().size();
+		return getNumOfProduct;
+	}
+	public int getNumOfPs4() {
+		Query<Product> query = sessionFactory.getCurrentSession().createQuery("from Product where productTag like '%ps4%'",Product.class);
+		 int NumOfPs4 = query.list().size();
+		return NumOfPs4;
+	}
+	public int getNumOfSwitch() {
+		Query<Product> query = sessionFactory.getCurrentSession().createQuery("from Product where productTag like '%switch%'",Product.class);
+		 int getNumOfSwitch = query.list().size();
+		return getNumOfSwitch;
+	}
+	public int getNumOfXbox() {
+		Query<Product> query = sessionFactory.getCurrentSession().createQuery("from Product where productTag like '%xbox%'",Product.class);
+		 int getNumOfXbox = query.list().size();
+		return getNumOfXbox;
+	}
+	
+	
 }
