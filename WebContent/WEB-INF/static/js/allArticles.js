@@ -1,6 +1,25 @@
 		$(document).ready(function() {
 			$("#admin-article").removeClass("d-none").addClass("d-block");
 			
+//			const content = $("#rTable").;
+//			const pageid = document.getElementById('pageid');
+//			let jsonData = {};
+//			
+//			fetch("/GameBase/getAllArticles",{method:'POST'})
+//			  .then(res => {
+//				    return res.json();
+//			  }).then(result => {
+//				 jsonData = result.articles;//所有文章
+//				 console.log(jsonData);  
+//				 pagination(jsonData, 1);
+//			  });
+			  
+			
+			
+			
+			
+			
+			
 			$.ajax({
 				type : "POST",
 				url : "/GameBase/getAllArticles",
@@ -49,6 +68,7 @@
 					success : function(response) {
 						console.log("hh");
 						var rTable = "<thead><tr><th><th>文章ID<th>主題<th>文章標題<th>發文時間</thead><tbody>";
+						
 						
 						for (let i = 0; i < response.articles.length; i++) {
 						rTable += '<tr class="tr"><td><input type="radio" class="radio del d-none" name="d" value="response.articles[i].titleId">';
@@ -171,4 +191,5 @@
  			$("#iframe").addClass("d-block").delay(5000).queue(function(){
  				$(this).removeClass("d-none").dequeue()});
 			}
-					
+		
+		
