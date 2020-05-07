@@ -44,7 +44,7 @@
 			</div>
 			<div >
 				<input type="button" class="btn btn-info pwdBtn" value="修改">
-				<button id="ePwd" class="btn btn-primary pwdUpdate">更新</button>
+				<button class="btn btn-primary pwdUpdate">更新</button>
 			</div>
 		</form>
 		<hr>
