@@ -204,4 +204,39 @@ public class TagSearchDAO {
 
 		return jsonString;
 	}
+	
+	
+	public Set<Product> searchProductBackend(String keyword) {
+
+		Session session = sessionFactory.getCurrentSession();
+
+		Set<Product> searchSet = new LinkedHashSet<Product>();
+
+		String[] keywordArray = keyword.split("\\s+");
+
+		for (int i = 0; i < keywordArray.length; i++) {
+			keyword = keywordArray[i];
+			List<Product> list = session.createQuery("From Product where productName like '%" + keyword + "%'"
+					+ " or productTag like '%" + keyword + "%'", Product.class).list();
+			for (int j = 0; j < list.size(); j++) {
+				searchSet.add(list.get(j));
+			}
+		}
+		
+////		String jsonString = null;
+//		
+//		try {
+////			for(Product beans:searchSet) {
+////				JSONObject obj = new JSONObject();
+////				obj.put("", obj.)
+////				
+//			}
+////			jsonString = new ObjectMapper().writeValueAsString(searchSet);
+//		} catch (JsonProcessingException e) {
+//			e.printStackTrace();
+//		}
+
+		return searchSet;
+
+	}
 }

@@ -2,6 +2,8 @@ package com.gamebase.tradesystem.controller;
 
 
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gamebase.general.model.service.GeneralService;
+import com.gamebase.general.model.service.TagSearchService;
+import com.gamebase.tradesystem.model.Product;
 import com.gamebase.tradesystem.model.service.ProductService;
 
 
@@ -25,6 +29,8 @@ public class ProductController {
 	private ProductService productService;
 	@Autowired
 	private GeneralService generalService;
+	@Autowired
+	private TagSearchService tsService;
 
 
 	public ProductController(ProductService productService) {
@@ -83,9 +89,9 @@ public class ProductController {
 
 	@RequestMapping(path = "/tradesystem/getSearch", method = RequestMethod.POST)
 	@ResponseBody
-	public JSONArray getSearch(@RequestParam(value = "search") String a) {
-		System.out.println(a);
-		return productService.getSearch(a);
+	public Set<Product> getSearch(@RequestParam(value = "search") String a) {
+		
+		return tsService.searchProductBackend(a);
 	}
 
 	@RequestMapping(path = "/tradesystem", method = RequestMethod.GET)
