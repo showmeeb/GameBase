@@ -70,14 +70,12 @@
 						if(data.status){
 							alert("更新密碼成功!")
 						}else{
-							alert("出錯了");
-							$('#ePwd').attr("disabled",true);
+							alert("出錯了");					
 						}
 					}
 				})
 			}else{
 				alert("密碼不相同");
-				$('#ePwd').attr("disabled",true);
 			}
 		}
 		
