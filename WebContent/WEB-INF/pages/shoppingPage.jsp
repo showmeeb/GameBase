@@ -638,7 +638,7 @@ $(document).on("mouseenter","#videoDiv",function(){
 //-----------------顯示商品  (Card模式)-------------------
 		function showCard(response) {
 			var cardResults = "";
-			for (let i = 0; i < response.length; i++) {
+			for (let i = 0; i < pageItem; i++) {
 				var s = {
 					productId : response[i].productId,
 					productVideo : response[i].productVideo,

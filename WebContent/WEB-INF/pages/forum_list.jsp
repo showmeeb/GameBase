@@ -10,14 +10,14 @@
 	<!-- top bar -->
 	<jsp:include page="topBar.jsp" />
 	
-	<c:if test="${loginUser.rankId>=4}"><!-- rank = 2 可編輯-->
+	<c:if test="${loginUser.rankId>=4}">
 		<!-- forum title bar -->
-	<div class="forum_create-btn">
+	<div class="forum_create_btn">
 	<nav class="navbar navbar-expand-sm bg-light forum_topbar">
 		<ul class="nav justify-content-end">
 			<!-- update article button -->
 			<li class="nav-item">
-				<a id="publish-btn" class="nav-link" href="javascript:void(0)">
+				<a  class="forum_publish_btn nav-link" href="javascript:void(0)">
 					<i class="far fa-plus-square fa-2x"></i>
 				</a>
 			</li>
@@ -27,12 +27,12 @@
 	</c:if>
 	<c:if test="${loginUser.rankId<3 || empty loginUser}">
 	<!-- forum title bar -->
-	<div class="forum_create-btn" hidden>
+	<div class="forum_create_btn" hidden>
 	<nav class="navbar navbar-expand-sm bg-light forum_topbar">
 		<ul class="nav justify-content-end">
 			<!-- update article button -->
 			<li class="nav-item">
-				<a id="publish-btn" class="nav-link" href="javascript:void(0)">
+				<a class="forum_publish_btn nav-link" href="javascript:void(0)">
 					<i class="far fa-plus-square fa-2x"></i>
 				</a>
 			</li>

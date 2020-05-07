@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gamebase.general.model.dao.TagSearchDAO;
+import com.gamebase.tradesystem.model.Product;
 
 @Service
 public class TagSearchService {
@@ -39,6 +40,11 @@ public class TagSearchService {
 	
 	public String searchArticleClick() {
 		return tagSearchDAO.searchArticleClick();
+
+	}
+	
+	public Set<Product> searchProductBackend(String keyword) {
+		return tagSearchDAO.searchProductBackend(keyword);
 
 	}
 }

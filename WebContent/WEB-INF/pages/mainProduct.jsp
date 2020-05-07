@@ -27,9 +27,11 @@
 			<button id="search">查詢</button>
 			<input type="button" id="query" value="所有商品">
 
-			<div>
-				<span id="sp1"></span>
-			</div>
+			
+<!-- 				<span id="sp1">asd</span> -->
+				<div class="col-6 align-self-center">
+							<ul class="pagination" id="sp1"></ul>
+				</div>
 
 
 			<div id="myd1">
@@ -43,7 +45,9 @@
 	</main>
 
 	<script type="text/javascript">
-
+	var cardResults;
+	var array;
+	var pageItem = 20;
 
     $(document).on("click", "#query",
     	      function () {
@@ -51,10 +55,12 @@
     	          url: "tradesystem/query",
     	          dataType: "json",
     	          type: "POST",
+    	          
     	          success: function (response) {
     	            console.log(response);
-    	            var txt = '<tr><th style="width:4%">商品ID</th><th>商品影片</th><th>商品照片</th><th style="width:16%">商品名稱</th><th style="width:5%">商品類型</th><th style="width:5%">商品庫存</th><th style="width:5%">商品價錢</th><th>商品標籤</th><th>商品介紹</th><th colspan="2">設定</th></tr>';
-    	            for (let i = 0; i < response.length; i++) {
+    	            array=response;
+    	            var txt = '<tr><th style="width:4%">商品ID</th><th>商品影片</th><th>商品照片</th><th style="width:16%">商品名稱</th><th style="width:5%">商品類型</th><th style="width:5%">商品庫存</th><th style="width:5%">商品價錢</th><th>商品標籤</th><th>商品介紹</th><th>商品銷售量</th><th colspan="2">設定</th></tr>';
+    	            for (let i = 0; i < 20; i++) {
     	              txt += "<tr><td>" + response[i].productId;
     	              txt += "<td>" + response[i].productVideo;
     	              txt += "<td>" + response[i].productImg;
@@ -64,9 +70,11 @@
     	              txt += "<td>" + response[i].productPrice;
     	              txt += "<td>" + response[i].productTag;
     	              txt += "<td>" + response[i].productInfo;
+    	              txt += "<td>" + response[i].searchFreq;
     	              txt += '<td><input type="button" id="update" value="修改">';
     	              txt += '<td><input type="button" id="delete" value="刪除">';
     	            }
+    	            numPage(response);
     	            $('#myt1').html(txt);
     	          }
     	        });
@@ -165,6 +173,7 @@
 			txt += "<td><input type='text'>";
 			txt += "<td><input type='text'>";
 			txt += "<td><input type='text'>";
+			txt += "<td><input type='text'>";
 			txt += '<td><input type="button" id="add1" value="送出">';
 			txt += '<td><input type="button" id="delete" value="刪除">';
 			$('#myt1').append(txt);
@@ -195,28 +204,50 @@
 			});
 		});
 
-		$(document).on('keyup', '#se1', function() {
-			var sh = $('#se1').val();
-			if (sh != "" && sh != null && sh != " ") {
-				$.ajax({
-					url : "tradesystem/search",
-					datatype : "json",
-					type : "GET",
-					data : {
-						sh : sh
-					},
-					success : function(response) {
-						console.log("yes");
-						console.log(response);
-						var txt = "";
-						$.map(response, function(v, index) {
-							txt += v.value + ",";
-						});
-						$('#sp1').text(txt);
-					}
+	
+		
+// 		$(document).on('keyup', '#se1', function() {
+// 			var sh = $('#se1').val();
+// 			if (sh != "" && sh != null && sh != " ") {
+// 				$.ajax({
+// 					url : "tradesystem/search",
+// 					datatype : "json",
+// 					type : "GET",
+// 					data : {
+// 						sh : sh
+// 					},
+// 					success : function(response) {
+// 						console.log("yes");
+// 						console.log(response);
+// 						var txt = "";
+// 						$.map(response, function(v, index) {
+// 							txt += v.value + ",";
+// 						});
+// 						$('#sp1').text(txt);
+// 					}
+// 				});
+// 			}
+// 		})
+
+		//關鍵字自動完成
+			$.ajax({
+				url : '<c:url value="/autoComplete"/>',
+				type : "POST",
+				success : function(data) {
+					$("#se1").autocomplete({
+						source :  function(req, response) {
+						    var results = $.ui.autocomplete.filter(data, req.term);
+
+						    response(results.slice(0, 10));
+						   }
+						
+						
+					});
+				}
+			});
+		$.ajaxSetup({
+				 contentType: "application/x-www-form-urlencoded; charset=utf-8"
 				});
-			}
-		})
 
 		$(document)
 				.on(
@@ -226,13 +257,13 @@
 							console.log("search");
 							var search = $('#se1').val();
 							console.log(search);
-
+							
 							if (search != "" && search != null && search != " ") {
 								$
 										.ajax({
 											url : "tradesystem/getSearch",
-											datatype : "json",
 											type : "POST",
+											
 											data : {
 												search : search
 											},
@@ -240,36 +271,81 @@
 												$('#d1').show();
 											},
 											success : function(response) {
+												array=response;
+												
+												console.log(response);
+// 												response=JSON.parse(re);
 												console.log("yes1");
 												console.log(response);
 												console.log(response.length);
-												var txt = '<tr><th style="width:4%">商品ID</th><th>商品影片</th><th>商品照片</th><th style="width:16%">商品名稱</th><th style="width:5%">商品類型</th><th style="width:5%">商品庫存</th><th style="width:5%">商品價錢</th><th>商品標籤</th><th>商品介紹</th><th colspan="2">設定</th></tr>';
-												for (let i = 0; i < response.length; i++) {
-													txt += "<tr><td>"
-															+ response[i].productId;
-													txt += "<td id='img'>"
-															+ response[i].productImg;
-													txt += "<td>"
-															+ response[i].productName;
-													txt += "<td>"
-															+ response[i].productType;
-													txt += "<td>"
-															+ response[i].inventory;
-													txt += "<td>"
-															+ response[i].productPrice;
-													txt += "<td>"
-															+ response[i].productTag;
-													txt += "<td>"
-															+ response[i].productInfo;
-													txt += '<td><input type="button" id="add1" value="送出">';
-													txt += '<td><input type="button" id="delete" value="刪除">';
-												}
-												$('#myt1').html(txt);
+												var txt = '<tr><th style="width:4%">商品ID</th><th>商品影片</th><th>商品照片</th><th style="width:16%">商品名稱</th><th style="width:5%">商品類型</th><th style="width:5%">商品庫存</th><th style="width:5%">商品價錢</th><th>商品標籤</th><th>商品介紹</th><th>商品銷售量</th><th colspan="2">設定</th></tr>';
+							    	            for (let i = 0; i < 20; i++) {
+							    	              txt += "<tr><td>" + response[i].productId;
+							    	              txt += "<td>" + response[i].productVideo;
+							    	              txt += "<td>" + response[i].productImg;
+							    	              txt += "<td>" + response[i].productName;
+							    	              txt += "<td>" + response[i].productType;
+							    	              txt += "<td>" + response[i].inventory;
+							    	              txt += "<td>" + response[i].productPrice;
+							    	              txt += "<td>" + response[i].productTag;
+							    	              txt += "<td>" + response[i].productInfo;
+							    	              txt += "<td>" + response[i].searchFreq;
+							    	              txt += '<td><input type="button" id="update" value="修改">';
+							    	              txt += '<td><input type="button" id="delete" value="刪除">';
+							    	            }
+							    	            numPage(response);
+							    	            $('#myt1').html(txt);
 											}
 										});
 							}
 							;
 						})
+						
+						
+		$(document).on('click', ".pageBnt", function() {
+			let toPage = this.id - 1;
+			$("#myt1").html(changePage(array, toPage));
+				
+			
+		})
+						
+		function numPage(response) {
+			var pageNum = Math.ceil(response.length / 20);
+			
+			var pageTxt = "";
+			
+			for (i = 1; i <= pageNum; i++) {
+				pageTxt += '<li class="pageLi"><button id="'+i+'" class="btn btn-light pageBnt">'
+						+ i + '</button></li>'
+			}
+			$("#sp1").html(pageTxt);
+			
+		}
+
+		function changePage(array, toPage) {
+			console.log("array123")
+			console.log(array)
+			cardResults ="";
+			var cardResults = '<tr><th style="width:4%">商品ID</th><th>商品影片</th><th>商品照片</th><th style="width:16%">商品名稱</th><th style="width:5%">商品類型</th><th style="width:5%">商品庫存</th><th style="width:5%">商品價錢</th><th>商品標籤</th><th>商品介紹</th><th>商品銷售量</th><th colspan="2">設定</th></tr>';
+			for (i = 0 + pageItem * toPage; i < pageItem + pageItem * toPage; i++) {
+				if (i < array.length) {
+            	cardResults += "<tr><td>" + array[i].productId;
+            	cardResults += "<td>" + array[i].productVideo;
+            	cardResults += "<td>" + array[i].productImg;
+            	cardResults += "<td>" + array[i].productName;
+            	cardResults += "<td>" + array[i].productType;
+            	cardResults += "<td>" + array[i].inventory;
+            	cardResults += "<td>" + array[i].productPrice;
+            	cardResults += "<td>" + array[i].productTag;
+            	cardResults += "<td>" + array[i].productInfo;
+            	cardResults += "<td>" + array[i].searchFreq;
+            	cardResults += '<td><input type="button" id="update" value="修改">';
+            	cardResults += '<td><input type="button" id="delete" value="刪除">';
+				}
+            }
+			return cardResults;
+
+		}
 
 		$.fn.serializeObject = function() {
 			var formData = {};
@@ -282,6 +358,7 @@
 		$(document).ready(function() {
 			$("#admin-product").removeClass("d-none").addClass("d-block");
 		})
+		
 	</script>
 
 

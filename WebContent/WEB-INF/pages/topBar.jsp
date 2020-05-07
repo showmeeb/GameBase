@@ -204,6 +204,9 @@
     background-color: rgb(255,255,221);
     border: 1px solid black;
     }
+    
+.hideSome{display: none;}
+
 </style>
 </head>
 <body>
@@ -211,7 +214,7 @@
 	<nav class="navbar navbar-light topBarFixed " id="topBar">
 
 		<!--LOGO-->
-		<div class="col-md-3 column ">
+		<div class="col-md-3 column">
 			<a class="navbar-brand" href="<c:url value="/"/>"> <img
 				src="https://i.imgur.com/7oJSy01.png" width="350"
 				class="d-inline-block align-top logoImg">
@@ -429,6 +432,22 @@
 						$(this).css("background-color","rgb(200,240,115)")
 					}
 				})
+		
+		//偵測視窗	
+		$(document).ready(function(){
+		    $(window).resize(function() {
+		        if($(window).width()<1650){
+			        console.log("AA");
+					$("#foldBar").addClass("hideSome");
+					$("#openBarBtn").addClass("hideSome");
+					$(".shoppingCartBtn").addClass("hideSome");
+			  }else{
+				  $("#foldBar").removeClass("hideSome");
+				  $("#openBarBtn").removeClass("hideSome");
+				  $(".shoppingCartBtn").removeClass("hideSome");
+				  			  }
+		    });
+		});
 	</script>
 
 </body>
