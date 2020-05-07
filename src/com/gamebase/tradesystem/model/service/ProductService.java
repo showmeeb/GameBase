@@ -51,5 +51,16 @@ public class ProductService {
 	public String getProductById(String productId) {
 		return productDao.getProductById(productId);
 	}
-
+	public int getNumOfXbox() {
+		return productDao.getNumOfXbox();
+	}
+	public int getNumOfSwitch() {
+		return productDao.getNumOfSwitch();
+	}	
+	public int getNumOfPs4() {
+		return productDao.getNumOfPs4();
+	}
+	public int getNumOfProduct() {
+		return productDao.getNumOfProduct();
+	}
 }
