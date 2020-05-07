@@ -88,6 +88,18 @@ $(document).ready(function () {
 	      
 	      $("#login-form .input-group input[name='account']").val(acc);
 	      $("#login-form .input-group input[name='password']").val(pwd);
+	  }else if(e.key == "ArrowDown"){
+		  var acc = "asdfqwer";
+	      var pwd = "test123";
+	      
+	      $("#login-form .input-group input[name='account']").val(acc);
+	      $("#login-form .input-group input[name='password']").val(pwd);
+	  }else if(e.key == "F2"){
+		  var acc = "Eeit11214";
+	      var pwd = "Test1234";
+	      
+	      $("#login-form .input-group input[name='account']").val(acc);
+	      $("#login-form .input-group input[name='password']").val(pwd);
 	  }
   });
   
@@ -265,7 +277,10 @@ function userLogin() {
           $("#chat-room-friends").html(friendsList);
 
           if(data.loginUser.rankId==4){
+        	  console.log("rank 4")
         	  $("#admin-broadcast").removeClass("hidden-window", 700);
+        	  $("#admin-center-btn-l").removeClass("hidden-window", 700);
+        	  $("#user-center-btn").addClass("hidden-window", 700);
           }
           
           //query user like unlike record
@@ -429,13 +444,18 @@ $(document).ready(function () {
     if (e.key == "F2") {
       // console.log("F2!!!");
       var account = "Eeit11214";
-      var email = "z0963372536@gmail.com";
-
+      var email = "g1022171010@gm.lhu.edu.tw";
+      var pwd = "Test1234";
+      var pwdc = "Test1234";
       $("#regist-form .input-group input[name='account']").val(account);
       $("#regist-form .input-group input[name='email']").val(email);
+      $("#regist-form .input-group input[name='password']").val(pwd);
+      $("#regist-form .input-group input[name='ck-password']").val(pwdc);
 
       $("#regist-form .input-group input[name='account']").parent().addClass("accepted-format");
       $("#regist-form .input-group input[name='email']").parent().addClass("accepted-format");
+      $("#regist-form .input-group input[name='password']").parent().addClass("accepted-format");
+      $("#regist-form .input-group input[name='ck-password']").parent().addClass("accepted-format");
     }
   });
   
@@ -444,7 +464,7 @@ $(document).ready(function () {
     if (e.key == "F2") {
       // console.log("F2!!!");
       var account = "Eeit11214";
-      var email = "z0963372536@gmail.com";
+      var email = "g1022171010@gm.lhu.edu.tw";
 
       $("#forgetPwd-form .input-group input[name='account']").val(account);
       $("#forgetPwd-form .input-group input[name='email']").val(email);
