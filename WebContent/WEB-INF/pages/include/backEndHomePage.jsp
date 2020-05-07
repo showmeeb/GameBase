@@ -43,15 +43,15 @@ color:#E3DCC2;
 }
 #main_back {
 	position: relative;
-	top: 57px;
-	left: 20%;
+	top: 50px;
+	left: 15%;
 	width: 75%;
-	border: 1px black solid;
+
 }
 </style>
-<jsp:include page="../topBar.jsp"></jsp:include>
-<body>
 
+<body>
+<jsp:include page="../topBar.jsp"></jsp:include>
 	<!-- Sidebar -->
 	<nav id="sidebar" class="container py-3 fixed-left">
 		<div id="sidebar-header" class="sidebar-header border-bottom ">
@@ -111,7 +111,7 @@ color:#E3DCC2;
 				</ul>
 
 		<div id="back" class="sidebar-header border-top fixed-bottom py-2">
-			<h2>回到首頁</h2>
+			<h2><b><a id="11"class="nav-link" href="/GameBase">回到首頁</a></b></h2>
 		</div>
 	</nav>
 	
