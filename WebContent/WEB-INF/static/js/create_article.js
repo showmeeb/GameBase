@@ -100,6 +100,7 @@ $(document).ready(function(){
         	         		console.log("content ID : "+contentId);
         	         		update_content(btn,contentId);
         	         	});
+       	            
          			}
          			
          			/* clear input value */
@@ -131,7 +132,6 @@ function open_editor() {
 
 //static  variable
 var userId;
-
 var createArticleTemplate = 
 	'<div class="article_article">'
 	+'<div class="article_name">'
