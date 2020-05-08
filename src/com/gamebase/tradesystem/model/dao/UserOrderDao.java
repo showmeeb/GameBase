@@ -73,8 +73,8 @@ public class UserOrderDao {
 		order.setTotalAmount(String.valueOf(uo.getOrderPrice()));//前端引入
 		order.setTradeDesc("GameBase");//不能中文
 		order.setItemName("Please check your payment's detail in  Emailbox");//不能中文前端引入
-		order.setReturnURL("http://7306c43d.ngrok.io/GameBase/shoppingCart/orderStatus");
-		order.setClientBackURL("http://7306c43d.ngrok.io/GameBase/epay");
+		order.setReturnURL("http://e5ce6845.ngrok.io/GameBase/shoppingCart/orderStatus");
+		order.setClientBackURL("http://e5ce6845.ngrok.io/GameBase/epay");
 		String str = Ecpay.aioCheckOut(order, invoice);
 		System.out.println(str);
 		return str;
