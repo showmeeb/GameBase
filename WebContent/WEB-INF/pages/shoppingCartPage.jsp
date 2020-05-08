@@ -230,6 +230,20 @@ $(document).on("mouseenter","#rank",function(){
 // 		console.log("移出");
 		});
 
+	$("#f1 input").keydown(function (e) {
+	    if (e.key == "F2") {
+	      // console.log("F2!!!");
+	      var orderName = "GameBase";
+	      var orderPhone = "0908235690";
+	      var orderAddress = "台北市";
+	      var orderEmail = "s890257s@gmail.com";
+	      $("#f1 input[name='orderName']").val(orderName);
+	      $("#f1 input[name='orderPhone']").val(orderPhone);
+	      $("#f1 input[name='orderAddress']").val(orderAddress);
+	      $("#f1 input[name='orderEmail']").val(orderEmail);
+	    }
+	  });
+	  
 //-----------------*********網頁開始函數區*********-------------------
 //-----------------抓取使用者資料-------------------	
 		$(document).ready(
