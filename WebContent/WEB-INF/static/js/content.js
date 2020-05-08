@@ -54,7 +54,7 @@ $("#document")
 
 					/* author img clicked */
 					$(".content_author_img").click(
-							function() {
+							function author_img_click() {
 								console.log("author img clicked");
 
 								// identifyLoginState();
@@ -371,6 +371,7 @@ function addfriend() {
 				});
 	}
 }
+
 var friendTemplate = '<div authorId="{{userId}}" class="firends_area popup-window hidden-window">'
 		+ '<span id="spanId" style="display:none">{{userId}}</span>'
 		+ '<i class="fas fa-times close-btn"></i>'

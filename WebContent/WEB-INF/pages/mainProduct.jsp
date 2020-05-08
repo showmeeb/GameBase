@@ -86,7 +86,7 @@
 				value : "完成"
 			});
 			var $tr = $(this).parents("tr");
-
+			var idInput;
 			$tr.find("td").not($("td:has(input)")).each(function() { //获取当前行所有除了含有button的td
 				var $td = $(this);
 				var _t = $td.text();
@@ -95,7 +95,10 @@
 				$td.html("");
 				var $input = $("<input type='text'>");
 				$input.appendTo($td).width(_w).val(_t);
+				
+				
 			});
+			$tr.find("td input:text").eq(0).prop('readonly','readonly');
 		});
 
 		$(document).on('click', '#done', function() {
@@ -128,7 +131,7 @@
 					}
 				},
 				complete : function() {
-					showtable();
+					refresh()
 				}
 			});
 			//var $tr=$this.parents("tr");
@@ -158,7 +161,7 @@
 
 				},
 				complete : function() {
-					showtable();
+					refresh()
 				}
 			});
 		});
@@ -346,6 +349,54 @@
 			return cardResults;
 
 		}
+		function showtable(response){
+			 var txt = '<tr><th style="width:4%">商品ID</th><th>商品影片</th><th>商品照片</th><th style="width:16%">商品名稱</th><th style="width:5%">商品類型</th><th style="width:5%">商品庫存</th><th style="width:5%">商品價錢</th><th>商品標籤</th><th>商品介紹</th><th>商品銷售量</th><th colspan="2">設定</th></tr>';
+	            for (let i = 0; i < 20; i++) {
+	              txt += "<tr><td>" + response[i].productId;
+	              txt += "<td>" + response[i].productVideo;
+	              txt += "<td>" + response[i].productImg;
+	              txt += "<td>" + response[i].productName;
+	              txt += "<td>" + response[i].productType;
+	              txt += "<td>" + response[i].inventory;
+	              txt += "<td>" + response[i].productPrice;
+	              txt += "<td>" + response[i].productTag;
+	              txt += "<td>" + response[i].productInfo;
+	              txt += "<td>" + response[i].searchFreq;
+	              txt += '<td><input type="button" id="update" value="修改">';
+	              txt += '<td><input type="button" id="delete" value="刪除">';
+	            }
+	            $('#myt1').html(txt);
+			}
+
+		 function refresh() {
+ 	        $.ajax({
+ 	          url: "tradesystem/query",
+ 	          dataType: "json",
+ 	          type: "POST",
+ 	          
+ 	          success: function (response) {
+ 	            console.log(response);
+ 	            array=response;
+ 	            var txt = '<tr><th style="width:4%">商品ID</th><th>商品影片</th><th>商品照片</th><th style="width:16%">商品名稱</th><th style="width:5%">商品類型</th><th style="width:5%">商品庫存</th><th style="width:5%">商品價錢</th><th>商品標籤</th><th>商品介紹</th><th>商品銷售量</th><th colspan="2">設定</th></tr>';
+ 	            for (let i = 0; i < 20; i++) {
+ 	              txt += "<tr><td>" + response[i].productId;
+ 	              txt += "<td>" + response[i].productVideo;
+ 	              txt += "<td>" + response[i].productImg;
+ 	              txt += "<td>" + response[i].productName;
+ 	              txt += "<td>" + response[i].productType;
+ 	              txt += "<td>" + response[i].inventory;
+ 	              txt += "<td>" + response[i].productPrice;
+ 	              txt += "<td>" + response[i].productTag;
+ 	              txt += "<td>" + response[i].productInfo;
+ 	              txt += "<td>" + response[i].searchFreq;
+ 	              txt += '<td><input type="button" id="update" value="修改">';
+ 	              txt += '<td><input type="button" id="delete" value="刪除">';
+ 	            }
+ 	            numPage(response);
+ 	            $('#myt1').html(txt);
+ 	          }
+ 	        });
+ 	      }
 
 		$.fn.serializeObject = function() {
 			var formData = {};

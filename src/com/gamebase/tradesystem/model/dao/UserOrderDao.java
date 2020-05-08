@@ -134,7 +134,11 @@ public class UserOrderDao {
 				jobj.put("orderAddress", beans.getOrderAddress());
 				jobj.put("orderPrice", beans.getOrderPrice());
 				jobj.put("orderDate", String.valueOf(beans.getOrderDate()));
-				jobj.put("payStatus", beans.getPayStatus());
+				if(beans.getPayStatus()==1) {
+					jobj.put("payStatus", "已繳費");
+				}else {
+					jobj.put("payStatus", "未繳費");
+				}
 				jobj.put("orderEmail", beans.getOrderEmail());
 				System.out.println("orderId:"+beans.getOrderId());
 				Query<OrderDetail> query1 = session.createQuery("from OrderDetail where orderId=?1",OrderDetail.class);
