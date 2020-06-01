@@ -93,7 +93,7 @@ public class SpringJavaConfig {
 	@Bean
 	public PlatformTransactionManager transactionManagement() {
 		return new HibernateTransactionManager(sessionFactory());
-
+		//ssssssssssss
 	}
 	
 }
